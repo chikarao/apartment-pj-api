@@ -6,6 +6,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :reviews, dependent: :delete_all
 
+  has_many :flats
+  has_many :bookings
+  has_many :rented_flats, through: :bookings, source: :flat
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 

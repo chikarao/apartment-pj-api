@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flat: one
+  publicid: MyString
+  url: MyString
+
+two:
+  flat: two
+  publicid: MyString
+  url: MyString

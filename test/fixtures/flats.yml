@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  lat: 1.5
+  lng: 1.5
+  address1: MyString
+  address1: MyString
+  city: MyString
+  zip: MyString
+  country: MyString
+  area: MyString
+  price_per_day: 9.99
+  price_per_month: 9.99
+  guests: 1
+  sales_point: MyString
+  description: MyText
+  rooms: 1
+  beds: MyString
+  flat_type: MyString
+  bath: 1.5
+
+two:
+  user: two
+  lat: 1.5
+  lng: 1.5
+  address1: MyString
+  address1: MyString
+  city: MyString
+  zip: MyString
+  country: MyString
+  area: MyString
+  price_per_day: 9.99
+  price_per_month: 9.99
+  guests: 1
+  sales_point: MyString
+  description: MyText
+  rooms: 1
+  beds: MyString
+  flat_type: MyString
+  bath: 1.5

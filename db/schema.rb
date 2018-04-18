@@ -10,7 +10,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323090826) do
+ActiveRecord::Schema.define(version: 20180418045903) do
+
+  create_table "amenities", force: :cascade do |t|
+    t.integer "flat_id"
+    t.boolean "auto_lock"
+    t.boolean "security_system"
+    t.boolean "wifi"
+    t.boolean "pocket_wifi"
+    t.boolean "iron"
+    t.boolean "ac"
+    t.boolean "heater"
+    t.boolean "bath_essentials"
+    t.boolean "hot_water"
+    t.boolean "parking"
+    t.boolean "tv"
+    t.boolean "dvd_player"
+    t.boolean "sofa"
+    t.boolean "kitchen"
+    t.boolean "dining_table"
+    t.boolean "dish_washer"
+    t.boolean "washer"
+    t.boolean "dryer"
+    t.boolean "cooking_basics"
+    t.boolean "eating_utensils"
+    t.boolean "microwave"
+    t.boolean "refrigerator"
+    t.boolean "oven"
+    t.boolean "crib"
+    t.boolean "high_chair"
+    t.boolean "bath_tub"
+    t.boolean "washlet"
+    t.boolean "hairdryer"
+    t.boolean "fire_extinguisher"
+    t.boolean "lockbox"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_amenities_on_flat_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.date "date_start"
+    t.date "date_end"
+    t.integer "flat_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_bookings_on_flat_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
 
   create_table "books", force: :cascade do |t|
     t.string "image"
@@ -19,6 +67,38 @@ ActiveRecord::Schema.define(version: 20180323090826) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reviews_count", default: 0, null: false
+  end
+
+  create_table "flats", force: :cascade do |t|
+    t.integer "user_id"
+    t.float "lat"
+    t.float "lng"
+    t.string "address1"
+    t.string "city"
+    t.string "zip"
+    t.string "country"
+    t.string "area"
+    t.decimal "price_per_day", precision: 8, scale: 2
+    t.decimal "price_per_month", precision: 8, scale: 2
+    t.integer "guests"
+    t.string "sales_point"
+    t.text "description"
+    t.integer "rooms"
+    t.string "beds"
+    t.string "flat_type"
+    t.float "bath"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_flats_on_user_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.integer "flat_id"
+    t.string "publicid"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_images_on_flat_id"
   end
 
   create_table "reviews", force: :cascade do |t|

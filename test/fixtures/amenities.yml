@@ -1,0 +1,67 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flat: one
+  auto_lock: false
+  security_system: false
+  wifi: false
+  pocket_wifi: false
+  iron: false
+  ac: false
+  heater: false
+  bath_essentials: false
+  hot_water: false
+  parking: false
+  tv: false
+  dvd_player: false
+  sofa: false
+  kitchen: false
+  dining_table: false
+  dish_washer: false
+  washer: false
+  dryer: false
+  cooking_basics: false
+  eating_utensils: false
+  microwave: false
+  refrigerator: false
+  oven: false
+  crib: false
+  high_chair: false
+  bath_tub: false
+  washlet: false
+  hairdryer: false
+  fire_extinguisher: false
+  lockbox: false
+
+two:
+  flat: two
+  auto_lock: false
+  security_system: false
+  wifi: false
+  pocket_wifi: false
+  iron: false
+  ac: false
+  heater: false
+  bath_essentials: false
+  hot_water: false
+  parking: false
+  tv: false
+  dvd_player: false
+  sofa: false
+  kitchen: false
+  dining_table: false
+  dish_washer: false
+  washer: false
+  dryer: false
+  cooking_basics: false
+  eating_utensils: false
+  microwave: false
+  refrigerator: false
+  oven: false
+  crib: false
+  high_chair: false
+  bath_tub: false
+  washlet: false
+  hairdryer: false
+  fire_extinguisher: false
+  lockbox: false
