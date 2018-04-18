@@ -13,6 +13,9 @@ Rails.application.routes.draw do
         #do since book has many reviews
         resources :reviews, only: [:index, :show, :create, :update, :destroy]
       end
+      resources :flats do
+        resources :images
+      end
     end
   end
 end

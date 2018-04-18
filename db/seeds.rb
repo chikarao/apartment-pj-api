@@ -36,8 +36,8 @@ flats = [
   {
     lat: 37.7952,
     lng: -122.4029,
-    area: "Transamerica Building",
-    sales_point: "Charming victorian",
+    area: "Financial District",
+    sales_point: "Modern appointments!",
     price_per_month: 2000,
     beds: 2,
     rooms: 2,
@@ -49,7 +49,7 @@ flats = [
     lat: 37.787994,
     lng: -122.407437,
     area: "Union Square",
-    sales_point: "Shop 'til you drop",
+    sales_point: "Worldclass Shopping!",
     price_per_month: 2000,
     beds: 1,
     rooms: 1,
@@ -61,7 +61,7 @@ flats = [
     lat: 37.76904,
     lng: -122.483519,
     area: "Golden Gate Park",
-    sales_point: "Within minutes of park",
+    sales_point: "Within minutes of wonderful park!",
     price_per_month: 2000,
     beds: 2,
     rooms: 1,
@@ -72,8 +72,8 @@ flats = [
   {
     lat: 37.80499678 ,
     lng: -122.409331696,
-    area: "Fisherman's Wharf"
-    sales_point: "Seconds from Fisherman's Wharf",
+    area: "Fisherman's Wharf",
+    sales_point: "Seconds from Fisherman's Wharf!",
     price_per_month: 2000,
     beds: 1,
     rooms: 1,
@@ -85,7 +85,7 @@ flats = [
     lat: 37.75986,
     lng: -122.41480,
     area: "Mission District",
-    sales_point: "Stay close to the freeway",
+    sales_point: "Convenient transportation!",
     price_per_month: 2000,
     beds: 2,
     rooms: 2,
@@ -97,7 +97,7 @@ flats = [
     lat: 37.80330 ,
     lng: -122.27106,
     area: "Downtown Oakland",
-    sales_point: "Stay close to your work",
+    sales_point: "Great for East Bay worker!",
     price_per_month: 2000,
     beds: 3,
     rooms: 3,
@@ -110,7 +110,7 @@ flats = [
     lat: 37.80367 ,
     lng: -122.43682,
     area: "Marina District",
-    sales_point: "Enjoy nice walks in the marina",
+    sales_point: "Enjoy nice walks in the marina!",
     price_per_month: 2000,
     beds: 1,
     rooms: 1,
@@ -122,7 +122,7 @@ flats = [
     lat: 37.80110 ,
     lng: -122.41956,
     area: "Russian Hill",
-    sales_point: "Great views of the Bay",
+    sales_point: "Great views of the Bay!",
     price_per_month: 2000,
     beds: 1,
     rooms: 1,
@@ -134,7 +134,7 @@ flats = [
     lat: 37.79803 ,
     lng: -122.43965,
     area: "Cow Hollow",
-    sales_point: "Nice shops everywhere",
+    sales_point: "Nice shops everywhere!",
     price_per_month: 2000,
     beds: 2,
     rooms: 1,
@@ -159,13 +159,19 @@ flats = [
 
 p "Seeding 10 flats"
 flats.each do |flat|
-  f = Flat.new(lat: flat.lat, lng: flat.lng, area: flat.area, price_per_month: flat.price_per_month, sales_point: flat.sales_point, description: flat.description, rooms: flat.rooms, beds: flat.beds, flat_type: flat.flat_type, bath: flat.bath )
+  p flat[:lat]
+  f = Flat.new(lat: flat[:lat], lng: flat[:lng], area: flat[:area], price_per_month: flat[:price_per_month], sales_point: flat[:sales_point], description: flat[:description], rooms: flat[:rooms], beds: flat[:beds], flat_type: flat[:flat_type], bath: flat[:bath],
   user_id: Faker::Number::between(1, 10))
+  p f
   f.save
-  image1 = Image.new (flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
-  image2 = Image.new (flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
-  image3 = Image.new (flat_id: f.id, publicid: public_id_facade[Faker::Number::between(0,2)])
+  image1 = Image.new(flat_id: f.id, publicid: public_id_facade[Faker::Number::between(0,2)])
+  image2 = Image.new(flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
+  image3 = Image.new(flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
   image1.save
   image2.save
   image3.save
+  # p image1
+  # p image2
+  # p image3
+
 end

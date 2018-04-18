@@ -1,6 +1,6 @@
 class Flat < ApplicationRecord
   belongs_to :user
-  has_many :images
+  has_many :images, dependent: :destroy
   has_many :bookings
-  has_many :tenants, through: :bookings, source: :user
+  has_many :booked_users, through: :bookings, source: :user
 end
