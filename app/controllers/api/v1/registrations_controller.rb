@@ -6,6 +6,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     user = User.new(user_params)
     # p "here is user" + user.to_s
     if user.save
+      UserNotifier.send_signup_email(user).deliver
       json_response "Signed up successfully", true, {user: user}, :ok
     else
       json_response "Something is wrong", false, {}, :unprocessable_entity
@@ -16,6 +17,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   def user_params
     params.require(:user).permit(:email, :password)
   end
+  # In Postman use user[email] and user[password] or sign-up request will be
+  # missing information
   def ensure_params_exist
     return if params[:user].present?
     json_response "Missing information", false, {}, :bad_request

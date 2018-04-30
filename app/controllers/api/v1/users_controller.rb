@@ -1,4 +1,18 @@
 class Api::V1::UsersController < ApplicationController
+#   def create
+#     # Create the user from params
+#     @user = User.new(params[:user])
+#     if @user.save
+#       # Deliver the signup email
+#       UserNotifier.send_signup_email(@user).deliver
+#       # redirect_to(@user, :notice => 'User created')
+#       json_response "Logged in to Facebook successfully", true, {user: user}, :ok
+#     else
+#       # render :action => 'new'
+#       json_response "Unable to send signup email", false, {}, :unprocessable_entity
+#     end
+#   end
+# end
 
   def facebook
     if params[:facebook_access_token]
