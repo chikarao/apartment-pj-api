@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         post "sign_up", to: "registrations#create"
         post "sign_in", to: "sessions#create"
         delete "log_out", to: "sessions#destroy"
+        post 'password/forgot', to: 'passwords#forgot'
+        post 'password/reset', to: 'passwords#reset'
       end
       get "confirm_email/:confirm_token", to: "users#confirm_email"
       post "facebook", to: "users#facebook"
