@@ -160,16 +160,17 @@ flats = [
 p "Seeding 10 flats"
 flats.each do |flat|
   p flat[:lat]
+  p flat[:lng]
   f = Flat.new(lat: flat[:lat], lng: flat[:lng], area: flat[:area], price_per_month: flat[:price_per_month], sales_point: flat[:sales_point], description: flat[:description], rooms: flat[:rooms], beds: flat[:beds], flat_type: flat[:flat_type], bath: flat[:bath],
   user_id: Faker::Number::between(1, 10))
-  p f
   f.save
-  image1 = Image.new(flat_id: f.id, publicid: public_id_facade[Faker::Number::between(0,2)])
   image2 = Image.new(flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
   image3 = Image.new(flat_id: f.id, publicid: public_id_interior[Faker::Number::between(0,7)])
+  image1 = Image.new(flat_id: f.id, publicid: public_id_facade[Faker::Number::between(0,2)])
   image1.save
   image2.save
   image3.save
+  p f
   # p image1
   # p image2
   # p image3

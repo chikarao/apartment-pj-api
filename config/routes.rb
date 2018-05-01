@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         post "sign_in", to: "sessions#create"
         delete "log_out", to: "sessions#destroy"
       end
+      get "confirm_email/:confirm_token", to: "users#confirm_email"
       post "facebook", to: "users#facebook"
       resources :books, only: [:index, :show] do
         #do since book has many reviews

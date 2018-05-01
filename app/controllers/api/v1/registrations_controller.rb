@@ -6,10 +6,11 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     user = User.new(user_params)
     # p "here is user" + user.to_s
     if user.save
-      UserNotifier.send_signup_email(user).deliver
-      json_response "Signed up successfully", true, {user: user}, :ok
+      # UserNotifier.send_signup_email(user).deliver
+      UserNotifier.send_registration_confirmation_email(user).deliver
+      json_response "Signed up successfully. Please confirm your email in the link we sent you.", true, {user: user}, :ok
     else
-      json_response "Something is wrong", false, {}, :unprocessable_entity
+      json_response "Unable to save user.", false, {}, :unprocessable_entity
     end
   end
 
@@ -21,7 +22,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   # missing information
   def ensure_params_exist
     return if params[:user].present?
-    json_response "Missing information", false, {}, :bad_request
+    json_response "Missing information in request.", false, {}, :bad_request
     #same code above just refactored the below code
     #json_response defined in app/controlers/concerns/response.rb and included in application_controller.rb
     # render json: {

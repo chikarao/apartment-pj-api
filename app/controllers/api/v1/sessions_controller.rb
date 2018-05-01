@@ -7,8 +7,15 @@ class Api::V1::SessionsController < Devise::SessionsController
   # verify_signed_out_user called in prepend_before_action
   def create
     if @user.valid_password?(sign_in_params[:password])
-      sign_in "user", @user
-      json_response "Signed in successfully", true, {user: @user}, :ok
+      # sign_in "user", @user
+      # json_response "Signed in successfully", true, {user: @user}, :ok
+      if @user.email_confirmed
+        sign_in "user", @user
+        json_response "Signed in successfully", true, {user: @user}, :ok
+     else
+       # redirect_to 'localhost:8080/'
+       json_response "Please activate your account by following the instructions in the account confirmation email you received to proceed", false, {}, :unauthorized
+     end
     else
       json_response "Unauthorized", false, {}, :unauthorized
     end

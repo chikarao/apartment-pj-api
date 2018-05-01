@@ -13,6 +13,19 @@ class Api::V1::UsersController < ApplicationController
 #     end
 #   end
 # end
+  def confirm_email
+    @user = User.find_by_confirm_token(params[:confirm_token])
+    if @user
+      @user.email_activate
+      json_response "Email confirmed successfully", true, {user: @user}, :ok
+      # redirect_to "localhost:8080/feature"
+      return
+    else
+      json_response "There is something wrong with the confirmation request", false, {}, :unprocessable_entity
+      # redirect_to "localhost:8080/"
+      return
+    end
+  end
 
   def facebook
     if params[:facebook_access_token]
