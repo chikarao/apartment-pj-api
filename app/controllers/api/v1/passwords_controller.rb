@@ -1,12 +1,12 @@
 class Api::V1::PasswordsController < ApplicationController
   # params in postman is just email and password, not user[email]
   def forgot
-   if params[:email].blank?
+   if forgot_params.blank?
      # return render json: {error: 'Email not present'}
      return json_response "Email not present.", false, {}, :bad_request
    end
 
-   @user = User.find_by(email: params[:email].downcase)
+   @user = User.find_by(email: forgot_params[:email].downcase)
 
    if @user.present? && @user.email_confirmed?
      # !!!!!!!!!!!!!!!!!
@@ -24,23 +24,23 @@ class Api::V1::PasswordsController < ApplicationController
  end
 
  def reset
-   token = params[:token].to_s
+   token = reset_params[:token].to_s
    p "here is the token: " + token
-   p "here is the email: " + params[:email]
+   p "here is the email: " + reset_params[:email]
 
-   if params[:email].blank?
+   if reset_params[:email].blank?
      return json_response "Email not present.", false, {}, :bad_request
      # return render json: {error: 'Token not present'}
    end
 
-   @user = User.find_by(email: params[:email])
+   @user = User.find_by(email: reset_params[:email])
    # Cannot find by reset_password_token, for some reason!!!!!
    # @user = User.find_by(reset_password_token: token)
    p "here is the @user.present?: " + @user.present?.to_s
    p "Is the token valid? " + @user.password_token_valid?.to_s
 
    if @user.present? && @user.password_token_valid?
-     if @user.reset_password!(params[:password])
+     if @user.reset_password!(reset_params[:password])
        # render json: {status: 'ok'}, status: :ok
        json_response "Password reset successfully.", true, {user: @user}, :ok
      else
@@ -54,7 +54,13 @@ class Api::V1::PasswordsController < ApplicationController
  end
 
  private
- def user_params
+
+ def forgot_params
    params.require(:user).permit(:email)
  end
+
+ def reset_params
+   params.require(:user).permit(:email, :token, :password)
+ end
+
 end
