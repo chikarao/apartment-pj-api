@@ -12,12 +12,14 @@ Rails.application.routes.draw do
       end
       get "confirm_email/:confirm_token", to: "users#confirm_email"
       post "facebook", to: "users#facebook"
+      resources :flats do
+        resources :images
+      end
+      resources :bookings do
+      end
       resources :books, only: [:index, :show] do
         #do since book has many reviews
         resources :reviews, only: [:index, :show, :create, :update, :destroy]
-      end
-      resources :flats do
-        resources :images
       end
     end
   end

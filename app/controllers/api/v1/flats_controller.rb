@@ -2,6 +2,7 @@ class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: :show
 
   def index
+    # this is for fetchFlats in front end
     if params[:east] && params[:west] && params[:north] && params[:south]
       p params[:east].to_f
       p params[:west].to_f
@@ -13,13 +14,15 @@ class Api::V1::FlatsController < ApplicationController
       json_response "Indexed flats within area successfully", true, {flats: flats_serializer}, :ok
     else
       @flats = Flat.all
-      @flats = Flat.all.includes(:images)
+      # does not need includes; flat_serializer has_many images and bookings will fetch both
+      # @flats = Flat.all.includes(:images)
       flats_serializer = parse_json @flats
       json_response "Indexed flats successfully", true, {flats: flats_serializer}, :ok
     end
   end
 
   def show
+    #this is for show_flats in front end
     flat_serializer = parse_json @flat
     json_response "Showed flat successfully", true, {flat: flat_serializer}, :ok
   end
@@ -42,6 +45,7 @@ class Api::V1::FlatsController < ApplicationController
   private
 
   def load_flat
+    # front end gets params and sends it in fetchFlatFromParams
     @flat = Flat.find_by id: params[:id]
     unless @flat.present?
       json_response "Cannot find flat", false, {}, :not_found

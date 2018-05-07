@@ -1,10 +1,15 @@
 class BookingSerializer < ActiveModel::Serializer
-  attributes :id, :date_start, :date_end
+  attributes :id, :user_id, :flat_id, :date_start, :date_end, :created_at, :flat
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,
+  belongs_to :flat, serializer: FlatSerializer
 
-  has_many :reviews
+  # def flat
+  #   FlatSerializer.new(object.flat, root: false)
+  # end
+
+  # has_many :reviews
   #
   # def average_rating_of_book
   #   object.reviews.count == 0 ? 0 : object.reviews.average(:average_rating).round(1)
