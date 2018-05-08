@@ -10,13 +10,20 @@ Rails.application.routes.draw do
         post 'password/forgot', to: 'passwords#forgot'
         post 'password/reset', to: 'passwords#reset'
       end
+
       get "confirm_email/:confirm_token", to: "users#confirm_email"
       post "facebook", to: "users#facebook"
+
       resources :flats do
         resources :images
       end
+
+      resources :images do
+      end
+
       resources :bookings do
       end
+
       resources :books, only: [:index, :show] do
         #do since book has many reviews
         resources :reviews, only: [:index, :show, :create, :update, :destroy]

@@ -1,5 +1,6 @@
 class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: :show
+  before_action :valid_token, only: :create
 
   def index
     # this is for fetchFlats in front end
@@ -31,6 +32,18 @@ class Api::V1::FlatsController < ApplicationController
   end
 
   def create
+    flat = Flat.new flat_params
+    flat.user_id = @user.id
+    flat.created_at = DateTime.now
+    # only if have parent
+    # flat.book_id = params[:book_id]
+    if flat.save
+      flat_serializer = parse_json flat
+
+      json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
+    else
+      json_response "Create flat failed", false, {}, :unprocessable_entity
+    end
   end
 
   def edit
@@ -52,9 +65,17 @@ class Api::V1::FlatsController < ApplicationController
     end
   end
 
-  def strong_params
-    params.require(:flat).permit(:user_id, :lat, :lng, :address1, :city, :zip, :country, :area,
-    :price_per_day, :price_per_month, :guests, :sales_point, :description,
-    :rooms, :beds, :flat_type, :bath)
+  def valid_token
+    @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+    if @user
+      return @user
+    else
+      json_response "Invalid token", false, {}, :failure
+    end
+  end
+
+  def flat_params
+    params.require(:flat).permit(:user_id, :lat, :lng, :address1, :address2, :city, :state, :region, :zip, :country, :area,
+    :price_per_day, :price_per_month, :guests, :sales_point, :description, :rooms, :beds, :flat_type, :bath, :intro, :cancellation, :smoking)
   end
 end

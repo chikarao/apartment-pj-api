@@ -3,7 +3,10 @@ class BookingSerializer < ActiveModel::Serializer
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,
-  belongs_to :flat, serializer: FlatSerializer
+
+  # do not need
+  # belongs_to :flat, serializer: FlatSerializer
+  belongs_to :flat
 
   # def flat
   #   FlatSerializer.new(object.flat, root: false)
