@@ -1,6 +1,6 @@
 class Api::V1::FlatsController < ApplicationController
-  before_action :load_flat, only: [:show, :destroy]
-  before_action :valid_token, only: :create
+  before_action :load_flat, only: [:show, :update, :destroy]
+  before_action :valid_token, only: [:create, :update, :destroy]
   before_action :authenticate_with_token, only: [:create, :update, :destroy]
 
   def index
@@ -13,13 +13,13 @@ class Api::V1::FlatsController < ApplicationController
 
       @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
       flats_serializer = parse_json @flats
-      json_response "Indexed flats within area successfully", true, {flats: flat_serializer}, :ok
+      json_response "Indexed flats within area successfully", true, {flats: flats_serializer}, :ok
     else
       @flats = Flat.all
       # does not need includes; flat_serializer has_many images and bookings will fetch both
       # @flats = Flat.all.includes(:images)
       flats_serializer = parse_json @flats
-      json_response "Indexed flats successfully", true, {flats: flat_serializer}, :ok
+      json_response "Indexed flats successfully", true, {flats: flats_serializer}, :ok
     end
   end
 
@@ -51,14 +51,23 @@ class Api::V1::FlatsController < ApplicationController
   end
 
   def update
+    if @flat.update flat_params
+      flat_serializer = parse_json @flat
+      json_response "Updated flat succesfully", true, {flat: flat_serializer }, :ok
+    else
+      json_response "Update flat failed", false, {}, :unprocessable_entity
+    end
   end
 
   def destroy
     p current_user
     p @flat
     if @flat.user_id = current_user.id
-      @flat.destroy
-      json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
+      if @flat.destroy
+        json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
+      else
+        json_response "Delete flat failed", false, {}, :unprocessable_entity
+      end
     else
       json_response "Delete flat failed", false, {}, :unprocessable_entity
     end

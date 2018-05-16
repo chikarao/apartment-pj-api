@@ -1,6 +1,7 @@
 class Api::V1::ImagesController < ApplicationController
   before_action :load_flat, only: :show
-  before_action :valid_token, only: :create
+  before_action :load_image, only: :destroy
+  before_action :valid_token, only: [:destroy, :create]
 
   def index
   end
@@ -33,20 +34,37 @@ class Api::V1::ImagesController < ApplicationController
   end
 
   def destroy
+    if @user.id = current_user.id
+      if @image.destroy
+        json_response "Deleted image succesfully", true, {image: @image}, :ok
+      else
+        json_response "Delete image failed", false, {}, :unprocessable_entity
+      end
+    else
+      json_response "Delete image failed", false, {}, :unprocessable_entity
+    end
   end
 
   private
 
-  # def load_flat
-  #   # front end gets params and sends it in fetchFlatFromParams
-  #   @flat = Flat.find_by id: params[:flat_id]
-  #   unless @flat.present?
-  #     json_response "Cannot find flat", false, {}, :not_found
-  #   end
-  # end
+  def load_flat
+    # front end gets params and sends it in fetchFlatFromParams
+    @flat = Flat.find_by id: params[:flat_id]
+    unless @flat.present?
+      json_response "Cannot find flat", false, {}, :not_found
+    end
+  end
 
   def image_params
     params.require(:image).permit(:flat_id, :publicid)
+  end
+
+  def load_image
+    # front end gets params and sends it in fetchFlatFromParams
+    @image = Image.find_by id: params[:id]
+    unless @image.present?
+      json_response "Cannot find image", false, {}, :not_found
+    end
   end
 
   def valid_token
