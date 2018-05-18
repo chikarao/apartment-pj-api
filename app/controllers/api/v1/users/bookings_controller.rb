@@ -6,7 +6,7 @@ class Api::V1::Users::BookingsController < ApplicationController
 
   def index
     # p 'in users, BookingsController'
-    @bookings = Booking.where(user_id: @user.id)
+    @bookings = Booking.where(user_id: @user.id).includes(:flat)
     # p @bookings
     if @bookings
       bookings_serializer = parse_json @bookings

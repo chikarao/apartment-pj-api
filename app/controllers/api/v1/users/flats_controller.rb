@@ -6,7 +6,7 @@ class Api::V1::Users::FlatsController < ApplicationController
 
   def index
     p 'in users, FlatsController'
-    @flats = Flat.where(user_id: @user.id)
+    @flats = Flat.where(user_id: @user.id).includes(:bookings, :images)
     p @flats
     if @flats
       flats_serializer = parse_json @flats

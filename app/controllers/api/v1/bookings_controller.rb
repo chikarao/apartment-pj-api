@@ -1,7 +1,8 @@
 class Api::V1::BookingsController < ApplicationController
   # before_action :ensure_params_exist, only: :create
-  before_action :valid_token, only: :create
-  before_action :load_booking, only: :show
+  before_action :valid_token, only: [:create, :create, :destroy]
+  before_action :load_booking, only: [:show, :destroy]
+  before_action :authenticate_with_token, only: [:show, :create, :destroy]
 
   def index
   end
@@ -37,6 +38,16 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def destroy
+    # booking delete request by flat owner
+    if @booking.flat.user_id = current_user.id
+      if @booking.destroy
+        json_response "Deleted booking succesfully", true, {booking: @booking}, :ok
+      else
+        json_response "Delete booking failed", false, {}, :unprocessable_entity
+      end
+    else
+      json_response "Delete booking failed", false, {}, :unprocessable_entity
+    end
   end
 
   private
