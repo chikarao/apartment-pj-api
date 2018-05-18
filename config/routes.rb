@@ -18,6 +18,18 @@ Rails.application.routes.draw do
         resources :images
       end
 
+      # resources :users do
+      #   resources :flats, only: [:index]
+      # end
+
+      namespace :users do
+        resources :flats, only: [:index]
+      end
+      
+      namespace :users do
+        resources :bookings, only: [:index]
+      end
+
       resources :images do
       end
 
