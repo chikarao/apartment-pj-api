@@ -25,9 +25,14 @@ Rails.application.routes.draw do
       namespace :users do
         resources :flats, only: [:index]
       end
-      
+
       namespace :users do
         resources :bookings, only: [:index]
+      end
+
+      namespace :images do
+        post 'upload', to: 'images#upload'
+        post 'destroy', to: 'images#destroy'
       end
 
       resources :images do
