@@ -63,7 +63,21 @@ class Api::V1::FlatsController < ApplicationController
     p current_user
     p @flat
     if @flat.user_id = current_user.id
+
+      image_array = []
+      images = @flat.images
+      images.each do |i|
+       p "FlatsController, destroy, images.each, i: " + i.to_s
+      image_array << i.publicid
+      end
+      p "FlatsController, destroy, image_array: " + image_array.to_s
+
       if @flat.destroy
+        image_array.each do |i|
+          p "FlatsController, destroy, images.each, i: " + i.to_s
+          result = Cloudinary::Uploader.destroy(i);
+          p "FlatsController, destroy, images.each, result: " + result.to_s
+        end
         json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
       else
         json_response "Delete flat failed", false, {}, :unprocessable_entity
@@ -71,6 +85,7 @@ class Api::V1::FlatsController < ApplicationController
     else
       json_response "Delete flat failed", false, {}, :unprocessable_entity
     end
+    #end of first if
   end
 
   private

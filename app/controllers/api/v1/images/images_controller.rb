@@ -29,37 +29,25 @@ class Api::V1::Images::ImagesController < ApplicationController
         else
           json_response "Uploadd image failed", false, {}, :unprocessable_entity
         end
-
-
-        # image = Image.new
-        # # image.user_id = @user.id
-        # image.flat_id = uploaded_flat_id
-        # image.publicid = result['public_id']
-        # if image.save
-        #   json_response "Uploaded image successfully", true, {response: image}, :ok
-        #   File.delete(path)
-        # else
-        #   json_response "Create image failed", false, {}, :unprocessable_entity
-        # end
-        # if ExampleModel.create(image: Rails.root.join('public', path.to_s.split('/public/')[1]).open))
-        #   File.delete(path)
-        # end
-      # end
    end
    # end of unless
-    # data = {data: 'hello'}
   end
 
   def destroy
+    # flat_image-1526697489-0
+    image_to_destroy = image_params[:publicid]
+    p 'in images/images_controller, upload cloudinary upload, flat_id: ' +   image_to_destroy
+    # cloudinary.uploader.destroy(image, function(result) { console.log(result) });
     # p 'You are in destory images'
-    response = {data: 'hello'}
-    json_response "Deleted image successfully", true, {response: 'publicid'}, :ok
+    # response = {data: 'hello'}
+    # result = Cloudinary::Uploader.destroy(image_to_destroy);
+    # json_response "Deleted image successfully", true, {response: result}, :ok
   end
 
   private
 
   def image_params
-    params
+    params.require(:image).permit(:publicid)
   end
 
   # def load_flat
