@@ -59,6 +59,9 @@ class Api::V1::FlatsController < ApplicationController
     end
   end
 
+  # delete image from Cloudinary when deleting flat; Uses array of publicids in
+  # flat_controller, destroy method to collect public ids if user = current_user,
+  # then if flat.destroy then iterate through the public id array to destroy the images on Cloudinary
   def destroy
     p current_user
     p @flat
@@ -67,18 +70,18 @@ class Api::V1::FlatsController < ApplicationController
       image_array = []
       images = @flat.images
       images.each do |i|
-       p "FlatsController, destroy, images.each, i: " + i.to_s
+       # p "FlatsController, destroy, images.each, i: " + i.to_s
       image_array << i.publicid
       end
       p "FlatsController, destroy, image_array: " + image_array.to_s
 
       if @flat.destroy
+        json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
         image_array.each do |i|
-          p "FlatsController, destroy, images.each, i: " + i.to_s
+          # p "FlatsController, destroy, images.each, i: " + i.to_s
           result = Cloudinary::Uploader.destroy(i);
           p "FlatsController, destroy, images.each, result: " + result.to_s
         end
-        json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
       else
         json_response "Delete flat failed", false, {}, :unprocessable_entity
       end

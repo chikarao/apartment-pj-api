@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :flats
   has_many :bookings
   has_many :rented_flats, through: :bookings, source: :flat
+  has_many :conversations, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

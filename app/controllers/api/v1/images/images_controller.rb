@@ -40,8 +40,8 @@ class Api::V1::Images::ImagesController < ApplicationController
     # cloudinary.uploader.destroy(image, function(result) { console.log(result) });
     # p 'You are in destory images'
     # response = {data: 'hello'}
-    # result = Cloudinary::Uploader.destroy(image_to_destroy);
-    # json_response "Deleted image successfully", true, {response: result}, :ok
+    result = Cloudinary::Uploader.destroy(image_to_destroy);
+    json_response "Deleted image successfully", true, {response: result}, :ok
   end
 
   private

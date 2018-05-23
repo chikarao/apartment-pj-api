@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  conversation: one
+  body: MyText
+  subject: MyString
+  read: false
+  replied: false
+  flag: false
+  folder: MyString
+
+two:
+  conversation: two
+  body: MyText
+  subject: MyString
+  read: false
+  replied: false
+  flag: false
+  folder: MyString

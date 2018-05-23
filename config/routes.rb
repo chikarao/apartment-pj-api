@@ -41,6 +41,10 @@ Rails.application.routes.draw do
       resources :bookings do
       end
 
+      resources :conversations do
+        resources :messages
+      end
+
       resources :books, only: [:index, :show] do
         #do since book has many reviews
         resources :reviews, only: [:index, :show, :create, :update, :destroy]

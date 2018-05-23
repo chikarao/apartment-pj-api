@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180508053740) do
+ActiveRecord::Schema.define(version: 20180523071438) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -69,6 +69,19 @@ ActiveRecord::Schema.define(version: 20180508053740) do
     t.integer "reviews_count", default: 0, null: false
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "flat_id"
+    t.date "date_start"
+    t.date "date_end"
+    t.integer "guests"
+    t.integer "booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_conversations_on_flat_id"
+    t.index ["user_id"], name: "index_conversations_on_user_id"
+  end
+
   create_table "flats", force: :cascade do |t|
     t.integer "user_id"
     t.float "lat"
@@ -105,6 +118,27 @@ ActiveRecord::Schema.define(version: 20180508053740) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flat_id"], name: "index_images_on_flat_id"
+  end
+
+  create_table "message_threads", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_flat_id"
+    t.integer "booking_id_id"
+    t.index ["booking_id_id"], name: "index_message_threads_on_booking_id_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "conversation_id"
+    t.text "body"
+    t.string "subject"
+    t.boolean "read", default: false
+    t.boolean "replied", default: false
+    t.boolean "flag", default: false
+    t.string "folder"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "sent_by_user"
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "reviews", force: :cascade do |t|
