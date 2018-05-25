@@ -30,6 +30,10 @@ Rails.application.routes.draw do
         resources :bookings, only: [:index]
       end
 
+      namespace :users do
+        post 'conversations/conversation_by_flat', to: 'conversations#conversation_by_flat'
+      end
+
       namespace :images do
         post 'upload', to: 'images#upload'
         post 'destroy', to: 'images#destroy'

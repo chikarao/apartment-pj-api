@@ -16,13 +16,8 @@ class Api::V1::MessagesController < ApplicationController
   def create
     p "MessagesController, create, here is message params" + message_params.to_s
     message = Message.new message_params
-    # message.conversation_id = message_params[:conversation_id]
-    p "MessagesController, create, message after Message.new, message.conversation_id " + message.conversation_id.to_s
-    # message.user_id = @user.id
-    # p "MessagesController, create, message after Message.new, message.user_id " + message.user_id.to_s
     message.created_at = DateTime.now
     # only if have parent
-    p "MessagesController, create, message after Message.new, message.created_at " + message.created_at.to_s
     if message.save
       message_serializer = parse_json message
       json_response "Created message succesfully", true, {message: message_serializer}, :ok

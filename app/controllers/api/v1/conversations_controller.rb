@@ -1,12 +1,16 @@
 class Api::V1::ConversationsController < ApplicationController
-  before_action :load_flat, only: :show
-  # before_action :load_image, only: :destroy
-  before_action :valid_token, only: [:destroy, :create]
+  before_action :load_conversation, only: [:index, :show, :destroy]
+  # before_action :load_flat, only: :show
+  before_action :valid_token, only: [:show, :destroy, :create]
 
   def index
   end
 
   def show
+    @conversation = Conversation.find_by(user_id: params[:user_id], flat_id: params[:flat_id])
+    conversation_serializer = parse_json @conversation
+    json_response "Showed conversation successfully", true, {conversation: conversation_serializer}, :ok
+
   end
 
   def new
@@ -52,11 +56,11 @@ class Api::V1::ConversationsController < ApplicationController
 
   private
 
-  def load_flat
+  def load_conversation
     # front end gets params and sends it in fetchFlatFromParams
-    @flat = Flat.find_by id: conversation_params[:flat_id]
-    unless @flat.present?
-      json_response "Cannot find flat", false, {}, :not_found
+    @conversation = Conversation.find_by id: params[:id]
+    unless @conversation.present?
+      json_response "Cannot find conversation", false, {}, :not_found
     end
   end
 
@@ -64,11 +68,11 @@ class Api::V1::ConversationsController < ApplicationController
     params.require(:conversation).permit(:flat_id)
   end
 
-  # def load_image
+  # def load_flat
   #   # front end gets params and sends it in fetchFlatFromParams
-  #   @image = Image.find_by id: params[:id]
-  #   unless @image.present?
-  #     json_response "Cannot find image", false, {}, :not_found
+  #   @flat = Flat.find_by id: params[:id]
+  #   unless @flat.present?
+  #     json_response "Cannot find flat", false, {}, :not_found
   #   end
   # end
 
