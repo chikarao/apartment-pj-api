@@ -1,7 +1,7 @@
 class Api::V1::Users::ConversationsController < ApplicationController
   #
   #This is for Logined User
-  before_action :valid_token, only: [:index, :conversation_by_flat]
+  before_action :valid_token, only: [:index, :conversation_by_flat, :conversations_by_user_and_flat]
   before_action :authenticate_with_token, only: [:index]
 
   def index
@@ -22,7 +22,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
 
   def conversation_by_flat
     p 'in users, ConversationsController, conversation_params' + conversation_params.to_s
-    @conversation = Conversation.where(user_id: @user.id, flat_id: conversation_params[:id])
+    @conversation = Conversation.where(user_id: @user.id, flat_id: conversation_params[:flat_id])
     # p @conversation
     if @conversation
       conversation_serializer = parse_json @conversation
@@ -34,6 +34,26 @@ class Api::V1::Users::ConversationsController < ApplicationController
     # @flat = policy_scope(Flat).order(created_at: :desc)
 
      # authorize @cars
+  end
+
+  def conversations_by_user_and_flat
+    p 'in users, ConversationsController, conversation_params: ' + conversation_params.to_s
+    p 'in users, ConversationsController, @user: ' + @user.to_s
+    # Post.where('id = 1').or(Post.where('id = 2'))
+    # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
+    @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(conversation_params[:flat_id_array]))
+    p 'in users, ConversationsController, conversation_by_user_and_flat, conversations_by_user: ' + @conversations.to_s
+
+    # p @conversation
+    if @conversations
+      conversations_serializer = parse_json @conversations
+      json_response "Fetched conversations by user and flat successfully", true, {conversations: conversations_serializer}, :ok
+    else
+      json_response "Cannot find conversation for user", false, {}, :not_found
+    end
+    # @flat = Flat.order(created_at: :desc)
+    # @flat = policy_scope(Flat).order(created_at: :desc)
+
   end
 
   # def show
@@ -52,8 +72,9 @@ class Api::V1::Users::ConversationsController < ApplicationController
   # end
   private
 
+  # reference for passing array in params https://jaketrent.com/post/permit-array-rails-strong-parameters/
   def conversation_params
-    params.require(:conversation).permit(:id)
+    params.require(:conversation).permit(:flat_id, flat_id_array: [])
   end
 
   def valid_token
