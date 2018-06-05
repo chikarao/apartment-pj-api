@@ -54,7 +54,8 @@ Rails.application.routes.draw do
       end
 
       namespace :users do
-        post 'likes/likes_by_user', to: 'likes#likes_by_user'
+        # use get when there are no params
+        get 'likes/likes_by_user', to: 'likes#likes_by_user'
         post 'likes/likes_by_flat', to: 'likes#likes_by_flat'
       end
 

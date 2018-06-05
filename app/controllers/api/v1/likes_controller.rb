@@ -1,7 +1,8 @@
 class Api::V1::LikesController < ApplicationController
   before_action :load_flat, only: :show
-  before_action :load_like, only: :destroy
   before_action :valid_token, only: [:destroy, :create]
+  before_action :authenticate_with_token, only: [:create, :update, :destroy]
+  before_action :load_like, only: [:destroy]
 
   def index
   end
@@ -31,6 +32,7 @@ class Api::V1::LikesController < ApplicationController
   end
 
   def destroy
+    p "likes controller, @like: " + @like.to_s
     if @user.id = current_user.id
       if @like.destroy
         json_response "Deleted like succesfully", true, {like: @like}, :ok
@@ -46,7 +48,7 @@ class Api::V1::LikesController < ApplicationController
 
   def load_flat
     # front end gets params and sends it in fetchFlatFromParams
-    @flat = Flat.find_by id: params[:flat_id]
+    @flat = Flat.find_by id: params[:id]
     unless @flat.present?
       json_response "Cannot find flat", false, {}, :not_found
     end
@@ -58,7 +60,7 @@ class Api::V1::LikesController < ApplicationController
 
   def load_like
     # front end gets params and sends it in fetchFlatFromParams
-    @like = Like.find_by id: params[:id]
+    @like = Like.find_by(flat_id: params[:id], user_id: @user.id)
     unless @like.present?
       json_response "Cannot find like", false, {}, :not_found
     end

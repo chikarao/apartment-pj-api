@@ -6,14 +6,14 @@ class Api::V1::Users::LikesController < ApplicationController
 
   def index
     # p 'in users, BookingsController'
-    @likes = Like.where(user_id: @user.id)
-    # p @likes
-    if @likes
-      likes_serializer = parse_json @likes
-      json_response "Indexed user's likes successfully", true, {likes: likes_serializer}, :ok
-    else
-      json_response "Cannot find likes for user", false, {}, :not_found
-    end
+    # @likes = Like.where(user_id: @user.id)
+    # # p @likes
+    # if @likes
+    #   likes_serializer = parse_json @likes
+    #   json_response "Indexed user's likes successfully", true, {likes: likes_serializer}, :ok
+    # else
+    #   json_response "Cannot find likes for user", false, {}, :not_found
+    # end
     # @flat = Flat.order(created_at: :desc)
     # @flat = policy_scope(Flat).order(created_at: :desc)
 
@@ -22,11 +22,11 @@ class Api::V1::Users::LikesController < ApplicationController
 
   def likes_by_flat
     p 'in users, LikesController, like_params' + like_params.to_s
-    @like = Like.where(flat_id: like_params[:flat_id])
+    @likes = Like.where(flat_id: like_params[:flat_id])
     # p @like
-    if @like
-      like_serializer = parse_json @like
-      json_response "Fetched likes by flat successfully", true, {like: like_serializer}, :ok
+    if @likes
+      like_serializer = parse_json @likes
+      json_response "Fetched likes by flat successfully", true, {likes: likes_serializer}, :ok
     else
       json_response "Cannot find like for flat", false, {}, :not_found
     end
@@ -43,7 +43,7 @@ class Api::V1::Users::LikesController < ApplicationController
     # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
     # @likes = Like.where(user_id: @user.id).or(Like.where(like_params[:flat_id_array]))
     @likes = Like.where(user_id: @user.id)
-    p 'in users, LikesController, like_by_user_and_flat, likes_by_user: ' + @likes.to_s
+    p 'in users, LikesController, likes_by_user, likes_by_user: ' + @likes.to_s
 
     # p @like
     if @likes
