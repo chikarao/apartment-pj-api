@@ -50,6 +50,14 @@ Rails.application.routes.draw do
         resources :messages
       end
 
+      resources :likes do
+      end
+
+      namespace :users do
+        post 'likes/likes_by_user', to: 'likes#likes_by_user'
+        post 'likes/likes_by_flat', to: 'likes#likes_by_flat'
+      end
+
       resources :books, only: [:index, :show] do
         #do since book has many reviews
         resources :reviews, only: [:index, :show, :create, :update, :destroy]

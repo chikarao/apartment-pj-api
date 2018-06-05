@@ -39,8 +39,9 @@ class Api::V1::ImagesController < ApplicationController
       publicid= @image.publicid
       if @image.destroy
         result = Cloudinary::Uploader.destroy(publicid)
+        # json_response "Deleted image succesfully", true, {image: @image, cloudinary_result: result}, :ok
+        p "images controller, destroy, result" + result.to_s
         json_response "Deleted image succesfully", true, {image: @image, cloudinary_result: result}, :ok
-        json_response "Deleted image succesfully", true, {image: @image}, :ok
       else
         json_response "Delete image failed", false, {}, :unprocessable_entity
       end

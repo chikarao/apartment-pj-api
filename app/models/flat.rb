@@ -4,4 +4,6 @@ class Flat < ApplicationRecord
   has_many :bookings
   has_many :booked_users, through: :bookings, source: :user
   has_many :conversations, dependent: :destroy
+  has_many :likes
+  has_many :liking_users, :through => :likes, :source => :user
 end
