@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605002435) do
+ActiveRecord::Schema.define(version: 20180608014741) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -148,6 +148,32 @@ ActiveRecord::Schema.define(version: 20180605002435) do
     t.datetime "updated_at", null: false
     t.boolean "sent_by_user"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "image"
+    t.string "identification"
+    t.string "title"
+    t.string "name"
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "last_name"
+    t.string "username"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "region"
+    t.string "country"
+    t.string "language"
+    t.date "birthday"
+    t.string "gender"
+    t.text "introduction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|

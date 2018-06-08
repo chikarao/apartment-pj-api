@@ -18,7 +18,7 @@ class Api::V1::SessionsController < Devise::SessionsController
        json_response "Please activate your account by following the instructions in the account confirmation email you received to proceed", false, {}, :unauthorized
      end
     else
-      json_response "Unauthorized", false, {}, :unauthorized
+      json_response "Unauthorized. Please check your password.", false, {}, :unauthorized
     end
   end
 

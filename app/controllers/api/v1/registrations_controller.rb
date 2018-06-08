@@ -1,6 +1,7 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
   # before_action(:ensure_params_exist, only: :create)
   before_action :ensure_params_exist, only: :create
+  before_action :does_user_already_exist, only: :create
   #sign up
   def create
     user = User.new(user_params)
@@ -8,9 +9,9 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     if user.save
       # UserNotifier.send_signup_email(user).deliver
       UserNotifier.send_registration_confirmation_email(user).deliver
-      json_response "Signed up successfully. Please confirm your email in the link we sent you.", true, {user: user}, :ok
+      json_response "Thank you! You've signed up successfully! Please confirm your registration in the email link we just sent you.", true, {user: user}, :ok
     else
-      json_response "Unable to save user.", false, {}, :unprocessable_entity
+      json_response "Unable to sign up.", false, {}, :unprocessable_entity
     end
   end
 
@@ -31,4 +32,18 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     #   data: {}
     # }, status: :bad_request
   end
+  def does_user_already_exist
+    user = User.find_by email: user_params[:email].downcase
+    p "registration controller user_already_exists" + user.to_s
+    if user
+      json_response "That user is already signed up. Please sign in.", false, {}, :bad_request
+    end
+  end
+    #same code above just refactored the below code
+    #json_response defined in app/controlers/concerns/response.rb and included in application_controller.rb
+    # render json: {
+    #   message: "Missing information",
+    #   is_success: false,
+    #   data: {}
+    # }, status: :bad_request
 end

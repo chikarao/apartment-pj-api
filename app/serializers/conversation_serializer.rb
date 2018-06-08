@@ -1,5 +1,5 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :flat_id, :date_start, :date_end, :guests, :created_at, :booking_id, :messages
+  attributes :id, :user_id, :flat_id, :date_start, :date_end, :guests, :created_at, :booking_id, :messages, :flat, :user
 
   belongs_to :flat
   belongs_to :user

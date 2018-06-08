@@ -10,6 +10,7 @@ class FlatSerializer < ActiveModel::Serializer
   has_many :images
   has_many :bookings
   has_many :likes
+  belongs_to :user
   # has_many :conversations
   #
   # def average_rating_of_book

@@ -53,6 +53,9 @@ Rails.application.routes.draw do
       resources :likes do
       end
 
+      resources :profiles do
+      end
+
       namespace :users do
         # use get when there are no params
         get 'likes/likes_by_user', to: 'likes#likes_by_user'

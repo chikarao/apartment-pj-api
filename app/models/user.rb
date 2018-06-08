@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :likes
   has_many :liked_flats, :through => :likes, :source => :flat
+  has_one :profile
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

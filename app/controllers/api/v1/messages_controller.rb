@@ -1,5 +1,6 @@
 class Api::V1::MessagesController < ApplicationController
   before_action :load_flat, only: [:show, :destroy]
+  before_action :load_conversation, only: [:create, :destroy]
   # before_action :load_image, only: :destroy
   before_action :valid_token, only: [:destroy, :create]
   # before_action :authenticate_with_token, only: [:create, :update, :destroy]
@@ -19,8 +20,9 @@ class Api::V1::MessagesController < ApplicationController
     message.created_at = DateTime.now
     # only if have parent
     if message.save
-      message_serializer = parse_json message
-      json_response "Created message succesfully", true, {message: message_serializer}, :ok
+      # message_serializer = parse_json message
+      conversation_serializer = parse_json @conversation
+      json_response "Created message succesfully", true, {conversation: conversation_serializer}, :ok
     else
       p "MessagesController, create, in if else " + message.to_s
       json_response "Create message failed", false, {}, :unprocessable_entity
@@ -55,6 +57,15 @@ class Api::V1::MessagesController < ApplicationController
     p "MessagesController, load_flat, message_params[:flat_id]:  " + message_params[:flat_id].to_s
     unless @flat.present?
       json_response "Cannot find flat", false, {}, :not_found
+    end
+  end
+
+  def load_conversation
+    # front end gets params and sends it in fetchFlatFromParams
+    @conversation = Conversation.find_by id: message_params[:conversation_id]
+    p "MessagesController, load_conversation, message_params[:conversation_id]:  " + message_params[:conversation_id].to_s
+    unless @conversation.present?
+      json_response "Cannot find conversation", false, {}, :not_found
     end
   end
 
