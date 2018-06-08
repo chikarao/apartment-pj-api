@@ -3,6 +3,6 @@ class Booking < ApplicationRecord
   belongs_to :user
 
   validates :date_start, presence: true
-  validates :date_start, presence: true
+  validates :date_end, presence: true
   validates :user_id, presence: true
 end

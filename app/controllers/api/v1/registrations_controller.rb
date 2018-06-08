@@ -7,9 +7,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     user = User.new(user_params)
     # p "here is user" + user.to_s
     if user.save
+      profile = Profile.new
+      profile.user_id = user.id
+      if profile.save
       # UserNotifier.send_signup_email(user).deliver
       UserNotifier.send_registration_confirmation_email(user).deliver
-      json_response "Thank you! You've signed up successfully! Please confirm your registration in the email link we just sent you.", true, {user: user}, :ok
+      user_serializer = parse_json user
+      json_response "Thank you! You've signed up successfully! Please confirm your registration in the email link we just sent you.", true, {user: user_serializer}, :ok
+      end
     else
       json_response "Unable to sign up.", false, {}, :unprocessable_entity
     end

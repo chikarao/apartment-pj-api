@@ -47,6 +47,9 @@ class Api::V1::ProfilesController < ApplicationController
   end
 
   def destroy
+    if @profile.destroy
+    json_response "Deleted profile succesfully", true, {profile: @profile}, :ok
+    end
   end
 
   private
