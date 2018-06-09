@@ -35,6 +35,10 @@ Rails.application.routes.draw do
         post 'conversations/conversations_by_user_and_flat', to: 'conversations#conversations_by_user_and_flat'
       end
 
+      namespace :users do
+        get 'profiles/profile_for_user', to: 'profiles#profile_for_user'
+      end
+
       namespace :images do
         post 'upload', to: 'images#upload'
         post 'destroy', to: 'images#destroy'

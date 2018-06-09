@@ -4,6 +4,7 @@ class Api::V1::ProfilesController < ApplicationController
   before_action :valid_token, only: [:show, :destroy, :update]
   before_action :load_profile_by_user_id, only: [:update]
   before_action :load_user, only: [:create]
+  before_action :does_profile_already_exist, only: [:create]
 
   def index
   end
@@ -89,6 +90,15 @@ class Api::V1::ProfilesController < ApplicationController
       return @user
     else
       json_response "Invalid token", false, {}, :failure
+    end
+  end
+
+  def does_profile_already_exist
+    profile = Profile.find_by user_id: profile_params[:user_id]
+    p "profile controller profile_already_exists" + profile.to_s
+    if profile
+      json_response "A profile for that user already exists.", false, {}, :bad_request
+      return
     end
   end
 end
