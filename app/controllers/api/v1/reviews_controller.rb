@@ -1,6 +1,7 @@
 class Api::V1::ReviewsController < ApplicationController
   before_action :valid_token, only: [:create, :destroy, :update]
   before_action :does_review_already_exist, only: [:create]
+  before_action :load_booking, only: [:create]
   before_action :load_review, only: [:show, :destroy, :update]
 
   def index
@@ -16,6 +17,7 @@ class Api::V1::ReviewsController < ApplicationController
   def create
     review = Review.new review_params
     review.user_id = @user.id
+    review.flat_id = @booking.flat.id
     if review.save
       review_serializer = parse_json review
 
@@ -72,6 +74,13 @@ class Api::V1::ReviewsController < ApplicationController
       @review = Review.find_by id: params[:id]
       unless @review.present?
         json_response "Cannot find review", false, {}, :not_found
+      end
+    end
+
+    def load_booking
+      @booking = Booking.find_by id: review_params[:booking_id]
+      unless @booking.present?
+        json_response "Cannot find booking", false, {}, :not_found
       end
     end
 
