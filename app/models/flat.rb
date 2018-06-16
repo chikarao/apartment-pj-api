@@ -6,4 +6,5 @@ class Flat < ApplicationRecord
   has_many :conversations
   has_many :likes
   has_many :liking_users, :through => :likes, :source => :user
+  # has_many :reviews
 end

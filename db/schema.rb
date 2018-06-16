@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180608014741) do
+ActiveRecord::Schema.define(version: 20180616023834) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -177,19 +177,21 @@ ActiveRecord::Schema.define(version: 20180608014741) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string "title"
-    t.integer "content_rating"
-    t.integer "recommend_rating"
-    t.float "average_rating"
     t.integer "user_id"
-    t.integer "book_id"
+    t.integer "flat_id"
+    t.string "title"
+    t.text "comment"
+    t.float "rating"
+    t.float "average_rating"
+    t.boolean "review_for_flat", default: false
+    t.boolean "review_for_user", default: false
+    t.boolean "review_for_site", default: false
+    t.integer "helpful"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "picture_file_name"
-    t.string "picture_content_type"
-    t.integer "picture_file_size"
-    t.datetime "picture_updated_at"
-    t.index ["book_id"], name: "index_reviews_on_book_id"
+    t.integer "booking_id"
+    t.index ["booking_id"], name: "index_reviews_on_booking_id"
+    t.index ["flat_id"], name: "index_reviews_on_flat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 

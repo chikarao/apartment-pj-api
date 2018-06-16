@@ -1,3 +1,7 @@
 class ReviewSerializer < ActiveModel::Serializer
-  attributes :id, :title, :content_rating, :recommend_rating, :average_rating, :picture
+  attributes :id, :title, :comment, :rating, :created_at, :updated_at, :booking, :user
+
+  belongs_to :user
+  # belongs_to :flat
+  belongs_to :booking
 end

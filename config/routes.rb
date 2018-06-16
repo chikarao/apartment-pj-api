@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
       namespace :images do
         post 'upload', to: 'images#upload'
+        post 'upload_for_profile', to: 'images#upload_for_profile'
         post 'destroy', to: 'images#destroy'
       end
 
@@ -60,16 +61,19 @@ Rails.application.routes.draw do
       resources :profiles do
       end
 
+      resources :reviews do
+      end
+
       namespace :users do
         # use get when there are no params
         get 'likes/likes_by_user', to: 'likes#likes_by_user'
         post 'likes/likes_by_flat', to: 'likes#likes_by_flat'
       end
 
-      resources :books, only: [:index, :show] do
-        #do since book has many reviews
-        resources :reviews, only: [:index, :show, :create, :update, :destroy]
-      end
+      # resources :books, only: [:index, :show] do
+      #   #do since book has many reviews
+      #   resources :reviews, only: [:index, :show, :create, :update, :destroy]
+      # end
     end
   end
 end

@@ -1,17 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  content_rating: 1
-  recommend_rating: 1
-  average_rating: 1.5
   user: one
-  book: one
+  flat: one
+  title: MyString
+  comment: MyText
+  rating: 1.5
+  average_rating: 1.5
+  review_for_flat: false
+  review_for_user: MyString
+  review_for_site: false
+  helpful: 1
 
 two:
-  title: MyString
-  content_rating: 1
-  recommend_rating: 1
-  average_rating: 1.5
   user: two
-  book: two
+  flat: two
+  title: MyString
+  comment: MyText
+  rating: 1.5
+  average_rating: 1.5
+  review_for_flat: false
+  review_for_user: MyString
+  review_for_site: false
+  helpful: 1

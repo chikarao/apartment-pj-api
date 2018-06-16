@@ -1,12 +1,10 @@
 class Api::V1::ReviewsController < ApplicationController
-  before_action :load_book, only: :index
-  before_action :load_review, only: [:show, :update, :destroy]
-  before_action :authenticate_with_token, only: [:create, :update, :destroy]
+  before_action :valid_token, only: [:create, :destroy, :update]
+  before_action :does_review_already_exist, only: [:create]
+  before_action :load_review, only: [:show, :destroy, :update]
 
   def index
-    @reviews = @book.reviews
-    reviews_serializer = parse_json @reviews
-    json_response "Indexed reviews successfully", true, {reviews: reviews_serializer}, :ok
+
   end
 
   def show
@@ -17,20 +15,18 @@ class Api::V1::ReviewsController < ApplicationController
 
   def create
     review = Review.new review_params
-    review.user_id = current_user.id
-    review.book_id = params[:book_id]
+    review.user_id = @user.id
     if review.save
       review_serializer = parse_json review
 
       json_response "Created review succesfully", true, {review: review_serializer}, :ok
     else
-      json_response "Creat review faile", false, {}, :unprocessable_entity
+      json_response "Create review failed", false, {}, :unprocessable_entity
     end
   end
 
   def update
-    if correct_user @review.user
-
+    if @user.id == @review.user_id
       if @review.update review_params
         review_serializer = parse_json @review
 
@@ -44,7 +40,7 @@ class Api::V1::ReviewsController < ApplicationController
   end
 
   def destroy
-    if correct_user @review.user
+    if @user.id == @review.user_id
       if @review.destroy
         json_response "Deleted review succesfully", true, {review: @review}, :ok
       else
@@ -56,12 +52,21 @@ class Api::V1::ReviewsController < ApplicationController
   end
 
   private
-  def load_book
-    @book = Book.find_by id: params[:book_id]
-    unless @book.present?
-      json_response "Cannot find book", false, {}, :not_found
+    def valid_token
+      @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+      p "ReviewsController, valid_token, @user: " + @user.to_s
+      if @user
+        return @user
+      else
+        json_response "Invalid token", false, {}, :failure
+      end
     end
-  end
+  # def load_book
+  #   @book = Book.find_by id: params[:book_id]
+  #   unless @book.present?
+  #     json_response "Cannot find book", false, {}, :not_found
+  #   end
+  # end
 
     def load_review
       @review = Review.find_by id: params[:id]
@@ -71,6 +76,15 @@ class Api::V1::ReviewsController < ApplicationController
     end
 
     def review_params
-      params.require(:review).permit :title, :content_rating, :recommend_rating, :image_review
+      params.require(:review).permit :flat_id, :booking_id, :title, :comment, :rating, :review_for_flat, :review_for_user, :review_for_site
+    end
+
+    def does_review_already_exist
+      review = Review.find_by(user_id: @user.id, booking_id: review_params[:booking_id])
+      p "review controller review_already_exists" + review.to_s
+      if review
+        json_response "A review for that booking already exists.", false, {}, :bad_request
+        return
+      end
     end
 end
