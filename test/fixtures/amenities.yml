@@ -12,8 +12,10 @@ one:
   bath_essentials: false
   hot_water: false
   parking: false
+  parking_spaces: 1
   tv: false
   dvd_player: false
+  cable_tv: false
   sofa: false
   kitchen: false
   dining_table: false
@@ -32,6 +34,8 @@ one:
   hairdryer: false
   fire_extinguisher: false
   lockbox: false
+  pool: false
+  jacuzzi: false
 
 two:
   flat: two
@@ -45,8 +49,10 @@ two:
   bath_essentials: false
   hot_water: false
   parking: false
+  parking_spaces: 1
   tv: false
   dvd_player: false
+  cable_tv: false
   sofa: false
   kitchen: false
   dining_table: false
@@ -65,3 +71,5 @@ two:
   hairdryer: false
   fire_extinguisher: false
   lockbox: false
+  pool: false
+  jacuzzi: false

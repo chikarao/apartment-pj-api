@@ -45,6 +45,11 @@ Rails.application.routes.draw do
         post 'destroy', to: 'images#destroy'
       end
 
+      namespace :reviews do
+        post 'review_for_booking_by_user', to: 'reviews#review_for_booking_by_user'
+        post 'reviews_for_flat', to: 'reviews#reviews_for_flat'
+      end
+
       resources :images do
       end
 

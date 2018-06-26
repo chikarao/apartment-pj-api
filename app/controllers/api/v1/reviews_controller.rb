@@ -90,8 +90,8 @@ class Api::V1::ReviewsController < ApplicationController
 
     def does_review_already_exist
       review = Review.find_by(user_id: @user.id, booking_id: review_params[:booking_id])
-      p "review controller review_already_exists" + review.to_s
       if review
+        p "review controller review_already_exists" + review.to_s
         json_response "A review for that booking already exists.", false, {}, :bad_request
         return
       end

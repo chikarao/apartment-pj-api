@@ -10,42 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180616023834) do
+ActiveRecord::Schema.define(version: 20180626072023) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
-    t.boolean "auto_lock"
-    t.boolean "security_system"
-    t.boolean "wifi"
-    t.boolean "pocket_wifi"
-    t.boolean "iron"
-    t.boolean "ac"
-    t.boolean "heater"
-    t.boolean "bath_essentials"
-    t.boolean "hot_water"
-    t.boolean "parking"
-    t.boolean "tv"
-    t.boolean "dvd_player"
-    t.boolean "sofa"
-    t.boolean "kitchen"
-    t.boolean "dining_table"
-    t.boolean "dish_washer"
-    t.boolean "washer"
-    t.boolean "dryer"
-    t.boolean "cooking_basics"
-    t.boolean "eating_utensils"
-    t.boolean "microwave"
-    t.boolean "refrigerator"
-    t.boolean "oven"
-    t.boolean "crib"
-    t.boolean "high_chair"
-    t.boolean "bath_tub"
-    t.boolean "washlet"
-    t.boolean "hairdryer"
-    t.boolean "fire_extinguisher"
-    t.boolean "lockbox"
+    t.boolean "auto_lock", default: false
+    t.boolean "security_system", default: false
+    t.boolean "wifi", default: false
+    t.boolean "pocket_wifi", default: false
+    t.boolean "iron", default: false
+    t.boolean "ac", default: false
+    t.boolean "heater", default: false
+    t.boolean "bath_essentials", default: false
+    t.boolean "hot_water", default: false
+    t.boolean "parking", default: false
+    t.integer "parking_spaces", default: 0
+    t.boolean "tv", default: false
+    t.boolean "dvd_player", default: false
+    t.boolean "cable_tv", default: false
+    t.boolean "sofa", default: false
+    t.boolean "kitchen", default: false
+    t.boolean "dining_table", default: false
+    t.boolean "dish_washer", default: false
+    t.boolean "washer", default: false
+    t.boolean "dryer", default: false
+    t.boolean "cooking_basics", default: false
+    t.boolean "eating_utensils", default: false
+    t.boolean "microwave", default: false
+    t.boolean "refrigerator", default: false
+    t.boolean "oven", default: false
+    t.boolean "crib", default: false
+    t.boolean "high_chair", default: false
+    t.boolean "bath_tub", default: false
+    t.boolean "washlet", default: false
+    t.boolean "hairdryer", default: false
+    t.boolean "fire_extinguisher", default: false
+    t.boolean "lockbox", default: false
+    t.boolean "pool", default: false
+    t.boolean "jacuzzi", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "basic", default: true
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
   end
 
@@ -108,6 +113,7 @@ ActiveRecord::Schema.define(version: 20180616023834) do
     t.string "address2"
     t.string "cancellation"
     t.boolean "smoking"
+    t.integer "king_or_queen_bed", default: 0
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
 
