@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180626072023) do
+ActiveRecord::Schema.define(version: 20180627031242) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20180626072023) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "basic", default: true
+    t.boolean "wheelchair_accessible", default: false
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
   end
 

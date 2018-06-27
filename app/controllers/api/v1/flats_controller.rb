@@ -155,7 +155,7 @@ class Api::V1::FlatsController < ApplicationController
   def amenity_params
     #if any chnage in column names below, change in create and edit flat in front end!!!!!!!
     #:basic is there just to so amenity params do not boecome null and crash
-    params.require(:amenity).permit(:basic, :auto_lock, :security_system, :wifi, :pocket_wifi, :iron, :ac, :heater, :bath_essentials,
+    params.require(:amenity).permit(:basic, :auto_lock, :security_system, :wifi, :pocket_wifi, :wheelchair_accessible, :iron, :ac, :heater, :bath_essentials,
       :hot_water, :parking, :tv, :dvd_player, :sofa, :kitchen, :dining_table, :dish_washer, :washer, :dryer, :cooking_basics,
       :eating_utensils, :microwave, :refrigerator, :oven, :crib, :high_chair, :bath_tub, :washlet, :hairdryer, :fire_extinguisher, :lockbox)
   end
