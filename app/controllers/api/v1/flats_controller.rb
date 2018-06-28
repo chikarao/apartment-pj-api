@@ -1,6 +1,6 @@
 class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: [:show, :update, :destroy]
-  before_action :load_amenity, only: [:update, :destroy]
+  before_action :load_amenity, only: [:update]
   before_action :valid_token, only: [:create, :update, :destroy]
   before_action :authenticate_with_token, only: [:create, :update, :destroy]
 

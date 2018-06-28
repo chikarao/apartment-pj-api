@@ -18,6 +18,10 @@ Rails.application.routes.draw do
         resources :images
       end
 
+      resources :flats do
+        resources :places
+      end
+
       # resources :users do
       #   resources :flats, only: [:index]
       # end

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flat: one
+  lat: 1.5
+  lng: 1.5
+  placeid: MyString
+  place_name: MyString
+
+two:
+  flat: two
+  lat: 1.5
+  lng: 1.5
+  placeid: MyString
+  place_name: MyString

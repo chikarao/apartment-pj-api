@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627031242) do
+ActiveRecord::Schema.define(version: 20180627093537) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -155,6 +155,17 @@ ActiveRecord::Schema.define(version: 20180627031242) do
     t.datetime "updated_at", null: false
     t.boolean "sent_by_user"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.integer "flat_id"
+    t.float "lat"
+    t.float "lng"
+    t.string "placeid"
+    t.string "place_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_places_on_flat_id"
   end
 
   create_table "profiles", force: :cascade do |t|

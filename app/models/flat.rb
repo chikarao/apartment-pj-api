@@ -7,5 +7,6 @@ class Flat < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liking_users, :through => :likes, :source => :user
   has_one :amenity, dependent: :destroy
+  has_many :places, dependent: :destroy
   # has_many :reviews
 end
