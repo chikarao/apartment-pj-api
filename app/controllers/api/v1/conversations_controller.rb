@@ -1,5 +1,5 @@
 class Api::V1::ConversationsController < ApplicationController
-  before_action :load_conversation, only: [:index, :show, :destroy]
+  before_action :load_conversation, only: [:index, :show, :update, :destroy]
   # before_action :load_flat, only: :show
   before_action :valid_token, only: [:show, :destroy, :create]
 
@@ -7,7 +7,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def show
-    @conversation = Conversation.find_by(user_id: params[:user_id], flat_id: params[:flat_id])
+    # @conversation = Conversation.find_by(user_id: params[:user_id], flat_id: params[:flat_id])
     conversation_serializer = parse_json @conversation
     json_response "Showed conversation successfully", true, {conversation: conversation_serializer}, :ok
 
@@ -35,7 +35,23 @@ class Api::V1::ConversationsController < ApplicationController
   def edit
   end
 
+  # user update conversation to mark messages read when user reads messages of conversation
   def update
+    p "ConversationsController, update, here is @conversation" + @conversation.to_s
+    p "ConversationsController, update, here is @conversation.user_id" + @conversation.user_id.to_s
+    messages = @conversation.messages
+    p "ConversationsController, update, here is messages" + messages.to_s
+    messages.each do |message|
+      if message.read == false
+        message.read = true
+        unless message.save
+          json_response "Updated message to read for conversation failed", false, {}, :unprocessable_entity
+          return
+        end
+      end
+    end
+    conversation_serializer = parse_json @conversation
+    json_response "Updated messages to read for conversation successfully", true, {conversation: conversation_serializer}, :ok
   end
 
   def destroy
