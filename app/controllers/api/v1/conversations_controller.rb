@@ -1,7 +1,7 @@
 class Api::V1::ConversationsController < ApplicationController
   before_action :load_conversation, only: [:index, :show, :update, :destroy]
   # before_action :load_flat, only: :show
-  before_action :valid_token, only: [:show, :destroy, :create]
+  before_action :valid_token, only: [:show, :destroy, :create, :update]
 
   def index
   end
@@ -37,19 +37,38 @@ class Api::V1::ConversationsController < ApplicationController
 
   # user update conversation to mark messages read when user reads messages of conversation
   def update
-    p "ConversationsController, update, here is @conversation" + @conversation.to_s
+    # p "ConversationsController, update, here is @conversation" + @conversation.to_s
+    @flat = Flat.find_by(id: @conversation.flat_id)
+    isOwner = @flat.user_id === @user.id
     p "ConversationsController, update, here is @conversation.user_id" + @conversation.user_id.to_s
+    p "ConversationsController, update, here is isOwner" + isOwner.to_s
+
     messages = @conversation.messages
-    p "ConversationsController, update, here is messages" + messages.to_s
+
+    # p "ConversationsController, update, here is messages" + messages.to_s
     messages.each do |message|
-      if message.read == false
-        message.read = true
-        unless message.save
-          json_response "Updated message to read for conversation failed", false, {}, :unprocessable_entity
-          return
+      if isOwner
+        if !message.sent_by_user
+          if message.read == false
+            message.read = !message.read
+            unless message.save
+              json_response "Updated message to read for conversation failed", false, {}, :unprocessable_entity
+              return
+            end
+          end # end of message read
+        end # end of !message sent by user
+      else # else of first if
+        if message.sent_by_user
+          if message.read == false
+            message.read = !message.read
+            unless message.save
+              json_response "Updated message to read for conversation failed", false, {}, :unprocessable_entity
+              return
+            end
+          end #end of if message read
         end
-      end
-    end
+      end #end of if isowner
+    end #end of each
     conversation_serializer = parse_json @conversation
     json_response "Updated messages to read for conversation successfully", true, {conversation: conversation_serializer}, :ok
   end
