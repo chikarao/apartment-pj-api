@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       namespace :users do
         post 'conversations/conversation_by_flat', to: 'conversations#conversation_by_flat'
         post 'conversations/conversations_by_user_and_flat', to: 'conversations#conversations_by_user_and_flat'
+        post 'conversations/conversations_by_user', to: 'conversations#conversations_by_user'
       end
 
       namespace :users do

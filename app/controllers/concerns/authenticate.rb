@@ -7,7 +7,7 @@ module Authenticate
 
   def authenticate_with_token
     return if current_user
-    json_response "Unauthorized", false, {}, :unauthorized
+    json_response "Unauthorized request", false, {}, :unauthorized
   end
 
   def correct_user user
