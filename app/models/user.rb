@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_flats, :through => :likes, :source => :flat
+  has_many :views, dependent: :destroy
 
 
 # auth token for sign up and saved in local storage on the front end; matched at sign in and auth required api requests

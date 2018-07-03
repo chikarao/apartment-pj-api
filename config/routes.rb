@@ -22,6 +22,10 @@ Rails.application.routes.draw do
         resources :places
       end
 
+      resources :flats do
+        resources :views
+      end
+
       # resources :users do
       #   resources :flats, only: [:index]
       # end
