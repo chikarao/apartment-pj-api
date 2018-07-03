@@ -39,7 +39,7 @@ class Api::V1::ConversationsController < ApplicationController
   def update
     # p "ConversationsController, update, here is @conversation" + @conversation.to_s
     @flat = Flat.find_by(id: @conversation.flat_id)
-    isOwner = @flat.user_id === @user.id
+    isOwner = (@flat.user_id == @user.id)
     p "ConversationsController, update, here is @conversation.user_id" + @conversation.user_id.to_s
     p "ConversationsController, update, here is isOwner" + isOwner.to_s
 
@@ -48,7 +48,7 @@ class Api::V1::ConversationsController < ApplicationController
     # p "ConversationsController, update, here is messages" + messages.to_s
     messages.each do |message|
       if isOwner
-        if !message.sent_by_user
+        if message.sent_by_user
           if message.read == false
             message.read = !message.read
             unless message.save
@@ -58,7 +58,7 @@ class Api::V1::ConversationsController < ApplicationController
           end # end of message read
         end # end of !message sent by user
       else # else of first if
-        if message.sent_by_user
+        if !message.sent_by_user
           if message.read == false
             message.read = !message.read
             unless message.save
