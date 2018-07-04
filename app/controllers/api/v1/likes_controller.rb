@@ -18,8 +18,10 @@ class Api::V1::LikesController < ApplicationController
     # like.flat_id = like_params[:flat_id]
     like.user_id = @user.id
     if like.save
+      flat = Flat.find_by(id: like.flat_id)
+      flat_serializer = parse_json flat
       like_serializer = parse_json like
-      json_response "Created like succesfully", true, {like: like_serializer}, :ok
+      json_response "Created like succesfully", true, {like: like_serializer, flat: flat_serializer}, :ok
     else
       json_response "Create like failed", false, {}, :unprocessable_entity
     end
@@ -35,7 +37,9 @@ class Api::V1::LikesController < ApplicationController
     p "likes controller, @like: " + @like.to_s
     if @user.id = current_user.id
       if @like.destroy
-        json_response "Deleted like succesfully", true, {like: @like}, :ok
+        flat = Flat.find_by(id: @like.flat_id)
+        flat_serializer = parse_json flat
+        json_response "Deleted like succesfully", true, {like: @like, flat: flat_serializer}, :ok
       else
         json_response "Delete like failed", false, {}, :unprocessable_entity
       end

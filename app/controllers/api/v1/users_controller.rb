@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+    before_action :valid_token, only: [:update]
 #   def create
 #     # Create the user from params
 #     @user = User.new(params[:user])
@@ -24,6 +25,16 @@ class Api::V1::UsersController < ApplicationController
       json_response "There is something wrong with the confirmation request", false, {}, :unprocessable_entity
       # redirect_to "localhost:8080/"
       return
+    end
+  end
+
+  def update
+    result = Cloudinary::Uploader.destroy(@user.image)
+    if @user.update user_params
+      user_serializer = parse_json @user
+      json_response "Updated user succesfully", true, {user: user_serializer, image_delete_result: result}, :ok
+    else
+      json_response "Update user image failed", false, {}, :unprocessable_entity
     end
   end
 
@@ -54,4 +65,20 @@ class Api::V1::UsersController < ApplicationController
       json_response "Missing Facebook access token", false, {}, :unprocessable_entity
     end
   end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:image)
+  end
+
+  def valid_token
+    @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+    if @user
+      return @user
+    else
+      json_response "Invalid token", false, {}, :failure
+    end
+  end
+
 end

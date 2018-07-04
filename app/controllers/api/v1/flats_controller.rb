@@ -7,20 +7,25 @@ class Api::V1::FlatsController < ApplicationController
   def index
     # this is for fetchFlats in front end
     if params[:east] && params[:west] && params[:north] && params[:south]
-      p params[:east].to_f
-      p params[:west].to_f
-      p params[:north].to_f
-      p params[:south].to_f
+      # p params[:east].to_f
+      # p params[:west].to_f
+      # p params[:north].to_f
+      # p params[:south].to_f
 
       @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
+
+      reviewsArray = get_reviews_for_flats(@flats)
       flats_serializer = parse_json @flats
-      json_response "Indexed flats within area successfully", true, {flats: flats_serializer}, :ok
+      review_serializer = parse_json reviewsArray
+      json_response "Indexed flats within area successfully", true, {flats: flats_serializer, reviews: review_serializer}, :ok
     else
       @flats = Flat.all
+      reviewsArray = get_reviews_for_flats(@flats)
       # does not need includes; flat_serializer has_many images and bookings will fetch both
       # @flats = Flat.all.includes(:images)
       flats_serializer = parse_json @flats
-      json_response "Indexed flats successfully", true, {flats: flats_serializer}, :ok
+      review_serializer = parse_json reviewsArray
+      json_response "Indexed flats successfully", true, {flats: flats_serializer, reviews: review_serializer}, :ok
     end
   end
 
@@ -158,5 +163,18 @@ class Api::V1::FlatsController < ApplicationController
     params.require(:amenity).permit(:basic, :auto_lock, :security_system, :wifi, :pocket_wifi, :wheelchair_accessible, :iron, :ac, :heater, :bath_essentials,
       :hot_water, :parking, :tv, :dvd_player, :sofa, :kitchen, :dining_table, :dish_washer, :washer, :dryer, :cooking_basics,
       :eating_utensils, :microwave, :refrigerator, :oven, :crib, :high_chair, :bath_tub, :washlet, :hairdryer, :fire_extinguisher, :lockbox)
+  end
+  # work around to get reviews for flats since cannot get reviews in serializer
+  def get_reviews_for_flats(flats)
+    reviewsArray = []
+    @flats.each do |flat|
+      reviews = Review.where(flat_id: flat.id)
+      reviews.each do |review|
+        if review
+        reviewsArray.push(review)
+        end
+      end
+    end
+    return reviewsArray
   end
 end

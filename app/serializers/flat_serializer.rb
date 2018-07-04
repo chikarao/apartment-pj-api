@@ -13,6 +13,7 @@ class FlatSerializer < ActiveModel::Serializer
   belongs_to :user
   has_one :amenity
   has_many :views
+  # has_many :reviews
   # has_many :conversations
   #
   # def average_rating_of_book

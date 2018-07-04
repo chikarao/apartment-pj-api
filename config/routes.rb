@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
       get "confirm_email/:confirm_token", to: "users#confirm_email"
       post "facebook", to: "users#facebook"
+      patch "update_user", to: "users#update"
 
       resources :flats do
         resources :images

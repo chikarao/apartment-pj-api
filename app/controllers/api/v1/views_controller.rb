@@ -16,8 +16,10 @@ class Api::V1::ViewsController < ApplicationController
     view = View.new view_params
     view.user_id = @user.id
     if view.save
-      view_serializer = parse_json view
-      json_response "Created view succesfully", true, {view: view_serializer}, :ok
+      flat = Flat.find_by(id: view.flat_id)
+      # view_serializer = parse_json view
+      flat_serializer = parse_json flat
+      json_response "Created view succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Create view failed", false, {}, :unprocessable_entity
     end
