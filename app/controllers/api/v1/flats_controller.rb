@@ -11,21 +11,27 @@ class Api::V1::FlatsController < ApplicationController
       # p params[:west].to_f
       # p params[:north].to_f
       # p params[:south].to_f
+      p !!!!!! params[:price_max].to_s
+      p !!!!!!! params[:price_min].to_s
 
-      @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
-
-      reviewsArray = get_reviews_for_flats(@flats)
-      flats_serializer = parse_json @flats
-      review_serializer = parse_json reviewsArray
-      json_response "Indexed flats within area successfully", true, {flats: flats_serializer, reviews: review_serializer}, :ok
+      @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND price_per_month > (?) AND price_per_month < (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f, params[:price_min].to_f, params[:price_max].to_f).includes(:images)
+      # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
+      unless @flats.empty?
+        reviewsArray = get_reviews_for_flats(@flats)
+        flats_serializer = parse_json @flats
+        review_serializer = parse_json reviewsArray
+        json_response "Indexed flats within area successfully", true, {flats: flats_serializer, reviews: review_serializer}, :ok
+      else
+        json_response "There were no flats with the search parameters", true, {flats: []}, :ok
+      end
     else
-      @flats = Flat.all
-      reviewsArray = get_reviews_for_flats(@flats)
+      @flats = []
+      # reviewsArray = get_reviews_for_flats(@flats)
       # does not need includes; flat_serializer has_many images and bookings will fetch both
       # @flats = Flat.all.includes(:images)
-      flats_serializer = parse_json @flats
-      review_serializer = parse_json reviewsArray
-      json_response "Indexed flats successfully", true, {flats: flats_serializer, reviews: review_serializer}, :ok
+      # flats_serializer = parse_json @flats
+      # review_serializer = parse_json reviewsArray
+      json_response "You did not provide the right parameters", true, {flats: []}, :ok
     end
   end
 
@@ -154,7 +160,8 @@ class Api::V1::FlatsController < ApplicationController
 
   def flat_params
     params.require(:flat).permit(:user_id, :lat, :lng, :address1, :address2, :city, :state, :region, :zip, :country, :area,
-    :price_per_day, :price_per_month, :guests, :sales_point, :description, :rooms, :beds, :king_or_queen_bed, :flat_type, :bath, :intro, :cancellation, :smoking)
+    :price_per_day, :price_per_month, :price_min, :price_max, :guests, :sales_point, :description, :rooms, :bedrooms_min, :bedrooms_max, :beds, :king_or_queen_bed, :flat_type, :bath, :intro, :cancellation, :smoking,
+    :size, :size_min, :size_max, :balcony_size, :station, :minutes_to_station, :minutes_to_station_min, :minutes_to_station_max, :station1, :minutes_to_station1, :floor, :deposit, :key_money, :year_built, :construction, :management_fees, :fees, :parking_available, :parking_included, :parking_price, :school_district, :school_district1, :circle_no_marker)
   end
 
   def amenity_params
@@ -162,7 +169,8 @@ class Api::V1::FlatsController < ApplicationController
     #:basic is there just to so amenity params do not boecome null and crash
     params.require(:amenity).permit(:basic, :auto_lock, :security_system, :wifi, :pocket_wifi, :wheelchair_accessible, :iron, :ac, :heater, :bath_essentials,
       :hot_water, :parking, :tv, :dvd_player, :sofa, :kitchen, :dining_table, :dish_washer, :washer, :dryer, :cooking_basics,
-      :eating_utensils, :microwave, :refrigerator, :oven, :crib, :high_chair, :bath_tub, :washlet, :hairdryer, :fire_extinguisher, :lockbox)
+      :eating_utensils, :microwave, :refrigerator, :oven, :crib, :high_chair, :bath_tub, :washlet, :hairdryer, :fire_extinguisher, :lockbox,
+      :elevator, :washer_dryer_area, :bath_toilet_separate, :shower_bath_separate, :front_desk, :top_floor, :corner_flat, :first_floor, :pets_allowed)
   end
   # work around to get reviews for flats since cannot get reviews in serializer
   def get_reviews_for_flats(flats)

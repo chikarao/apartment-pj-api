@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703081410) do
+ActiveRecord::Schema.define(version: 20180719062354) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 20180703081410) do
     t.datetime "updated_at", null: false
     t.boolean "basic", default: true
     t.boolean "wheelchair_accessible", default: false
+    t.boolean "elevator", default: false
+    t.boolean "washer_dryer_area", default: false
+    t.boolean "bath_toilet_separate", default: false
+    t.boolean "shower_bath_separate", default: false
+    t.boolean "front_desk", default: false
+    t.boolean "top_floor", default: false
+    t.boolean "corner_flat", default: false
+    t.boolean "first_floor", default: false
+    t.boolean "pets_allowed", default: false
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
   end
 
@@ -115,6 +124,25 @@ ActiveRecord::Schema.define(version: 20180703081410) do
     t.string "cancellation"
     t.boolean "smoking"
     t.integer "king_or_queen_bed", default: 0
+    t.float "size"
+    t.float "balcony_size"
+    t.string "station"
+    t.float "minutes_to_station"
+    t.string "station1"
+    t.float "minutes_to_station1"
+    t.integer "floor"
+    t.float "deposit", default: 0.0
+    t.float "key_money", default: 0.0
+    t.integer "year_built", default: 0
+    t.string "construction"
+    t.float "management_fees", default: 0.0
+    t.float "fees", default: 0.0
+    t.boolean "parking_available"
+    t.boolean "parking_included"
+    t.float "parking_price", default: 0.0
+    t.string "school_district"
+    t.string "school_district1"
+    t.boolean "circle_no_marker", default: false
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
 
