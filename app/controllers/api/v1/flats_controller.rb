@@ -11,10 +11,50 @@ class Api::V1::FlatsController < ApplicationController
       # p params[:west].to_f
       # p params[:north].to_f
       # p params[:south].to_f
-      p !!!!!! params[:price_max].to_s
-      p !!!!!!! params[:price_min].to_s
+      p "!!!!!! price max: " + params[:price_max].to_s
+      p "!!!!!!! price min:" + params[:price_min].to_s
+      p "!!!!!!! bedrooms_min:" + params[:bedrooms_min].to_s
+      p "!!!!!!! bedrooms_max:" + params[:bedrooms_max].to_s
+      p "!!!!!!! bedrooms_exact:" + params[:bedrooms_exact].to_s
 
-      @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND price_per_month > (?) AND price_per_month < (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f, params[:price_min].to_f, params[:price_max].to_f).includes(:images)
+      # Base conditions for search; string
+      conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
+                    price_per_month >= (?) AND price_per_month <= (?)'
+      # conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
+      #               price_per_month > (?) AND price_per_month < (?) AND
+      #               rooms > (?) AND rooms < (?)'
+      params_array = [conditions, params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+        params[:price_min].to_f,  params[:price_max].to_f]
+
+      if params[:bedrooms_exact]
+        conditions.concat(' AND rooms = (?)')
+        # params[:bedrooms_min].to_i, params[:bedrooms_max].to_i]
+        params_array.push(params[:bedrooms_exact].to_i)
+      else
+        conditions.concat(' AND rooms >= (?)')
+        conditions.concat(' AND rooms <= (?)')
+        # params_array = [conditions, params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+        #   params[:price_min].to_f,  params[:price_max].to_f]
+        params_array.push(params[:bedrooms_min].to_i)
+        params_array.push(params[:bedrooms_max].to_i)
+      end
+      p "!!!!!!! conditions:" + conditions.to_s
+      p "!!!!!!! params_array:" + params_array.to_s
+
+      # parameters_for_conditions = params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+      #                             params[:price_min].to_f,  params[:price_max].to_f,
+      #                             params[:bedrooms_min].to_i, params[:bedrooms_max].to_i, params[:bedrooms_exact].to_i
+
+      @flats = Flat.where(params_array).includes(:images)
+      # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
+      #                       price_per_month > (?) AND price_per_month < (?) AND
+      #                       rooms > (?) AND rooms < (?) AND rooms = (?)',
+      #                         params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+      #                         params[:price_min].to_f,  params[:price_max].to_f,
+      #                         params[:bedrooms_min].to_i, params[:bedrooms_max].to_i, params[:bedrooms_exact].to_i
+      #                         ).includes(:images)
+
+      # @flats.where("params[:bedrooms_exact].to_i = ?", params[:bedrooms_exact].to_i) unless params[:bedrooms_exact].to_i.nil?
       # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
       unless @flats.empty?
         reviewsArray = get_reviews_for_flats(@flats)
