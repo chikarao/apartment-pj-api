@@ -16,15 +16,23 @@ class Api::V1::FlatsController < ApplicationController
       p "!!!!!!! bedrooms_min:" + params[:bedrooms_min].to_s
       p "!!!!!!! bedrooms_max:" + params[:bedrooms_max].to_s
       p "!!!!!!! bedrooms_exact:" + params[:bedrooms_exact].to_s
+      p "!!!!!!! size_max:" + params[:size_min].to_s
+      p "!!!!!!! size_max:" + params[:size_max].to_s
+      p "!!!!!!! station_min:" + params[:station_min].to_s
+      p "!!!!!!! station_max:" + params[:station_max].to_s
 
       # Base conditions for search; string
       conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
-                    price_per_month >= (?) AND price_per_month <= (?)'
+                    price_per_month >= (?) AND price_per_month <= (?) AND
+                    size >= (?) AND size <= (?) AND
+                    minutes_to_station >= (?) AND minutes_to_station <= (?)'
       # conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
       #               price_per_month > (?) AND price_per_month < (?) AND
       #               rooms > (?) AND rooms < (?)'
       params_array = [conditions, params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
-        params[:price_min].to_f,  params[:price_max].to_f]
+        params[:price_min].to_f,  params[:price_max].to_f,
+        params[:size_min].to_f,  params[:size_max].to_f,
+        params[:station_min].to_f,  params[:station_max].to_f]
 
       if params[:bedrooms_exact]
         conditions.concat(' AND rooms = (?)')
