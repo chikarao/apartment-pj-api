@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       resources :bookings do
       end
 
+      post 'update_conversation', to: 'conversations#update_conversation'
       resources :conversations do
         resources :messages
       end

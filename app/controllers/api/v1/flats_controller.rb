@@ -51,9 +51,9 @@ class Api::V1::FlatsController < ApplicationController
       amenity_columns.each do |a|
         params_string_value = params[a].to_s
         # params_string_value = params["#{a}"].to_s
-        p "!!!!!!! in each params params_string_value:" + params_string_value.to_s
+        # p "!!!!!!! in each params params_string_value:" + params_string_value.to_s
         if params_string_value == "true"
-          p "!!!!!!! in each params amenity:" + a.to_s
+          # p "!!!!!!! in each params amenity:" + a.to_s
           base_conditions.concat(" AND #{a} = (?)")
           params_value = true
           params_array.push(params_value)

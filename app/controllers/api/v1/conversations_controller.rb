@@ -35,6 +35,26 @@ class Api::V1::ConversationsController < ApplicationController
   def edit
   end
 
+  def update_conversation
+    #!!! Need to send array of ids as paramenter not conversation paramenters
+    @conversations = Conversation.where id: params[:conversation_id_array]
+
+    # p "!!!! conversation_update_params: " + conversation_update_params.to_s
+    # p "!!!! @conversations: " + @conversations.to_s
+    @conversations.each do |c|
+      p "!!!! c: " + c.to_s
+      if c.update(conversation_update_params)
+      else
+        json_response "Update conversation failed", false, {}, :unprocessable_entity
+      end
+    end
+    conversation_serializer = parse_json @conversations
+    json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+
+  end
+
+
+
   # user update conversation to mark messages read when user reads messages of conversation
   def update
     # p "ConversationsController, update, here is @conversation" + @conversation.to_s
@@ -93,6 +113,7 @@ class Api::V1::ConversationsController < ApplicationController
 
   def load_conversation
     # front end gets params and sends it in fetchFlatFromParams
+    # p "!!!!!!params[:id]: " + params[:conversation_id].to_s
     @conversation = Conversation.find_by id: params[:id]
     unless @conversation.present?
       json_response "Cannot find conversation", false, {}, :not_found
@@ -101,6 +122,10 @@ class Api::V1::ConversationsController < ApplicationController
 
   def conversation_params
     params.require(:conversation).permit(:flat_id)
+  end
+
+  def conversation_update_params
+    params.require(:conversation).permit(:deleted, :starred, :trashed, :flagged, :archived, :important, :office)
   end
 
   # def load_flat

@@ -36,7 +36,7 @@ class Api::V1::Images::ImagesController < ApplicationController
   def destroy
     # flat_image-1526697489-0
     image_to_destroy = image_params[:publicid]
-    p 'in images/images_controller, upload cloudinary upload, flat_id: ' +   image_to_destroy
+    p 'in images/images_controller, upload cloudinary upload, flat_id: ' + image_to_destroy
     # cloudinary.uploader.destroy(image, function(result) { console.log(result) });
     # p 'You are in destory images'
     # response = {data: 'hello'}

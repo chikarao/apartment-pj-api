@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719062354) do
+ActiveRecord::Schema.define(version: 20180725052546) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -93,6 +93,13 @@ ActiveRecord::Schema.define(version: 20180719062354) do
     t.integer "booking_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "trashed", default: false
+    t.boolean "deleted", default: false
+    t.boolean "archived", default: false
+    t.boolean "flagged", default: false
+    t.boolean "starred", default: false
+    t.boolean "important", default: false
+    t.boolean "office", default: false
     t.index ["flat_id"], name: "index_conversations_on_flat_id"
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end
