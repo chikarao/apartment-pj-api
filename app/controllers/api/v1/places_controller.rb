@@ -72,7 +72,7 @@ class Api::V1::PlacesController < ApplicationController
   end
 
   def place_params
-    params.require(:place).permit(:flat_id, :placeid, :place_name, :lat, :lng)
+    params.require(:place).permit(:flat_id, :placeid, :place_name, :lat, :lng, :category)
   end
 
   def load_place

@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/stripe/stripe-ruby
+  revision: 24143ab7d7a65f5b8e58f55c64c14200ead50720
+  specs:
+    stripe (3.21.0)
+      faraday (~> 0.10)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -221,6 +228,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
+  stripe!
   tzinfo-data
 
 BUNDLED WITH

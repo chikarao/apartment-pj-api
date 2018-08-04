@@ -86,6 +86,11 @@ Rails.application.routes.draw do
         post 'likes/likes_by_flat', to: 'likes#likes_by_flat'
       end
 
+      post 'new_subscription', to: 'stripe#new_subscription'
+      post 'retrieve_customer', to: 'stripe#retrieve_customer'
+      post 'update_card_info', to: 'stripe#update_card_info'
+      post 'new_customer', to: 'stripe#new_customer'
+
       # resources :books, only: [:index, :show] do
       #   #do since book has many reviews
       #   resources :reviews, only: [:index, :show, :create, :update, :destroy]

@@ -48,6 +48,7 @@ class Api::V1::ConversationsController < ApplicationController
         json_response "Update conversation failed", false, {}, :unprocessable_entity
       end
     end
+    # @conversations = Conversation.all
     conversation_serializer = parse_json @conversations
     json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
 
