@@ -4,7 +4,7 @@
 class Api::V1::StripeController < ApplicationController
   # protect_from_forgery with: :null_session
 
-  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :new_subscription ]
+  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :update_customer, :new_subscription ]
 
   def retrieve_customer
     # client = params[:client]
@@ -29,13 +29,15 @@ class Api::V1::StripeController < ApplicationController
     # p "in update_card_info, card_id: " + card_id.to_s
     # p "in update_card_info, exp_year: " + exp_year.to_s
     # p "in update_card_info, exp_month: " + exp_month.to_s
-    # get_customer = Stripe::Customer.retrieve(client)
-    # customer id for test@test.com
-    # customer = Stripe::Customer.retrieve("cus_DM3bso7701GR57")
+
     customer = Stripe::Customer.retrieve(customer_id)
     card = customer.sources.retrieve(card_id)
-    card.exp_year = exp_year
-    card.exp_month = exp_month
+    if exp_year
+      card.exp_year = exp_year
+    end
+    if exp_month
+      card.exp_month = exp_month
+    end
     card.save
     customer.save
 
@@ -44,16 +46,9 @@ class Api::V1::StripeController < ApplicationController
 
   def delete_card
     customer_id = @user.stripe_customer_id
-    # token = params[:stripeToken]
-    # client needs to be the customer id
-    # client = params[:client]
+
     card_id = params[:cardId]
-    # p "in update_card_info, card_id: " + card_id.to_s
-    # p "in update_card_info, exp_year: " + exp_year.to_s
-    # p "in update_card_info, exp_month: " + exp_month.to_s
-    # get_customer = Stripe::Customer.retrieve(client)
-    # customer id for test@test.com
-    # customer = Stripe::Customer.retrieve("cus_DM3bso7701GR57")
+
     customer = Stripe::Customer.retrieve(customer_id)
     card = customer.sources.retrieve(card_id).delete
     customer.save
@@ -63,22 +58,38 @@ class Api::V1::StripeController < ApplicationController
 
   def add_card
     customer_id = @user.stripe_customer_id
-    # token = params[:stripeToken]
-    # client needs to be the customer id
-    # client = params[:client]
+
     token = params[:stripeToken]
-    # card_id = params[:cardId]
-    # p "in update_card_info, card_id: " + card_id.to_s
-    # p "in update_card_info, exp_year: " + exp_year.to_s
-    # p "in update_card_info, exp_month: " + exp_month.to_s
-    # get_customer = Stripe::Customer.retrieve(client)
-    # customer id for test@test.com
-    # customer = Stripe::Customer.retrieve("cus_DM3bso7701GR57")
+
     customer = Stripe::Customer.retrieve(customer_id)
     card = customer.sources.create(source: token)
     customer.save
 
     json_response "Created card for customer successfully", true, {customer: customer, user: @user}, :ok
+  end
+
+  def update_customer
+    customer_id = @user.stripe_customer_id
+    card_id = params[:cardId]
+    # p "in update_card_info, card_id: " + card_id.to_s
+    # p "in update_card_info, exp_year: " + exp_year.to_s
+
+    customer = Stripe::Customer.retrieve(customer_id)
+    p "in update_card_info, card_id: " + card_id.to_s
+    p "in update_card_info, customer: " + customer.to_s
+
+    if card_id
+      customer.default_source = card_id
+      if customer.save
+        json_response "Updated customer successfully", true, {customer: customer, user: @user}, :ok
+      else
+        json_response "Create customer failed", false, {}, :unprocessable_entity
+      end
+    else
+      json_response "Create customer failed", false, {}, :unprocessable_entity
+    end
+
+
   end
 
   def new_customer
