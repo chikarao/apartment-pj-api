@@ -19,24 +19,32 @@ class Api::V1::StripeController < ApplicationController
   end
 
   def update_card_info
+    # will not take currenty
+    update_columns_array = [:exp_month, :exp_year, :name, :address_line1, :address_line2, :address_city, :address_state, :address_zip, :address_country]
+
     customer_id = @user.stripe_customer_id
     # token = params[:stripeToken]
     # client needs to be the customer id
     # client = params[:client]
     card_id = params[:cardId]
-    exp_year = params[:expYear]
-    exp_month = params[:expMonth]
-    # p "in update_card_info, card_id: " + card_id.to_s
+    # exp_year = params[:exp_year]
+    # exp_month = params[:exp_month]
+    p "in update_card_info, card_id: " + card_id.to_s
     # p "in update_card_info, exp_year: " + exp_year.to_s
     # p "in update_card_info, exp_month: " + exp_month.to_s
 
     customer = Stripe::Customer.retrieve(customer_id)
     card = customer.sources.retrieve(card_id)
-    if exp_year
-      card.exp_year = exp_year
-    end
-    if exp_month
-      card.exp_month = exp_month
+    # if exp_year
+    #   card.exp_year = exp_year
+    # end
+    # if exp_month
+    #   card.exp_month = exp_month
+    # end
+    update_columns_array.each do |column|
+      if params[column]
+        card[column] = params[column]
+      end
     end
     card.save
     customer.save
