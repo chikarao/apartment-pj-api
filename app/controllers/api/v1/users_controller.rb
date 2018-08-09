@@ -29,10 +29,33 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    result = Cloudinary::Uploader.destroy(@user.image)
+    # destroy image in cloudinary only if profile picture is not currently the designated blank profile picture
+    # !!!!! DO NOT delete blank_profile_picture_4 (may be updated) from cloudinary as it used for any profiles without a picture uploaded by the user
+    # if params image is not the blank pic and user image is not blank destroy pic
+    # SO the case of removing own pic for another own pic
+    if user_params[:image] != "blank_profile_picture_4"
+      if @user.image != "blank_profile_picture_4"
+        result = Cloudinary::Uploader.destroy(@user.image)
+        p "in if user_params[:image], does not equals blank_profile_picture_3: " + user_params[:image].to_s
+      end
+    end
+    # if params image IS the blank pic and current user image is not the blank picture
+    # SO the case of removing blank pic for own pic
+    if user_params[:image] == "blank_profile_picture_4"
+      if @user.image != "blank_profile_picture_4"
+        result = Cloudinary::Uploader.destroy(@user.image)
+        p "in second if, does not equals blank_profile_picture_3: " + user_params[:image].to_s
+      end
+    end
+
+    # p "user_params[:image]: " + user_params[:image].to_s
+    # if result
+    # p "cloudiary result: " + result.to_s
+    # end
+
     if @user.update user_params
       user_serializer = parse_json @user
-      json_response "Updated user succesfully", true, {user: user_serializer, image_delete_result: result}, :ok
+      json_response "Updated user image succesfully", true, {user: user_serializer}, :ok
     else
       json_response "Update user image failed", false, {}, :unprocessable_entity
     end

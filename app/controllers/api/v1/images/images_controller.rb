@@ -9,26 +9,26 @@ class Api::V1::Images::ImagesController < ApplicationController
     # data = image_params
     # p 'in images/images_controller, upload, data' + data.to_s
     unless params[:file].blank?
-        uploaded_io = params[:file]
-        uploaded_flat_id = params[:flatId]
-        path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
-        file_array = []
-        File.open(path, 'wb') do |file|
-          file.write(uploaded_io.read)
-        end
+      uploaded_io = params[:file]
+      uploaded_flat_id = params[:flatId]
+      path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+      file_array = []
+      File.open(path, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
 
-        image = File.open(path)
-        result = Cloudinary::Uploader.upload(image, options = {})
+      image = File.open(path)
+      result = Cloudinary::Uploader.upload(image, options = {})
 
-        p 'in images/images_controller, upload, image: ' + image.to_s
-        p 'in images/images_controller, upload cloudinary upload, result: ' + result['public_id']
-        p 'in images/images_controller, upload cloudinary upload, flat_id: ' +   uploaded_flat_id
-        if result
-          json_response "Uploaded image successfully", true, {response: result}, :ok
-          File.delete(path)
-        else
-          json_response "Uploadd image failed", false, {}, :unprocessable_entity
-        end
+      # p 'in images/images_controller, upload, image: ' + image.to_s
+      # p 'in images/images_controller, upload cloudinary upload, result: ' + result['public_id']
+      # p 'in images/images_controller, upload cloudinary upload, flat_id: ' +   uploaded_flat_id
+      if result
+        json_response "Uploaded image successfully", true, {response: result}, :ok
+        File.delete(path)
+      else
+        json_response "Uploadd image failed", false, {}, :unprocessable_entity
+      end
    end
    # end of unless
   end
