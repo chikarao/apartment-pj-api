@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       post 'delete_card', to: 'stripe#delete_card'
       post 'add_card', to: 'stripe#add_card'
       post 'update_customer', to: 'stripe#update_customer'
+      post 'make_payment', to: 'stripe#make_payment'
 
       # resources :books, only: [:index, :show] do
       #   #do since book has many reviews

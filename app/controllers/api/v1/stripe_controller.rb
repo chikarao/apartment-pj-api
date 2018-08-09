@@ -4,7 +4,7 @@
 class Api::V1::StripeController < ApplicationController
   # protect_from_forgery with: :null_session
 
-  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :update_customer, :new_subscription ]
+  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :update_customer, :make_payment,  :new_subscription ]
 
   def retrieve_customer
     # client = params[:client]
@@ -123,6 +123,33 @@ class Api::V1::StripeController < ApplicationController
       json_response "Created swipe new customer successfully", true, {customer: customer, user: user_serializer}, :ok
     else
       json_response "Create customer failed", false, {}, :unprocessable_entity
+    end
+  end
+
+  def make_payment
+    customer_id = @user.stripe_customer_id
+    receipt_email = @user.email
+
+    amount = params[:amount]
+    currency = params[:currency]
+    description = params[:description]
+
+    customer = Stripe::Customer.retrieve(customer_id)
+    card_id = customer.default_source
+
+    charge = Stripe::Charge.create(
+      amount: amount,
+      currency: currency,
+      source: card_id,
+      customer: customer_id,
+      description: description,
+      receipt_email: receipt_email
+    )
+
+    if charge.paid
+      json_response "Processed charge for customer successfully", true, {charge: charge}, :ok
+    else
+      json_response "Payment process failed", false, {}, :unprocessable_entity
     end
   end
 
