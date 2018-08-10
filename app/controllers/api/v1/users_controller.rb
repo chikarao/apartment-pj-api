@@ -33,6 +33,7 @@ class Api::V1::UsersController < ApplicationController
     # !!!!! DO NOT delete blank_profile_picture_4 (may be updated) from cloudinary as it used for any profiles without a picture uploaded by the user
     # if params image is not the blank pic and user image is not blank destroy pic
     # SO the case of removing own pic for another own pic
+    # MAKE SURE TO CHANGE blank_profile_picture_4 in registrations controller
     if user_params[:image] != "blank_profile_picture_4"
       if @user.image != "blank_profile_picture_4"
         result = Cloudinary::Uploader.destroy(@user.image)
@@ -40,7 +41,7 @@ class Api::V1::UsersController < ApplicationController
       end
     end
     # if params image IS the blank pic and current user image is not the blank picture
-    # SO the case of removing blank pic for own pic
+    # SO the case of removing own pic for blank pic
     if user_params[:image] == "blank_profile_picture_4"
       if @user.image != "blank_profile_picture_4"
         result = Cloudinary::Uploader.destroy(@user.image)
@@ -48,7 +49,7 @@ class Api::V1::UsersController < ApplicationController
       end
     end
 
-    # p "user_params[:image]: " + user_params[:image].to_s
+    p "user_params[:image]: " + user_params[:image].to_s
     # if result
     # p "cloudiary result: " + result.to_s
     # end

@@ -5,7 +5,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   #sign up
   def create
     user = User.new(user_params)
-    user.image = "blank_profile_picture"
+    user.image = "blank_profile_picture_4"
     # p "here is user" + user.to_s
     if user.save
       profile = Profile.new
