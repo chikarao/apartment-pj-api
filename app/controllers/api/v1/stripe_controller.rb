@@ -96,8 +96,14 @@ class Api::V1::StripeController < ApplicationController
     else
       json_response "Create customer failed", false, {}, :unprocessable_entity
     end
+  end
 
+  def get_user_credentials
+    secret_key = ENV["STRIPE_SECRET_KEY"]
+    p "in get_user_credentials: " + secret_key
 
+    client_id = "hereistheclientid11111"
+    json_response "Obtained user credentials successfully", true, {client_id: client_id}, :ok
   end
 
   def new_customer
