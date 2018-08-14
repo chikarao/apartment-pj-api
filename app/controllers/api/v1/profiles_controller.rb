@@ -24,7 +24,7 @@ class Api::V1::ProfilesController < ApplicationController
     profile = Profile.new profile_params
     # profile.flat_id = profile_params[:flat_id]
     profile.user_id = @user.id
-    profile.image = "blank_profile_picture"
+    profile.image = "blank_profile_picture_4"
     # profile.created_at = DateTime.now
     # only if have parent
     # profile.book_id = params[:book_id]

@@ -38,6 +38,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     #   data: {}
     # }, status: :bad_request
   end
+  
   def does_user_already_exist
     user = User.find_by email: user_params[:email].downcase
     p "registration controller user_already_exists" + user.to_s

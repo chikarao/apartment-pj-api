@@ -6,21 +6,22 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable
-  #for devise token auth
+  # for devise token auth
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # has_many :reviews, dependent: :delete_all
 
   # !!!!!!!!!USE dependent destroy when want to run these callbacks dependent destroy===callbacks
   has_one :profile, dependent: :destroy
-
   has_many :flats, dependent: :destroy
   has_many :bookings, dependent: :destroy
   has_many :rented_flats, through: :bookings, source: :flat
   has_many :conversations, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :liked_flats, :through => :likes, :source => :flat
+  has_many :liked_flats, through: :likes, :source => :flat
+  has_many :viewed_flats, through: :views, :source => :flat
   has_many :views, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
 
 # auth token for sign up and saved in local storage on the front end; matched at sign in and auth required api requests

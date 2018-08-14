@@ -26,6 +26,10 @@ class Api::V1::FlatsController < ApplicationController
                     price_per_month >= (?) AND price_per_month <= (?) AND
                     size >= (?) AND size <= (?) AND
                     minutes_to_station >= (?) AND minutes_to_station <= (?)'
+      # base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
+      #               price_per_month >= (?) AND price_per_month <= (?) AND
+      #               size >= (?) AND size <= (?) AND
+      #               minutes_to_station >= (?) AND minutes_to_station <= (?)'
       # conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
       #               price_per_month > (?) AND price_per_month < (?) AND
       #               rooms > (?) AND rooms < (?)'
@@ -60,9 +64,9 @@ class Api::V1::FlatsController < ApplicationController
         end
       end
 
-      # p "!!!!!!! params base_conditions:" + base_conditions.to_s
-      # p "!!!!!!! params_array:" + params_array.to_s
-      # p "!!!!!!! amenity column_names: " + Amenity.column_names.to_s
+      p "!!!!!!! params base_conditions:" + base_conditions.to_s
+      p "!!!!!!! params_array:" + params_array.to_s
+      p "!!!!!!! amenity column_names: " + Amenity.column_names.to_s
 
       # parameters_for_conditions = params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
       #                             params[:price_min].to_f,  params[:price_max].to_f,

@@ -76,7 +76,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
       conversations_serializer = parse_json @conversations
       json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer}, :ok
     else
-      json_response "Cannot find conversation for user", false, {}, :not_found
+      json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
     end
     # @flat = Flat.order(created_at: :desc)
     # @flat = policy_scope(Flat).order(created_at: :desc)

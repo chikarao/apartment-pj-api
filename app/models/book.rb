@@ -1,3 +1,3 @@
 class Book < ApplicationRecord
-  has_many :reviews, dependent: :delete_all
+  has_many :reviews, dependent: :destroy
 end

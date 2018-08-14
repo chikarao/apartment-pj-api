@@ -1,19 +1,6 @@
 class Api::V1::UsersController < ApplicationController
     before_action :valid_token, only: [:update]
-#   def create
-#     # Create the user from params
-#     @user = User.new(params[:user])
-#     if @user.save
-#       # Deliver the signup email
-#       UserNotifier.send_signup_email(@user).deliver
-#       # redirect_to(@user, :notice => 'User created')
-#       json_response "Logged in to Facebook successfully", true, {user: user}, :ok
-#     else
-#       # render :action => 'new'
-#       json_response "Unable to send signup email", false, {}, :unprocessable_entity
-#     end
-#   end
-# end
+
   def confirm_email
     @user = User.find_by_confirm_token(params[:confirm_token])
     if @user
@@ -64,23 +51,41 @@ class Api::V1::UsersController < ApplicationController
 
   def facebook
     if params[:facebook_access_token]
-      graph = Koala::Facebook::API.new params[:facebook_access_token]
+      digest = OpenSSL::Digest.new('sha1')
+      key = ENV["FB_SECRET"]
+      data = params[:facebook_access_token]
+      hmac = OpenSSL::HMAC.hexdigest(digest, key, data)
+      # hmac = OpenSSL::HMAC.hexdigest("SHA256", key, data)
+      # hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), key, data)
+      graph = Koala::Facebook::API.new(params[:facebook_access_token])
+      # p "graph" + graph.to_s
       user_data = graph.get_object("me?fields=name, email, id, picture")
-
+      # p "user_data" + user_data.to_s
       user = User.find_by email: user_data["email"]
+
       if user
         user.generate_new_authentication_token
-        json_response "User information", true, {user: user}, :ok
+        json_response "Logged in through Facebook successfully -- User information", true, {user: user}, :ok
       else
         user = User.new(email: user_data["email"],
                         uid: user_data["id"],
                         provider: "facebook",
-                        image: user_data["picture"]["data"]["url"],
+                        # image: user_data["picture"]["data"]["url"],
+                        image: 'blank_profile_picture_4',
+                        email_confirmed: true,
                         password: Devise.friendly_token[0,20])
 
         user.authentication_token = User.generate_unique_secure_token
+
         if user.save
-          json_response "Logged in to Facebook successfully", true, {user: user}, :ok
+          profile = Profile.new
+          profile.user_id = user.id
+          if profile.save
+          # UserNotifier.send_signup_email(user).deliver
+          # UserNotifier.send_registration_confirmation_email(user).deliver
+          user_serializer = parse_json user
+          json_response "Created new user and logged in through Facebook successfully", true, {user: user}, :ok
+          end
         else
           json_response user.errors, false, {}, :unprocessable_entity
         end
