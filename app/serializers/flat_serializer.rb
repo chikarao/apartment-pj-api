@@ -16,6 +16,7 @@ class FlatSerializer < ActiveModel::Serializer
   has_one :amenity
   has_many :views
   has_many :places
+  # has_many :conversations
   # has_many :reviews
   # has_many :conversations
   #

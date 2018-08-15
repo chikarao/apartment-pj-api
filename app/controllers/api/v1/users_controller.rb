@@ -65,7 +65,8 @@ class Api::V1::UsersController < ApplicationController
 
       if user
         user.generate_new_authentication_token
-        json_response "Logged in through Facebook successfully -- User information", true, {user: user}, :ok
+        existing_user = true
+        json_response "Logged in through Facebook successfully -- User information", true, {user: user, existing_user: existing_user}, :ok
       else
         user = User.new(email: user_data["email"],
                         uid: user_data["id"],
@@ -76,6 +77,7 @@ class Api::V1::UsersController < ApplicationController
                         password: Devise.friendly_token[0,20])
 
         user.authentication_token = User.generate_unique_secure_token
+        # user[:existing_user] = false
 
         if user.save
           profile = Profile.new
@@ -83,8 +85,8 @@ class Api::V1::UsersController < ApplicationController
           if profile.save
           # UserNotifier.send_signup_email(user).deliver
           # UserNotifier.send_registration_confirmation_email(user).deliver
-          user_serializer = parse_json user
-          json_response "Created new user and logged in through Facebook successfully", true, {user: user}, :ok
+            user_serializer = parse_json user
+            json_response "Created new user and logged in through Facebook successfully", true, {user: user, existing_user: existing_user}, :ok
           end
         else
           json_response user.errors, false, {}, :unprocessable_entity
