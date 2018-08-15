@@ -38,13 +38,18 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     #   data: {}
     # }, status: :bad_request
   end
-  
+
   def does_user_already_exist
     user = User.find_by email: user_params[:email].downcase
     p "registration controller user_already_exists" + user.to_s
-    if user
-      json_response "That user is already signed up. Please sign in.", false, {}, :bad_request
+    if user && user.provider != "facebook"
+      json_response "That user has already signed up. Please sign in.", false, {}, :bad_request
     end
+
+    if user.provider == "facebook"
+      json_response "That user has already signed up through #{user.provider}. Please sign in.", false, {}, :bad_request
+    end
+
   end
     #same code above just refactored the below code
     #json_response defined in app/controlers/concerns/response.rb and included in application_controller.rb

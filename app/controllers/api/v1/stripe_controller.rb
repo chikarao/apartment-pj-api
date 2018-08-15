@@ -1,10 +1,14 @@
 # REFERENCE: https://qiita.com/maecho/items/8cb3f9157940286f5656
 # app/controllers/stripe_controller.rb
 # NEED to save customer id in user table
+require 'uri'
+require 'net/http'
+require 'json'
+
 class Api::V1::StripeController < ApplicationController
   # protect_from_forgery with: :null_session
 
-  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :update_customer, :make_payment,  :new_subscription ]
+  before_action :valid_token, only: [:new_customer, :retrieve_customer, :update_card_info, :delete_card, :add_card, :update_customer, :make_payment, :new_subscription, :get_user_credentials ]
 
   def retrieve_customer
     # client = params[:client]
@@ -99,11 +103,45 @@ class Api::V1::StripeController < ApplicationController
   end
 
   def get_user_credentials
+    # reference: https://stripe.com/docs/connect/standard-accounts
     secret_key = ENV["STRIPE_SECRET_KEY"]
-    p "in get_user_credentials: " + secret_key
+    authorization_code = params[:code]
+    grant_type = params[:grant_type]
 
-    client_id = "hereistheclientid11111"
-    json_response "Obtained user credentials successfully", true, {client_id: client_id}, :ok
+    # p "in get_user_credentials: " + secret_key
+    # p "params[:code]: " + params[:code].to_s
+    # p "params[:grant_type]: " + params[:grant_type].to_s
+    # p "grant_type: " + grant_type.to_s
+    # p "authorization_code: " + authorization_code.to_s
+    # p "User.column_names: " + User.column_names.to_s
+
+    # url = URI("https://jsonplaceholder.typicode.com/todos/1")
+    url = URI.parse("https://jsonplaceholder.typicode.com/todos/1")
+    # url = URI.parse(  "https://connect.stripe.com/oauth/token/client_secret=#{secret_key}&code=#{authorization_code}&grant_type=#{grant_type}")
+
+    response = Net::HTTP.get(url)
+
+    parsedResponse = JSON.parse(response)
+
+    puts "parsedResponse" + parsedResponse.to_s
+
+    client_id = parsedResponse["title"]
+    # client_id = parsedResponse["code"]
+    # if parsedResponse.error
+      # json_response "Get user credentials failed. There was an error in the response from Stripe", false, {error: parsedResponse.error}, :unprocessable_entity
+    # else
+      if client_id
+        #change this to = client_id in production
+        @user.swipe_customer_id = nil
+        if @user.save
+          json_response "Obtained user credentials successfully", true, {client_id: client_id}, :ok
+        else
+          json_response "Could not save client_id to user", false, {}, :unprocessable_entity
+        end
+      else
+        json_response "Could not get client_id", false, {}, :unprocessable_entity
+      end
+    # end
   end
 
   def new_customer

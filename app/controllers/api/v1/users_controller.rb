@@ -57,6 +57,7 @@ class Api::V1::UsersController < ApplicationController
       hmac = OpenSSL::HMAC.hexdigest(digest, key, data)
       # hmac = OpenSSL::HMAC.hexdigest("SHA256", key, data)
       # hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), key, data)
+      # graph = Koala::Facebook::API.new(params[:facebook_access_token], hmac)
       graph = Koala::Facebook::API.new(params[:facebook_access_token])
       # p "graph" + graph.to_s
       user_data = graph.get_object("me?fields=name, email, id, picture")

@@ -30,16 +30,24 @@ class Api::V1::SessionsController < Devise::SessionsController
   end
 
   private
+
   def sign_in_params
     params.require(:sign_in).permit(:email, :password)
   end
 
+  # check if user exists
   def load_user
     @user = User.find_for_database_authentication(email: sign_in_params[:email])
-    if @user
+    # check if user sign up through facebook; if not return @user for
+    if @user && @user.provider != "facebook"
       return @user
     else
-      json_response "Cannot find user",  false, {}, :failure
+      # if user signed up through facebook, send error message to sigin in 
+      if @user.provider == "facebook"
+        json_response "User has signed up through #{@user.provider}. Please sign sign in using the Facebook button",  false, {}, :failure
+      else
+        json_response "Cannot find user",  false, {}, :failure
+      end
     end
   end
 
