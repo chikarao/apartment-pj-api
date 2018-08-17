@@ -144,6 +144,24 @@ class Api::V1::StripeController < ApplicationController
     # end
   end
 
+  def deauthorize_user
+    # NOT YET IMPLEMENTED -- end point for deliking Connect user by platform
+    # set up webhook for when user disconnets
+    # reference: https://stripe.com/docs/connect/standard-accounts
+    acct = Stripe::Account.retrieve("acct_bLHEFBkoSAyo3S")
+    acct.deauthorize('ca_DOGu1VPuiD2Yrrtsg8VxLDZjkxD7w9bZ')
+
+    # Using rest-client: http://www.rubydoc.info/github/rest-client/rest-client
+    RestClient.post(
+      'https://connect.stripe.com/oauth/deauthorize',
+      {
+        client_id: 'ca_DOGu1VPuiD2Yrrtsg8VxLDZjkxD7w9bZ',
+        stripe_user_id: 'acct_yPZsiT2damUEJy',
+      },
+      {Authorization: 'Bearer sk_test_5100GZm3ytCc8MutFrWFGYMf'}
+    )
+  end
+
   def new_customer
     token = params[:stripeToken]
     # params client is email string

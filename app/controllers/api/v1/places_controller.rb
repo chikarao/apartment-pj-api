@@ -30,9 +30,11 @@ class Api::V1::PlacesController < ApplicationController
     # place.flat_id = params[:id]
     if place.save
       places = Place.where(flat_id: params[:flat_id])
+      flat = Flat.find_by(id: params[:flat_id])
       p "places controller, places: " + places.to_s
       places_serializer = parse_json places
-      json_response "Created place succesfully; Sending updated places", true, {places: places_serializer}, :ok
+      flat_serializer = parse_json flat
+      json_response "Created place succesfully; Sending updated places", true, {places: places_serializer, flat: flat_serializer}, :ok
     else
       json_response "Create place failed", false, {}, :unprocessable_entity
     end
@@ -51,8 +53,10 @@ class Api::V1::PlacesController < ApplicationController
     if @user.id = current_user.id
       if @place.destroy
         places = Place.where(flat_id: params[:flat_id])
+        flat = Flat.find_by(id: params[:flat_id])
         places_serializer = parse_json places
-        json_response "Deleted place succesfully, Sending updated places", true, {places: places_serializer}, :ok
+        flat_serializer = parse_json flat
+        json_response "Deleted place succesfully, Sending updated places", true, {places: places_serializer, flat: flat_serializer}, :ok
       else
         json_response "Delete place failed", false, {}, :unprocessable_entity
       end
