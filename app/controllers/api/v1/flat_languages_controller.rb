@@ -18,8 +18,10 @@ class Api::V1::FlatLanguagesController < ApplicationController
       flat_language = FlatLanguage.new flat_language_params
       if flat_language.save
         p 'flat_language saved' + flat_language.to_s
+        flat = Flat.find_by(id: flat_language_params[:flat_id])
+        flat_serializer = parse_json flat
         flat_language_serializer = parse_json flat_language
-        json_response "Created flat_language succesfully", true, {flat_language: flat_language_serializer}, :ok
+        json_response "Created flat_language succesfully", true, {flat_language: flat_language_serializer, flat: flat_serializer }, :ok
       else
         json_response "Create flat_language failed", false, {}, :unprocessable_entity
       end
