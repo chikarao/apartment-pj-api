@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180804094016) do
+ActiveRecord::Schema.define(version: 20180823032631) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -104,6 +104,32 @@ ActiveRecord::Schema.define(version: 20180804094016) do
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end
 
+  create_table "flat_languages", force: :cascade do |t|
+    t.string "code"
+    t.integer "flat_id"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "region"
+    t.string "country"
+    t.string "area"
+    t.string "sales_point"
+    t.string "description"
+    t.string "flat_type"
+    t.text "intro"
+    t.string "cancellation"
+    t.string "construction"
+    t.string "school_district"
+    t.string "school_district1"
+    t.string "station"
+    t.string "station1"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_flat_languages_on_flat_id"
+  end
+
   create_table "flats", force: :cascade do |t|
     t.integer "user_id"
     t.float "lat"
@@ -150,6 +176,7 @@ ActiveRecord::Schema.define(version: 20180804094016) do
     t.string "school_district"
     t.string "school_district1"
     t.boolean "circle_no_marker", default: false
+    t.string "language_code", default: "en"
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
 

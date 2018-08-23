@@ -27,6 +27,12 @@ Rails.application.routes.draw do
         resources :views
       end
 
+      resources :flats do
+        resources :flat_languages
+      end
+
+
+
       # resources :users do
       #   resources :flats, only: [:index]
       # end

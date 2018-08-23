@@ -3,7 +3,7 @@ class FlatSerializer < ActiveModel::Serializer
   :price_per_day, :price_per_month, :guests, :sales_point, :description,
   :rooms, :beds, :king_or_queen_bed,:flat_type, :bath, :intro, :state, :region,
   :address2, :cancellation, :smoking, :size, :station, :minutes_to_station,
-  :station1, :minutes_to_station1, :images, :user, :likes, :amenity, :views, :places
+  :station1, :minutes_to_station1, :images, :user, :likes, :amenity, :views, :places, :flat_languages
 
   # :total_reviews
   # :average_rating_of_book,
@@ -16,6 +16,7 @@ class FlatSerializer < ActiveModel::Serializer
   has_one :amenity
   has_many :views
   has_many :places
+  has_many :flat_languages
   # has_many :conversations
   # has_many :reviews
   # has_many :conversations

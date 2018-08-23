@@ -9,5 +9,6 @@ class Flat < ApplicationRecord
   has_one :amenity, dependent: :destroy
   has_many :places, dependent: :destroy
   has_many :views, dependent: :destroy
+  has_many :flat_languages, dependent: :destroy
   # has_many :reviews
 end
