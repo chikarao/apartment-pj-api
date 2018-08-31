@@ -36,8 +36,9 @@ class Api::V1::FlatLanguagesController < ApplicationController
   def update
     if @flat_language.update flat_language_params
       flat = Flat.find_by(id: flat_language_params[:flat_id])
+      flat_serializer = parse_json flat
       flat_language_serializer = parse_json @flat_language
-      json_response "Updated flat_language succesfully", true, {flat_language: flat_language_serializer}, :ok
+      json_response "Updated flat_language succesfully", true, {flat_language: flat_language_serializer, flat: flat_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end
@@ -46,7 +47,9 @@ class Api::V1::FlatLanguagesController < ApplicationController
   def destroy
     # flat_language delete request by flat owner
     if @flat_language.destroy
-      json_response "Deleted flat_language succesfully", true, {flat_language: @flat_language, flat: @flat}, :ok
+      flat = Flat.find_by(id: params[:flat_id])
+      flat_serializer = parse_json flat
+      json_response "Deleted flat_language succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Delete flat_language failed", false, {}, :unprocessable_entity
     end

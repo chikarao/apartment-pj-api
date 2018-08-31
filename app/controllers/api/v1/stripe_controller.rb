@@ -15,11 +15,22 @@ class Api::V1::StripeController < ApplicationController
     # customer = Stripe::Customer.retrieve(client)
     # customer = Stripe::Customer.retrieve("cus_DM3bso7701GR57")
     # retrieve takes the customer id
-    customer_id = @user.stripe_customer_id
-    customer = Stripe::Customer.retrieve(customer_id)
-    # source = Stripe::Source.retrieve(customer_id)
+    p "@user.stripe_customer_id " + @user.id.to_s
 
-    json_response "Retrieved customer successfully", true, {customer: customer}, :ok
+    if @user.stripe_customer_id
+      customer_id = @user.stripe_customer_id
+      customer = Stripe::Customer.retrieve(customer_id)
+      if customer
+        json_response "Retrieved customer successfully", true, {customer: customer, user: @user}, :ok
+      else
+        json_response "Retrieve customer failed; There is no customer", false, {}, :unprocessable_entity
+        return
+      end
+    else
+      json_response "Retrieve customer failed; There is no customer id", false, {}, :unprocessable_entity
+      return
+    end
+    # source = Stripe::Source.retrieve(customer_id)
   end
 
   def update_card_info

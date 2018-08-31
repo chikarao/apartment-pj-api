@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180823032631) do
+ActiveRecord::Schema.define(version: 20180830055222) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"

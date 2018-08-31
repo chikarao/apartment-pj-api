@@ -1,0 +1,59 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: 
+  type: 
+  heading: MyString
+  intro: MyString
+  price: 1.5
+  range: 1.5
+  days_off: MyString
+  time_from: MyString
+  time_to: MyString
+  specialty: MyString
+  phone: MyString
+  mobile: MyString
+  company_name: MyString
+  registration: MyString
+  first_name: MyString
+  last_name: MyString
+  fax: MyString
+  sns: MyString
+  line: MyString
+  image: MyString
+  url: MyString
+  address: MyString
+  address1: MyString
+  city: MyString
+  zip: MyString
+  region: MyString
+  country: MyString
+
+two:
+  user: 
+  type: 
+  heading: MyString
+  intro: MyString
+  price: 1.5
+  range: 1.5
+  days_off: MyString
+  time_from: MyString
+  time_to: MyString
+  specialty: MyString
+  phone: MyString
+  mobile: MyString
+  company_name: MyString
+  registration: MyString
+  first_name: MyString
+  last_name: MyString
+  fax: MyString
+  sns: MyString
+  line: MyString
+  image: MyString
+  url: MyString
+  address: MyString
+  address1: MyString
+  city: MyString
+  zip: MyString
+  region: MyString
+  country: MyString
