@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180830055222) do
+ActiveRecord::Schema.define(version: 20180901010927) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20180830055222) do
     t.boolean "starred", default: false
     t.boolean "important", default: false
     t.boolean "office", default: false
+    t.boolean "deleted_by_user", default: false
     t.index ["flat_id"], name: "index_conversations_on_flat_id"
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end

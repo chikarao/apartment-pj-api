@@ -1,7 +1,7 @@
 class Api::V1::ConversationsController < ApplicationController
   before_action :load_conversation, only: [:index, :show, :update, :destroy]
   # before_action :load_flat, only: :show
-  before_action :valid_token, only: [:show, :destroy, :create, :update]
+  before_action :valid_token, only: [:show, :destroy, :create, :update, :update_conversation]
 
   def index
   end
@@ -42,16 +42,49 @@ class Api::V1::ConversationsController < ApplicationController
     # p "!!!! conversation_update_params: " + conversation_update_params.to_s
     # p "!!!! @conversations: " + @conversations.to_s
     @conversations.each do |c|
-      p "!!!! c: " + c.to_s
-      if c.update(conversation_update_params)
-      else
-        json_response "Update conversation failed", false, {}, :unprocessable_entity
-      end
+      if conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
+        # p "!!!! c: " + c.to_s
+        # if conversation.user_id == @user.id ie @user is not owner of flat, mark deleted
+        if c.user_id == @user.id
+          if c.update({deleted_by_user: conversation_update_params[:deleted_by_user]})
+            # conversation_serializer = parse_json @conversations
+            # json_response "Updated conversation deleted_by_user succesfully", true, {conversation: conversation_serializer }, :ok
+          else
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        else
+        # if owner of flat, mark deleted
+          if c.update({deleted: conversation_update_params[:deleted]})
+            # conversation_serializer = parse_json @conversations
+            # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+          else
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        end
+        #end of if user_id
+      # end
+      #end of each
+    else
+      # else not for delete or deleted_by_user
+      # @conversations.each do |c|
+        # p "!!!! c: " + c.to_s
+        # if conversation.user_id == @user.id ie @user is not owner of flat, mark deleted
+        if c.update(conversation_update_params)
+          # conversation_serializer = parse_json @conversations
+          # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+        else
+          json_response "Update conversation failed", false, {}, :unprocessable_entity
+        end
     end
+  end
+  
+  conversation_serializer = parse_json @conversations
+  json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+  #end of each
+    #end of if delete
     # @conversations = Conversation.all
-    conversation_serializer = parse_json @conversations
-    json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-
+    # conversation_serializer = parse_json @conversations
+    # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
   end
 
 
@@ -126,7 +159,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def conversation_update_params
-    params.require(:conversation).permit(:deleted, :starred, :trashed, :flagged, :archived, :important, :office)
+    params.require(:conversation).permit(:deleted, :deleted_by_user, :starred, :trashed, :flagged, :archived, :important, :office)
   end
 
   # def load_flat
