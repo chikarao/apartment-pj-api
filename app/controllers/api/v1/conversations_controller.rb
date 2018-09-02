@@ -38,53 +38,98 @@ class Api::V1::ConversationsController < ApplicationController
   def update_conversation
     #!!! Need to send array of ids as paramenter not conversation paramenters
     @conversations = Conversation.where id: params[:conversation_id_array]
+    # p "update_conversation conversation_update_params[:trashed_by_user].present?: " + conversation_update_params[:trashed_by_user].present?.to_s
+    # p "update_conversation conversation_update_params[:deleted].present?: " + conversation_update_params[:deleted].present?.to_s
+    # p "update_conversation conversation_update_param?: " + conversation_update_params.to_s
+    # p "update_conversation conversation_update_params[:trashed_by_user]: " + conversation_update_params[:trashed_by_user].to_s
+    # p "update_conversation conversation_update_params[:deleted]: " + conversation_update_params[:deleted].to_s
+    # p "update_conversation conversation_update_params[:deleted].nil?: " + conversation_update_params[:deleted].nil?.to_s
+    # p "update_conversation conversation_update_params[:trashed_by_user].nil?: " + conversation_update_params[:trashed_by_user].nil?.to_s
+    # p "update_conversation conversation_update_params[:deleted].blank?: " + conversation_update_params[:deleted].blank?.to_s
+    # p "update_conversation conversation_update_params[:trashed_by_user].blank?: " + conversation_update_params[:deleted].blank?.to_s
 
     # p "!!!! conversation_update_params: " + conversation_update_params.to_s
     # p "!!!! @conversations: " + @conversations.to_s
-    @conversations.each do |c|
-      if conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
-        # p "!!!! c: " + c.to_s
+    conversations_without_deleted = []
+    @conversations.each do |conv|
+      # p "update_conversation in each conv.id" + conv.id.to_s
+      # if here is deleted_by_user (conv.id == user.id) or deleted
+      unless conversation_update_params[:deleted_by_user].nil? || conversation_update_params[:deleted].nil?
         # if conversation.user_id == @user.id ie @user is not owner of flat, mark deleted
-        if c.user_id == @user.id
-          if c.update({deleted_by_user: conversation_update_params[:deleted_by_user]})
-            # conversation_serializer = parse_json @conversations
-            # json_response "Updated conversation deleted_by_user succesfully", true, {conversation: conversation_serializer }, :ok
+        if conv.user_id == @user.id
+          if conv.update({deleted_by_user: conversation_update_params[:deleted_by_user]})
+            # conversations_without_deleted = []
+            # @conversations.each do |each|
+            #   if !each.deleted_by_user
+            #     conversations_without_deleted << each
+            #   end
+            # end
+            # conversation_serializer = parse_json conversations_without_deleted
+            # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
           else
             json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         else
         # if owner of flat, mark deleted
-          if c.update({deleted: conversation_update_params[:deleted]})
-            # conversation_serializer = parse_json @conversations
+          if conv.update({deleted: conversation_update_params[:deleted]})
+            # conversations_without_deleted = []
+            # @conversations.each do |each|
+            #   if !each.deleted
+            #     conversations_without_deleted << each
+            #   end
+            # end
+            # conversation_serializer = parse_json conversations_without_deleted
             # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
           else
+          json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        end
+      end
+        #end of if user_id
+      unless conversation_update_params[:trashed_by_user].nil? || conversation_update_params[:trashed].nil?
+        # p "!!!!!!!!!if conversation_update_params[:trashed_by_user]: " + conversation_update_params[:trashed_by_user].to_s
+        if conv.user_id == @user.id
+          # p "!!!!!!!!!if conv update conv.user_id == @user.id"
+          unless conv.update({trashed_by_user: conversation_update_params[:trashed_by_user]})
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        else
+          # p "!!!!!!!!!!!!if conv update conv.user_id != @user.id"
+        # if owner of flat, mark trashed
+          unless conv.update({trashed: conversation_update_params[:trashed]})
             json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         end
-        #end of if user_id
-      # end
-      #end of each
-    else
-      # else not for delete or deleted_by_user
-      # @conversations.each do |c|
-        # p "!!!! c: " + c.to_s
-        # if conversation.user_id == @user.id ie @user is not owner of flat, mark deleted
-        if c.update(conversation_update_params)
-          # conversation_serializer = parse_json @conversations
-          # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-        else
+      end
+
+    unless conversation_update_params[:archived_by_user].nil? || conversation_update_params[:archived].nil?
+      if conv.user_id == @user.id
+        unless conv.update({archived_by_user: conversation_update_params[:archived_by_user]})
           json_response "Update conversation failed", false, {}, :unprocessable_entity
         end
+      else
+      # if owner of flat, mark archived
+        unless conv.update({archived: conversation_update_params[:archived]})
+          json_response "Update conversation failed", false, {}, :unprocessable_entity
+        end
+      end
     end
-  end
-  
-  conversation_serializer = parse_json @conversations
-  json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-  #end of each
-    #end of if delete
-    # @conversations = Conversation.all
-    # conversation_serializer = parse_json @conversations
-    # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+
+      # end of if params deleted
+      #REPEAT for archived and trashed ()
+    end
+    # end of each @conversa
+    # unless conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
+    #   p "!!!!!!!!!!!! conv update conv.user_id != @user.id"
+    # end
+
+    if conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
+      conversation_serializer = parse_json @conversations
+      json_response "Updated conversation delete succesfully", true, {conversation: conversation_serializer }, :ok
+    else
+      conversation_serializer = parse_json @conversations
+      json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
+    end
   end
 
 
@@ -159,7 +204,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def conversation_update_params
-    params.require(:conversation).permit(:deleted, :deleted_by_user, :starred, :trashed, :flagged, :archived, :important, :office)
+    params.require(:conversation).permit(:deleted, :deleted_by_user, :starred, :trashed, :trashed_by_user, :flagged, :archived, :archived_by_user, :important, :office)
   end
 
   # def load_flat
