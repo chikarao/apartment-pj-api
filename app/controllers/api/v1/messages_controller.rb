@@ -22,9 +22,12 @@ class Api::V1::MessagesController < ApplicationController
     if message.save
       # even if user or owner had deleted the conversation (marked it deleted or deleted_by_user = true),
       # if one side responds to the message, the conversation accessible to user who deleted it (ie deleted and deleted_by_user = false)
-      @conversation.delete = false
+      @conversation.deleted = false
       @conversation.deleted_by_user = false
       @conversation.trashed = false
+      @conversation.trashed_by_user = false
+      @conversation.archived = false
+      @conversation.archived_by_user = false
       @conversation.save
       # message_serializer = parse_json message
       conversation_serializer = parse_json @conversation
