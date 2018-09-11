@@ -1,5 +1,5 @@
 class BookingSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :flat_id, :date_start, :date_end, :created_at, :flat
+  attributes :id, :user_id, :flat_id, :date_start, :date_end, :created_at, :booking_by_owner, :flat
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,

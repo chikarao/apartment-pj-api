@@ -57,11 +57,14 @@ class Api::V1::BookingsController < ApplicationController
 
   def blockout_dates_ical
 
-    ical_link = 'https://calendar.google.com/calendar/ical/c0k45rf9b7kouldlg6k87o1ahc%40group.calendar.google.com/private-53f98142cd67b1641ea2aac051b4b1c8/basic.ics'
-    flat_id = '190'
+    flat_id = params[:flat_id]
+    # flat_id = 190
+    # ical_link = 'https://calendar.google.com/calendar/ical/c0k45rf9b7kouldlg6k87o1ahc%40group.calendar.google.com/private-53f98142cd67b1641ea2aac051b4b1c8/basic.ics'
+    flat = Flat.find_by(id: flat_id)
+    ical_link = flat.ical_import_url
+    p 'in booking_controller, blockout_dates_ical, flat_id: ' + flat_id.to_s
 
     url = URI.parse(ical_link)
-    # url = URI.parse(  "https://connect.stripe.com/oauth/token/client_secret=#{secret_key}&code=#{authorization_code}&grant_type=#{grant_type}")
     response = Net::HTTP.get(url)
 
     if response
@@ -70,6 +73,7 @@ class Api::V1::BookingsController < ApplicationController
       # p 'in booking_controller, blockout_dates_ical, response.class: ' + response.class.to_s
       response_array = response.split("\n")
       dateStart = ''
+      booking_array =[]
       # p 'in booking_controller, blockout_dates_ical, response_array: ' + response_array.to_s
       response_array.each do |line, i|
         # p 'in booking_controller, blockout_dates_ical, line, i: ' + i.to_s + line.to_s
@@ -80,6 +84,7 @@ class Api::V1::BookingsController < ApplicationController
           # p 'in booking_controller, blockout_dates_ical, dateStart: ' + dateStart.to_s
           # range_object[date_start] = dateStart[1]
         end
+
         if line.include? "DTEND"
           dateEnd1 =line.split(":")
           dateEnd = dateEnd1[1].split("\r")
@@ -105,12 +110,29 @@ class Api::V1::BookingsController < ApplicationController
           # range_object = {date_start: dateStart[0], date_end: dateEnd[0]}
           range_object = {date_start: dateStartParsed, date_end: dateEndParsed}
           range_array.push(range_object)
+          # booking = Booking.new(date_start: range_object[:date_start], date_end: range_object[:date_end], booking_by_owner: true, user_id: flat.user_id)
+          booking = Booking.new
+          booking.date_start = range_object[:date_start]
+          booking.date_end = range_object[:date_end]
+          booking.booking_by_owner = true
+          booking.user_id = @user.id
+          booking.flat_id = flat.id
+          p 'in booking_controller, blockout_dates_ical, booking after new: ' + booking.date_start.to_s + " " + booking.date_end.to_s + " " + booking.booking_by_owner.to_s + " " + booking.user_id.to_s
+          if booking.save
+            booking_serializer = parse_json booking
+            booking_array.push(booking_serializer)
+          else
+            json_response "Sync bookings failed", false, {}, :unprocessable_entity
+          end
         end
       end
+
+      flat_serializer = parse_json flat
       #end of each do
       p 'in booking_controller, blockout_dates_ical, range_array: ' + range_array.to_s
     end
     #end of if response
+      json_response "Sync'd calendars succesfully", true, {flat: flat_serializer}, :ok
   end
 
   private
