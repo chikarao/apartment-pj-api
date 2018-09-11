@@ -36,8 +36,14 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def update_conversation
+    # receives deleted, trashed arhived params and array of conversation ids;
+    # get conversation based on array of conversation ids
+    # iterate through each conversation and if params exist for delete trash and archive, take action
+    # update each attribute based on conversation id == user id
+    # send back same conversations to front end
     #!!! Need to send array of ids as paramenter not conversation paramenters
     @conversations = Conversation.where id: params[:conversation_id_array]
+    # !!!! tried present, blank and nil and only nil worked 
     # p "update_conversation conversation_update_params[:trashed_by_user].present?: " + conversation_update_params[:trashed_by_user].present?.to_s
     # p "update_conversation conversation_update_params[:deleted].present?: " + conversation_update_params[:deleted].present?.to_s
     # p "update_conversation conversation_update_param?: " + conversation_update_params.to_s
@@ -48,88 +54,72 @@ class Api::V1::ConversationsController < ApplicationController
     # p "update_conversation conversation_update_params[:deleted].blank?: " + conversation_update_params[:deleted].blank?.to_s
     # p "update_conversation conversation_update_params[:trashed_by_user].blank?: " + conversation_update_params[:deleted].blank?.to_s
 
-    # p "!!!! conversation_update_params: " + conversation_update_params.to_s
-    # p "!!!! @conversations: " + @conversations.to_s
-    conversations_without_deleted = []
+    #
     @conversations.each do |conv|
       # p "update_conversation in each conv.id" + conv.id.to_s
       # if here is deleted_by_user (conv.id == user.id) or deleted
       unless conversation_update_params[:deleted_by_user].nil? || conversation_update_params[:deleted].nil?
         # if conversation.user_id == @user.id ie @user is not owner of flat, mark deleted
         if conv.user_id == @user.id
-          if conv.update({deleted_by_user: conversation_update_params[:deleted_by_user]})
-            # conversations_without_deleted = []
-            # @conversations.each do |each|
-            #   if !each.deleted_by_user
-            #     conversations_without_deleted << each
-            #   end
-            # end
-            # conversation_serializer = parse_json conversations_without_deleted
-            # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-          else
+          # if update is not successful, send failure messagee
+          unless conv.update({deleted_by_user: conversation_update_params[:deleted_by_user]})
             json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         else
         # if owner of flat, mark deleted
-          if conv.update({deleted: conversation_update_params[:deleted]})
-            # conversations_without_deleted = []
-            # @conversations.each do |each|
-            #   if !each.deleted
-            #     conversations_without_deleted << each
-            #   end
-            # end
-            # conversation_serializer = parse_json conversations_without_deleted
-            # json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-          else
-          json_response "Update conversation failed", false, {}, :unprocessable_entity
+        # if update is not successful, send failure messagee
+          unless conv.update({deleted: conversation_update_params[:deleted]})
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         end
       end
-        #end of if user_id
+      #end of if user_id
+      # if trashed params are not nil i.e. unless they are nil do below
       unless conversation_update_params[:trashed_by_user].nil? || conversation_update_params[:trashed].nil?
-        # p "!!!!!!!!!if conversation_update_params[:trashed_by_user]: " + conversation_update_params[:trashed_by_user].to_s
+        # if user is conversation uwer update trashed_by_user vs. trashed; by_user is used to filter in front end
         if conv.user_id == @user.id
           # p "!!!!!!!!!if conv update conv.user_id == @user.id"
           unless conv.update({trashed_by_user: conversation_update_params[:trashed_by_user]})
             json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         else
-          # p "!!!!!!!!!!!!if conv update conv.user_id != @user.id"
         # if owner of flat, mark trashed
           unless conv.update({trashed: conversation_update_params[:trashed]})
             json_response "Update conversation failed", false, {}, :unprocessable_entity
           end
         end
+        # end of user test
+      end
+      # end of unless trashed nil
+
+    # if archived params are not nil i.e. unless they are nil do below
+      unless conversation_update_params[:archived_by_user].nil? || conversation_update_params[:archived].nil?
+        # test for user id = conv.user_id
+        if conv.user_id == @user.id
+          # mark archived_by_user if conv user_id is user.id
+          # send failed message if not updated
+          unless conv.update({archived_by_user: conversation_update_params[:archived_by_user]})
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        else
+        # if owner of flat, mark archived
+          unless conv.update({archived: conversation_update_params[:archived]})
+            json_response "Update conversation failed", false, {}, :unprocessable_entity
+          end
+        end
       end
 
-    unless conversation_update_params[:archived_by_user].nil? || conversation_update_params[:archived].nil?
-      if conv.user_id == @user.id
-        unless conv.update({archived_by_user: conversation_update_params[:archived_by_user]})
-          json_response "Update conversation failed", false, {}, :unprocessable_entity
-        end
-      else
-      # if owner of flat, mark archived
-        unless conv.update({archived: conversation_update_params[:archived]})
-          json_response "Update conversation failed", false, {}, :unprocessable_entity
-        end
-      end
     end
+    # end of each @conversation
+    # if conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
+    #   conversation_serializer = parse_json @conversations
+    #   json_response "Updated conversation delete succesfully", true, {conversation: conversation_serializer }, :ok
+    # else
 
-      # end of if params deleted
-      #REPEAT for archived and trashed ()
-    end
-    # end of each @conversa
-    # unless conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
-    #   p "!!!!!!!!!!!! conv update conv.user_id != @user.id"
-    # end
-
-    if conversation_update_params[:deleted_by_user] || conversation_update_params[:deleted]
-      conversation_serializer = parse_json @conversations
-      json_response "Updated conversation delete succesfully", true, {conversation: conversation_serializer }, :ok
-    else
+    # finally send conversations back; Not sure if need to have some test before sending conversation back since unless will send failures back
       conversation_serializer = parse_json @conversations
       json_response "Updated conversation succesfully", true, {conversation: conversation_serializer }, :ok
-    end
+    # end
   end
 
 

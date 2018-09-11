@@ -71,6 +71,8 @@ Rails.application.routes.draw do
 
       resources :bookings do
       end
+      #
+      post 'blockout_dates_ical', to: 'bookings#blockout_dates_ical'
 
       post 'update_conversation', to: 'conversations#update_conversation'
       resources :conversations do
@@ -91,7 +93,7 @@ Rails.application.routes.draw do
         get 'likes/likes_by_user', to: 'likes#likes_by_user'
         post 'likes/likes_by_flat', to: 'likes#likes_by_flat'
       end
-
+      # stripe routes
       post 'new_subscription', to: 'stripe#new_subscription'
       post 'retrieve_customer', to: 'stripe#retrieve_customer'
       post 'update_card_info', to: 'stripe#update_card_info'

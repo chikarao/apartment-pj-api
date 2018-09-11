@@ -232,7 +232,7 @@ class Api::V1::FlatsController < ApplicationController
   def flat_params
     params.require(:flat).permit(:user_id, :lat, :lng, :address1, :address2, :city, :state, :region, :zip, :country, :area,
     :price_per_day, :price_per_month, :price_min, :price_max, :guests, :sales_point, :description, :rooms, :bedrooms_min, :bedrooms_max, :beds, :king_or_queen_bed, :flat_type, :bath, :intro, :cancellation, :smoking,
-    :size, :size_min, :size_max, :balcony_size, :station, :minutes_to_station, :minutes_to_station_min, :minutes_to_station_max, :station1, :minutes_to_station1, :floor, :deposit, :key_money, :year_built, :construction, :management_fees, :fees, :parking_available, :parking_included, :parking_price, :school_district, :school_district1, :circle_no_marker)
+    :size, :size_min, :size_max, :balcony_size, :station, :minutes_to_station, :minutes_to_station_min, :minutes_to_station_max, :station1, :minutes_to_station1, :floor, :deposit, :key_money, :year_built, :construction, :management_fees, :fees, :parking_available, :parking_included, :parking_price, :school_district, :school_district1, :circle_no_marker, :ical_import_url)
   end
 
   def amenity_params

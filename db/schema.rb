@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180901091236) do
+ActiveRecord::Schema.define(version: 20180911022659) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -71,6 +71,16 @@ ActiveRecord::Schema.define(version: 20180901091236) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "booking_by_owner", default: false
+    t.boolean "approved", default: false
+    t.float "final_rent"
+    t.float "adjustments"
+    t.float "fees"
+    t.float "taxes"
+    t.float "total_price"
+    t.float "final_deposit"
+    t.boolean "paid", default: false
+    t.text "special_requests"
     t.index ["flat_id"], name: "index_bookings_on_flat_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
@@ -183,6 +193,15 @@ ActiveRecord::Schema.define(version: 20180901091236) do
     t.string "school_district1"
     t.boolean "circle_no_marker", default: false
     t.string "language_code", default: "en"
+    t.string "ical_import_url"
+    t.string "ical_export_url"
+    t.boolean "snoozing", default: false
+    t.boolean "approval_required", default: true
+    t.integer "min_stay"
+    t.integer "max_stay"
+    t.string "block"
+    t.string "unit"
+    t.string "flat_building_name"
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
 
