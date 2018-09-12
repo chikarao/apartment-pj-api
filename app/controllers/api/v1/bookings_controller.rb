@@ -25,12 +25,14 @@ class Api::V1::BookingsController < ApplicationController
     booking = Booking.new booking_params
     booking.user_id = @user.id
     booking.created_at = DateTime.now
+    flat = Flat.find_by(id: booking_params[:flat_id])
     # only if have parent
     # booking.book_id = params[:book_id]
     if booking.save
       booking_serializer = parse_json booking
+      flat_serializer = parse_json flat
 
-      json_response "Created booking succesfully", true, {booking: booking_serializer}, :ok
+      json_response "Created booking succesfully", true, {booking: booking_serializer, flat: flat_serializer}, :ok
     else
       json_response "Create booking failed", false, {}, :unprocessable_entity
     end
@@ -56,7 +58,8 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def blockout_dates_ical
-    bookings_by_owner = Booking.where(booking_by_owner: true)
+    dateToday = Date.today
+    bookings_by_owner = Booking.where(booking_by_owner: true, booking_by_ical: true)
     p 'in booking_controller, blockout_dates_ical, bookings_by_owner: ' + bookings_by_owner.to_s
 
     flat_id = params[:flat_id]
@@ -129,13 +132,17 @@ class Api::V1::BookingsController < ApplicationController
 
             unless bookings_by_owner.any?{|booking_by_owner| (booking_by_owner.date_start == range_object[:date_start]) && (booking_by_owner.date_end == range_object[:date_end])}
               # p 'in booking_controller, blockout_dates_ical, creating booking in unless: '
-              create_blocking_booking(range_object, booking_array)
+              if range_object[:date_end] > dateToday
+                create_blocking_booking(range_object, booking_array)
+              end
             end
             #end of unless
           else
             # else bookings_by_owner.length > 0
             # p 'in booking_controller, blockout_dates_ical, creating booking in else bookings_by_owner > 0: '
-            create_blocking_booking(range_object, booking_array)
+            if range_object[:date_end] > dateToday
+              create_blocking_booking(range_object, booking_array)
+            end
           end
         #end if bookings_by_owner.length
           # booking = Booking.new(date_start: range_object[:date_start], date_end: range_object[:date_end], booking_by_owner: true, user_id: flat.user_id)
@@ -169,14 +176,14 @@ class Api::V1::BookingsController < ApplicationController
       # p 'in booking_controller, blockout_dates_ical, range_array: ' + range_array.to_s
     end
     #end of if response
-      json_response "Sync'd calendars succesfully", true, {flat: flat_serializer}, :ok
+      json_response "Update bookings with ical succesfully", true, {flat: flat_serializer}, :ok
   end
   # end of blockout_dates_ical
 
   private
 
   def booking_params
-    params.require(:booking).permit(:flat_id, :date_start, :date_end)
+    params.require(:booking).permit(:flat_id, :date_start, :date_end, :booking_by_owner)
   end
 
   def request_booking_params
@@ -204,6 +211,7 @@ class Api::V1::BookingsController < ApplicationController
     booking.date_start = range_object[:date_start]
     booking.date_end = range_object[:date_end]
     booking.booking_by_owner = true
+    booking.booking_by_ical = true
     booking.user_id = @user.id
     booking.flat_id = @flat.id
     # p 'in booking_controller, blockout_dates_ical, booking after new: ' + booking.date_start.to_s + " " + booking.date_end.to_s + " " + booking.booking_by_owner.to_s + " " + booking.user_id.to_s

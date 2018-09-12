@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180911022659) do
+ActiveRecord::Schema.define(version: 20180912071202) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20180911022659) do
     t.float "final_deposit"
     t.boolean "paid", default: false
     t.text "special_requests"
+    t.boolean "booking_by_ical", default: false
     t.index ["flat_id"], name: "index_bookings_on_flat_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
