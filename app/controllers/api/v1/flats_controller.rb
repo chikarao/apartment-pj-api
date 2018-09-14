@@ -53,45 +53,22 @@ class Api::V1::FlatsController < ApplicationController
       # no bookings
       # base_conditions.concat(' AND bookings.id = (?)')
       # params_array.push('NULL')
+      booking_base_conditions = ''
+      booking_params_array = [booking_base_conditions]
+      startDate = Date.parse("2018-10-1")
+      endDate = Date.parse("2018-10-8")
 
       # if params[:date_start] && params[:date_end]
-        startDate = Date.parse("2018-10-01")
-        endDate = Date.parse("2018-10-10")
         # startDate = Date.parse("2018-11-1")
         # endDate = Date.parse("2018-11-7")
-        date_range = startDate..endDate
-        # p "!!!!!!!!flats_controller, index, date_range: " + date_range.to_s
-        # params_array.push(Date.parse("2018-10-8"))
-        # booking1 = Booking.where(flat_id: 190)
-        # booking = booking1[0]
-        # #
-        # # p "!!!!!!!!flats_controller, booking: " + booking.to_s
-        # p "!!!!!!!!flats_controller, booking.date_start.class, startDate.class: " + booking.date_start.class.to_s + ' ' + startDate.class.to_s
-        # p "!!!!!!!!flats_controller, booking.date_start, startDate: " + booking.date_start.to_s + ' ' + startDate.to_s
-        # # # p "!!!!!!!!flats_controller, Booking.last.date_start, startDate: " + Booking.last.date_start.to_s + ' ' + startDate.to_s
-        # # # p "!!!!!!!!flats_controller, Booking.last.date_start > startDate: " + (Booking.last.date_start < startDate).to_s
-        # p "!!!!!!!!flats_controller, booking.date_start == startDate: " + (booking.date_start == startDate).to_s
-        booking_base_conditions = ''
-        booking_params_array = [booking_base_conditions]
         booking_base_conditions.concat("(date_start BETWEEN (?) AND (?)) OR (date_end BETWEEN (?) AND (?)) OR ((?) BETWEEN date_start AND date_end) OR ((?) BETWEEN date_start AND date_end)")
-        # booking_base_conditions.concat("bookings.date_start OR bookings.date_end BETWEEN #{date_range}")
-        # booking_base_conditions.concat(' AND bookings.date_end BETWEEN (?)')
-        # booking_base_conditions.concat(' AND booking_by_owner = (?)')
-        # booking_params_array.push("#{startDate}, #{endDate}")
+
         booking_params_array.push(startDate)
         booking_params_array.push(endDate)
         booking_params_array.push(startDate)
         booking_params_array.push(endDate)
         booking_params_array.push(startDate)
         booking_params_array.push(endDate)
-        # booking_params_array.push("#{startDate} AND #{endDate}")
-        # booking_params_array.push(false)
-        # params_array.push(date_range)
-        # params_array.push(Date.parse("2018-11-1"))
-        # params_array.push(Date.parse("2018-11-7"))
-        # params_array.push(Date.parse("2018-10-15"))
-        # params_array.push(Date.parse(params[:date_start]))
-        # params_array.push(Date.parse(params[:date_end]))
       # end
 
       # call query joining amennity and passing array with base_conditions and params
@@ -103,7 +80,7 @@ class Api::V1::FlatsController < ApplicationController
       # @flats = Flat.left_outer_joins(:amenity, :bookings).where(params_array).where.not("(date_start BETWEEN (?) AND (?)) OR (date_end BETWEEN (?) AND (?)) OR (((?) OR (?)) BETWEEN date_start AND date_end)", startDate, endDate, startDate, endDate, startDate, endDate)
       # @flats = Flat.joins(:amenity, :bookings).where(params_array).where.not("date_start = (?)", startDate)
       # @flats = Flat.left_outer_joins(:amenity).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where("date_start = (?)", startDate)
-      @flats = Flat.left_outer_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array))
+      @flats = Flat.left_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array))
       # p "!!!!!!!!flats_controller, index, date_range: " + date_range.to_s
       # same as below
       # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
