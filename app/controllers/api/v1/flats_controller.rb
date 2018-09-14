@@ -7,76 +7,105 @@ class Api::V1::FlatsController < ApplicationController
   def index
     # this is for fetchFlats in front end
     if params[:east] && params[:west] && params[:north] && params[:south]
-      # p params[:east].to_f
-      # p params[:west].to_f
-      # p params[:north].to_f
-      # p params[:south].to_f
-      # p "!!!!!! price max: " + params[:price_max].to_s
-      # p "!!!!!!! price min:" + params[:price_min].to_s
-      # p "!!!!!!! bedrooms_min:" + params[:bedrooms_min].to_s
-      # p "!!!!!!! bedrooms_max:" + params[:bedrooms_max].to_s
-      # p "!!!!!!! bedrooms_exact:" + params[:bedrooms_exact].to_s
-      # p "!!!!!!! size_max:" + params[:size_min].to_s
-      # p "!!!!!!! size_max:" + params[:size_max].to_s
-      # p "!!!!!!! station_min:" + params[:station_min].to_s
-      # p "!!!!!!! station_max:" + params[:station_max].to_s
 
       # Base conditions for search; string
+      # base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
+      #               price_per_month >= (?) AND price_per_month <= (?) AND
+      #               size >= (?) AND size <= (?) AND
+      #               minutes_to_station >= (?) AND minutes_to_station <= (?) AND date_start >= (?) AND date_end <= (?) AND booking_by_owner = (?)'
       base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
                     price_per_month >= (?) AND price_per_month <= (?) AND
                     size >= (?) AND size <= (?) AND
                     minutes_to_station >= (?) AND minutes_to_station <= (?)'
-      # base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
-      #               price_per_month >= (?) AND price_per_month <= (?) AND
-      #               size >= (?) AND size <= (?) AND
-      #               minutes_to_station >= (?) AND minutes_to_station <= (?)'
-      # conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
-      #               price_per_month > (?) AND price_per_month < (?) AND
-      #               rooms > (?) AND rooms < (?)'
+      # params to pass into query
       params_array = [base_conditions , params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
         params[:price_min].to_f,  params[:price_max].to_f,
         params[:size_min].to_f,  params[:size_max].to_f,
         params[:station_min].to_f,  params[:station_max].to_f]
-
+      # params_array = [base_conditions , params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+      #   params[:price_min].to_f,  params[:price_max].to_f,
+      #   params[:size_min].to_f,  params[:size_max].to_f,
+      #   params[:station_min].to_f,  params[:station_max].to_f]
+      # if bedroom exact number is passed, add to base_conditions and params_array
       if params[:bedrooms_exact]
         base_conditions.concat(' AND rooms = (?)')
-        # params[:bedrooms_min].to_i, params[:bedrooms_max].to_i]
         params_array.push(params[:bedrooms_exact].to_i)
       else
+        # else add range for bedrooms
         base_conditions.concat(' AND rooms >= (?)')
         base_conditions.concat(' AND rooms <= (?)')
-        # params_array = [conditions, params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
-        #   params[:price_min].to_f,  params[:price_max].to_f]
         params_array.push(params[:bedrooms_min].to_i)
         params_array.push(params[:bedrooms_max].to_i)
       end
-
+      # get amenity column names array ready to iterate through
       amenity_columns = Amenity.column_names
+      # iterate through each and get the boolean value of each amenity
       amenity_columns.each do |a|
         params_string_value = params[a].to_s
-        # params_string_value = params["#{a}"].to_s
-        # p "!!!!!!! in each params params_string_value:" + params_string_value.to_s
+        # if true add to base conditions and to params array to add to search
         if params_string_value == "true"
-          # p "!!!!!!! in each params amenity:" + a.to_s
           base_conditions.concat(" AND #{a} = (?)")
           params_value = true
           params_array.push(params_value)
         end
       end
 
-      p "!!!!!!! params base_conditions:" + base_conditions.to_s
-      p "!!!!!!! params_array:" + params_array.to_s
-      p "!!!!!!! amenity column_names: " + Amenity.column_names.to_s
+      # no bookings
+      # base_conditions.concat(' AND bookings.id = (?)')
+      # params_array.push('NULL')
 
-      # parameters_for_conditions = params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
-      #                             params[:price_min].to_f,  params[:price_max].to_f,
-      #                             params[:bedrooms_min].to_i, params[:bedrooms_max].to_i, params[:bedrooms_exact].to_i
+      # if params[:date_start] && params[:date_end]
+        startDate = Date.parse("2018-10-01")
+        endDate = Date.parse("2018-10-10")
+        # startDate = Date.parse("2018-11-1")
+        # endDate = Date.parse("2018-11-7")
+        date_range = startDate..endDate
+        # p "!!!!!!!!flats_controller, index, date_range: " + date_range.to_s
+        # params_array.push(Date.parse("2018-10-8"))
+        # booking1 = Booking.where(flat_id: 190)
+        # booking = booking1[0]
+        # #
+        # # p "!!!!!!!!flats_controller, booking: " + booking.to_s
+        # p "!!!!!!!!flats_controller, booking.date_start.class, startDate.class: " + booking.date_start.class.to_s + ' ' + startDate.class.to_s
+        # p "!!!!!!!!flats_controller, booking.date_start, startDate: " + booking.date_start.to_s + ' ' + startDate.to_s
+        # # # p "!!!!!!!!flats_controller, Booking.last.date_start, startDate: " + Booking.last.date_start.to_s + ' ' + startDate.to_s
+        # # # p "!!!!!!!!flats_controller, Booking.last.date_start > startDate: " + (Booking.last.date_start < startDate).to_s
+        # p "!!!!!!!!flats_controller, booking.date_start == startDate: " + (booking.date_start == startDate).to_s
+        booking_base_conditions = ''
+        booking_params_array = [booking_base_conditions]
+        booking_base_conditions.concat("(date_start BETWEEN (?) AND (?)) OR (date_end BETWEEN (?) AND (?)) OR ((?) BETWEEN date_start AND date_end) OR ((?) BETWEEN date_start AND date_end)")
+        # booking_base_conditions.concat("bookings.date_start OR bookings.date_end BETWEEN #{date_range}")
+        # booking_base_conditions.concat(' AND bookings.date_end BETWEEN (?)')
+        # booking_base_conditions.concat(' AND booking_by_owner = (?)')
+        # booking_params_array.push("#{startDate}, #{endDate}")
+        booking_params_array.push(startDate)
+        booking_params_array.push(endDate)
+        booking_params_array.push(startDate)
+        booking_params_array.push(endDate)
+        booking_params_array.push(startDate)
+        booking_params_array.push(endDate)
+        # booking_params_array.push("#{startDate} AND #{endDate}")
+        # booking_params_array.push(false)
+        # params_array.push(date_range)
+        # params_array.push(Date.parse("2018-11-1"))
+        # params_array.push(Date.parse("2018-11-7"))
+        # params_array.push(Date.parse("2018-10-15"))
+        # params_array.push(Date.parse(params[:date_start]))
+        # params_array.push(Date.parse(params[:date_end]))
+      # end
 
-      # @flats = Flat.where(params_array).includes(:images)
-      # @flats = Flat.where(params_array)
-      # @flats = Flat.joins(:amenity).where('auto_lock = (?) OR flat_id = (?)', true, 138)
-      @flats = Flat.joins(:amenity).where(params_array)
-      # @flats = Flat.all
+      # call query joining amennity and passing array with base_conditions and params
+      # @flats = Flat.joins(:amenity, :booking).where(params_array)
+      # original query
+      # @flats = Flat.joins(:amenity, :bookings).where(params_array).where.not(booking_params_array)
+      # @flats = Flat.joins(:amenity, :bookings).where(params_array).where.not("(bookings.date_start OR bookings.date_end) BETWEEN (?) AND (?)", startDate, endDate )
+      # @flats = Flat.joins(:amenity, :bookings).where(params_array).where.not("(date_start BETWEEN (?) AND (?)) OR (date_start BETWEEN (?) AND (?)) OR (((?) OR (?)) BETWEEN date_start AND date_end)", startDate, endDate, startDate, endDate, startDate, endDate)
+      # @flats = Flat.left_outer_joins(:amenity, :bookings).where(params_array).where.not("(date_start BETWEEN (?) AND (?)) OR (date_end BETWEEN (?) AND (?)) OR (((?) OR (?)) BETWEEN date_start AND date_end)", startDate, endDate, startDate, endDate, startDate, endDate)
+      # @flats = Flat.joins(:amenity, :bookings).where(params_array).where.not("date_start = (?)", startDate)
+      # @flats = Flat.left_outer_joins(:amenity).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where("date_start = (?)", startDate)
+      @flats = Flat.left_outer_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array))
+      # p "!!!!!!!!flats_controller, index, date_range: " + date_range.to_s
+      # same as below
       # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
       #                       price_per_month > (?) AND price_per_month < (?) AND
       #                       rooms > (?) AND rooms < (?) AND rooms = (?)',
@@ -88,6 +117,7 @@ class Api::V1::FlatsController < ApplicationController
       # @flats.where("params[:bedrooms_exact].to_i = ?", params[:bedrooms_exact].to_i) unless params[:bedrooms_exact].to_i.nil?
       # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
       unless @flats.empty?
+        # unless flats are empty call private method get_reviews_for_flats, sericalize and send response
         reviewsArray = get_reviews_for_flats(@flats)
         flats_serializer = parse_json @flats
         review_serializer = parse_json reviewsArray
@@ -96,12 +126,9 @@ class Api::V1::FlatsController < ApplicationController
         json_response "There were no flats with the search parameters", true, {flats: []}, :ok
       end
     else
+      # else for if latlng params
       @flats = []
-      # reviewsArray = get_reviews_for_flats(@flats)
-      # does not need includes; flat_serializer has_many images and bookings will fetch both
-      # @flats = Flat.all.includes(:images)
-      # flats_serializer = parse_json @flats
-      # review_serializer = parse_json reviewsArray
+      # does not need includes; flat_serializer has_many images and bookings and will fetch both
       json_response "You did not provide the right parameters", true, {flats: []}, :ok
     end
   end

@@ -1,4 +1,7 @@
 class Booking < ApplicationRecord
+
+  # scope :take_out_booked, -> (range_start) { where("start_date = ?", range_start) }
+
   belongs_to :flat
   belongs_to :user
 
