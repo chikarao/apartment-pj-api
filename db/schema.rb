@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180912071202) do
+ActiveRecord::Schema.define(version: 20180916221329) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -93,6 +93,16 @@ ActiveRecord::Schema.define(version: 20180912071202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reviews_count", default: 0, null: false
+  end
+
+  create_table "calendars", force: :cascade do |t|
+    t.string "ical_url"
+    t.integer "flat_id"
+    t.string "name"
+    t.datetime "last_updated_calendar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flat_id"], name: "index_calendars_on_flat_id"
   end
 
   create_table "conversations", force: :cascade do |t|

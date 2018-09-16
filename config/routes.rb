@@ -30,6 +30,10 @@ Rails.application.routes.draw do
       resources :flats do
         resources :flat_languages
       end
+      
+      resources :flats do
+        resources :calendars
+      end
 
 
 

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ical_url: MyString
+  flat: one
+  name: MyString
+  last_updated_calendar: 2018-09-17 07:13:37
+
+two:
+  ical_url: MyString
+  flat: two
+  name: MyString
+  last_updated_calendar: 2018-09-17 07:13:37

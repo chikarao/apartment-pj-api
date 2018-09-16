@@ -71,7 +71,7 @@ class Api::V1::FlatsController < ApplicationController
         booking_params_array.push(endDate)
         booking_params_array.push(startDate)
         booking_params_array.push(endDate)
-
+        # get flats joining amenity and booking exluding flat which have booking that meet conditions
         @flats = Flat.left_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array))
       else
         #if no date params, no booking conditions

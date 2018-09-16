@@ -4,7 +4,7 @@ class FlatSerializer < ActiveModel::Serializer
   :rooms, :beds, :king_or_queen_bed,:flat_type, :bath, :intro, :state, :region,
   :address2, :cancellation, :smoking, :size, :station, :minutes_to_station,
   :station1, :minutes_to_station1, :language_code, :images, :user, :likes,
-  :amenity, :views, :places, :flat_languages, :ical_import_url
+  :amenity, :views, :places, :flat_languages, :calendars
 
   # :total_reviews
   # :average_rating_of_book,
@@ -18,6 +18,7 @@ class FlatSerializer < ActiveModel::Serializer
   has_many :views
   has_many :places
   has_many :flat_languages
+  has_many :calendars
   # has_many :conversations
   # has_many :reviews
   # has_many :conversations
