@@ -21,8 +21,10 @@ class Api::V1::CalendarsController < ApplicationController
     calendar.created_at = DateTime.now
 
     if calendar.save
+      flat = Flat.find_by(id: params[:flat_id])
+      flat_serializer = parse_json flat
       calendar_serializer = parse_json calendar
-      json_response "Created calendar succesfully", true, {calendar: calendar_serializer}, :ok
+      json_response "Created calendar succesfully", true, {calendar: calendar_serializer, flat: flat_serializer}, :ok
     else
       json_response "Create calendar failed", false, {}, :unprocessable_entity
     end
@@ -31,8 +33,10 @@ class Api::V1::CalendarsController < ApplicationController
   def update
     # p "CalendarsController, update, here is @calendars" + @calendars.to_s
     if @calendar.update(calendar_params)
+      flat = Flat.find_by(id: params[:flat_id])
       calendar_serializer = parse_json @calendar
-      json_response "Updated calendar successfully", true, {calendar: calendar_serializer}, :ok
+      flat_serializer = parse_json flat
+      json_response "Updated calendar successfully", true, {calendar: calendar_serializer, flat: flat_serializer}, :ok
     else
       json_response "Update calendar failed", false, {}, :unprocessable_entity
     end
@@ -41,7 +45,9 @@ class Api::V1::CalendarsController < ApplicationController
   def destroy
 
       if @calendar.destroy
-        json_response "Deleted calendar succesfully", true, {calendar: @calendar}, :ok
+        flat = Flat.find_by(id: params[:flat_id])
+        flat_serializer = parse_json flat
+        json_response "Deleted calendar succesfully", true, {calendar: @calendar, flat: flat_serializer}, :ok
       else
         json_response "Delete calendar failed", false, {}, :unprocessable_entity
       end
