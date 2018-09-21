@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       resources :flats do
         resources :flat_languages
       end
-      
+
       resources :flats do
         resources :calendars
       end
@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       end
       #
       post 'blockout_dates_ical', to: 'bookings#blockout_dates_ical'
+      post 'create_contract', to: 'bookings#create_contract'
 
       post 'update_conversation', to: 'conversations#update_conversation'
       resources :conversations do

@@ -2,10 +2,13 @@ require 'uri'
 require 'net/http'
 require 'json'
 require 'Date'
+require 'prawn'
+# require 'RMagick'
+# require 'open-uri'
 
 class Api::V1::BookingsController < ApplicationController
   # before_action :ensure_params_exist, only: :create
-  before_action :valid_token, only: [:create, :create, :destroy, :blockout_dates_ical]
+  before_action :valid_token, only: [:create, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :destroy]
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
 
@@ -18,6 +21,115 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def new
+  end
+
+  def create_contract
+    flat = Flat.find_by(id: 190)
+    p 'in booking_controller, create_contract, flat.id: ' + flat.id.to_s
+    # CombinePDF is for combine_pdf gem
+    pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/teishaku_jp.pdf"))
+    # ipaex_gothic_path = Rails.root.join("app/assets/fonts/osaka.ttc")
+    # path for external font ttf
+    ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
+
+    pdf = Prawn::Document.new
+    hor = 140
+    ver = 660
+
+    pdf.font_families["IPAEX_GOTHIC"] = {
+                        :bold        => ipaex_gothic_path,
+                        :italic      => ipaex_gothic_path,
+                        :bold_italic => ipaex_gothic_path,
+                        :normal      => ipaex_gothic_path
+                      }
+    # pdf.font_families.update(
+    #   "Osaka" => {
+    #                     :bold        => ipaex_gothic_path,
+    #                     :italic      => ipaex_gothic_path,
+    #                     :bold_italic => ipaex_gothic_path,
+    #                     :normal      => ipaex_gothic_path
+    #                   })
+      p 'in booking_controller, create_contract, pdf.font_families: ' + pdf.font_families.to_s
+
+      pdf.font("IPAEX_GOTHIC") do
+        pdf.draw_text "ほうれん荘", :at => [hor, ver], :size => 10
+        # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+      end
+
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 100", :at => [100, 100], :size => 10
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 200, 200, size 20", :at => [200, 200], :size => 20
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 300, 300, size 30", :at => [300, 300], :size => 30
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 400, 400, size 40", :at => [400, 400], :size => 40
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 500, size 10", :at => [100, 500], :size => 10
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 600, size 10, bold italic", :at => [100, 600], :size => 10, :style => :bold, :style => :italic
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 700, size 10", :at => [100, 700], :size => 10
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 800, size 10", :at => [100, 800], :size => 10
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 50, 750, size 5", :at => [50, 750], :size => 5
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7", :at => [150, 650], :size => 7
+    # pdf.text "Hello World! Here is the flat: #{flat.id}, #{flat.description}"
+    pdf.stroke_axis()
+    pdf.stroke_circle [325, 495], 10
+    pdf.stroke_circle [286.1, 483], 6.6
+    pdf.stroke_circle [307, 470], 6.6
+    pdf.stroke_circle [307, 457], 6.6
+    pdf.stroke_circle [286.1, 444], 6.6
+    pdf.stroke_circle [286.1, 431], 6.6
+    pdf.stroke_circle [286.1, 418], 6.6
+    pdf.stroke_circle [307, 405], 6.6
+    pdf.stroke_circle [307, 392], 6.6
+    pdf.stroke_circle [307, 379], 6.6
+
+    # pdf.stroke_ellipse [200, 100], 100, 50
+    # Rounded rectable ver hor, width height radius
+    pdf.stroke do
+       pdf.rounded_rectangle [132, 615], 60, 15, 5
+    end
+    # pdf.bounding_box([100, 500], :width => 300, :height => 200, :color => '0000FF') do
+      # pdf.stroke_color "0000ff"
+      # pdf.line_width = 1
+      # pdf.dash([3], :phase => 1)
+      # pdf.stroke_bounds
+      # pdf.stroke_color "ff0000"
+      # pdf.stroke_circle [0, 0], 20
+    # end
+    # pdf.start_new_page
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7 on a new page", :at => [150, 650], :size => 7
+    #
+    # pdf.start_new_page
+    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7 on a new page", :at => [150, 650], :size => 7
+
+    path_merge = Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf")
+    pdf.render_file(path_merge)
+
+    # p 'in booking_controller, create_contract, p  df: ' + pdf.to_s
+    # p 'in booking_controller, create_contract, result: ' + result.to_s
+    # p 'in booking_controller, create_contract, result: ' + result["public_id"].to_s
+    # # File.delete(Rails.root + '/foo.jpg')
+    # keep
+    # File.delete("public/system/temp_files/pdf_files/example.pdf")
+    pdf_merge = CombinePDF.load(Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf"))
+    # pdf_combined = CombinePDF.new
+    # pdf_combined << pdf_merge
+    # pdf_combined << pdf_base
+    # pdf_base.pages.each {|page| page << pdf_merge}
+    # pdf_base.pages.each_with_index {|page, i| page << pdf_mesrge.pages[i]}
+    # .pages is an array of pages
+    pdf_base.pages[0]<< pdf_merge.pages[0]
+    # pdf_base.pages[1]<< pdf_merge.pages[1]
+    # pdf_base << pdf_merge
+    pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
+    # keep
+    # path = Rails.root.join("public/system/temp_files/pdf_files", pdf)
+    path_combined = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
+    # keep
+    # file = File.open(path_combined)
+
+    # keep
+    result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
+    # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"), :width => 792, :height => 1122, "format" => 'jpg')
+    p 'in booking_controller, create_contract, result: ' + result.to_s
+    File.delete(path_merge)
+
   end
 
   def create
@@ -48,7 +160,9 @@ class Api::V1::BookingsController < ApplicationController
     # booking delete request by flat owner
     if @booking.flat.user_id = current_user.id
       if @booking.destroy
-        json_response "Deleted booking succesfully", true, {booking: @booking}, :ok
+        flats = Flat.where(user_id: @booking.user_id)
+        flat_serializer = parse_json flats
+        json_response "Deleted booking succesfully", true, {flats: flat_serializer }, :ok
       else
         json_response "Delete booking failed", false, {}, :unprocessable_entity
       end

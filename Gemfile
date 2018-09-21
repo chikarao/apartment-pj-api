@@ -52,3 +52,7 @@ gem 'paperclip', '~> 5.0.0'
 gem 'figaro'
 gem 'cloudinary'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'prawn'
+# reponders installed for prawn
+gem 'responders'
+gem 'combine_pdf'
