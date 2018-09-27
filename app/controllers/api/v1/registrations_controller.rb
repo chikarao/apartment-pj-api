@@ -11,7 +11,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       profile = Profile.new
       profile.user_id = user.id
       if profile.save
-      # UserNotifier.send_signup_email(user).deliver
+      # UserNotifier.send_signup_email(user).deliver NOT USED...
+      # Below commented out during development
       UserNotifier.send_registration_confirmation_email(user).deliver
       user_serializer = parse_json user
       json_response "Thank you! You've signed up successfully! Please confirm your registration in the email link we just sent you.", true, {user: user_serializer}, :ok

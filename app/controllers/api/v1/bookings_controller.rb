@@ -29,6 +29,7 @@ class Api::V1::BookingsController < ApplicationController
     p 'in booking_controller, create_contract, flat.id: ' + flat.id.to_s
     p 'in booking_controller, create_contract, params flat_id: ' + flat_id.to_s
     p 'in booking_controller, create_contract, params params[:address].top: ' + params[:address][:top].to_s
+    p 'in booking_controller, create_contract, params[:flat_building_name][:top].to_s: ' + params[:flat_building_name][:top].to_f.to_s
     # CombinePDF is for combine_pdf gem
     pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/teishaku-saimuhosho.pdf"))
     # ipaex_gothic_path = Rails.root.join("app/assets/fonts/osaka.ttc")
@@ -52,23 +53,44 @@ class Api::V1::BookingsController < ApplicationController
     # adjustment_y = (0.015) / 0.16
     # adjustment_x = (0.03 + 0.245) / 0.245
     # adjustment_y = (0.015 + 0.16) / 0.16
+    # !!!!!!adjustment for margin on frontend and padding of input fields
+    # same horizontal x adjument for input and circle
     adjustment_x = 0.02
     # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
-    adjustment_y = 0.015
+    # vertical y adjustment for circle
+    adjustment_y = 0.01
+    # !!!!!!adjustment for margin on frontend and padding of input fields
+    # Use slightly different adjustment for inputs
+    adjustment_input_y = 0.015
     # bigger y farther down; bigger x farther right
     # 1 px = 0.75 points
     # 0, 0 is at center of circle, and bottom left of a text box, so need to offset radius and height of text
     # building_name_x = 0.245 + adjustment_x
-    building_name_x = 0.245 + adjustment_x
-    building_name_y = 0.16 + adjustment_y
+    building_name_x = params[:flat_building_name][:left].to_f / 100 + adjustment_x
+    building_name_y = params[:flat_building_name][:top].to_f / 100 + adjustment_input_y
+    p 'in booking_controller, create_contract, building_name_x.to_s: ' + building_name_x.to_s
+    # building_name_x = 0.245 + adjustment_x
+    # building_name_y = 0.16 + adjustment_input_y
     # building_name_x = 0.245 + adjustment_x
     # building_name_y = 0.16 + adjustment_y
-    address_x = 0.245 + adjustment_x
-    address_y = 0.186 + adjustment_y
+    address_x = params[:address][:left].to_f / 100 + adjustment_x
+    address_y = params[:address][:top].to_f / 100 + adjustment_input_y
+    # address_x = 0.245 + adjustment_x
+    # address_y = 0.186 + adjustment_input_y
     address_x_unadjusted = 0.245
     address_y_unadjusted = 0.185
     circle_x = 0.4725 + adjustment_x
-    circle_y = 0.3725 + adjustment_y
+    circle_y = 0.377 + adjustment_y
+    building_type_x =  params[:building_type][:left].to_f / 100 + adjustment_x / 3;
+    building_type_y =  params[:building_type][:top].to_f / 100;
+    # building_type_x = 0.27 + adjustment_x / 3;
+    # building_type_y = 0.243;
+    construction_type_x = 0.45 + adjustment_x / 3;
+    construction_type_y = 0.216;
+    construction_type_input_x = 0.545 + adjustment_x;
+    construction_type_input_y = 0.24 + adjustment_y;
+    # building_type_x = 0.27;
+    # building_type_y = 0.228;
     # circle size 6 that is tangent to x and y axis lower left
     # circle1_x = 0.10390946502057613 + adjustment_x
     # circle1_x = 0.08641975308641975 + adjustment_x
@@ -92,8 +114,16 @@ class Api::V1::BookingsController < ApplicationController
     address_ver_points = ver_total_inches * (1 - address_y) * points_per_inch
     circle_hor_points = hor_total_inches * circle_x * points_per_inch
     circle_ver_points = ver_total_inches * (1 - circle_y) * points_per_inch
-    address_hor_points_unadjusted = hor_total_inches * address_x_unadjusted * points_per_inch
-    address_ver_points_unadjusted = ver_total_inches * (1 - address_y_unadjusted) * points_per_inch
+    # address_hor_points_unadjusted = hor_total_inches * address_x_unadjusted * points_per_inch
+    # address_ver_points_unadjusted = ver_total_inches * (1 - address_y_unadjusted) * points_per_inch
+    building_type_hor_points = hor_total_inches * building_type_x * points_per_inch
+    building_type_ver_points = ver_total_inches * (1 - building_type_y) * points_per_inch
+
+    construction_type_hor_points = hor_total_inches * construction_type_x * points_per_inch
+    construction_type_ver_points = ver_total_inches * (1 - construction_type_y) * points_per_inch
+
+    construction_type_input_hor_points = hor_total_inches * construction_type_input_x * points_per_inch
+    construction_type_input_ver_points = ver_total_inches * (1 - construction_type_input_y) * points_per_inch
 
     circle1_hor_points = hor_total_inches * circle1_x * points_per_inch
     circle1_ver_points = ver_total_inches * (1 - circle1_y) * points_per_inch
@@ -129,8 +159,10 @@ class Api::V1::BookingsController < ApplicationController
       p 'in booking_controller, create_contract, pdf.font_families: ' + pdf.font_families.to_s
 
       pdf.font("IPAEX_GOTHIC") do
-        pdf.draw_text "ほうれん荘", :at => [hor_points, ver_points], :size => 10
-        pdf.draw_text "まかろに町", :at => [address_hor_points, address_ver_points], :size => 10
+        # pdf.draw_text params[:flat_building_name][:value], :at => [hor_points, ver_points], :size => 10
+        pdf.draw_text params[:flat_building_name][:value], :at => [hor_points, ver_points], :size => 10
+        pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
+        # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
         # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
         # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
       end
@@ -147,7 +179,7 @@ class Api::V1::BookingsController < ApplicationController
     # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7", :at => [150, 650], :size => 7
     # pdf.text "Hello World! Here is the flat: #{flat.id}, #{flat.description}"
     pdf.stroke_axis()
-    pdf.stroke_circle [circle1_hor_points, circle1_ver_points], 6
+    # pdf.stroke_circle [circle1_hor_points, circle1_ver_points], 6
     pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
     # pdf.stroke_circle [circle_hor_points, circle_ver_points - 13], 6
     # pdf.stroke_circle [circle_hor_points, circle_ver_points - 26], 6
@@ -176,7 +208,9 @@ class Api::V1::BookingsController < ApplicationController
     # pdf.stroke_ellipse [200, 100], 100, 50
     # Rounded rectable ver hor, width height radius
     pdf.stroke do
-       pdf.rounded_rectangle [132, 615], 60, 15, 5
+       # pdf.rounded_rectangle [132, 615], 60, 15, 5
+       pdf.rounded_rectangle [building_type_hor_points, building_type_ver_points], 60, 12, 5
+       pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
     end
     # pdf.bounding_box([100, 500], :width => 300, :height => 200, :color => '0000FF') do
       # pdf.stroke_color "0000ff"
@@ -217,7 +251,10 @@ class Api::V1::BookingsController < ApplicationController
     path_combined = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
     # keep
     # file = File.open(path_combined)
-
+    # p "SENDGRID_USERNAME: #{ENV['SENDGRID_USERNAME']}"
+    # p "SENDGRID_PASSWORD: #{ENV['SENDGRID_PASSWORD']}"
+    # Send PDF as attachment!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # UserNotifier.send_contract_email(path_combined, user).deliver
     # keep
     # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
     # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"), :width => 792, :height => 1122, "format" => 'jpg')
