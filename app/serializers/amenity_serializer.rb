@@ -32,6 +32,16 @@ class AmenitySerializer < ActiveModel::Serializer
   :hairdryer,
   :fire_extinguisher,
   :lockbox,
+  :washer_dryer_area,
+  :cable_tv,
+  :shower,
+  :wash_basin,
+  :kitchen_grill,
+  :lighting_fixed,
+  :internet_ready,
+  :mail_box,
+  :parcel_delivery_box,
+  :lock_key,
   :created_at,
   :updated_at
   # :total_reviews

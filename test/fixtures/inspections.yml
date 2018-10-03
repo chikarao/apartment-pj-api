@@ -1,0 +1,69 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  building: one
+  inspection_date: 2018-10-03 14:23:23
+  inspection_summary: MyText
+  inspector_name: MyString
+  inspector_trainer: MyString
+  inspector_certificate_number: MyString
+  architect_qualification_type: MyString
+  architect_type: MyString
+  architect_registration_number: MyString
+  architect_registration_type: MyString
+  architect_office_name: MyString
+  architect_office_registration: MyString
+  foundation: MyString
+  floor_assembly: MyString
+  floor: MyString
+  pillars: MyString
+  exterior_walls: MyString
+  balcony: MyString
+  interior_walls: MyString
+  ceilings: MyString
+  roof_truss: MyString
+  termite_damage: MyString
+  corrosion: MyString
+  reinforcement: MyString
+  concrete_compression: MyString
+  exterior_walls_rain: MyString
+  eaves_rain: MyString
+  balcony_rain: MyString
+  interior_walls_rain: MyString
+  ceilings_rain: MyString
+  roof_truss_rain: MyString
+  roof: MyString
+
+two:
+  building: two
+  inspection_date: 2018-10-03 14:23:23
+  inspection_summary: MyText
+  inspector_name: MyString
+  inspector_trainer: MyString
+  inspector_certificate_number: MyString
+  architect_qualification_type: MyString
+  architect_type: MyString
+  architect_registration_number: MyString
+  architect_registration_type: MyString
+  architect_office_name: MyString
+  architect_office_registration: MyString
+  foundation: MyString
+  floor_assembly: MyString
+  floor: MyString
+  pillars: MyString
+  exterior_walls: MyString
+  balcony: MyString
+  interior_walls: MyString
+  ceilings: MyString
+  roof_truss: MyString
+  termite_damage: MyString
+  corrosion: MyString
+  reinforcement: MyString
+  concrete_compression: MyString
+  exterior_walls_rain: MyString
+  eaves_rain: MyString
+  balcony_rain: MyString
+  interior_walls_rain: MyString
+  ceilings_rain: MyString
+  roof_truss_rain: MyString
+  roof: MyString

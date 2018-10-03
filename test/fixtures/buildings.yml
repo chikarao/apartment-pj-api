@@ -1,0 +1,65 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  region: MyString
+  country: MyString
+  construction: MyString
+  type: 
+  year_built: 1
+  last_renovation_year: 1
+  units: 1
+  floors: 1
+  floors_underground: 1
+  power_usage_amount: 1
+  gas: MyString
+  water: MyString
+  sewage: MyString
+  building_management_company: MyString
+  building_management_phone: MyString
+  building_management_contact: MyString
+  building_inspection_conducted: false
+  inside_disaster_prevention: false
+  inside_disaster_warning: false
+  inside_tsunami_warning: false
+  asbestos_record: false
+  asbestos_survey_contents: MyText
+  earthquake_study_performed: false
+  earthquake_study_contents: MyText
+
+two:
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  region: MyString
+  country: MyString
+  construction: MyString
+  type: 
+  year_built: 1
+  last_renovation_year: 1
+  units: 1
+  floors: 1
+  floors_underground: 1
+  power_usage_amount: 1
+  gas: MyString
+  water: MyString
+  sewage: MyString
+  building_management_company: MyString
+  building_management_phone: MyString
+  building_management_contact: MyString
+  building_inspection_conducted: false
+  inside_disaster_prevention: false
+  inside_disaster_warning: false
+  inside_tsunami_warning: false
+  asbestos_record: false
+  asbestos_survey_contents: MyText
+  earthquake_study_performed: false
+  earthquake_study_contents: MyText

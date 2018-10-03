@@ -1,10 +1,10 @@
 class FlatSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :lat, :lng, :address1, :city, :zip, :country, :area,
+  attributes :id, :user_id, :lat, :lng, :unit, :address1, :city, :zip, :country, :area,
   :price_per_day, :price_per_month, :guests, :sales_point, :description,
-  :rooms, :beds, :king_or_queen_bed,:flat_type, :bath, :intro, :state, :region,
+  :rooms, :beds, :king_or_queen_bed,:flat_type, :bath, :toilet, :intro, :state, :region,
   :address2, :cancellation, :smoking, :size, :station, :minutes_to_station,
-  :station1, :minutes_to_station1, :language_code, :images, :user, :likes,
-  :amenity, :views, :places, :flat_languages, :calendars
+  :station1, :minutes_to_station1, :parking_included, :year_built, :layout, :balcony_size,
+  :language_code, :images, :user, :likes, :amenity, :views, :places, :flat_languages, :calendars
 
   # :total_reviews
   # :average_rating_of_book,

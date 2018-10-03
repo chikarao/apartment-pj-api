@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180916221329) do
+ActiveRecord::Schema.define(version: 20181003062829) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(version: 20180916221329) do
     t.boolean "corner_flat", default: false
     t.boolean "first_floor", default: false
     t.boolean "pets_allowed", default: false
+    t.boolean "shower"
+    t.boolean "wash_basin"
+    t.boolean "kitchen_grill"
+    t.boolean "lighting_fixed"
+    t.boolean "internet_ready"
+    t.boolean "mail_box"
+    t.boolean "parcel_delivery_box"
+    t.boolean "lock_key"
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
   end
 
@@ -93,6 +101,41 @@ ActiveRecord::Schema.define(version: 20180916221329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reviews_count", default: 0, null: false
+  end
+
+  create_table "buildings", force: :cascade do |t|
+    t.string "name"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "region"
+    t.string "country"
+    t.string "construction"
+    t.string "type"
+    t.integer "year_built"
+    t.integer "last_renovation_year"
+    t.integer "units"
+    t.integer "floors"
+    t.integer "floors_underground"
+    t.integer "power_usage_amount"
+    t.string "gas"
+    t.string "water"
+    t.string "sewage"
+    t.string "building_management_company"
+    t.string "building_management_phone"
+    t.string "building_management_contact"
+    t.boolean "building_inspection_conducted"
+    t.boolean "inside_disaster_prevention"
+    t.boolean "inside_disaster_warning"
+    t.boolean "inside_tsunami_warning"
+    t.boolean "asbestos_record"
+    t.text "asbestos_survey_contents"
+    t.boolean "earthquake_study_performed"
+    t.text "earthquake_study_contents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -213,6 +256,19 @@ ActiveRecord::Schema.define(version: 20180916221329) do
     t.string "block"
     t.string "unit"
     t.string "flat_building_name"
+    t.integer "building_id"
+    t.string "layout"
+    t.boolean "bicycle_parking_included"
+    t.boolean "storage_included"
+    t.boolean "motorcycle_parking_included"
+    t.boolean "dedicated_yard"
+    t.string "toilet"
+    t.float "floor_area_official"
+    t.string "owner_name"
+    t.string "owner_contact_name"
+    t.string "owner_address"
+    t.string "owner_phone"
+    t.index ["building_id"], name: "index_flats_on_building_id"
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
 
@@ -223,6 +279,44 @@ ActiveRecord::Schema.define(version: 20180916221329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flat_id"], name: "index_images_on_flat_id"
+  end
+
+  create_table "inspections", force: :cascade do |t|
+    t.integer "building_id"
+    t.datetime "inspection_date"
+    t.text "inspection_summary"
+    t.string "inspector_name"
+    t.string "inspector_trainer"
+    t.string "inspector_certificate_number"
+    t.string "architect_qualification_type"
+    t.string "architect_type"
+    t.string "architect_registration_number"
+    t.string "architect_registration_type"
+    t.string "architect_office_name"
+    t.string "architect_office_registration"
+    t.string "foundation"
+    t.string "floor_assembly"
+    t.string "floor"
+    t.string "pillars"
+    t.string "exterior_walls"
+    t.string "balcony"
+    t.string "interior_walls"
+    t.string "ceilings"
+    t.string "roof_truss"
+    t.string "termite_damage"
+    t.string "corrosion"
+    t.string "reinforcement"
+    t.string "concrete_compression"
+    t.string "exterior_walls_rain"
+    t.string "eaves_rain"
+    t.string "balcony_rain"
+    t.string "interior_walls_rain"
+    t.string "ceilings_rain"
+    t.string "roof_truss_rain"
+    t.string "roof"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_inspections_on_building_id"
   end
 
   create_table "likes", force: :cascade do |t|
