@@ -245,16 +245,16 @@ class Api::V1::FlatsController < ApplicationController
     :bedrooms_max, :beds, :king_or_queen_bed, :flat_type, :bath, :intro, :cancellation, :smoking,
     :size, :size_min, :size_max, :balcony_size, :station, :minutes_to_station, :minutes_to_station_min, :minutes_to_station_max,
     :station1, :minutes_to_station1, :floor, :deposit, :key_money, :year_built, :construction, :management_fees, :fees,
-    :parking_available, :parking_included, :parking_price, :school_district, :school_district1, :circle_no_marker, :ical_import_url, :layout, :balcony_size)
+    :parking_available, :parking_included, :parking_price, :school_district, :school_district1, :circle_no_marker, :ical_import_url, :layout, :balcony_size, :toilet, :building_id, :unit, :language_code)
   end
 
   def amenity_params
     #if any chnage in column names below, change in create and edit flat in front end!!!!!!!
     #:basic is there just to so amenity params do not boecome null and crash
-    params.require(:amenity).permit(:basic, :auto_lock, :security_system, :wifi, :pocket_wifi, :wheelchair_accessible, :iron, :ac, :heater, :bath_essentials,
+    params.require(:amenity).permit(:basic, :flat_id, :auto_lock, :security_system, :wifi, :pocket_wifi, :wheelchair_accessible, :iron, :ac, :heater, :bath_essentials,
       :hot_water, :parking, :tv, :dvd_player, :sofa, :kitchen, :dining_table, :dish_washer, :washer, :dryer, :cooking_basics,
       :eating_utensils, :microwave, :refrigerator, :oven, :crib, :high_chair, :bath_tub, :washlet, :hairdryer, :fire_extinguisher, :lockbox,
-      :elevator, :washer_dryer_area, :bath_toilet_separate, :shower_bath_separate, :front_desk, :top_floor, :corner_flat, :first_floor, :pets_allowed,   :shower,
+      :elevator, :washer_dryer_area, :bath_toilet_separate, :shower_bath_separate, :front_desk, :top_floor, :corner_flat, :first_floor, :pets_allowed, :shower,
       :wash_basin, :kitchen_grill, :lighting_fixed, :internet_ready, :mail_box, :parcel_delivery_box, :lock_key, :cable_tv)
   end
   # work around to get reviews for flats since cannot get reviews in serializer

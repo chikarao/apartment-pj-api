@@ -75,6 +75,11 @@ Rails.application.routes.draw do
 
       resources :bookings do
       end
+
+      resources :buildings do
+      end
+
+      post 'search_buildings', to: 'buildings#search_buildings'
       #
       post 'blockout_dates_ical', to: 'bookings#blockout_dates_ical'
       post 'create_contract', to: 'bookings#create_contract'

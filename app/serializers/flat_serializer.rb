@@ -4,8 +4,9 @@ class FlatSerializer < ActiveModel::Serializer
   :rooms, :beds, :king_or_queen_bed,:flat_type, :bath, :toilet, :intro, :state, :region,
   :address2, :cancellation, :smoking, :size, :station, :minutes_to_station,
   :station1, :minutes_to_station1, :parking_included, :year_built, :layout, :balcony_size,
-  :language_code, :images, :user, :likes, :amenity, :views, :places, :flat_languages, :calendars
-
+  :language_code, :images, :user, :likes, :amenity, :views, :places, :flat_languages,
+  :calendars, :building, :created_at, :updated_at
+# :building,
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,
@@ -14,6 +15,8 @@ class FlatSerializer < ActiveModel::Serializer
   has_many :bookings
   has_many :likes
   belongs_to :user
+  # belongs_to :building
+  # has_one :building
   has_one :amenity
   has_many :views
   has_many :places
