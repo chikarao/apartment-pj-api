@@ -1,5 +1,6 @@
 class Api::V1::BuildingsController < ApplicationController
-  before_action :load_flat, only: [:destroy, :show, :create, :udpate]
+  before_action :load_flat, only: [:destroy, :show, :create, :update]
+  before_action :load_building, only: [:destroy, :show, :update]
   # before_action :load_building, only: :destroy
   before_action :valid_token, only: [:destroy, :create, :update, :search_buildings]
 
@@ -9,7 +10,7 @@ class Api::V1::BuildingsController < ApplicationController
   def search_buildings
     # search Buildings using the first two words of the address
     search_first_two_array = []
-    search_condition = ''
+    search_condition_address1 = ''
     split_params_array = params[:address1].split
     if split_params_array.length > 1
       # get a string of the first two words of array of params address1
@@ -20,7 +21,7 @@ class Api::V1::BuildingsController < ApplicationController
 
     # p "BuildingsController index search_condition: " + search_condition.to_s
 
-    buildings = Building.where("address1 LIKE ?", "%#{search_condition}%")
+    buildings = Building.where("address1 LIKE ? AND city LIKE ?", "%#{search_condition}%", "%#{params[:city]}%")
     unless buildings.empty?
       p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
       building_serializer = parse_json buildings
@@ -51,9 +52,10 @@ class Api::V1::BuildingsController < ApplicationController
     if building.save
       # building_serializer = parse_json building
       @flat.building_id = building.id
+      @flat.save
       flat_serializer = parse_json @flat
       # building_serializer = parse_json @building
-      json_response "Updated building succesfully", true, {flat: flat_serializer}, :ok
+      json_response "Created building succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Create building failed", false, {}, :unprocessable_entity
     end
@@ -99,7 +101,7 @@ class Api::V1::BuildingsController < ApplicationController
 
   def load_building
     # front end gets params and sends it in fetchFlatFromParams
-    @building = Building.find_by id: params[:id]
+    @building = Building.find_by id: params[:building_id]
     unless @building.present?
       json_response "Cannot find building", false, {}, :not_found
     end

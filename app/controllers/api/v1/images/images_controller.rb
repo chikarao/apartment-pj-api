@@ -19,6 +19,7 @@ class Api::V1::Images::ImagesController < ApplicationController
 
       image = File.open(path)
       result = Cloudinary::Uploader.upload(image, options = {})
+      # result = Cloudinary::Uploader.upload(image, options = {})
 
       # p 'in images/images_controller, upload, image: ' + image.to_s
       # p 'in images/images_controller, upload cloudinary upload, result: ' + result['public_id']

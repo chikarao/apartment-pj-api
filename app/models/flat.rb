@@ -1,6 +1,7 @@
 class Flat < ApplicationRecord
   belongs_to :user
   belongs_to :building, optional: true
+  belongs_to :bank_account, optional: true
   has_many :images, dependent: :destroy
   has_many :bookings, dependent: :destroy
   has_many :booked_users, through: :bookings, source: :user

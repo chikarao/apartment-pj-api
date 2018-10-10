@@ -35,7 +35,9 @@ Rails.application.routes.draw do
         resources :calendars
       end
 
-
+      # namespace :users do
+      resources :bank_accounts do
+      end
 
       # resources :users do
       #   resources :flats, only: [:index]

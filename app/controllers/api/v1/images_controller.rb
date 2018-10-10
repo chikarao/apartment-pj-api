@@ -20,7 +20,6 @@ class Api::V1::ImagesController < ApplicationController
     # image.book_id = params[:book_id]
     if image.save
       image_serializer = parse_json image
-
       json_response "Created image succesfully", true, {image: image_serializer}, :ok
     else
       json_response "Create image failed", false, {}, :unprocessable_entity

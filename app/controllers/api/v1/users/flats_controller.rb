@@ -5,7 +5,7 @@ class Api::V1::Users::FlatsController < ApplicationController
   before_action :authenticate_with_token, only: [:index]
 
   def index
-    # p 'in users, FlatsController'
+    p 'in users, FlatsController @user.id' + @user.id.to_s
     @flats = Flat.where(user_id: @user.id).includes(:bookings, :images, :places)
     p @flats
     if @flats
@@ -38,6 +38,7 @@ class Api::V1::Users::FlatsController < ApplicationController
 
   def valid_token
     @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+    p 'in users, FlatsController valid_token @user.id' + @user.id.to_s
     if @user
       return @user
     else

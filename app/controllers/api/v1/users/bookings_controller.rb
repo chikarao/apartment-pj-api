@@ -6,6 +6,7 @@ class Api::V1::Users::BookingsController < ApplicationController
 
   def index
     # p 'in users, BookingsController'
+    p 'in users, BookingsController index'
     @bookings = Booking.where(user_id: @user.id).includes(:flat)
     # p @bookings
     if @bookings
@@ -38,6 +39,7 @@ class Api::V1::Users::BookingsController < ApplicationController
 
   def valid_token
     @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+    p 'in users, BookingsController index, valid_token, @user.id' + @user.id.to_s
     if @user
       return @user
     else

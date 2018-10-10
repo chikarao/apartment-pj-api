@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181003062829) do
+ActiveRecord::Schema.define(version: 20181010063812) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -70,6 +70,24 @@ ActiveRecord::Schema.define(version: 20181003062829) do
     t.boolean "parcel_delivery_box"
     t.boolean "lock_key"
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
+  end
+
+  create_table "bank_accounts", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "account_first_name"
+    t.string "account_last_name"
+    t.string "account_name"
+    t.string "bank_name"
+    t.string "branch_name"
+    t.string "bank_address"
+    t.string "branch_number"
+    t.string "account_number"
+    t.string "account_type"
+    t.string "routing_number"
+    t.string "swift"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bank_accounts_on_user_id"
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -268,6 +286,9 @@ ActiveRecord::Schema.define(version: 20181003062829) do
     t.string "owner_contact_name"
     t.string "owner_address"
     t.string "owner_phone"
+    t.integer "payment_due_date"
+    t.integer "bank_account_id"
+    t.index ["bank_account_id"], name: "index_flats_on_bank_account_id"
     t.index ["building_id"], name: "index_flats_on_building_id"
     t.index ["user_id"], name: "index_flats_on_user_id"
   end
