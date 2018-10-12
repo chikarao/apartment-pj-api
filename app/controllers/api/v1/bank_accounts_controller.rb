@@ -46,7 +46,7 @@ class Api::V1::BankAccountsController < ApplicationController
       # flat = Flat.find_by(id: params[:flat_id])
       # flat_serializer = parse_json @flat
       # bank_account_serializer = parse_json @bank_account
-      json_response "Updated bank_account succesfully", true, {bank_account: bank_account_serializer}, :ok
+      json_response "Updated bank_account succesfully", true, {bank_accounts: bank_account_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end
@@ -56,7 +56,7 @@ class Api::V1::BankAccountsController < ApplicationController
       if @bank_account.destroy
         bank_accounts = BankAccount.where(user_id: @user.id)
         bank_account_serializer = parse_json bank_accounts
-        json_response "Deleted bank_account succesfully", true, {bank_account: bank_account_serializer}, :ok
+        json_response "Deleted bank_account succesfully", true, {bank_accounts: bank_account_serializer}, :ok
       else
         json_response "Delete bank_account failed", false, {}, :unprocessable_entity
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181010063812) do
+ActiveRecord::Schema.define(version: 20181012065631) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -288,6 +288,9 @@ ActiveRecord::Schema.define(version: 20181010063812) do
     t.string "owner_phone"
     t.integer "payment_due_date"
     t.integer "bank_account_id"
+    t.string "transfer_fee_paid_by"
+    t.string "rent_payment_method"
+    t.integer "management_fee_due_date"
     t.index ["bank_account_id"], name: "index_flats_on_bank_account_id"
     t.index ["building_id"], name: "index_flats_on_building_id"
     t.index ["user_id"], name: "index_flats_on_user_id"

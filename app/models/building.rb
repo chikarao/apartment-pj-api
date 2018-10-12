@@ -1,5 +1,4 @@
 class Building < ApplicationRecord
-  # Do NOT destory dependents flats
-  has_many :flats
-
+  # Do NOT destory dependents flats; just nullify building_id in flat
+  has_many :flats, dependent: :nullify
 end
