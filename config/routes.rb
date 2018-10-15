@@ -81,6 +81,10 @@ Rails.application.routes.draw do
       resources :buildings do
       end
 
+      resources :facilities do
+      end
+
+      post 'fetch_facilities_for_flat', to: 'facilities#fetch_facilities_for_flat'
       post 'search_buildings', to: 'buildings#search_buildings'
       #
       post 'blockout_dates_ical', to: 'bookings#blockout_dates_ical'

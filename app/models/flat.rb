@@ -13,5 +13,6 @@ class Flat < ApplicationRecord
   has_many :views, dependent: :destroy
   has_many :flat_languages, dependent: :destroy
   has_many :calendars, dependent: :destroy
+  has_many :facilities, dependent: :destroy
   # has_many :reviews
 end

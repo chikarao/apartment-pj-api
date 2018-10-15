@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181012065631) do
+ActiveRecord::Schema.define(version: 20181015084032) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -190,6 +190,20 @@ ActiveRecord::Schema.define(version: 20181012065631) do
     t.boolean "archived_by_user", default: false
     t.index ["flat_id"], name: "index_conversations_on_flat_id"
     t.index ["user_id"], name: "index_conversations_on_user_id"
+  end
+
+  create_table "facilities", force: :cascade do |t|
+    t.integer "flat_id"
+    t.integer "booking_id"
+    t.boolean "optional"
+    t.string "facility_type"
+    t.float "price_per_month"
+    t.float "discount"
+    t.string "facility_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_facilities_on_booking_id"
+    t.index ["flat_id"], name: "index_facilities_on_flat_id"
   end
 
   create_table "flat_languages", force: :cascade do |t|

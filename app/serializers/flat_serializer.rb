@@ -6,7 +6,7 @@ class FlatSerializer < ActiveModel::Serializer
   :station1, :minutes_to_station1, :parking_included, :bicycle_parking_included,
   :storage_included, :motorcycle_parking_included, :dedicated_yard,:year_built, :layout, :balcony_size,
   :language_code, :payment_due_date, :images, :user, :likes, :amenity, :views, :places, :flat_languages,
-  :calendars, :bank_account, :building, :created_at, :updated_at, :transfer_fee_paid_by, :rent_payment_method, :management_fee_due_date
+  :calendars, :bank_account, :building, :facilities, :created_at, :updated_at, :transfer_fee_paid_by, :rent_payment_method, :management_fee_due_date
 # :building,
 #:bank_account,
   # :total_reviews
@@ -15,6 +15,7 @@ class FlatSerializer < ActiveModel::Serializer
 
   has_many :images
   has_many :bookings
+  has_many :facilities
   has_many :likes
   belongs_to :user
   has_one :amenity

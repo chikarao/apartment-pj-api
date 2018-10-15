@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flat: one
+  booking: one
+  optional: false
+  facility_type: MyString
+  price_per_month: 1.5
+  discount: 1.5
+  facility_number: MyString
+
+two:
+  flat: two
+  booking: two
+  optional: false
+  facility_type: MyString
+  price_per_month: 1.5
+  discount: 1.5
+  facility_number: MyString
