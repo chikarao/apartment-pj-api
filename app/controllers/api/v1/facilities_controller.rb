@@ -24,13 +24,13 @@ class Api::V1::FacilitiesController < ApplicationController
     # only if have parent
     # facility.book_id = params[:book_id]
     if facility.save
-      facilities = Facility.where(flat_id: facility_params[:flat_id])
+      flat = Flat.find_by(id: facility_params[:flat_id])
       # facility_serializer = parse_json facility
       # @facility.facility_id = facility.id
       # @facility.save
-      facility_serializer = parse_json facilities
+      flat_serializer = parse_json flat
       # facility_serializer = parse_json @facility
-      json_response "Created facility succesfully", true, {facilities: facility_serializer}, :ok
+      json_response "Created facility succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Create facility failed", false, {}, :unprocessable_entity
     end
@@ -41,22 +41,26 @@ class Api::V1::FacilitiesController < ApplicationController
 
   def update
     if @facility.update facility_params
-      facilities = Facility.where(flat_id: facility_params[:flat_id])
-      facility_serializer = parse_json facilities
+      flat = Flat.find_by(id: facility_params[:flat_id])
+      flat_serializer = parse_json flat
       # facility = Flat.find_by(id: params[:facility_id])
       # facility_serializer = parse_json @facility
       # facility_serializer = parse_json @facility
-      json_response "Updated facility succesfully", true, {facilities: facility_serializer}, :ok
+      json_response "Updated facility succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Update facility failed", false, {}, :unprocessable_entity
     end
   end
 
   def destroy
+      flat_id = @facility.flat_id
+      p "@facility.flat_id" + @facility.flat_id.to_s
       if @facility.destroy
-        facilities = Facility.where(flat_id: facility_params[:flat_id])
-        facility_serializer = parse_json facilities
-        json_response "Deleted facility succesfully", true, {facilities: facility_serializer}, :ok
+        flat = Flat.find_by(id: flat_id)
+        p "@flat.id" + flat.id.to_s
+
+        flat_serializer = parse_json flat
+        json_response "Deleted facility succesfully", true, {flat: flat_serializer}, :ok
       else
         json_response "Delete facility failed", false, {}, :unprocessable_entity
       end
