@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181015084032) do
+ActiveRecord::Schema.define(version: 20181017090740) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -154,6 +154,9 @@ ActiveRecord::Schema.define(version: 20181015084032) do
     t.text "earthquake_study_contents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "building_owner_name"
+    t.string "building_owner_address"
+    t.string "building_owner_phone"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -422,6 +425,11 @@ ActiveRecord::Schema.define(version: 20181015084032) do
     t.text "introduction"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "phone"
+    t.string "emergency_contact_name"
+    t.string "emergency_contact_address"
+    t.string "emergency_contact_phone"
+    t.string "emergency_contact_relationship"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 

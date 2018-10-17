@@ -8,7 +8,7 @@ require 'prawn'
 
 class Api::V1::BookingsController < ApplicationController
   # before_action :ensure_params_exist, only: :create
-  before_action :valid_token, only: [:create, :create, :destroy, :blockout_dates_ical, :create_contract]
+  before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :destroy]
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
 
@@ -17,7 +17,9 @@ class Api::V1::BookingsController < ApplicationController
 
   def show
     booking_serializer = parse_json @booking
-    json_response "Showed booking successfully", true, {booking: booking_serializer}, :ok
+    # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
+    user_serializer = parse_json @user
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer}, :ok
   end
 
   def new

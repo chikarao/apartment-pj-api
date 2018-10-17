@@ -1,5 +1,5 @@
 class BookingSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :flat_id, :date_start, :date_end, :created_at, :booking_by_owner, :booking_by_ical, :flat
+  attributes :id, :user_id, :flat_id, :date_start, :date_end, :created_at, :booking_by_owner, :booking_by_ical, :flat, :user
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,
@@ -7,6 +7,7 @@ class BookingSerializer < ActiveModel::Serializer
   # do not need
   # belongs_to :flat, serializer: FlatSerializer
   belongs_to :flat
+  belongs_to :user
 
   # def flat
   #   FlatSerializer.new(object.flat, root: false)

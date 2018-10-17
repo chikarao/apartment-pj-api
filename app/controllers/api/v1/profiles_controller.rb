@@ -73,7 +73,31 @@ class Api::V1::ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:user_id, :image, :identification, :title, :name, :first_name, :middle_name, :last_name, :username, :address1, :address2, :city, :state, :zip, :region, :country, :language, :birthday, :gender, :introduction)
+    params.require(:profile).permit(:user_id,
+      :image,
+      :identification,
+      :title,
+      :name,
+      :first_name,
+      :middle_name,
+      :last_name,
+      :username,
+      :address1,
+      :address2,
+      :city,
+      :state,
+      :zip,
+      :region,
+      :country,
+      :language,
+      :birthday,
+      :phone,
+      :gender,
+      :emergency_contact_name,
+      :emergency_contact_phone,
+      :emergency_contact_address,
+      :emergency_contact_relationship,
+      :introduction)
   end
 
   # def load_flat
