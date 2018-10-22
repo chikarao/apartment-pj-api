@@ -26,215 +26,109 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def create_contract
-    flat = Flat.find_by(id: 190)
+    flat = Flat.find_by(params[:flat_id])
     flat_id = params[:flat_id]
-    p 'in booking_controller, create_contract, flat.id: ' + flat.id.to_s
-    p 'in booking_controller, create_contract, params flat_id: ' + flat_id.to_s
-    p 'in booking_controller, create_contract, params params[:address].top: ' + params[:address][:top].to_s
-    p 'in booking_controller, create_contract, params[:flat_building_name][:top].to_s: ' + params[:flat_building_name][:top].to_f.to_s
+    contract_name = params[:contract_name]
+
     # CombinePDF is for combine_pdf gem
-    pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/teishaku-saimuhosho.pdf"))
-    # ipaex_gothic_path = Rails.root.join("app/assets/fonts/osaka.ttc")
+    pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
     # path for external font ttf
-    ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
 
     # Letter size 612 x 792
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [612, 792])
     pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
-    # hor = 140
-    # ver = 660
+
     # A4 dimensions in inches
     hor_total_inches = 8.27
     ver_total_inches = 11.69
     points_per_inch = 72
 
-    # adjustment_x = 0.107
-    # adjustment_y = -0.07
-    # adjustment_x = (0.03) / 0.245
-    # adjustment_y = (0.015) / 0.16
-    # adjustment_x = (0.03 + 0.245) / 0.245
-    # adjustment_y = (0.015 + 0.16) / 0.16
     # !!!!!!adjustment for margin on frontend and padding of input fields
     # same horizontal x adjument for input and circle
-    adjustment_x = 0.02
+    adjustment_x = 0.01
     # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
     # vertical y adjustment for circle
-    adjustment_y = 0.01
+    adjustment_y = 0.015
     # !!!!!!adjustment for margin on frontend and padding of input fields
     # Use slightly different adjustment for inputs
-    adjustment_input_y = 0.015
+    adjustment_input_y = 0.013
     # bigger y farther down; bigger x farther right
-    # 1 px = 0.75 points
-    # 0, 0 is at center of circle, and bottom left of a text box, so need to offset radius and height of text
-    # building_name_x = 0.245 + adjustment_x
-    building_name_x = params[:flat_building_name][:left].to_f / 100 + adjustment_x
-    building_name_y = params[:flat_building_name][:top].to_f / 100 + adjustment_input_y
-    p 'in booking_controller, create_contract, building_name_x.to_s: ' + building_name_x.to_s
-    # building_name_x = 0.245 + adjustment_x
-    # building_name_y = 0.16 + adjustment_input_y
-    # building_name_x = 0.245 + adjustment_x
-    # building_name_y = 0.16 + adjustment_y
-    address_x = params[:address][:left].to_f / 100 + adjustment_x
-    address_y = params[:address][:top].to_f / 100 + adjustment_input_y
-    # address_x = 0.245 + adjustment_x
-    # address_y = 0.186 + adjustment_input_y
-    address_x_unadjusted = 0.245
-    address_y_unadjusted = 0.185
-    circle_x = 0.4725 + adjustment_x
-    circle_y = 0.377 + adjustment_y
-    building_type_x =  params[:building_type][:left].to_f / 100 + adjustment_x / 3;
-    building_type_y =  params[:building_type][:top].to_f / 100;
-    # building_type_x = 0.27 + adjustment_x / 3;
-    # building_type_y = 0.243;
-    construction_type_x = 0.45 + adjustment_x / 3;
-    construction_type_y = 0.216;
-    construction_type_input_x = 0.545 + adjustment_x;
-    construction_type_input_y = 0.24 + adjustment_y;
-    # building_type_x = 0.27;
-    # building_type_y = 0.228;
-    # circle size 6 that is tangent to x and y axis lower left
-    # circle1_x = 0.10390946502057613 + adjustment_x
-    # circle1_x = 0.08641975308641975 + adjustment_x
-    circle1_x = 0.10732323232323232
-    circle1_y = 0.12834224598930483
-    # circle1_x = 0.08641975308641975
-    # circle1_y = 0.1265597147950089
-    # circle1_x = 0.01
-    # circle1_y = 0.9925
-    # circle1_x = 0
-    # circle1_y = 0.3725
-    # circle_x1 = 0.473 + 0.02
-    # circle_y1 = 0.375 + 0.01
-    # circle_x = 0.473
-    # circle_y = 0.375
-    # circle_x = 0.473 + 0.02
-    # circle_y = 0.375 + 0.01
-    hor_points = hor_total_inches * building_name_x * points_per_inch
-    ver_points = ver_total_inches * (1 - building_name_y) * points_per_inch
-    address_hor_points = hor_total_inches * address_x * points_per_inch
-    address_ver_points = ver_total_inches * (1 - address_y) * points_per_inch
-    circle_hor_points = hor_total_inches * circle_x * points_per_inch
-    circle_ver_points = ver_total_inches * (1 - circle_y) * points_per_inch
-    # address_hor_points_unadjusted = hor_total_inches * address_x_unadjusted * points_per_inch
-    # address_ver_points_unadjusted = ver_total_inches * (1 - address_y_unadjusted) * points_per_inch
-    building_type_hor_points = hor_total_inches * building_type_x * points_per_inch
-    building_type_ver_points = ver_total_inches * (1 - building_type_y) * points_per_inch
+    additional_adjustment_circle_x = 0.01
+    additional_adjustment_circle_y = 0.025
 
-    construction_type_hor_points = hor_total_inches * construction_type_x * points_per_inch
-    construction_type_ver_points = ver_total_inches * (1 - construction_type_y) * points_per_inch
-
-    construction_type_input_hor_points = hor_total_inches * construction_type_input_x * points_per_inch
-    construction_type_input_ver_points = ver_total_inches * (1 - construction_type_input_y) * points_per_inch
-
-    circle1_hor_points = hor_total_inches * circle1_x * points_per_inch
-    circle1_ver_points = ver_total_inches * (1 - circle1_y) * points_per_inch
-
-    p "hor_total_inches: " + hor_total_inches.to_s
-    p "ver_total_inches: " + ver_total_inches.to_s
-    p "building_name_x: " + building_name_x.to_s
-    p "building_name_x: " + building_name_y.to_s
-    p "points_per_inch: " + points_per_inch.to_s
-    p "hor_points: " + hor_points.to_s
-    p "ver_points: " + hor_points.to_s
-    p "circle_hor_points: " + circle_hor_points.to_s
-    p "circle_ver_points: " + circle_ver_points.to_s
-    p "circle_hor_points out 50: " + sprintf("%0.50f", circle_hor_points)
-    p "circle_ver_points out 50: " + sprintf("%0.50f", circle_ver_points)
-    p "adjustment_y 0.015 in points, hor_total_inches * adjustment_y * points_per_inch " + (hor_total_inches * adjustment_y * points_per_inch).to_s
-    p "adjustment_x 0.02 in points, ver_total_inches * adjustment_x * points_per_inch " + (ver_total_inches * adjustment_x * points_per_inch).to_s
-
-
+    ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
+    # define custom font in assets/fonts/ipaexg
     pdf.font_families["IPAEX_GOTHIC"] = {
                         :bold        => ipaex_gothic_path,
                         :italic      => ipaex_gothic_path,
                         :bold_italic => ipaex_gothic_path,
                         :normal      => ipaex_gothic_path
                       }
-    # pdf.font_families.update(
-    #   "Osaka" => {
-    #                     :bold        => ipaex_gothic_path,
-    #                     :italic      => ipaex_gothic_path,
-    #                     :bold_italic => ipaex_gothic_path,
-    #                     :normal      => ipaex_gothic_path
-    #                   })
-      p 'in booking_controller, create_contract, pdf.font_families: ' + pdf.font_families.to_s
-
-      pdf.font("IPAEX_GOTHIC") do
-        # pdf.draw_text params[:flat_building_name][:value], :at => [hor_points, ver_points], :size => 10
-        pdf.draw_text params[:flat_building_name][:value], :at => [hor_points, ver_points], :size => 10
-        pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
-        # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
-        # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
-        # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+    # get array of pages in params
+    document_pages_array = []
+    params.each do |each|
+      if (!(document_pages_array.include? params[each]["page"].to_i) && params[each]["page"] )
+        document_pages_array.push(params[each]["page"].to_i)
       end
-
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 100", :at => [100, 100], :size => 10
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 200, 200, size 20", :at => [200, 200], :size => 20
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 300, 300, size 30", :at => [300, 300], :size => 30
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 400, 400, size 40", :at => [400, 400], :size => 40
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 500, size 10", :at => [100, 500], :size => 10
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 600, size 10, bold italic", :at => [100, 600], :size => 10, :style => :bold, :style => :italic
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 700, size 10", :at => [100, 700], :size => 10
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 100, 800, size 10", :at => [100, 800], :size => 10
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 50, 750, size 5", :at => [50, 750], :size => 5
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7", :at => [150, 650], :size => 7
-    # pdf.text "Hello World! Here is the flat: #{flat.id}, #{flat.description}"
-    pdf.stroke_axis()
-    # pdf.stroke_circle [circle1_hor_points, circle1_ver_points], 6
-    pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 13], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 26], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 39], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 52], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 65], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 78], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 91], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 104], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 117], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 130], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 143], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 155], 6
-    # pdf.stroke_circle [circle_hor_points, circle_ver_points - 168], 6
-    # pdf.stroke_circle [325, 495], 10
-    # pdf.stroke_circle [286.1, 483], 6.6
-    # pdf.stroke_circle [307, 470], 6.6
-    # pdf.stroke_circle [307, 457], 6.6
-    # pdf.stroke_circle [286.1, 444], 6.6
-    # pdf.stroke_circle [286.1, 431], 6.6
-    # pdf.stroke_circle [286.1, 418], 6.6
-    # pdf.stroke_circle [307, 405], 6.6
-    # pdf.stroke_circle [307, 392], 6.6
-    # pdf.stroke_circle [307, 379], 6.6
-
-    # pdf.stroke_ellipse [200, 100], 100, 50
-    # Rounded rectable ver hor, width height radius
-    pdf.stroke do
-       # pdf.rounded_rectangle [132, 615], 60, 15, 5
-       pdf.rounded_rectangle [building_type_hor_points, building_type_ver_points], 60, 12, 5
-       pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
     end
-    # pdf.bounding_box([100, 500], :width => 300, :height => 200, :color => '0000FF') do
-      # pdf.stroke_color "0000ff"
-      # pdf.line_width = 1
-      # pdf.dash([3], :phase => 1)
-      # pdf.stroke_bounds
-      # pdf.stroke_color "ff0000"
-      # pdf.stroke_circle [0, 0], 20
-    # end
-    # pdf.start_new_page
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7 on a new page", :at => [150, 650], :size => 7
-    #
-    # pdf.start_new_page
-    # pdf.draw_text "Here is the flat: #{flat.id}, #{flat.description} at 150, 650, size 7 on a new page", :at => [150, 650], :size => 7
+    # p 'in booking_controller, create_contract, params[eachField], document_pages_array: ' + document_pages_array.to_s
+
+    # for each page in params, go through params onces
+    # if input field, rectangle, circle, draw each
+    document_pages_array.length.times do |i|
+      params.each do |eachField|
+        # p 'in booking_controller, create_contract, params[eachField],  params[eachField]["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
+        # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
+        # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
+        # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["type"].to_s + " " + params[eachField]["val"].to_s
+        # draw input fields
+        if params[eachField]["type"] == "string" && params[eachField]["val"] == "inputFieldValue" && params[eachField]["page"].to_i == (i + 1)
+          x = params[eachField]["left"].to_f / 100 + adjustment_x
+          y = params[eachField]["top"].to_f / 100 + adjustment_input_y
+          hor_points = hor_total_inches * x * points_per_inch
+          ver_points = ver_total_inches * (1 - y) * points_per_inch
+          # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+          pdf.font("IPAEX_GOTHIC") do
+            # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+            # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+            # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
+            pdf.draw_text params[eachField]["value"], :at => [hor_points, ver_points], :size => 10
+            # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
+            # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
+            # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+          end
+        end
+        # end of string inputfield
+        # draw rectagles
+        if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle" && params[eachField]["page"].to_i == (i + 1)
+          rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
+          rectangle_y =  params[eachField]["top"].to_f / 100;
+          rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
+          rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
+          rectagle_width_points = hor_total_inches * params[eachField]["width"].to_f / 100 * points_per_inch
+          pdf.stroke do
+             # pdf.rounded_rectangle [132, 615], 60, 15, 5
+             pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+             # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
+          end
+        end
+        if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-circle" && params[eachField]["page"].to_i == (i + 1)
+          circle_x = params[eachField]["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
+          circle_y = (1 - params[eachField]["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
+          circle_hor_points = hor_total_inches * circle_x * points_per_inch
+          circle_ver_points = ver_total_inches * circle_y * points_per_inch
+          pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+        end
+      end
+      pdf.start_new_page
+    end
+
+    pdf.stroke_axis()
 
     path_merge = Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf")
     pdf.render_file(path_merge)
 
-    # p 'in booking_controller, create_contract, p  df: ' + pdf.to_s
-    # p 'in booking_controller, create_contract, result: ' + result.to_s
-    # p 'in booking_controller, create_contract, result: ' + result["public_id"].to_s
-    # # File.delete(Rails.root + '/foo.jpg')
     # keep
     # File.delete("public/system/temp_files/pdf_files/example.pdf")
     pdf_merge = CombinePDF.load(Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf"))
@@ -244,7 +138,9 @@ class Api::V1::BookingsController < ApplicationController
     # pdf_base.pages.each {|page| page << pdf_merge}
     # pdf_base.pages.each_with_index {|page, i| page << pdf_mesrge.pages[i]}
     # .pages is an array of pages
-    pdf_base.pages[0]<< pdf_merge.pages[0]
+    document_pages_array.each_with_index do |eachPage, i|
+      pdf_base.pages[i]<< pdf_merge.pages[i]
+    end
     # pdf_base.pages[1]<< pdf_merge.pages[1]
     # pdf_base << pdf_merge
     pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
@@ -262,7 +158,6 @@ class Api::V1::BookingsController < ApplicationController
     # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"), :width => 792, :height => 1122, "format" => 'jpg')
     # p 'in booking_controller, create_contract, result: ' + result.to_s
     File.delete(path_merge)
-
   end
 
   def create

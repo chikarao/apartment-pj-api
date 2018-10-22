@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181017090740) do
+ActiveRecord::Schema.define(version: 20181018092657) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -61,14 +61,14 @@ ActiveRecord::Schema.define(version: 20181017090740) do
     t.boolean "corner_flat", default: false
     t.boolean "first_floor", default: false
     t.boolean "pets_allowed", default: false
-    t.boolean "shower"
-    t.boolean "wash_basin"
-    t.boolean "kitchen_grill"
-    t.boolean "lighting_fixed"
-    t.boolean "internet_ready"
-    t.boolean "mail_box"
-    t.boolean "parcel_delivery_box"
-    t.boolean "lock_key"
+    t.boolean "shower", default: false
+    t.boolean "wash_basin", default: false
+    t.boolean "kitchen_grill", default: false
+    t.boolean "lighting_fixed", default: false
+    t.boolean "internet_ready", default: false
+    t.boolean "mail_box", default: false
+    t.boolean "parcel_delivery_box", default: false
+    t.boolean "lock_key", default: false
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
   end
 
