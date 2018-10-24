@@ -11,23 +11,27 @@ class Api::V1::BuildingsController < ApplicationController
     # search Buildings using the first two words of the address
     search_first_two_array = []
     search_condition_address1 = ''
-    split_params_array = params[:address1].split
-    if split_params_array.length > 1
-      # get a string of the first two words of array of params address1
-      search_condition = split_params_array.first(2).join(' ')
-    else
-      search_condition = params[:address1]
-    end
+    if params[:address1]
+      split_params_array = params[:address1].split
+      if split_params_array.length > 1
+        # get a string of the first two words of array of params address1
+        search_condition = split_params_array.first(2).join(' ')
+      else
+        search_condition = params[:address1]
+      end
 
-    # p "BuildingsController index search_condition: " + search_condition.to_s
+      # p "BuildingsController index search_condition: " + search_condition.to_s
 
-    buildings = Building.where("address1 LIKE ? AND city LIKE ?", "%#{search_condition}%", "%#{params[:city]}%")
-    unless buildings.empty?
-      p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
-      building_serializer = parse_json buildings
-      json_response "Showed building succesfully", true, {buildings: building_serializer}, :ok
+      buildings = Building.where("address1 LIKE ? AND city LIKE ?", "%#{search_condition}%", "%#{params[:city]}%")
+      unless buildings.empty?
+        p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
+        building_serializer = parse_json buildings
+        json_response "Showed building succesfully", true, {buildings: building_serializer}, :ok
+      else
+        json_response "No buildings matched the query", false, {buildings: []}, :unprocessable_entity
+      end
     else
-      json_response "No buildings matched the query", false, {buildings: []}, :unprocessable_entity
+      json_response "No params to search", false, {buildings: []}, :unprocessable_entity
     end
   end
   #

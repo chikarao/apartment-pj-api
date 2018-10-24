@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181018092657) do
+ActiveRecord::Schema.define(version: 20181024081809) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -205,6 +205,13 @@ ActiveRecord::Schema.define(version: 20181018092657) do
     t.string "facility_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "facility_deposit"
+    t.float "facility_key_money"
+    t.float "facility_management_fees"
+    t.string "facility_format"
+    t.float "facility_broker_fees"
+    t.string "facility_name"
+    t.boolean "on_building_grounds", default: true
     t.index ["booking_id"], name: "index_facilities_on_booking_id"
     t.index ["flat_id"], name: "index_facilities_on_flat_id"
   end

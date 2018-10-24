@@ -77,7 +77,7 @@ class Api::V1::FacilitiesController < ApplicationController
   # end
 
   def facility_params
-    params.require(:facility).permit(:flat_id, :booking_id, :optional, :facility_type, :price_per_month, :discount, :facility_number)
+    params.require(:facility).permit(:flat_id, :booking_id, :optional, :facility_type, :price_per_month, :discount, :facility_number, :facility_deposit, :facility_key_money, :facility_management_fees, :facility_format, :facility_broker_fees, :facility_name, :on_building_grounds)
   end
 
   def load_facility
