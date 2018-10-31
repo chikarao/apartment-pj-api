@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181024081809) do
+ActiveRecord::Schema.define(version: 20181030031221) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -437,6 +437,8 @@ ActiveRecord::Schema.define(version: 20181024081809) do
     t.string "emergency_contact_address"
     t.string "emergency_contact_phone"
     t.string "emergency_contact_relationship"
+    t.boolean "corporation", default: false
+    t.string "contact_name"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -457,6 +459,21 @@ ActiveRecord::Schema.define(version: 20181024081809) do
     t.index ["booking_id"], name: "index_reviews_on_booking_id"
     t.index ["flat_id"], name: "index_reviews_on_flat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "booking_id"
+    t.string "name"
+    t.integer "age"
+    t.string "phone"
+    t.string "email"
+    t.string "identification"
+    t.string "corporate_identification"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_tenants_on_booking_id"
+    t.index ["user_id"], name: "index_tenants_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

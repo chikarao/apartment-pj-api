@@ -163,12 +163,38 @@ class Api::V1::BookingsController < ApplicationController
   def create
     # called in requestBoooking in front end
     booking = Booking.new booking_params
+    profile = Profile.find_by(user_id: @user.id)
     booking.user_id = @user.id
     booking.created_at = DateTime.now
     flat = Flat.find_by(id: booking_params[:flat_id])
+    facilities_array = params[:facilities]
+    tenants_array =  params[:tenants]
     # only if have parent
     # booking.book_id = params[:book_id]
-    if booking.save
+    if booking.save && (params[:profile] ? profile.update(params[:profile]) : true)
+
+      facilities_array.each do |eachFacility|
+        p "!!!eachFacility: " + eachFacility.to_s
+        facility_attributes = {booking_id: booking.id, facility_deposit: eachFacility[:facility_deposit], facility_number: eachFacility[:facility_number], facility_type: eachFacility[:facility_type], price_per_month: eachFacility[:price_per_month], optional: eachFacility[:optional]}
+        facility = Facility.new(facility_attributes)
+        # facility.booking_id = booking.id
+        unless facility.save
+          booking.destroy
+          json_response "Create booking failed", false, {}, :unprocessable_entity
+        end
+      end
+
+      tenants_array.each do |eachTenant|
+        tenant_attributes = {user_id: @user.id, booking_id: booking.id, name: eachTenant[:tenant_name], age: eachTenant[:tenant_age]}
+        tenant = Tenant.new(tenant_attributes)
+        tenant.user_id = @user.id
+        # tenant.booking_id = booking.id
+        unless tenant.save
+          booking.destroy
+          json_response "Create booking failed", false, {}, :unprocessable_entity
+        end
+      end
+
       booking_serializer = parse_json booking
       flat_serializer = parse_json flat
 
@@ -309,6 +335,38 @@ class Api::V1::BookingsController < ApplicationController
   def booking_params
     params.require(:booking).permit(:flat_id, :date_start, :date_end, :booking_by_owner)
   end
+
+  # def facility_params
+  #   params.require(:facility).permit(:flat_id, :booking_id, :optional, :facility_type, :price_per_month, :discount, :facility_number, :facility_deposit, :facility_key_money, :facility_management_fees, :facility_format, :facility_broker_fees, :facility_name, :on_building_grounds)
+  # end
+
+  # def profile_params
+  #   params.require(:profile).permit(:user_id,
+  #     :image,
+  #     :identification,
+  #     :title,
+  #     :name,
+  #     :first_name,
+  #     :middle_name,
+  #     :last_name,
+  #     :username,
+  #     :address1,
+  #     :address2,
+  #     :city,
+  #     :state,
+  #     :zip,
+  #     :region,
+  #     :country,
+  #     :language,
+  #     :birthday,
+  #     :phone,
+  #     :gender,
+  #     :emergency_contact_name,
+  #     :emergency_contact_phone,
+  #     :emergency_contact_address,
+  #     :emergency_contact_relationship,
+  #     :introduction)
+  # end
 
   def request_booking_params
     params.require(:booking).permit(:id)

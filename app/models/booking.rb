@@ -6,7 +6,8 @@ class Booking < ApplicationRecord
   belongs_to :user
 
   has_one :review, dependent: :destroy
-  has_many :facilities, dependent: :nullify
+  has_many :facilities, dependent: :destroy
+  has_many :tenants, dependent: :destroy
 
   validates :date_start, presence: true
   validates :date_end, presence: true

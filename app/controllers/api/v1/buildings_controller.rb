@@ -22,7 +22,7 @@ class Api::V1::BuildingsController < ApplicationController
 
       # p "BuildingsController index search_condition: " + search_condition.to_s
 
-      buildings = Building.where("address1 LIKE ? AND city LIKE ?", "%#{search_condition}%", "%#{params[:city]}%")
+      buildings = Building.where("address1 LIKE (?) AND city LIKE (?)", "%#{search_condition}%", "%#{params[:city]}%")
       unless buildings.empty?
         p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
         building_serializer = parse_json buildings
