@@ -185,7 +185,7 @@ class Api::V1::BookingsController < ApplicationController
       end
 
       tenants_array.each do |eachTenant|
-        tenant_attributes = {user_id: @user.id, booking_id: booking.id, name: eachTenant[:tenant_name], age: eachTenant[:tenant_age]}
+        tenant_attributes = {user_id: @user.id, booking_id: booking.id, name: eachTenant[:name], age: eachTenant[:age]}
         tenant = Tenant.new(tenant_attributes)
         tenant.user_id = @user.id
         # tenant.booking_id = booking.id
