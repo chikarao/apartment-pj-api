@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105013102) do
+ActiveRecord::Schema.define(version: 20181107072242) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -364,6 +364,7 @@ ActiveRecord::Schema.define(version: 20181105013102) do
     t.string "roof"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "inspection_language"
     t.index ["building_id"], name: "index_inspections_on_building_id"
   end
 

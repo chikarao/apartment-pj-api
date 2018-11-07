@@ -9,7 +9,7 @@ require 'prawn'
 class Api::V1::BookingsController < ApplicationController
   # before_action :ensure_params_exist, only: :create
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
-  before_action :load_booking, only: [:show, :destroy]
+  before_action :load_booking, only: [:show, :update, :destroy]
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
 
   def index
@@ -208,6 +208,12 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def update
+    if @booking.update(booking_params)
+      booking_serializer = parse_json @booking
+      json_response "Created booking succesfully", true, {booking: booking_serializer}, :ok
+    else
+      json_response "Create booking failed", false, {}, :unprocessable_entity
+    end
   end
 
   def destroy
@@ -370,6 +376,10 @@ class Api::V1::BookingsController < ApplicationController
 
   def request_booking_params
     params.require(:booking).permit(:id)
+  end
+
+  def booking_params
+    params.require(:booking).permit(:id, :approved)
   end
 
   def valid_token

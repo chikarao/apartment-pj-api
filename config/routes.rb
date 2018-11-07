@@ -85,6 +85,9 @@ Rails.application.routes.draw do
       resources :facilities do
       end
 
+      resources :inspections do
+      end
+
       post 'fetch_facilities_for_flat', to: 'facilities#fetch_facilities_for_flat'
       post 'search_buildings', to: 'buildings#search_buildings'
       #

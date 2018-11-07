@@ -1,0 +1,42 @@
+class InspectionSerializer < ActiveModel::Serializer
+  attributes :id,
+    :building_id,
+    :inspection_language,
+    :inspection_date,
+    :inspection_summary,
+    :inspector_name,
+    :inspector_trainer,
+    :inspector_certificate_number,
+    :architect_qualification_type,
+    :architect_type,
+    :architect_registration_number,
+    :architect_registration_type,
+    :architect_office_name,
+    :architect_office_registration,
+    :foundation,
+    :floor_assembly,
+    :floor,
+    :pillars,
+    :exterior_walls,
+    :balcony,
+    :interior_walls,
+    :ceilings,
+    :roof_truss,
+    :termite_damage,
+    :corrosion,
+    :reinforcement,
+    :concrete_compression,
+    :exterior_walls_rain,
+    :eaves_rain,
+    :balcony_rain,
+    :interior_walls_rain,
+    :ceilings_rain,
+    :roof_truss_rain,
+    :roof,
+    :exterior_walls_rain,
+    :inspection_language
+  # has_many :flats
+  belongs_to :building
+
+  # !!!!!!add building_type to replace type; does not show up in serialized results
+end

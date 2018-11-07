@@ -23,6 +23,7 @@ class FlatSerializer < ActiveModel::Serializer
   has_many :places
   has_many :flat_languages
   has_many :calendars
+  belongs_to :building, optional: true
   # has_many :conversations
   # has_many :reviews
   # has_many :conversations
