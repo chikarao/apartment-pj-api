@@ -17,9 +17,11 @@ class Api::V1::BookingsController < ApplicationController
 
   def show
     booking_serializer = parse_json @booking
+    flat = Flat.find_by(id: @booking.flat_id)
+    flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer}, :ok
   end
 
   def new
