@@ -1,0 +1,51 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contractor: one
+  user: one
+  first_name: MyString
+  last_name: MyString
+  title: MyString
+  division: MyString
+  group: MyString
+  registration: MyString
+  registration_type: MyString
+  stamp: MyString
+  mobile: MyString
+  phone: MyString
+  fax: MyString
+  email: MyString
+  line: MyString
+  location_name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  region: MyString
+  country: MyString
+  calendar: MyString
+
+two:
+  contractor: two
+  user: two
+  first_name: MyString
+  last_name: MyString
+  title: MyString
+  division: MyString
+  group: MyString
+  registration: MyString
+  registration_type: MyString
+  stamp: MyString
+  mobile: MyString
+  phone: MyString
+  fax: MyString
+  email: MyString
+  line: MyString
+  location_name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  region: MyString
+  country: MyString
+  calendar: MyString

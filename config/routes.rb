@@ -108,6 +108,18 @@ Rails.application.routes.draw do
       resources :reviews do
       end
 
+      resources :contractors do
+      end
+
+      resources :contracts do
+      end
+
+      resources :staffs do
+      end
+
+      resources :assignments do
+      end
+
       namespace :users do
         # use get when there are no params
         get 'likes/likes_by_user', to: 'likes#likes_by_user'

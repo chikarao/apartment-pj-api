@@ -41,8 +41,10 @@ class Api::V1::SessionsController < Devise::SessionsController
     # check if user sign up through facebook; if not return @user for
     if @user && @user.provider != "facebook"
       return @user
+    elsif !@user
+      json_response "An account with that email does not exist. Please check email address or sign up.", false, {}, :unauthorized
     else
-      # if user signed up through facebook, send error message to sigin in 
+      # if user signed up through facebook, send error message to sigin in
       if @user.provider == "facebook"
         json_response "User has signed up through #{@user.provider}. Please sign sign in using the Facebook button",  false, {}, :failure
       else

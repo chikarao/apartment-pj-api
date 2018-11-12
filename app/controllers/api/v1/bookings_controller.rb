@@ -17,11 +17,17 @@ class Api::V1::BookingsController < ApplicationController
 
   def show
     booking_serializer = parse_json @booking
+    contracts = @booking.contracts.includes(:assignments)
+    # assignments = []
+    # contracts.each do |eachContract|
+    #
+    # end
     flat = Flat.find_by(id: @booking.flat_id)
+    contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer}, :ok
   end
 
   def new
@@ -173,7 +179,8 @@ class Api::V1::BookingsController < ApplicationController
     tenants_array =  params[:tenants]
     # only if have parent
     # booking.book_id = params[:book_id]
-    if booking.save && (params[:profile] ? profile.update(params[:profile]) : true)
+    p "!!!!!!params[:profile]:" + params[:profile].to_s
+    if booking.save && (profile_params ? profile.update(profile_params) : true)
 
       facilities_array.each do |eachFacility|
         p "!!!eachFacility: " + eachFacility.to_s
@@ -348,41 +355,41 @@ class Api::V1::BookingsController < ApplicationController
   #   params.require(:facility).permit(:flat_id, :booking_id, :optional, :facility_type, :price_per_month, :discount, :facility_number, :facility_deposit, :facility_key_money, :facility_management_fees, :facility_format, :facility_broker_fees, :facility_name, :on_building_grounds)
   # end
 
-  # def profile_params
-  #   params.require(:profile).permit(:user_id,
-  #     :image,
-  #     :identification,
-  #     :title,
-  #     :name,
-  #     :first_name,
-  #     :middle_name,
-  #     :last_name,
-  #     :username,
-  #     :address1,
-  #     :address2,
-  #     :city,
-  #     :state,
-  #     :zip,
-  #     :region,
-  #     :country,
-  #     :language,
-  #     :birthday,
-  #     :phone,
-  #     :gender,
-  #     :emergency_contact_name,
-  #     :emergency_contact_phone,
-  #     :emergency_contact_address,
-  #     :emergency_contact_relationship,
-  #     :introduction)
+  def profile_params
+    params.require(:profile).permit(:user_id,
+      :image,
+      :identification,
+      :title,
+      :name,
+      :first_name,
+      :middle_name,
+      :last_name,
+      :username,
+      :address1,
+      :address2,
+      :city,
+      :state,
+      :zip,
+      :region,
+      :country,
+      :language,
+      :birthday,
+      :phone,
+      :gender,
+      :emergency_contact_name,
+      :emergency_contact_phone,
+      :emergency_contact_address,
+      :emergency_contact_relationship,
+      :introduction)
+  end
+
+  # def request_booking_params
+  #   params.require(:booking).permit(:id)
   # end
 
-  def request_booking_params
-    params.require(:booking).permit(:id)
-  end
-
-  def booking_params
-    params.require(:booking).permit(:id, :approved)
-  end
+  # def booking_params
+  #   params.require(:booking).permit(:id, :approved)
+  # end
 
   def valid_token
     @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181107072242) do
+ActiveRecord::Schema.define(version: 20181110033520) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -70,6 +70,29 @@ ActiveRecord::Schema.define(version: 20181107072242) do
     t.boolean "parcel_delivery_box", default: false
     t.boolean "lock_key", default: false
     t.index ["flat_id"], name: "index_amenities_on_flat_id"
+  end
+
+  create_table "assignments", force: :cascade do |t|
+    t.integer "contract_id"
+    t.integer "staff_id"
+    t.boolean "staff_approved", default: false
+    t.boolean "staff_finished", default: false
+    t.boolean "finished", default: false
+    t.decimal "taxes", precision: 8, scale: 2
+    t.decimal "fees", precision: 8, scale: 2
+    t.decimal "adjustments", precision: 8, scale: 2
+    t.decimal "total_pay", precision: 8, scale: 2
+    t.boolean "paid", default: false
+    t.string "role"
+    t.boolean "leader", default: false
+    t.boolean "assignment_by_ical", default: false
+    t.boolean "assignment_by_self", default: false
+    t.datetime "date_from"
+    t.datetime "date_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contract_id"], name: "index_assignments_on_contract_id"
+    t.index ["staff_id"], name: "index_assignments_on_staff_id"
   end
 
   create_table "bank_accounts", force: :cascade do |t|
@@ -167,6 +190,74 @@ ActiveRecord::Schema.define(version: 20181107072242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flat_id"], name: "index_calendars_on_flat_id"
+  end
+
+  create_table "contractors", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "contractor_type"
+    t.string "contractor_sub_type"
+    t.string "contractor_sales_heading"
+    t.string "contractor_intro"
+    t.decimal "price", precision: 8, scale: 2
+    t.float "price_range"
+    t.string "days_closed"
+    t.integer "time_from"
+    t.integer "time_to"
+    t.string "specialty"
+    t.string "phone"
+    t.string "mobile"
+    t.string "email"
+    t.string "company_name"
+    t.string "registration_number"
+    t.string "registration_type"
+    t.date "registration_date"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "title"
+    t.string "stamp"
+    t.string "fax"
+    t.string "facebook"
+    t.string "twitter"
+    t.string "line"
+    t.string "image"
+    t.string "url"
+    t.float "lat"
+    t.float "lng"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "zip"
+    t.string "state"
+    t.string "region"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contractors_on_user_id"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.integer "flat_id"
+    t.integer "booking_id"
+    t.integer "contractor_id"
+    t.string "work_type"
+    t.string "work_sub_type"
+    t.decimal "contract_price", precision: 8, scale: 2
+    t.decimal "total_price", precision: 8, scale: 2
+    t.decimal "taxes", precision: 8, scale: 2
+    t.decimal "fees", precision: 8, scale: 2
+    t.decimal "adjustments", precision: 8, scale: 2
+    t.boolean "paid", default: false
+    t.text "special_requests"
+    t.boolean "approved", default: false
+    t.boolean "contract_by_ical", default: false
+    t.boolean "contract_by_self", default: false
+    t.datetime "date_from"
+    t.datetime "date_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_contracts_on_booking_id"
+    t.index ["contractor_id"], name: "index_contracts_on_contractor_id"
+    t.index ["flat_id"], name: "index_contracts_on_flat_id"
   end
 
   create_table "conversations", force: :cascade do |t|
@@ -470,6 +561,48 @@ ActiveRecord::Schema.define(version: 20181107072242) do
     t.index ["booking_id"], name: "index_reviews_on_booking_id"
     t.index ["flat_id"], name: "index_reviews_on_flat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "staffs", force: :cascade do |t|
+    t.integer "contractor_id"
+    t.integer "user_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "identification"
+    t.string "tax_identification"
+    t.date "birthday"
+    t.string "title"
+    t.string "division"
+    t.string "group"
+    t.boolean "representative", default: false
+    t.boolean "manager", default: false
+    t.decimal "salary", precision: 8, scale: 2
+    t.decimal "bonus", precision: 8, scale: 2
+    t.float "bonus_months"
+    t.string "contract"
+    t.string "registration"
+    t.string "registration_type"
+    t.string "stamp"
+    t.string "mobile"
+    t.string "phone"
+    t.string "fax"
+    t.string "email"
+    t.string "line"
+    t.float "lat"
+    t.float "lng"
+    t.string "location_name"
+    t.string "location_number"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "region"
+    t.string "country"
+    t.string "calendar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contractor_id"], name: "index_staffs_on_contractor_id"
+    t.index ["user_id"], name: "index_staffs_on_user_id"
   end
 
   create_table "tenants", force: :cascade do |t|

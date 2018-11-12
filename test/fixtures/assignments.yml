@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contract: one
+  staff: one
+  staff_approved: false
+  staff_finished: false
+  finished: false
+  taxes: 1.5
+  fees: 1.5
+  adjustments: 1.5
+  total_pay: 1.5
+  paid: false
+  role: MyString
+  leader: false
+  date_from: 2018-11-10 12:35:20
+  date_to: 2018-11-10 12:35:20
+
+two:
+  contract: two
+  staff: two
+  staff_approved: false
+  staff_finished: false
+  finished: false
+  taxes: 1.5
+  fees: 1.5
+  adjustments: 1.5
+  total_pay: 1.5
+  paid: false
+  role: MyString
+  leader: false
+  date_from: 2018-11-10 12:35:20
+  date_to: 2018-11-10 12:35:20

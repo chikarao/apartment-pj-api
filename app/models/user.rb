@@ -24,6 +24,7 @@ class User < ApplicationRecord
   has_many :views, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :tenants, dependent: :destroy
+  has_many :contractors, dependent: :destroy
 
 
 # auth token for sign up and saved in local storage on the front end; matched at sign in and auth required api requests

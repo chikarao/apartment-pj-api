@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flat: one
+  booking: one
+  contractor: one
+  contract_price: 1.5
+  total_price: MyString
+  tax: 1.5
+  fees: 1.5
+  adjustments: 1.5
+  paid: false
+  special_requests: MyText
+  approved: false
+  contract_by_ical: false
+  booking_by_self: false
+  date_from: 2018-11-10 11:54:04
+  date_to: 2018-11-10 11:54:04
+
+two:
+  flat: two
+  booking: two
+  contractor: two
+  contract_price: 1.5
+  total_price: MyString
+  tax: 1.5
+  fees: 1.5
+  adjustments: 1.5
+  paid: false
+  special_requests: MyText
+  approved: false
+  contract_by_ical: false
+  booking_by_self: false
+  date_from: 2018-11-10 11:54:04
+  date_to: 2018-11-10 11:54:04

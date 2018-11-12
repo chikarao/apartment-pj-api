@@ -12,7 +12,8 @@ class Api::V1::BankAccountsController < ApplicationController
       # bank_account_serializer = parse_json @bank_account
       json_response "Indexed bank_account succesfully", true, {bank_accounts: bank_account_serializer}, :ok
     else
-      json_response "Indexed bank_account failed", false, {}, :unprocessable_entity
+      json_response "There are no bank accounts associated with that user", true, {bank_accounts: []}, :ok
+      # json_response "Indexed bank_account failed", false, {}, :unprocessable_entity
     end
 
   end
