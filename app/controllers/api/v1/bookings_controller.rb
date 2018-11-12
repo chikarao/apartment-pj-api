@@ -16,18 +16,32 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def show
+    # p "!!! in bookings#show: "
     booking_serializer = parse_json @booking
-    contracts = @booking.contracts.includes(:assignments)
+    contracts = @booking.contracts
+    # assignments = contracts[0].assignments
     # assignments = []
-    # contracts.each do |eachContract|
-    #
-    # end
+    work_type_object = {}
+    contracts.each do |eachContract|
+      contractArray = []
+      unless work_type_object[eachContract.work_type]
+      # p "!!!! eachContract.Assignments each: " + eachContract.assignments.to_s
+        eachContract.assignments.each do |eachAssignment|
+          # p "!!!! eachAssignment each id: " + eachAssignment.id.to_s
+          # p "!!!! eachAssignment: " + eachAssignment.to_s
+          assignment_serializer = parse_json eachAssignment
+          contractArray.push(assignment_serializer)
+        end
+        work_type_object[eachContract.work_type] = contractArray
+      end
+    end
     flat = Flat.find_by(id: @booking.flat_id)
+    # assignment_serializer = parse_json assignments
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object}, :ok
   end
 
   def new
