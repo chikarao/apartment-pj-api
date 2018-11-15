@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181110033520) do
+ActiveRecord::Schema.define(version: 20181114072623) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -232,6 +232,8 @@ ActiveRecord::Schema.define(version: 20181110033520) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "language_code"
+    t.integer "base_record_id"
     t.index ["user_id"], name: "index_contractors_on_user_id"
   end
 
@@ -456,6 +458,7 @@ ActiveRecord::Schema.define(version: 20181110033520) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "inspection_language"
+    t.string "language_code"
     t.index ["building_id"], name: "index_inspections_on_building_id"
   end
 
@@ -541,6 +544,7 @@ ActiveRecord::Schema.define(version: 20181110033520) do
     t.string "emergency_contact_relationship"
     t.boolean "corporation", default: false
     t.string "contact_name"
+    t.string "language_code"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -601,6 +605,9 @@ ActiveRecord::Schema.define(version: 20181110033520) do
     t.string "calendar"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "zip"
+    t.string "language_code"
+    t.integer "base_record_id"
     t.index ["contractor_id"], name: "index_staffs_on_contractor_id"
     t.index ["user_id"], name: "index_staffs_on_user_id"
   end

@@ -30,8 +30,9 @@ class Api::V1::StaffsController < ApplicationController
     # only if have parent
     # staff.book_id = params[:book_id]
     if staff.save
+      user_serializer = parse_json @user
       staff_serializer = parse_json staff
-      json_response "Created staff succesfully", true, {staff: staff_serializer}, :ok
+      json_response "Created staff succesfully", true, {staff: staff_serializer, user: user_serializer}, :ok
     else
       json_response "Create staff failed", false, {}, :unprocessable_entity
     end
@@ -42,8 +43,9 @@ class Api::V1::StaffsController < ApplicationController
 
   def update
     if @staff.update staff_params
+      user_serializer = parse_json @user
       staff_serializer = parse_json @staff
-      json_response "Updated staff succesfully", true, {staff: staff_serializer}, :ok
+      json_response "Updated staff succesfully", true, {staff: staff_serializer, user: user_serializer}, :ok
     else
       json_response "Updated staff failed", false, {}, :unprocessable_entity
     end
@@ -52,7 +54,8 @@ class Api::V1::StaffsController < ApplicationController
   def destroy
     if @user.id = current_user.id
       if @staff.destroy
-        json_response "Deleted staff successfully", true, {}, :ok
+        user_serializer = parse_json @user
+        json_response "Deleted staff successfully", true, {user: user_serializer}, :ok
       else
         json_response "Delete staff failed", false, {}, :unprocessable_entity
       end
@@ -105,9 +108,12 @@ class Api::V1::StaffsController < ApplicationController
       :address2,
       :city,
       :state,
+      :zip,
       :region,
       :country,
-      :calendar
+      :calendar,
+      :language_code,
+      :base_record_id
     )
   end
 

@@ -14,13 +14,14 @@ class Api::V1::ContractorsController < ApplicationController
 
   def create
     contractor = Contractor.new contractor_params
-    contractor.user_id = contractor_params[:user_id]
+    contractor.user_id = @user.id
     contractor.created_at = DateTime.now
     # only if have parent
     # contractor.book_id = params[:book_id]
     if contractor.save
       contractor_serializer = parse_json contractor
-      json_response "Created contractor succesfully", true, {contractor: contractor_serializer}, :ok
+      user_serializer = parse_json @user
+      json_response "Created contractor succesfully", true, {contractor: contractor_serializer, user: user_serializer}, :ok
     else
       json_response "Create contractor failed", false, {}, :unprocessable_entity
     end
@@ -31,8 +32,9 @@ class Api::V1::ContractorsController < ApplicationController
 
   def update
     if @contractor.update(contractor_params)
+      user_serializer = parse_json @user
       contractor_serializer = parse_json @contractor
-      json_response "Updated contractor successfully", true, {contractor: contractor_serializer}, :ok
+      json_response "Updated contractor successfully", true, {contractor: contractor_serializer, user: user_serializer}, :ok
     else
       json_response "Updated contractor failed", false, {}, :unprocessable_entity
     end
@@ -40,8 +42,16 @@ class Api::V1::ContractorsController < ApplicationController
 
   def destroy
     if @user.id = current_user.id
-      if @contractor.destroy
-        json_response "Deleted contractor succesfully", true, {contractor: @contractor}, :ok
+      # if @contractor record is a base record; ie does not have base_record_id,
+      #
+      associated_contractors = []
+      if !@contractor.base_record_id
+        associated_contractors = Contractor.where(base_record_id: @contractor.id)
+      end
+
+      if @contractor.destroy && (associated_contractors.length > 0 ? associated_contractors.destroy_all : true)
+        user_serializer = parse_json @user
+        json_response "Deleted contractor succesfully", true, {contractor: @contractor, user: user_serializer}, :ok
       else
         json_response "Delete contractor failed", false, {}, :unprocessable_entity
       end
@@ -98,7 +108,9 @@ class Api::V1::ContractorsController < ApplicationController
       :zip,
       :state,
       :region,
-      :country
+      :country,
+      :language_code,
+      :base_record_id
     )
   end
 

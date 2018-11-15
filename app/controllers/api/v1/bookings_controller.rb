@@ -22,17 +22,19 @@ class Api::V1::BookingsController < ApplicationController
     # assignments = contracts[0].assignments
     # assignments = []
     work_type_object = {}
-    contracts.each do |eachContract|
-      contractArray = []
-      unless work_type_object[eachContract.work_type]
-      # p "!!!! eachContract.Assignments each: " + eachContract.assignments.to_s
-        eachContract.assignments.each do |eachAssignment|
-          # p "!!!! eachAssignment each id: " + eachAssignment.id.to_s
-          # p "!!!! eachAssignment: " + eachAssignment.to_s
-          assignment_serializer = parse_json eachAssignment
-          contractArray.push(assignment_serializer)
-        end
-        work_type_object[eachContract.work_type] = contractArray
+    unless contracts.empty?
+      contracts.each do |eachContract|
+        contractArray = []
+        # unless work_type_object[eachContract.work_type]
+        # p "!!!! eachContract.Assignments each: " + eachContract.assignments.to_s
+          eachContract.assignments.each do |eachAssignment|
+            # p "!!!! eachAssignment each id: " + eachAssignment.id.to_s
+            # p "!!!! eachAssignment: " + eachAssignment.to_s
+            assignment_serializer = parse_json eachAssignment
+            contractArray.push(assignment_serializer)
+          end
+          work_type_object[eachContract.work_type] = contractArray
+        # end
       end
     end
     flat = Flat.find_by(id: @booking.flat_id)

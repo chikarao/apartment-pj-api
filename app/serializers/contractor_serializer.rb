@@ -38,6 +38,8 @@ class ContractorSerializer < ActiveModel::Serializer
     :region,
     :country,
     :staffs,
+    :language_code,
+    :base_record_id,
     :created_at,
     :updated_at
 

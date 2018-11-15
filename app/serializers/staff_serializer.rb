@@ -32,9 +32,12 @@ class StaffSerializer < ActiveModel::Serializer
   :address2,
   :city,
   :state,
+  :zip,
   :region,
   :country,
   :calendar,
+  :language_code,
+  :base_record_id,
   :created_at,
   :updated_at
 

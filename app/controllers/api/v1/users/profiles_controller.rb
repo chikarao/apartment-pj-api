@@ -14,7 +14,8 @@ class Api::V1::Users::ProfilesController < ApplicationController
     # p @like
     if @profile
       profile_serializer = parse_json @profile
-      json_response "Fetched profile for user successfully", true, {profile: profile_serializer}, :ok
+      user_serializer = parse_json @user
+      json_response "Fetched profile for user successfully", true, {profile: profile_serializer, user: user_serializer}, :ok
     else
       json_response "Cannot find profile for user", false, {}, :not_found
     end
