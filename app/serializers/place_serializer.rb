@@ -1,5 +1,5 @@
 class PlaceSerializer < ActiveModel::Serializer
-  attributes :id, :flat_id, :placeid, :place_name, :category, :lat, :lng, :distance, :duration, :language
+  attributes :id, :flat_id, :placeid, :place_name, :category, :lat, :lng, :distance, :duration, :language, :language_code
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,

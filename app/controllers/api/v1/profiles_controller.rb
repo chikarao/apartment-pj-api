@@ -1,10 +1,10 @@
 class Api::V1::ProfilesController < ApplicationController
   # before_action :load_conversation, only: [:index, :show, :destroy]
-  # before_action :load_flat, only: :show
-  before_action :valid_token, only: [:show, :destroy, :update]
-  before_action :load_profile_by_user_id, only: [:update]
-  before_action :load_user, only: [:create]
-  before_action :does_profile_already_exist, only: [:create]
+  before_action :load_profile, only: [:show, :update, :destroy]
+  before_action :valid_token, only: [:show, :destroy, :update, :create]
+  # before_action :load_profile_by_user_id, only: [:update]
+  # before_action :load_user, only: [:create, :update]
+  # before_action :does_profile_already_exist, only: [:create]
 
   def index
   end
@@ -29,8 +29,9 @@ class Api::V1::ProfilesController < ApplicationController
     # only if have parent
     # profile.book_id = params[:book_id]
     if profile.save
+      user_serializer = parse_json @user
       profile_serializer = parse_json profile
-      json_response "Created profile succesfully", true, {profile: profile_serializer}, :ok
+      json_response "Created profile succesfully", true, {profile: profile_serializer, user: user_serializer}, :ok
     else
       json_response "Create profile failed", false, {}, :unprocessable_entity
     end
@@ -41,8 +42,9 @@ class Api::V1::ProfilesController < ApplicationController
 
   def update
     if @profile.update profile_params
+      user_serializer = parse_json @user
       profile_serializer = parse_json @profile
-      json_response "Updated profile succesfully", true, {profile: profile_serializer }, :ok
+      json_response "Updated profile succesfully", true, {profile: profile_serializer, user: user_serializer }, :ok
     else
       json_response "Update profile failed", false, {}, :unprocessable_entity
     end
@@ -50,7 +52,8 @@ class Api::V1::ProfilesController < ApplicationController
 
   def destroy
     if @profile.destroy
-    json_response "Deleted profile succesfully", true, {profile: @profile}, :ok
+      user_serializer = parse_json @user
+    json_response "Deleted profile succesfully", true, {profile: @profile, user: user_serializer}, :ok
     end
   end
 
@@ -73,7 +76,8 @@ class Api::V1::ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:user_id,
+    params.require(:profile).permit(
+      :user_id,
       :image,
       :identification,
       :title,
@@ -97,16 +101,18 @@ class Api::V1::ProfilesController < ApplicationController
       :emergency_contact_phone,
       :emergency_contact_address,
       :emergency_contact_relationship,
-      :introduction)
+      :introduction,
+      :language_code
+    )
   end
 
-  # def load_flat
-  #   # front end gets params and sends it in fetchFlatFromParams
-  #   @flat = Flat.find_by id: params[:id]
-  #   unless @flat.present?
-  #     json_response "Cannot find flat", false, {}, :not_found
-  #   end
-  # end
+  def load_profile
+    # front end gets params and sends it in fetchFlatFromParams
+    @profile = Profile.find_by id: params[:id]
+    unless @profile.present?
+      json_response "Cannot find flat", false, {}, :not_found
+    end
+  end
 
   def valid_token
     @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
@@ -118,12 +124,12 @@ class Api::V1::ProfilesController < ApplicationController
     end
   end
 
-  def does_profile_already_exist
-    profile = Profile.find_by user_id: profile_params[:user_id]
-    p "profile controller profile_already_exists" + profile.to_s
-    if profile
-      json_response "A profile for that user already exists.", false, {}, :bad_request
-      return
-    end
-  end
+  # def does_profile_already_exist
+  #   profile = Profile.find_by user_id: profile_params[:user_id]
+  #   p "profile controller profile_already_exists" + profile.to_s
+  #   if profile
+  #     json_response "A profile for that user already exists.", false, {}, :bad_request
+  #     return
+  #   end
+  # end
 end

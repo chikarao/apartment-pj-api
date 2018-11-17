@@ -12,7 +12,7 @@ class User < ApplicationRecord
   # has_many :reviews, dependent: :delete_all
 
   # !!!!!!!!!USE dependent destroy when want to run these callbacks dependent destroy===callbacks
-  has_one :profile, dependent: :destroy
+  has_many :profiles, dependent: :destroy
   has_many :flats, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
   has_many :bookings, dependent: :destroy

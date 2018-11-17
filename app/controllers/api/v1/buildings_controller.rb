@@ -11,24 +11,25 @@ class Api::V1::BuildingsController < ApplicationController
     # search Buildings using the first two words of the address
     search_first_two_array = []
     search_condition_address1 = ''
-    if params[:address1]
+    if params[:address1] && params[:city]
       split_params_array = params[:address1].split
       if split_params_array.length > 1
         # get a string of the first two words of array of params address1
         search_condition = split_params_array.first(2).join(' ')
+        search_condition2 = split_params_array.last(2).join(' ')
       else
         search_condition = params[:address1]
       end
 
       # p "BuildingsController index search_condition: " + search_condition.to_s
 
-      buildings = Building.where("address1 LIKE (?) AND city LIKE (?)", "%#{search_condition}%", "%#{params[:city]}%")
+      buildings = Building.where("(address1 LIKE (?) OR address1 LIKE (?)) AND city LIKE (?)", "%#{search_condition}%", "%#{search_condition2}%", "%#{params[:city]}%")
       unless buildings.empty?
-        p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
+        # p "BuildingsController index buildings[0]: " + buildings[0].name.to_s
         building_serializer = parse_json buildings
         json_response "Showed building succesfully", true, {buildings: building_serializer}, :ok
       else
-        json_response "No buildings matched the query", false, {buildings: []}, :unprocessable_entity
+        json_response "No buildings matched the query", true, {buildings: []}, :ok
       end
     else
       json_response "No params to search", false, {buildings: []}, :unprocessable_entity
@@ -98,10 +99,44 @@ class Api::V1::BuildingsController < ApplicationController
   end
 
   def building_params
-    params.require(:building).permit(:name, :address1, :address2, :city, :state, :zip, :region, :country, :construction, :type, :year_built, :last_renovation_year, :units, :floors,
-      :floors_underground, :power_usage_amount, :gas, :water, :sewage, :building_management_company, :building_management_phone, :building_management_contact, :building_inspection_conducted,
-      :inside_disaster_prevention, :inside_disaster_warning, :inside_tsunami_warning, :asbestos_record, :asbestos_survey_contents, :earthquake_study_performed, :earthquake_study_contents,
-      :building_owner_name, :building_owner_address, :building_owner_phone)
+    params.require(:building).permit(
+      :name,
+      :address1,
+      :address2,
+      :city,
+      :state,
+      :zip,
+      :region,
+      :country,
+      :construction,
+      :year_built,
+      :last_renovation_year,
+      :units,
+      :floors,
+      :floors_underground,
+      :power_usage_amount,
+      :gas,
+      :water,
+      :sewage,
+      :building_management_company,
+      :building_management_phone,
+      :building_management_contact,
+      :building_inspection_conducted,
+      :inside_disaster_prevention,
+      :inside_disaster_warning,
+      :inside_tsunami_warning,
+      :asbestos_record,
+      :asbestos_survey_contents,
+      :earthquake_study_performed,
+      :earthquake_study_contents,
+      :building_owner_name,
+      :building_owner_address,
+      :building_owner_phone,
+      :inspections,
+      :language_code,
+      :created_at,
+      :updated_at
+    )
   end
 
   def load_building

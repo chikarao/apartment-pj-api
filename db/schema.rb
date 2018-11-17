@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181114072623) do
+ActiveRecord::Schema.define(version: 20181117030341) do
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -144,6 +144,30 @@ ActiveRecord::Schema.define(version: 20181114072623) do
     t.integer "reviews_count", default: 0, null: false
   end
 
+  create_table "building_languages", force: :cascade do |t|
+    t.integer "building_id"
+    t.string "name"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "region"
+    t.string "country"
+    t.string "construction"
+    t.string "building_type"
+    t.string "building_management_company"
+    t.string "building_management_contact"
+    t.text "asbestos_survey_contents"
+    t.text "earthquake_study_contents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "language_code"
+    t.string "building_owner_name"
+    t.string "building_owner_address"
+    t.index ["building_id"], name: "index_building_languages_on_building_id"
+  end
+
   create_table "buildings", force: :cascade do |t|
     t.string "name"
     t.string "address1"
@@ -180,6 +204,8 @@ ActiveRecord::Schema.define(version: 20181114072623) do
     t.string "building_owner_name"
     t.string "building_owner_address"
     t.string "building_owner_phone"
+    t.string "building_type"
+    t.string "language_code"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -511,6 +537,7 @@ ActiveRecord::Schema.define(version: 20181114072623) do
     t.string "icon"
     t.string "vicinity"
     t.string "hours"
+    t.string "language_code"
     t.index ["flat_id"], name: "index_places_on_flat_id"
   end
 
@@ -562,6 +589,7 @@ ActiveRecord::Schema.define(version: 20181114072623) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "booking_id"
+    t.string "language_code"
     t.index ["booking_id"], name: "index_reviews_on_booking_id"
     t.index ["flat_id"], name: "index_reviews_on_flat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"

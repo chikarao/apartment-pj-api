@@ -53,7 +53,12 @@ class Api::V1::StaffsController < ApplicationController
 
   def destroy
     if @user.id = current_user.id
-      if @staff.destroy
+      associated_staffs = []
+      if !@staff.base_record_id
+        associated_staffs = Staff.where(base_record_id: @staff.id)
+      end
+
+      if @staff.destroy && (associated_staffs.length > 0 ? associated_staffs.destroy_all : true)
         user_serializer = parse_json @user
         json_response "Deleted staff successfully", true, {user: user_serializer}, :ok
       else

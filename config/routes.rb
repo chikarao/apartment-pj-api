@@ -82,6 +82,9 @@ Rails.application.routes.draw do
       resources :buildings do
       end
 
+      resources :building_languages do
+      end
+
       resources :facilities do
       end
 

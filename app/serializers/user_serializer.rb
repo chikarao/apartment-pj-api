@@ -10,11 +10,11 @@ class UserSerializer < ActiveModel::Serializer
   :updated_at,
   :current_sign_in_at,
   :last_sign_in_at,
-  :profile,
+  :profiles,
   :conversations,
   :contractors
 
-  has_one :profile
+  has_many :profiles
   has_many :conversations
   has_many :flats
   has_many :bookings

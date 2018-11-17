@@ -25,6 +25,7 @@ class ProfileSerializer < ActiveModel::Serializer
   :emergency_contact_address,
   :emergency_contact_relationship,
   :introduction,
+  :language_code,
   :created_at,
   :updated_at
 
