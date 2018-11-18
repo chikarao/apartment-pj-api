@@ -23,12 +23,14 @@ class Api::V1::BuildingLanguagesController < ApplicationController
     building_language = BuildingLanguage.new building_language_params
     building_language.created_at = DateTime.now
     building = Building.find_by(id: building_language_params[:building_id])
+    flat = Flat.find_by(id: params[:flat_id])
     # only if have parent
     # building_language.book_id = params[:book_id]
     if building_language.save
       building_language_serializer = parse_json building_language
       building_serializer = parse_json building
-      json_response "Created building_language succesfully", true, {building_language: building_language_serializer, building: building_serializer}, :ok
+      flat_serializer = parse_json flat
+      json_response "Created building_language succesfully", true, {flat: flat_serializer, building_language: building_language_serializer, building: building_serializer}, :ok
     else
       json_response "Create building_language failed", false, {}, :unprocessable_entity
     end
@@ -38,23 +40,29 @@ class Api::V1::BuildingLanguagesController < ApplicationController
   end
 
   def update
+    flat = Flat.find_by(id: params[:flat_id])
+    building = Building.find_by(id: @building_language.building_id)
+
     if @building_language.update building_language_params
-      building = Building.find_by(id: @building_language.building_id)
       building_language_serializer = parse_json @building_language
       building_serializer = parse_json building
-
-      json_response "Updated building_language succesfully", true, {building_language: building_language_serializer, building: building_serializer}, :ok
+      flat_serializer = parse_json flat
+      json_response "Updated building_language succesfully", true, {flat: flat_serializer, building_language: building_language_serializer, building: building_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end
   end
 
   def destroy
-    building = Building.find_by(id: @building_language.building_id)
+    p "!!!! params[:flat_id]" + params[:flat_id].to_s
+    flat = Flat.find_by(id: params[:flat_id])
+    # building = Building.find_by(id: @building_language.building_id)
+    p "!!!! flat, @building_language" + flat.to_s + @building_language.to_s
 
     if @building_language.destroy
-      building_serializer = parse_json building
-      json_response "Deleted building_language succesfully", true, {building: building_serializer}, :ok
+      # building_serializer = parse_json building
+      flat_serializer = parse_json flat
+      json_response "Deleted building_language succesfully", true, {flat: flat_serializer}, :ok
     else
       json_response "Delete building_language failed", false, {}, :unprocessable_entity
     end
