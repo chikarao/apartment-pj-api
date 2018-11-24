@@ -270,35 +270,41 @@ class Api::V1::FlatsController < ApplicationController
     # p "!!!!!! flats serialized: " + flats.to_s
     array = []
     hash = {}
-    flats_without_building_flats = []
-    flats_without_building_flats_serialized = []
+    hash_id = {}
+    flats_no_building = []
+    flats_no_building_serialized = []
 
+    # create hash with flat and one with flat id for processing in google map cdu
     flats.each do |eachFlat|
       if hash[eachFlat.building_id]
         hash[eachFlat.building_id].push(eachFlat)
+        hash_id[eachFlat.building_id].push(eachFlat.id)
       elsif eachFlat.building_id && eachFlat.building_id != nil
         hash[eachFlat.building_id] = [eachFlat]
+        hash_id[eachFlat.building_id] = [eachFlat.id]
       end
     end
     # delete key values with null building_id, take out flats with same building from flats,
     # serialize hash
     hash.keys.each do |eachKey|
       if hash[eachKey].length > 1
-        flats_without_building_flats = flats.reject {|flat| hash[eachKey].include?(flat)}
+        flats_no_building = flats.reject {|flat| hash[eachKey].include?(flat)}
+        # serialize hash here since the value is an array
         hash[eachKey] = parse_json hash[eachKey].uniq
       else
         hash.delete(eachKey)
+        hash_id.delete(eachKey)
       end
     end
 
     #  NOW serialize array and hash
-    # flats_without_building_flats.each do |each|
+    # flats_no_building.each do |each|
     #   serialized_each = parse_json each
-    #   flats_without_building_flats_serialized.push(serialized_each)
+    #   flats_no_building_serialized.push(serialized_each)
     # end
     # serialize flats with out the flats with same building
-    flats_without_building_flats_serialized = parse_json flats_without_building_flats
-
+    flats_no_building_serialized = parse_json flats_no_building
+    flats_no_building_id = flats_no_building.map {|each| each.id}
     # hash_serialized = {}
 
     # hash.keys.each do |eachKey|
@@ -309,7 +315,7 @@ class Api::V1::FlatsController < ApplicationController
     #   end
     # end
 
-    return {buildings_with_flats: hash, flats_no_building: flats_without_building_flats_serialized}
+    return {buildings_with_flats: hash, buildings_with_flats_id: hash_id, flats_no_building: flats_no_building_serialized, flats_no_building_id: flats_no_building_id}
   end
   # work around to get reviews for flats since cannot get reviews in serializer
   def get_reviews_for_flats(flats)
