@@ -269,7 +269,9 @@ class Api::V1::FlatsController < ApplicationController
     array = []
     building_hash = {}
     building_hash_id = {}
+    flat_with_building_all = []
     flats_no_building = []
+    flat_no_building_all = []
     flats_no_building_serialized = []
 
     # create building_hash with flat and one with flat id for processing in google map cdu
@@ -287,15 +289,24 @@ class Api::V1::FlatsController < ApplicationController
     building_hash.keys.each do |eachKey|
       # if hash key has value of array of less than one flat, delete the key
       if building_hash[eachKey].length > 1
-        # if key has array of more than one flat, take out that flat from flat results
-        flats_no_building = flats.reject {|flat| building_hash[eachKey].include?(flat)}
+        # put all flats with buildings in array to filter reject below
+        building_hash[eachKey].each do |each|
+          flat_with_building_all.push(each)
+        end
         # serialize building_hash here since the value is an array
         building_hash[eachKey] = parse_json building_hash[eachKey].uniq
       else
+        # if building has only one or fewer flats, delete key
         building_hash.delete(eachKey)
         building_hash_id.delete(eachKey)
       end
     end
+
+    # if key has array of more than one flat, take out that flat from flat results
+    if flat_with_building_all.length > 0
+      flats_no_building = flats.reject {|flat| flat_with_building_all.include?(flat)}
+    end
+    # p "!!!!!!!flats_no_building: " + flats_no_building.to_s
     # check if building_hash is empty and if empty, return just all flats serialized
     unless building_hash.empty?
       # serialize flats with out the flats with same building
