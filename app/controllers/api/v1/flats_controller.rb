@@ -13,10 +13,7 @@ class Api::V1::FlatsController < ApplicationController
       #               price_per_month >= (?) AND price_per_month <= (?) AND
       #               size >= (?) AND size <= (?) AND
       #               minutes_to_station >= (?) AND minutes_to_station <= (?) AND date_start >= (?) AND date_end <= (?) AND booking_by_owner = (?)'
-      base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND
-                    price_per_month >= (?) AND price_per_month <= (?) AND
-                    size >= (?) AND size <= (?) AND
-                    minutes_to_station >= (?) AND minutes_to_station <= (?)'
+      base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND price_per_month >= (?) AND price_per_month <= (?) AND size >= (?) AND size <= (?) AND minutes_to_station >= (?) AND minutes_to_station <= (?)'
       # params to pass into query
       params_array = [base_conditions , params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
         params[:price_min].to_f,  params[:price_max].to_f,
@@ -73,6 +70,7 @@ class Api::V1::FlatsController < ApplicationController
         booking_params_array.push(endDate)
         # get flats joining amenity and booking exluding flat which have booking that meet conditions
         # @flats = Flat.left_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array))
+        # p '!!!!!!!!!params_array' + params_array.to_s
         @flats = Flat.left_joins(:amenity, :bookings).where(params_array).where.not(id: Booking.select('DISTINCT flat_id').where(booking_params_array)).uniq
       else
         #if no date params, no booking conditions
@@ -102,9 +100,9 @@ class Api::V1::FlatsController < ApplicationController
       # @flats = Flat.where('lat < (?) AND lat > (?) AND lng < (?) AND lng > (?)', params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f).includes(:images)
       unless @flats.empty?
         # unless flats are empty call private method get_reviews_for_flats, sericalize and send response
+        flat_buildings = get_flats_in_same_building_array(@flats)
         reviewsArray = get_reviews_for_flats(@flats)
         flats_serializer = parse_json @flats
-        flat_buildings = get_flats_in_same_building_array(@flats)
         # flats_in_buildings_serializer = parse_json buildings_with_multiple_flats.flats_with_building_siblings
         # flats__buildings_serializer = parse_json buildings_with_multiple_flats.flats_no_building_siblings
         # p "!!!!! buildings_with_multiple_flats" + buildings_with_multiple_flats.to_s
@@ -269,53 +267,45 @@ class Api::V1::FlatsController < ApplicationController
   def get_flats_in_same_building_array(flats)
     # p "!!!!!! flats serialized: " + flats.to_s
     array = []
-    hash = {}
-    hash_id = {}
+    building_hash = {}
+    building_hash_id = {}
     flats_no_building = []
     flats_no_building_serialized = []
 
-    # create hash with flat and one with flat id for processing in google map cdu
+    # create building_hash with flat and one with flat id for processing in google map cdu
     flats.each do |eachFlat|
-      if hash[eachFlat.building_id]
-        hash[eachFlat.building_id].push(eachFlat)
-        hash_id[eachFlat.building_id].push(eachFlat.id)
+      if building_hash[eachFlat.building_id]
+        building_hash[eachFlat.building_id].push(eachFlat)
+        building_hash_id[eachFlat.building_id].push(eachFlat.id)
       elsif eachFlat.building_id && eachFlat.building_id != nil
-        hash[eachFlat.building_id] = [eachFlat]
-        hash_id[eachFlat.building_id] = [eachFlat.id]
+        building_hash[eachFlat.building_id] = [eachFlat]
+        building_hash_id[eachFlat.building_id] = [eachFlat.id]
       end
     end
     # delete key values with null building_id, take out flats with same building from flats,
-    # serialize hash
-    hash.keys.each do |eachKey|
-      if hash[eachKey].length > 1
-        flats_no_building = flats.reject {|flat| hash[eachKey].include?(flat)}
-        # serialize hash here since the value is an array
-        hash[eachKey] = parse_json hash[eachKey].uniq
+    # serialize building_hash
+    building_hash.keys.each do |eachKey|
+      # if hash key has value of array of less than one flat, delete the key
+      if building_hash[eachKey].length > 1
+        # if key has array of more than one flat, take out that flat from flat results
+        flats_no_building = flats.reject {|flat| building_hash[eachKey].include?(flat)}
+        # serialize building_hash here since the value is an array
+        building_hash[eachKey] = parse_json building_hash[eachKey].uniq
       else
-        hash.delete(eachKey)
-        hash_id.delete(eachKey)
+        building_hash.delete(eachKey)
+        building_hash_id.delete(eachKey)
       end
     end
+    # check if building_hash is empty and if empty, return just all flats serialized
+    unless building_hash.empty?
+      # serialize flats with out the flats with same building
+      flats_no_building_serialized = parse_json flats_no_building
+      flats_no_building_id = flats_no_building.map {|each| each.id}
+    else
+      flats_no_building_serialized = parse_json flats
+    end
 
-    #  NOW serialize array and hash
-    # flats_no_building.each do |each|
-    #   serialized_each = parse_json each
-    #   flats_no_building_serialized.push(serialized_each)
-    # end
-    # serialize flats with out the flats with same building
-    flats_no_building_serialized = parse_json flats_no_building
-    flats_no_building_id = flats_no_building.map {|each| each.id}
-    # hash_serialized = {}
-
-    # hash.keys.each do |eachKey|
-    #   hash_serialized[eachKey] = []
-    #   hash[eachKey].each do |each|
-    #     serialized_each = parse_json each
-    #     hash_serialized[eachKey].push(serialized_each)
-    #   end
-    # end
-
-    return {buildings_with_flats: hash, buildings_with_flats_id: hash_id, flats_no_building: flats_no_building_serialized, flats_no_building_id: flats_no_building_id}
+    return {buildings_with_flats: building_hash, buildings_with_flats_id: building_hash_id, flats_no_building: flats_no_building_serialized, flats_no_building_id: flats_no_building_id}
   end
   # work around to get reviews for flats since cannot get reviews in serializer
   def get_reviews_for_flats(flats)
