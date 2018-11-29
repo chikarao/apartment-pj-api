@@ -270,8 +270,11 @@ class Api::V1::FlatsController < ApplicationController
     building_hash = {}
     building_hash_id = {}
     flat_with_building_all = []
+    flat_with_building_all_id = []
+    buildings_id = []
     flats_no_building = []
     flat_no_building_all = []
+    flat_no_building_all_id = []
     flats_no_building_serialized = []
 
     # create building_hash with flat and one with flat id for processing in google map cdu
@@ -292,8 +295,10 @@ class Api::V1::FlatsController < ApplicationController
         # put all flats with buildings in array to filter reject below
         building_hash[eachKey].each do |each|
           flat_with_building_all.push(each)
+          flat_with_building_all_id.push(each.id)
         end
         # serialize building_hash here since the value is an array
+        buildings_id.push(eachKey);
         building_hash[eachKey] = parse_json building_hash[eachKey].uniq
       else
         # if building has only one or fewer flats, delete key
@@ -314,9 +319,10 @@ class Api::V1::FlatsController < ApplicationController
       flats_no_building_id = flats_no_building.map {|each| each.id}
     else
       flats_no_building_serialized = parse_json flats
+      flats_no_building_id = flats.map {|each| each.id}
     end
 
-    return {buildings_with_flats: building_hash, buildings_with_flats_id: building_hash_id, flats_no_building: flats_no_building_serialized, flats_no_building_id: flats_no_building_id}
+    return {buildings_with_flats: building_hash, buildings_with_flats_id: building_hash_id, buildings_just_id: buildings_id, buildings_with_flats_just_id: flat_with_building_all_id, flats_no_building: flats_no_building_serialized, flats_no_building_id: flats_no_building_id}
   end
   # work around to get reviews for flats since cannot get reviews in serializer
   def get_reviews_for_flats(flats)
