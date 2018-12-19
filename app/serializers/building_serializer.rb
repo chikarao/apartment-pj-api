@@ -15,6 +15,7 @@ class BuildingSerializer < ActiveModel::Serializer
     :floors,
     :floors_underground,
     :power_usage_amount,
+    # :electricity,
     :gas,
     :water,
     :sewage,

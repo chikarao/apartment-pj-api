@@ -16,5 +16,6 @@ class Flat < ApplicationRecord
   has_many :facilities, dependent: :destroy
   has_many :contracted_users, through: :contracts, source: :user
   has_many :contracts, dependent: :destroy
+  # has_many :agreements
   # has_many :reviews
 end

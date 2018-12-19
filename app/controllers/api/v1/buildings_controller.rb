@@ -115,6 +115,7 @@ class Api::V1::BuildingsController < ApplicationController
       :floors,
       :floors_underground,
       :power_usage_amount,
+      # :electricity,
       :gas,
       :water,
       :sewage,

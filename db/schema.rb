@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181117030341) do
+ActiveRecord::Schema.define(version: 20181218074005) do
+
+  create_table "agreements", force: :cascade do |t|
+    t.integer "booking_id"
+    t.integer "flat_id"
+    t.string "document_publicid"
+    t.string "document_name"
+    t.boolean "tenant_signed"
+    t.boolean "owner_signed"
+    t.boolean "contractor_signed"
+    t.boolean "sent_to_tenant"
+    t.boolean "owner_approved"
+    t.boolean "tenant_approved"
+    t.boolean "contractor_approved"
+    t.string "language_code"
+    t.string "language_code_1"
+    t.string "template_file_name"
+    t.string "document_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_agreements_on_booking_id"
+    t.index ["flat_id"], name: "index_agreements_on_flat_id"
+  end
 
   create_table "amenities", force: :cascade do |t|
     t.integer "flat_id"
@@ -314,6 +336,35 @@ ActiveRecord::Schema.define(version: 20181117030341) do
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end
 
+  create_table "document_fields", force: :cascade do |t|
+    t.string "field_name"
+    t.integer "agreement_id"
+    t.string "val"
+    t.string "value"
+    t.string "enclosed_text"
+    t.string "top"
+    t.string "left"
+    t.string "height"
+    t.string "font_style"
+    t.string "font_size"
+    t.string "font_color"
+    t.string "font"
+    t.string "border_color"
+    t.string "border_width"
+    t.string "border_style"
+    t.boolean "underline"
+    t.boolean "italic"
+    t.string "background_color"
+    t.string "margin"
+    t.string "class_name"
+    t.string "class_name_1"
+    t.string "component_type"
+    t.string "component_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agreement_id"], name: "index_document_fields_on_agreement_id"
+  end
+
   create_table "facilities", force: :cascade do |t|
     t.integer "flat_id"
     t.integer "booking_id"
@@ -358,6 +409,9 @@ ActiveRecord::Schema.define(version: 20181117030341) do
     t.string "station1"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "owner_name"
+    t.string "owner_contact_name"
+    t.string "owner_address"
     t.index ["flat_id"], name: "index_flat_languages_on_flat_id"
   end
 

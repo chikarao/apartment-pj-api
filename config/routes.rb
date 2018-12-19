@@ -79,6 +79,12 @@ Rails.application.routes.draw do
       resources :bookings do
       end
 
+      resources :agreements do
+      end
+
+      resources :document_fields do
+      end
+
       resources :buildings do
       end
 

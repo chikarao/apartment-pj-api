@@ -11,6 +11,7 @@ class Api::V1::BookingsController < ApplicationController
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :update, :destroy]
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
+  before_action :bookings_for_dates_exist, only: [:create]
 
   def index
   end
@@ -38,11 +39,13 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
     flat = Flat.find_by(id: @booking.flat_id)
+    # owner = User.find_by(id: flat.user_id)
     # assignment_serializer = parse_json assignments
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
+    # owner_serializer = parse_json owner
     json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object}, :ok
   end
 
@@ -112,12 +115,13 @@ class Api::V1::BookingsController < ApplicationController
           y = params[eachField]["top"].to_f / 100 + adjustment_input_y
           hor_points = hor_total_inches * x * points_per_inch
           ver_points = ver_total_inches * (1 - y) * points_per_inch
+          text_to_display = params[eachField]["display_text"] ? params[eachField]["display_text"] : params[eachField]["value"]
           # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
           pdf.font("IPAEX_GOTHIC") do
             # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
             # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
             # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
-            pdf.draw_text params[eachField]["value"], :at => [hor_points, ver_points], :size => 10
+            pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
             # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
             # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
             # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
@@ -126,6 +130,7 @@ class Api::V1::BookingsController < ApplicationController
         # end of string inputfield
         # draw rectagles
         if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle" && params[eachField]["page"].to_i == (i + 1)
+        # if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle"  && !params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
           rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
           rectangle_y =  params[eachField]["top"].to_f / 100;
           rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
@@ -137,6 +142,23 @@ class Api::V1::BookingsController < ApplicationController
              # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
           end
         end
+        # !!!!! EnclosedText Button!!!!
+        # if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle" && params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
+        #   rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
+        #   rectangle_y =  params[eachField]["top"].to_f / 100;
+        #   rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
+        #   rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
+        #   rectagle_width_points = hor_total_inches * params[eachField]["width"].to_f / 100 * points_per_inch
+        #   # pdf.stroke do
+        #   #    # pdf.rounded_rectangle [132, 615], 60, 15, 5
+        #   #    pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+        #   #    # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
+        #   # end
+        #   pdf.font("IPAEX_GOTHIC") do
+        #     pdf.draw_text params[eachField]["enclosedText"], :at => [hor_points, ver_points], :size => 10
+        #   end
+        # end
+
         if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-circle" && params[eachField]["page"].to_i == (i + 1)
           circle_x = params[eachField]["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
           circle_y = (1 - params[eachField]["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
@@ -195,11 +217,11 @@ class Api::V1::BookingsController < ApplicationController
     tenants_array =  params[:tenants]
     # only if have parent
     # booking.book_id = params[:book_id]
-    p "!!!!!!params[:profile]:" + params[:profile].to_s
+    # p "!!!!!!params[:profile]:" + params[:profile].to_s
     if booking.save && (profile_params ? profile.update(profile_params) : true)
 
       facilities_array.each do |eachFacility|
-        p "!!!eachFacility: " + eachFacility.to_s
+        # p "!!!eachFacility: " + eachFacility.to_s
         facility_attributes = {booking_id: booking.id, facility_deposit: eachFacility[:facility_deposit], facility_number: eachFacility[:facility_number], facility_type: eachFacility[:facility_type], price_per_month: eachFacility[:price_per_month], optional: eachFacility[:optional]}
         facility = Facility.new(facility_attributes)
         # facility.booking_id = booking.id
@@ -259,7 +281,7 @@ class Api::V1::BookingsController < ApplicationController
   def blockout_dates_ical
     dateToday = Date.today
     bookings_by_owner = Booking.where(booking_by_owner: true, booking_by_ical: true)
-    p 'in booking_controller, blockout_dates_ical, bookings_by_owner: ' + bookings_by_owner.to_s
+    # p 'in booking_controller, blockout_dates_ical, bookings_by_owner: ' + bookings_by_owner.to_s
 
     flat_id = params[:flat_id]
     # flat_id = 190
@@ -277,7 +299,7 @@ class Api::V1::BookingsController < ApplicationController
     # url_array.push(link2)
     # when ical model set up, url_array = Calendar.where(flat_id = params[:flat_id])
     url_array.each do |each_url|
-      p 'in booking_controller, blockout_dates_ical, each_url: ' + each_url.to_s
+      # p 'in booking_controller, blockout_dates_ical, each_url: ' + each_url.to_s
       url = URI.parse(each_url)
       res = Net::HTTP.get(url)
       if res
@@ -440,4 +462,29 @@ class Api::V1::BookingsController < ApplicationController
     end
   end
 
+  def bookings_for_dates_exist
+    # check if booking exists within range of dates
+    # should not catch any since front end rejects any calendar input spanning any bookings
+    # called in before action only create
+    booking_base_conditions = ''
+    booking_params_array = [booking_base_conditions]
+    if booking_params[:date_start] && booking_params[:date_end]
+      startDate = Date.parse(booking_params[:date_start])
+      endDate = Date.parse(booking_params[:date_end])
+      booking_base_conditions.concat("(date_start BETWEEN (?) AND (?)) OR (date_end BETWEEN (?) AND (?)) OR ((?) BETWEEN date_start AND date_end) OR ((?) BETWEEN date_start AND date_end)")
+      booking_params_array.push(startDate)
+      booking_params_array.push(endDate)
+      booking_params_array.push(startDate)
+      booking_params_array.push(endDate)
+      booking_params_array.push(startDate)
+      booking_params_array.push(endDate)
+      existing_booking = Booking.where(booking_params_array)
+      unless existing_booking.empty?
+        json_response "There is already a booking withing that range of dates", false, {}, :bad_request
+        # json_response "There is already a booking withing that range of dates", false, {}, :unprocessable_entity
+        return;
+      end
+    end
+  end
+#end of class
 end

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking: one
+  document_publicid: MyString
+  document_name: MyString
+  signed: false
+  sent: false
+  delivered: 
+
+two:
+  booking: two
+  document_publicid: MyString
+  document_name: MyString
+  signed: false
+  sent: false
+  delivered: 

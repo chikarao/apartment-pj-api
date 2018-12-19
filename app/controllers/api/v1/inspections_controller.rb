@@ -61,7 +61,7 @@ class Api::V1::InspectionsController < ApplicationController
 
   def load_flat
     # front end gets params and sends it in fetchFlatFromParams
-    @flat = Flat.find_by building_id: params[:building_id]
+    @flat = Flat.find_by id: params[:flat_id]
     unless @flat.present?
       json_response "Cannot find flat", false, {}, :not_found
     end
