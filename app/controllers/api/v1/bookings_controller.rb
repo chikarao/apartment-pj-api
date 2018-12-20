@@ -55,7 +55,8 @@ class Api::V1::BookingsController < ApplicationController
   def create_contract
     flat = Flat.find_by(params[:flat_id])
     flat_id = params[:flat_id]
-    contract_name = params[:contract_name]
+    # contract_name = params[:contract_name]
+    contract_name = params[:template_file_name]
 
     # CombinePDF is for combine_pdf gem
     pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
@@ -107,10 +108,10 @@ class Api::V1::BookingsController < ApplicationController
       params.each do |eachField|
         # p 'in booking_controller, create_contract, params[eachField],  params[eachField]["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
         # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
-        # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
-        # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["type"].to_s + " " + params[eachField]["val"].to_s
+        # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
+        # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["input_type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["input_type"].to_s + " " + params[eachField]["val"].to_s
         # draw input fields
-        if params[eachField]["type"] == "string" && params[eachField]["val"] == "inputFieldValue" && params[eachField]["page"].to_i == (i + 1)
+        if params[eachField]["input_type"] == "string" && params[eachField]["val"] == "inputFieldValue" && params[eachField]["page"].to_i == (i + 1)
           x = params[eachField]["left"].to_f / 100 + adjustment_x
           y = params[eachField]["top"].to_f / 100 + adjustment_input_y
           hor_points = hor_total_inches * x * points_per_inch
@@ -129,8 +130,8 @@ class Api::V1::BookingsController < ApplicationController
         end
         # end of string inputfield
         # draw rectagles
-        if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle" && params[eachField]["page"].to_i == (i + 1)
-        # if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle"  && !params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
+        if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle" && params[eachField]["page"].to_i == (i + 1)
+        # if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle"  && !params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
           rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
           rectangle_y =  params[eachField]["top"].to_f / 100;
           rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
@@ -143,7 +144,7 @@ class Api::V1::BookingsController < ApplicationController
           end
         end
         # !!!!! EnclosedText Button!!!!
-        # if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-rectangle" && params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
+        # if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle" && params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
         #   rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
         #   rectangle_y =  params[eachField]["top"].to_f / 100;
         #   rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
@@ -159,7 +160,7 @@ class Api::V1::BookingsController < ApplicationController
         #   end
         # end
 
-        if params[eachField]["type"] == "button" && params[eachField]["className"] == "document-circle" && params[eachField]["page"].to_i == (i + 1)
+        if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-circle" && params[eachField]["page"].to_i == (i + 1)
           circle_x = params[eachField]["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
           circle_y = (1 - params[eachField]["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
           circle_hor_points = hor_total_inches * circle_x * points_per_inch

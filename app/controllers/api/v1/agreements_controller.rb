@@ -101,8 +101,11 @@ class Api::V1::AgreementsController < ApplicationController
   #https://stackoverflow.com/questions/18595364/rails-strong-parameters-with-objects-array
   def document_field_params
     params.permit(document_field: [
-      :field_name,
+      :name,
       :agreement_id,
+      :input_type,
+      :text_align,
+      :page,
       :val,
       :value,
       :enclosed_text,
