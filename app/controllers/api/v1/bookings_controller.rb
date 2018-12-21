@@ -53,8 +53,10 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def create_contract
-    flat = Flat.find_by(params[:flat_id])
+    flat = Flat.find_by(id: params[:flat_id].to_i)
     flat_id = params[:flat_id]
+    # p "!!!!!! params[:document_field]: " + params[:document_field].to_s
+    # p "!!!!!! document_field_params[:document_field]: " + document_field_params[:document_field].to_s
     # contract_name = params[:contract_name]
     contract_name = params[:template_file_name]
 
@@ -95,28 +97,33 @@ class Api::V1::BookingsController < ApplicationController
                       }
     # get array of pages in params
     document_pages_array = []
-    params.each do |each|
-      if (!(document_pages_array.include? params[each]["page"].to_i) && params[each]["page"] )
-        document_pages_array.push(params[each]["page"].to_i)
+    # Push page number in array if not already in array.
+    params[:document_field].each do |each|
+    # document_field_params[:document_field].each do |each|
+      if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
+        document_pages_array.push(each["page"].to_i)
       end
+      p "!!!!!! document_pages_array: " + document_pages_array.to_s
     end
-    # p 'in booking_controller, create_contract, params[eachField], document_pages_array: ' + document_pages_array.to_s
+    # p 'in booking_controller, create_contract, eachField, document_pages_array: ' + document_pages_array.to_s
 
+    #!!!!!! START RENDER OF PDF
     # for each page in params, go through params onces
     # if input field, rectangle, circle, draw each
-    document_pages_array.length.times do |i|
-      params.each do |eachField|
-        # p 'in booking_controller, create_contract, params[eachField],  params[eachField]["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
+    document_pages_array.each do |i|
+      params[:document_field].each do |eachField|
+        # p "!!!!!! params[:document_field].each, eachField: " + eachField.to_s
+        # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
         # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["input_type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["input_type"].to_s + " " + params[eachField]["val"].to_s
         # draw input fields
-        if params[eachField]["input_type"] == "string" && params[eachField]["val"] == "inputFieldValue" && params[eachField]["page"].to_i == (i + 1)
-          x = params[eachField]["left"].to_f / 100 + adjustment_x
-          y = params[eachField]["top"].to_f / 100 + adjustment_input_y
+        if eachField["input_type"] == "string" && eachField["val"] == "inputFieldValue" && eachField["page"].to_i == (i)
+          x = eachField["left"].to_f / 100 + adjustment_x
+          y = eachField["top"].to_f / 100 + adjustment_input_y
           hor_points = hor_total_inches * x * points_per_inch
           ver_points = ver_total_inches * (1 - y) * points_per_inch
-          text_to_display = params[eachField]["display_text"] ? params[eachField]["display_text"] : params[eachField]["value"]
+          text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
           # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
           pdf.font("IPAEX_GOTHIC") do
             # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
@@ -130,39 +137,46 @@ class Api::V1::BookingsController < ApplicationController
         end
         # end of string inputfield
         # draw rectagles
-        if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle" && params[eachField]["page"].to_i == (i + 1)
-        # if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle"  && !params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
-          rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
-          rectangle_y =  params[eachField]["top"].to_f / 100;
+        # if eachField["input_type"] == "button" && eachField["class_name"] == "document-rectangle" && eachField["page"].to_i == (i)
+        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (i))
+          rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
+          rectangle_y =  eachField["top"].to_f / 100;
           rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
           rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
-          rectagle_width_points = hor_total_inches * params[eachField]["width"].to_f / 100 * points_per_inch
+          rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
           pdf.stroke do
              # pdf.rounded_rectangle [132, 615], 60, 15, 5
              pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
              # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
           end
         end
-        # !!!!! EnclosedText Button!!!!
-        # if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-rectangle" && params[eachField]["enclosedText"] && params[eachField]["page"].to_i == (i + 1)
-        #   rectangle_x =  params[eachField]["left"].to_f / 100 + adjustment_x / 3;
-        #   rectangle_y =  params[eachField]["top"].to_f / 100;
-        #   rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
-        #   rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
-        #   rectagle_width_points = hor_total_inches * params[eachField]["width"].to_f / 100 * points_per_inch
-        #   # pdf.stroke do
-        #   #    # pdf.rounded_rectangle [132, 615], 60, 15, 5
-        #   #    pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
-        #   #    # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
-        #   # end
-        #   pdf.font("IPAEX_GOTHIC") do
-        #     pdf.draw_text params[eachField]["enclosedText"], :at => [hor_points, ver_points], :size => 10
-        #   end
-        # end
+        # !!!!! enclosed_text Button!!!!
+        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle") && eachField["enclosed_text"] && (eachField["page"].to_i == (i))
+          # p "!!!!!! params[:document_field].each, eachField[enclosed_text]: " + eachField["enclosed_text"].to_s
+          # rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
+          # rectangle_y =  eachField["top"].to_f / 100;
+          # rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
+          # rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
+          # rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
+          x = eachField["left"].to_f / 100 + adjustment_x
+          y = eachField["top"].to_f / 100 + adjustment_input_y
+          hor_points = hor_total_inches * x * points_per_inch
+          ver_points = ver_total_inches * (1 - y) * points_per_inch
+          # text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
 
-        if params[eachField]["input_type"] == "button" && params[eachField]["class_name"] == "document-circle" && params[eachField]["page"].to_i == (i + 1)
-          circle_x = params[eachField]["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
-          circle_y = (1 - params[eachField]["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
+          # pdf.stroke do
+          #    # pdf.rounded_rectangle [132, 615], 60, 15, 5
+          #    pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+          #    # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
+          # end
+          pdf.font("IPAEX_GOTHIC") do
+            pdf.draw_text eachField["enclosed_text"], :at => [hor_points, ver_points], :size => 10
+          end
+        end
+
+        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (i)
+          circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
+          circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
           circle_hor_points = hor_total_inches * circle_x * points_per_inch
           circle_ver_points = ver_total_inches * circle_y * points_per_inch
           pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
@@ -421,6 +435,32 @@ class Api::V1::BookingsController < ApplicationController
       :emergency_contact_relationship,
       :introduction)
   end
+
+  # def document_field_params
+  #   params.permit(document_field: [
+  #     :id,
+  #     :name,
+  #     :agreement_id,
+  #     :input_type,
+  #     :text_align,
+  #     :page,
+  #     :val,
+  #     :value,
+  #     :enclosed_text,
+  #     :top,
+  #     :left,
+  #     :width,
+  #     :height,
+  #     :font_size,
+  #     :margin,
+  #     :class_name,
+  #     :class_name_1,
+  #     :component_type,
+  #     :component_name,
+  #     :display_text,
+  #     ]
+  #   )
+  # end
 
   # def request_booking_params
   #   params.require(:booking).permit(:id)
