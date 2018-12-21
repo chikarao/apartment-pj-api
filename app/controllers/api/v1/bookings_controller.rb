@@ -103,86 +103,100 @@ class Api::V1::BookingsController < ApplicationController
       if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
         document_pages_array.push(each["page"].to_i)
       end
-      p "!!!!!! document_pages_array: " + document_pages_array.to_s
+      # p "!!!!!! document_pages_array: " + document_pages_array.to_s
     end
     # p 'in booking_controller, create_contract, eachField, document_pages_array: ' + document_pages_array.to_s
 
     #!!!!!! START RENDER OF PDF
     # for each page in params, go through params onces
     # if input field, rectangle, circle, draw each
-    document_pages_array.each do |i|
-      params[:document_field].each do |eachField|
+    document_pages_max = document_pages_array.max
+    page = 1
+    (document_pages_max).times do
+      p "!!!!!!!!!!!!!!!!!!!!!!document_pages_max, document_pages_array.include?(page), document_pages_array, page" +" " + document_pages_max.to_s + " "+ document_pages_array.include?(page).to_s + " " + document_pages_array.to_s + " " + (page).to_s
+      if document_pages_array.include?(page)
+        params[:document_field].each do |eachField|
+          # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s
         # p "!!!!!! params[:document_field].each, eachField: " + eachField.to_s
         # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
         # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["input_type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["input_type"].to_s + " " + params[eachField]["val"].to_s
         # draw input fields
-        if eachField["input_type"] == "string" && eachField["val"] == "inputFieldValue" && eachField["page"].to_i == (i)
-          x = eachField["left"].to_f / 100 + adjustment_x
-          y = eachField["top"].to_f / 100 + adjustment_input_y
-          hor_points = hor_total_inches * x * points_per_inch
-          ver_points = ver_total_inches * (1 - y) * points_per_inch
-          text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
-          # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
-          pdf.font("IPAEX_GOTHIC") do
-            # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
-            # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
-            # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
-            pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
-            # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
-            # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
-            # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
-          end
-        end
-        # end of string inputfield
-        # draw rectagles
-        # if eachField["input_type"] == "button" && eachField["class_name"] == "document-rectangle" && eachField["page"].to_i == (i)
-        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (i))
-          rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
-          rectangle_y =  eachField["top"].to_f / 100;
-          rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
-          rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
-          rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
-          pdf.stroke do
-             # pdf.rounded_rectangle [132, 615], 60, 15, 5
-             pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
-             # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
-          end
-        end
-        # !!!!! enclosed_text Button!!!!
-        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle") && eachField["enclosed_text"] && (eachField["page"].to_i == (i))
-          # p "!!!!!! params[:document_field].each, eachField[enclosed_text]: " + eachField["enclosed_text"].to_s
-          # rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
-          # rectangle_y =  eachField["top"].to_f / 100;
-          # rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
-          # rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
-          # rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
-          x = eachField["left"].to_f / 100 + adjustment_x
-          y = eachField["top"].to_f / 100 + adjustment_input_y
-          hor_points = hor_total_inches * x * points_per_inch
-          ver_points = ver_total_inches * (1 - y) * points_per_inch
-          # text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
 
-          # pdf.stroke do
-          #    # pdf.rounded_rectangle [132, 615], 60, 15, 5
-          #    pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
-          #    # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
-          # end
-          pdf.font("IPAEX_GOTHIC") do
-            pdf.draw_text eachField["enclosed_text"], :at => [hor_points, ver_points], :size => 10
+        p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
+          if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && eachField["val"] == "inputFieldValue" && eachField["page"].to_i == (page)
+            x = eachField["left"].to_f / 100 + adjustment_x
+            y = eachField["top"].to_f / 100 + adjustment_input_y
+            hor_points = hor_total_inches * x * points_per_inch
+            ver_points = ver_total_inches * (1 - y) * points_per_inch
+            text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+            # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+            pdf.font("IPAEX_GOTHIC") do
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
+              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
+              # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
+              # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+            end
+          end
+          # end of string inputfield
+          # draw rectagles
+          # if eachField["input_type"] == "button" && eachField["class_name"] == "document-rectangle" && eachField["page"].to_i == (page)
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
+            rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
+            rectangle_y =  eachField["top"].to_f / 100;
+            rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
+            rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
+            rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
+            pdf.stroke do
+               # pdf.rounded_rectangle [132, 615], 60, 15, 5
+               pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+               # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
+            end
+          end
+          # !!!!! enclosed_text Button!!!!
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle") && eachField["enclosed_text"] && (eachField["page"].to_i == (page))
+            # p "!!!!!! params[:document_field].each, eachField[enclosed_text]: " + eachField["enclosed_text"].to_s
+            # rectangle_x =  eachField["left"].to_f / 100 + adjustment_x / 3;
+            # rectangle_y =  eachField["top"].to_f / 100;
+            # rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
+            # rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
+            # rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
+            x = eachField["left"].to_f / 100 + adjustment_x
+            y = eachField["top"].to_f / 100 + adjustment_input_y
+            hor_points = hor_total_inches * x * points_per_inch
+            ver_points = ver_total_inches * (1 - y) * points_per_inch
+            # text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+
+            # pdf.stroke do
+            #    # pdf.rounded_rectangle [132, 615], 60, 15, 5
+            #    pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+            #    # pdf.rounded_rectangle [construction_type_hor_points, construction_type_ver_points], 50, 12, 5
+            # end
+            pdf.font("IPAEX_GOTHIC") do
+              pdf.draw_text eachField["enclosed_text"], :at => [hor_points, ver_points], :size => 10
+            end
+          end
+
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (page)
+            circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
+            circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
+            circle_hor_points = hor_total_inches * circle_x * points_per_inch
+            circle_ver_points = ver_total_inches * circle_y * points_per_inch
+            pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
           end
         end
-
-        if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (i)
-          circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
-          circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
-          circle_hor_points = hor_total_inches * circle_x * points_per_inch
-          circle_ver_points = ver_total_inches * circle_y * points_per_inch
-          pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+      else
+        p "Writing skipped page" + page.to_s
+        pdf.font("IPAEX_GOTHIC") do
+          pdf.draw_text "Skippped", :at => [100, 100], :size => 100
         end
       end
       pdf.start_new_page
+      page += 1
     end
 
     pdf.stroke_axis()
@@ -199,8 +213,12 @@ class Api::V1::BookingsController < ApplicationController
     # pdf_base.pages.each {|page| page << pdf_merge}
     # pdf_base.pages.each_with_index {|page, i| page << pdf_mesrge.pages[i]}
     # .pages is an array of pages
+    p "!!!! Before PDF Merge document_pages_array: " + document_pages_array.to_s
+    # document_pages_array.each_with_index do |eachPage, i|
     document_pages_array.each_with_index do |eachPage, i|
-      pdf_base.pages[i]<< pdf_merge.pages[i]
+      p "!!!! PDF Merge each_with_index: " + eachPage.to_s
+      # pdf_base.pages[i]<< pdf_merge.pages[i]
+      pdf_base.pages[(eachPage - 1)]<< pdf_merge.pages[(eachPage - 1)]
     end
     # pdf_base.pages[1]<< pdf_merge.pages[1]
     # pdf_base << pdf_merge
