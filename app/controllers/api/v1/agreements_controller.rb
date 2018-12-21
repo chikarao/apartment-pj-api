@@ -52,6 +52,22 @@ class Api::V1::AgreementsController < ApplicationController
   # def edit
   # end
 
+  def update_agreement_fields
+    booking = Booking.find_by(id: params[:booking_id])
+    document_field_params["document_field"].each do |each|
+      # p "each: " + each.to_s
+      document_field = DocumentField.find_by(id: each[:id])
+
+      unless document_field.update(each)
+        json_response "Update agreement fields failed", false, {}, :unprocessable_entity
+        break
+      end
+    end
+
+    booking_serializer = parse_json booking
+    json_response "Updated agreement fields succesfully", true, {booking: booking_serializer}, :ok
+  end
+
   def update
     if @agreement.update agreement_params
       booking = Booking.find_by(id: agreement_params[:booking_id])
@@ -101,6 +117,7 @@ class Api::V1::AgreementsController < ApplicationController
   #https://stackoverflow.com/questions/18595364/rails-strong-parameters-with-objects-array
   def document_field_params
     params.permit(document_field: [
+      :id,
       :name,
       :agreement_id,
       :input_type,
@@ -118,7 +135,8 @@ class Api::V1::AgreementsController < ApplicationController
       :class_name,
       :class_name_1,
       :component_type,
-      :component_name
+      :component_name,
+      :display_text,
       ]
     )
   end
