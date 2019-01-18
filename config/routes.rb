@@ -78,6 +78,7 @@ Rails.application.routes.draw do
 
       resources :bookings do
       end
+      post 'fetch_translation', to: 'bookings#fetch_translation'
 
       resources :agreements do
       end

@@ -54,18 +54,54 @@ class Api::V1::AgreementsController < ApplicationController
 
   def update_agreement_fields
     booking = Booking.find_by(id: params[:booking_id])
-    document_field_params["document_field"].each do |each|
+    agreement = Agreement.find_by(id: params[:agreement_id])
+    # update each document field sent in document_field_params
+    document_field_params[:document_field].each do |each|
       # p "each: " + each.to_s
+      # find each document field an udpate
       document_field = DocumentField.find_by(id: each[:id])
-
+      # if any document_field fails to update, break and send fail message
       unless document_field.update(each)
         json_response "Update agreement fields failed", false, {}, :unprocessable_entity
         break
       end
     end
 
+    # if save_and_create: true sent in params
+    if params[:save_and_create]
+      # document_field = DocumentField.find_by(id: document_field_params["document_field"][0][:id])
+      agreement = Agreement.find_by(id: params[:agreement_id])
+      document_fields = DocumentField.where(agreement_id: agreement.id)
+      cloudinary_result = create_pdf(document_fields, params[:template_file_name], params[:save_and_create])
+      # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
+      # p "cloudinary_result: " + cloudinary_result.to_s
+      unless !agreement.document_publicid
+        result = Cloudinary::Uploader.destroy(agreement.document_publicid);
+        # p "after cloudinary destroy result, params[:save_and_create]: " + result.to_s + params[:save_and_create].to_s
+      end
+      agreement.document_publicid = cloudinary_result["public_id"]
+
+      unless agreement.save
+        # json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
+        # break
+      end
+    end
+
+    if agreement.document_name != params[:document_name]
+      agreement.document_name = params[:document_name]
+      unless agreement.save
+        json_response "Update agreement fields failed", false, {}, :unprocessable_entity
+        # break
+      end
+    end
+
+    agreement_serializer = parse_json agreement
     booking_serializer = parse_json booking
-    json_response "Updated agreement fields succesfully", true, {booking: booking_serializer}, :ok
+    unless params[:save_and_create]
+      json_response "Updated agreement fields succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+    else
+      json_response "Updated agreement fields and created PDF succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+    end
   end
 
   def update
@@ -83,9 +119,11 @@ class Api::V1::AgreementsController < ApplicationController
 
   def destroy
       booking = Booking.find_by(id: @agreement.booking_id)
+      image_to_destroy = @agreement.document_publicid
       if @agreement.destroy
+        result = Cloudinary::Uploader.destroy(image_to_destroy);
         booking_serializer = parse_json booking
-        agreement_serializer = parse_json @agreement
+        # agreement_serializer = parse_json @agreement
         json_response "Deleted agreement succesfully", true, {booking: booking_serializer}, :ok
       else
         json_response "Delete agreement failed", false, {}, :unprocessable_entity
