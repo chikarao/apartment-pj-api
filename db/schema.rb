@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181220021101) do
+ActiveRecord::Schema.define(version: 20190124063637) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -132,6 +132,8 @@ ActiveRecord::Schema.define(version: 20181220021101) do
     t.string "swift"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "bank_name_english"
+    t.string "account_name_english"
     t.index ["user_id"], name: "index_bank_accounts_on_user_id"
   end
 
@@ -282,6 +284,9 @@ ActiveRecord::Schema.define(version: 20181220021101) do
     t.datetime "updated_at", null: false
     t.string "language_code"
     t.integer "base_record_id"
+    t.string "registration_jurisdiction"
+    t.string "registration_grantor"
+    t.string "registration_number_front"
     t.index ["user_id"], name: "index_contractors_on_user_id"
   end
 
@@ -417,6 +422,7 @@ ActiveRecord::Schema.define(version: 20181220021101) do
     t.string "owner_name"
     t.string "owner_contact_name"
     t.string "owner_address"
+    t.string "language_code"
     t.index ["flat_id"], name: "index_flat_languages_on_flat_id"
   end
 
@@ -695,6 +701,7 @@ ActiveRecord::Schema.define(version: 20181220021101) do
     t.string "zip"
     t.string "language_code"
     t.integer "base_record_id"
+    t.string "registration_jurisdiction"
     t.index ["contractor_id"], name: "index_staffs_on_contractor_id"
     t.index ["user_id"], name: "index_staffs_on_user_id"
   end

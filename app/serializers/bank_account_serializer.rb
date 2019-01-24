@@ -11,6 +11,8 @@ class BankAccountSerializer < ActiveModel::Serializer
     :account_type,
     :routing_number,
     :swift,
+    :bank_name_english,
+    :account_name_english,
     :created_at,
     :updated_at
 

@@ -74,7 +74,19 @@ class Api::V1::BankAccountsController < ApplicationController
   # end
 
   def bank_account_params
-    params.require(:bank_account).permit(:account_first_name, :account_last_name, :account_name, :bank_name, :branch_name, :bank_address, :branch_number, :account_number, :account_type, :routing_number, :swift)
+    params.require(:bank_account).permit(:account_first_name,
+      :account_last_name,
+      :account_name,
+      :bank_name,
+      :branch_name,
+      :bank_address,
+      :branch_number,
+      :account_number,
+      :account_type,
+      :routing_number,
+      :swift,
+      :bank_name_english,
+      :account_name_english)
   end
 
   def load_bank_account

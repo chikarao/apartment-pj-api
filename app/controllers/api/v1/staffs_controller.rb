@@ -118,7 +118,8 @@ class Api::V1::StaffsController < ApplicationController
       :country,
       :calendar,
       :language_code,
-      :base_record_id
+      :base_record_id,
+      :registration_jurisdiction
     )
   end
 

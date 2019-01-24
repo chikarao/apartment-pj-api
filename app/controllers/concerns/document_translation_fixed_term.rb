@@ -198,6 +198,11 @@ module DocumentTranslationFixedTerm
         attributes: { top: '68.8%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
       },
 
+      lock_key: {
+        translations: { en: 'Key', po: '' },
+        attributes: { top: '71.5%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
+      },
+
       ac: {
         translations: { en: 'A/C', po: '' },
         attributes: { top: '52%', left: '62.2%', font_size: '10', class_name: 'document-translation' }
@@ -229,18 +234,18 @@ module DocumentTranslationFixedTerm
       },
 
       key: {
-        translations: { en: 'Key', po: '' },
-        attributes: { top: '73.8%', left: '31.7%', font_size: '10', class_name: 'document-translation' }
+        translations: { en: 'Key No.', po: '' },
+        attributes: { top: '74.2%', left: '31.7%', font_size: '10', class_name: 'document-translation' }
       },
 
       sets: {
         translations: { en: 'Sets', po: '' },
-        attributes: { top: '73.8%', left: '66.2%', font_size: '10', class_name: 'document-translation' }
+        attributes: { top: '74.2%', left: '66.2%', font_size: '10', class_name: 'document-translation' }
       },
 
       electricCapacity: {
         translations: { en: 'Electric Capacity', po: '' },
-        attributes: { top: '77%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
+        attributes: { top: '77.4%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
       },
 
       gas: {
@@ -446,112 +451,112 @@ module DocumentTranslationFixedTerm
 
     rentAndOthers: {
       translations: { en: 'Rent & Others', po: '' },
-      attributes: { top: '45.8%', left: '25.7%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '45.2%', left: '25.7%', font_size: '10', class_name: 'document-translation' }
     },
 
     rentAndFees: {
       translations: { en: 'Rent・Fees', po: '' },
-      attributes: { top: '48.8%', left: '19.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '48.2%', left: '19.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     dueDates: {
       translations: { en: 'Payment Due', po: '' },
-      attributes: { top: '48.8%', left: '41.6%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '48.2%', left: '41.6%', font_size: '10', class_name: 'document-translation' }
     },
 
     paymentMethod: {
       translations: { en: 'Payment Method', po: '' },
-      attributes: { top: '48.8%', left: '68.6%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '48.2%', left: '68.6%', font_size: '10', class_name: 'document-translation' }
     },
 
     rent: {
       translations: { en: 'Rent', po: '' },
-      attributes: { top: '52%', left: '15.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '51.4%', left: '15.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     jpy: {
       translations: { en: 'JPY', po: '' },
-      attributes: { top: '54.6%', left: '34.1%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '54%', left: '34.1%', font_size: '10', class_name: 'document-translation' }
     },
 
     rentDueDate: {
       translations: { en: 'Current Month Rent Due Date Each Month', po: '' },
-      attributes: { top: '54%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      attributes: { top: '53.4%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     Fees: {
       translations: { en: 'Fees', po: '' },
-      attributes: { top: '58.5%', left: '14.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      attributes: { top: '57.9%', left: '14.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     jpy1: {
       translations: { en: 'JPY', po: '' },
-      attributes: { top: '77.6%', left: '34.1%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '80%', left: '34.1%', font_size: '10', class_name: 'document-translation' }
     },
 
     feesDueDate: {
       translations: { en: 'Current Month Fees Due Date Each Month', po: '' },
-      attributes: { top: '69%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      attributes: { top: '70%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     accountOrInPerson: {
       translations: { en: 'Bank Wire or In Person', po: '' },
-      attributes: { top: '69%', left: '54%', font_size: '10', class_name: 'document-translation', width: '5%' }
+      attributes: { top: '68.4%', left: '54%', font_size: '10', class_name: 'document-translation', width: '5%' }
     },
 
     bankName: {
       translations: { en: 'Bank Name', po: '' },
-      attributes: { top: '53.7%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '53.1%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     accountType: {
       translations: { en: 'Account Type: Ordinary・Current', po: '' },
-      attributes: { top: '58.9%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '58.3%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     accountNumber: {
       translations: { en: 'A/C No.', po: '' },
-      attributes: { top: '62.2%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '61.6%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     accountName: {
       translations: { en: 'Account Name', po: '' },
-      attributes: { top: '67%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '70%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     transferFeePaidBy: {
       translations: { en: 'Transfer Fee Paid By: Landlor・Tenant', po: '' },
-      attributes: { top: '72.5%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '75%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     paidInPerson: {
       translations: { en: 'Paid in Person', po: '' },
-      attributes: { top: '76.5%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '79.4%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     deposit: {
       translations: { en: 'Deposit', po: '' },
-      attributes: { top: '80.8%', left: '14%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '83.5%', left: '14%', font_size: '10', class_name: 'document-translation' }
     },
 
     rentDepositX: {
       translations: { en: 'Rent x No. of Months', po: '' },
-      attributes: { top: '80.8%', left: '22.3%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '83.5%', left: '22.3%', font_size: '10', class_name: 'document-translation' }
     },
 
     jpyDeposit: {
       translations: { en: 'JPY', po: '' },
-      attributes: { top: '80.8%', left: '63.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '83.5%', left: '63.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     facilityUsageFee: {
-      translations: { en: 'Facility Ussage Fee', po: '' },
-      attributes: { top: '83.7%', left: '14.8%', font_size: '10', class_name: 'document-translation' }
+      translations: { en: 'Facility Usage Fee', po: '' },
+      attributes: { top: '86.5%', left: '14.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     others: {
       translations: { en: 'Others', po: '' },
-      attributes: { top: '86.7%', left: '17%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '89.5%', left: '17%', font_size: '10', class_name: 'document-translation' }
     }
   },
   3 => {
@@ -577,7 +582,7 @@ module DocumentTranslationFixedTerm
 
     landlordPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '19.6%', left: '54.1%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '18.5%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     managementCompanyAndRepresentative: {
@@ -597,7 +602,7 @@ module DocumentTranslationFixedTerm
 
     managementPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '30.4%', left: '54.1%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '29.3%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     registration: {
@@ -632,7 +637,7 @@ module DocumentTranslationFixedTerm
 
     ownerPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '47.5%', left: '54.1%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '46.4%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     tenantAndCoTenants: {
@@ -837,7 +842,7 @@ module DocumentTranslationFixedTerm
     },
 
     tenant: {
-      translations: { en: 'Landlord', po: '' },
+      translations: { en: 'Tenant', po: '' },
       attributes: { top: '38.5%', left: '14.5%', font_size: '10', class_name: 'document-translation' }
     },
 
@@ -896,9 +901,19 @@ module DocumentTranslationFixedTerm
       attributes: { top: '64.5%', left: '27%', font_size: '10', class_name: 'document-translation' }
     },
 
+    brokerCompanyName: {
+      translations: { en: 'Company Name', po: '' },
+      attributes: { top: '69%', left: '27%', font_size: '10', class_name: 'document-translation' }
+    },
+
     brokerRepresentative: {
       translations: { en: 'Representative', po: '' },
       attributes: { top: '73.3%', left: '27%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    sealBrokerCompany: {
+      translations: { en: 'Seal', po: '' },
+      attributes: { top: '73.3%', left: '65.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     registeredBroker: {

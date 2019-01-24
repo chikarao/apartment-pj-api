@@ -110,7 +110,13 @@ class Api::V1::ContractorsController < ApplicationController
       :region,
       :country,
       :language_code,
-      :base_record_id
+      :base_record_id,
+      # jurisdiction is prefecture in japan
+      :registration_jurisdiction,
+      # grantor is governor or minister in japan
+      :registration_grantor,
+      :registration_number_front,
+
     )
   end
 

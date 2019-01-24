@@ -38,6 +38,7 @@ class StaffSerializer < ActiveModel::Serializer
   :calendar,
   :language_code,
   :base_record_id,
+  :registration_jurisdiction,
   :created_at,
   :updated_at
 
