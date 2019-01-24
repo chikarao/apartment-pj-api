@@ -47,6 +47,7 @@ class FlatSerializer < ActiveModel::Serializer
   :language_code,
   :payment_due_date,
   :owner_name,
+  :owner_contact_name,
   :owner_address,
   :owner_phone,
   :images,
