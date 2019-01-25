@@ -28,16 +28,43 @@ class Api::V1::BookingsController < ApplicationController
     # assignments = contracts[0].assignments
     # assignments = []
     work_type_object = {}
+    staffTranslationObject = {}
+    contractorTranslationObject = {}
     unless contracts.empty?
       contracts.each do |eachContract|
         contractArray = []
         # unless work_type_object[eachContract.work_type]
         # p "!!!! eachContract.Assignments each: " + eachContract.assignments.to_s
+        contractor_serializer = parse_json eachContract.contractor
+        # get array of all contractor's languages
+        contractorTranslationObject[eachContract.contractor.id] = [contractor_serializer]
+        contractorTranslation = Contractor.where(base_record_id: eachContract.contractor.id)
+        # p "!!!!!!!!!!!!!!!!!!!!contractorTranslation.count" + contractorTranslation.count.to_s
+        unless contractorTranslation.empty?
+          contractorTranslation.each do |each|
+            # push all contractor with base_record_id of the contractred controactor into array in object 
+            contractor_serializer = parse_json each
+            contractorTranslationObject[eachContract.contractor.id].push(contractor_serializer)
+          end
+        end
           eachContract.assignments.each do |eachAssignment|
             # p "!!!! eachAssignment each id: " + eachAssignment.id.to_s
             # p "!!!! eachAssignment: " + eachAssignment.to_s
             assignment_serializer = parse_json eachAssignment
             contractArray.push(assignment_serializer)
+            # get array of all staff's languages
+            staff_serializer = parse_json eachAssignment.staff
+            staffTranslationObject[eachAssignment.staff.id] = [staff_serializer]
+            # .where creates array of arrays for staffTranslationObject
+            staffTranslation = Staff.where(base_record_id: eachAssignment.staff.id)
+            # p "!!!!!!!!!!!!!!!staffTranslation.count" + staffTranslation.count.to_s
+            unless staffTranslation.empty?
+              # push all staff with base_record_id of the assigned staff into array in object
+              staffTranslation.each do |each|
+                staff_serializer = parse_json each
+                staffTranslationObject[eachAssignment.staff.id].push(staff_serializer)
+              end
+            end
           end
           work_type_object[eachContract.work_type] = contractArray
         # end
@@ -51,7 +78,7 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
     # owner_serializer = parse_json owner
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject}, :ok
   end
 
   def new

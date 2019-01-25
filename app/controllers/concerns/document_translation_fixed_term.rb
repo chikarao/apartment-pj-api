@@ -562,232 +562,247 @@ module DocumentTranslationFixedTerm
   3 => {
     landlordAndManagemement: {
       translations: { en: 'Landlord & Management', po: '' },
-      attributes: { top: '10.2%', left: '37%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '7.7%', left: '37%', font_size: '10', class_name: 'document-translation' }
     },
 
     landlordCompanyAndRepresentative: {
-      translations: { en: 'Landlord (Company Name & Representative)', po: '' },
-      attributes: { top: '18.2%', left: '15.5%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      translations: { en: 'Landlord (Company Name ・ Representative)', po: '' },
+      attributes: { top: '16.5%', left: '15.5%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     landlordAddress: {
       translations: { en: 'Address', po: '' },
-      attributes: { top: '14.6%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '11.5%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    landordCompanyName: {
+      translations: { en: 'Company', po: '' },
+      attributes: { top: '15.2%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     landlordName: {
-      translations: { en: 'Name', po: '' },
-      attributes: { top: '19.6%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      translations: { en: 'Representative', po: '' },
+      attributes: { top: '19.3%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     landlordPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '18.5%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '15%', left: '63.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     managementCompanyAndRepresentative: {
-      translations: { en: 'Management (Company Name & Representative)', po: '' },
-      attributes: { top: '30.9%', left: '15.5%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      translations: { en: 'Management (Company Name ・ Representative)', po: '' },
+      attributes: { top: '29.5%', left: '15.5%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     managementAddress: {
       translations: { en: 'Address', po: '' },
-      attributes: { top: '25%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '23.2%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    managementCompany: {
+      translations: { en: 'Company', po: '' },
+      attributes: { top: '26.8%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     managementName: {
-      translations: { en: 'Name', po: '' },
-      attributes: { top: '30.4%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      translations: { en: 'Representative', po: '' },
+      attributes: { top: '30.8%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     managementPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '29.3%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '26.6%', left: '63.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     registration: {
       translations: { en: 'Registration No.', po: '' },
-      attributes: { top: '34.5%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '34%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     ministersRegistration: {
       translations: { en: 'Land & Transportation Minister', po: '' },
-      attributes: { top: '34.5%', left: '55.7%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '34%', left: '55.7%', font_size: '10', class_name: 'document-translation' }
     },
 
     ifOwnerLandordDifferent: {
       translations: { en: 'Fill-in below if owner is different from landlord', po: '' },
-      attributes: { top: '37.8%', left: '17.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '37.2%', left: '17.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     propertyOwner: {
       translations: { en: 'Property Owner', po: '' },
-      attributes: { top: '43.5%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      attributes: { top: '42.5%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     ownerAddress: {
       translations: { en: 'Address', po: '' },
-      attributes: { top: '42.4%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '41.2%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    ownerCompany: {
+      translations: { en: 'Company', po: '' },
+      attributes: { top: '44.9%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     ownertName: {
-      translations: { en: 'Name', po: '' },
-      attributes: { top: '47.5%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      translations: { en: 'Representative', po: '' },
+      attributes: { top: '48.6%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     ownerPhone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '46.4%', left: '61.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '44.5%', left: '63.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     tenantAndCoTenants: {
       translations: { en: 'Tenant and Co-tenants', po: '' },
-      attributes: { top: '51.6%', left: '35.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '52.1%', left: '35.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameHeading: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '61.5%', left: '15.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '62.5%', left: '15.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     tenant: {
       translations: { en: 'Tenant', po: '' },
-      attributes: { top: '53.5%', left: '39.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '54%', left: '39.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     cotenant: {
       translations: { en: 'Co-tenants', po: '' },
-      attributes: { top: '53.5%', left: '74.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '54%', left: '74.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameTenant: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '57.3%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '57.8%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     ageTenant: {
       translations: { en: 'Age', po: '' },
-      attributes: { top: '60.3%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '60.8%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     yearsTenant: {
       translations: { en: 'Years', po: '' },
-      attributes: { top: '60.3%', left: '38%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '60.8%', left: '38%', font_size: '10', class_name: 'document-translation' }
     },
 
     phoneTenant: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '63.1%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '63.6%', left: '24.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameCoTenant: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '56.5%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '57%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameCoTenant1: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '59.6%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '60.1%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameCoTenant2: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '62.7%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '63.2%', left: '48.4%', font_size: '10', class_name: 'document-translation' }
     },
 
     ageCoTenant: {
       translations: { en: 'Age', po: '' },
-      attributes: { top: '56.5%', left: '77%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '57%', left: '77%', font_size: '10', class_name: 'document-translation' }
     },
 
     ageCoTenant1: {
       translations: { en: 'Age', po: '' },
-      attributes: { top: '59.6%', left: '77%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '60.1%', left: '77%', font_size: '10', class_name: 'document-translation' }
     },
 
     ageCoTenant2: {
       translations: { en: 'Age', po: '' },
-      attributes: { top: '62.7%', left: '77%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '63.2%', left: '77%', font_size: '10', class_name: 'document-translation' }
     },
 
     yearsCoTenant: {
       translations: { en: 'Years', po: '' },
-      attributes: { top: '56.5%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '57%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     yearsCoTenant1: {
       translations: { en: 'Years', po: '' },
-      attributes: { top: '59.6%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '60.1%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     yearsCoTenant2: {
       translations: { en: 'Years', po: '' },
-      attributes: { top: '62.7%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '63.2%', left: '86.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     totalPersons: {
       translations: { en: 'Total No. Persons', po: '' },
-      attributes: { top: '65.6%', left: '78.5%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '66.1%', left: '78.5%', font_size: '10', class_name: 'document-translation' }
     },
 
     emergencyContact: {
       translations: { en: 'Emergency Contact', po: '' },
-      attributes: { top: '68.8%', left: '15.6%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '69.3%', left: '15.6%', font_size: '10', class_name: 'document-translation' }
     },
 
     address: {
       translations: { en: 'Address', po: '' },
-      attributes: { top: '68.5%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '69%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     name: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '69.9%', left: '35.8%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '70.4%', left: '35.8%', font_size: '10', class_name: 'document-translation' }
     },
 
     phone: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '69.9%', left: '58.3%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '70.4%', left: '58.3%', font_size: '10', class_name: 'document-translation' }
     },
 
     relationship: {
       translations: { en: 'Relationship', po: '' },
-      attributes: { top: '69.9%', left: '82.2%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '70.4%', left: '82.2%', font_size: '10', class_name: 'document-translation' }
     },
 
     guaranteeByGuarantyCompanyHeading: {
       translations: { en: 'Guarantee by Guaranty Company', po: '' },
-      attributes: { top: '73.8%', left: '55.3%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '74.8%', left: '55.3%', font_size: '10', class_name: 'document-translation' }
     },
 
     guaranteeByGuarantyCompany: {
       translations: { en: 'Guarantee by Guaranty Company', po: '' },
-      attributes: { top: '83%', left: '14.2%', font_size: '10', class_name: 'document-translation', width: '14%' }
+      attributes: { top: '84.4%', left: '14.2%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
     addressGuarantee: {
       translations: { en: 'Address', po: '' },
-      attributes: { top: '78.1%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '79.5%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
     },
 
     nameGuarantee: {
       translations: { en: 'Name', po: '' },
-      attributes: { top: '84%', left: '31%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '84.5%', left: '31%', font_size: '10', class_name: 'document-translation' }
     },
 
     phoneGuarantee: {
       translations: { en: 'Phone', po: '' },
-      attributes: { top: '84%', left: '58.4%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '83.4%', left: '63.1%', font_size: '10', class_name: 'document-translation' }
     },
 
     registrationGuarantee: {
       translations: { en: 'Registration No.', po: '' },
-      attributes: { top: '88.4%', left: '31%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '88.9%', left: '31%', font_size: '10', class_name: 'document-translation' }
     },
 
     ministersRegistrationGuarantee: {
       translations: { en: 'Land & Transportation Minister', po: '' },
-      attributes: { top: '88.4%', left: '55.7%', font_size: '10', class_name: 'document-translation' }
+      attributes: { top: '88.9%', left: '55.7%', font_size: '10', class_name: 'document-translation' }
     }
   },
   12 => {
