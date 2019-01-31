@@ -116,7 +116,6 @@ class Api::V1::ContractorsController < ApplicationController
       # grantor is governor or minister in japan
       :registration_grantor,
       :registration_number_front,
-
     )
   end
 

@@ -18,6 +18,11 @@ class ContractorSerializer < ActiveModel::Serializer
     :registration_number,
     :registration_type,
     :registration_date,
+    # jurisdiction is prefecture in japan
+    :registration_jurisdiction,
+    # grantor is governor or minister in japan
+    :registration_grantor,
+    :registration_number_front,
     :first_name,
     :last_name,
     :title,
