@@ -1,4 +1,7 @@
 class Api::V1::AgreementsController < ApplicationController
+  include DocumentTranslationImportantPoints
+  include DocumentTranslationFixedTerm
+  include CreatePdf
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
   before_action :valid_token, only: [:destroy, :show, :create, :update]
@@ -72,7 +75,12 @@ class Api::V1::AgreementsController < ApplicationController
       # document_field = DocumentField.find_by(id: document_field_params["document_field"][0][:id])
       agreement = Agreement.find_by(id: params[:agreement_id])
       document_fields = DocumentField.where(agreement_id: agreement.id)
-      cloudinary_result = create_pdf(document_fields, params[:template_file_name], params[:save_and_create])
+      document_language_code = params[:document_language_code]
+      contract_translation_map_object = { 'teishaku-saimuhosho' => fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp" => important_points_explanation_translation, "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation, "juyoujikou-setsumei-bilingual-v3-no-translation-10" => important_points_explanation_translation }
+      contract_name = params[:template_file_name]
+      translation = contract_translation_map_object[contract_name]
+      # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s
+      cloudinary_result = create_pdf(document_fields, params[:template_file_name], params[:save_and_create], translation, document_language_code)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
       # p "cloudinary_result: " + cloudinary_result.to_s
       unless !agreement.document_publicid
@@ -121,7 +129,10 @@ class Api::V1::AgreementsController < ApplicationController
       booking = Booking.find_by(id: @agreement.booking_id)
       image_to_destroy = @agreement.document_publicid
       if @agreement.destroy
-        result = Cloudinary::Uploader.destroy(image_to_destroy);
+        # check if image_to_destroy = null in case no pdf create yet
+        unless !image_to_destroy
+          result = Cloudinary::Uploader.destroy(image_to_destroy);
+        end
         booking_serializer = parse_json booking
         # agreement_serializer = parse_json @agreement
         json_response "Deleted agreement succesfully", true, {booking: booking_serializer}, :ok

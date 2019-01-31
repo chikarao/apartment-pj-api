@@ -2,7 +2,7 @@ module DocumentTranslationFixedTerm
 
   def fixed_term_rental_contract_translation
     # include FixedTermRentalContractTranslation
-    object =   {
+    object = {
       1 => {
       documentTitle: {
         translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '' },

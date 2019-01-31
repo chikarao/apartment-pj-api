@@ -6,7 +6,7 @@ module CreatePdf
   # field_objects can come from params or DocumentField.where(agreement_id = agreement.id)
   # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf
   # save_and_create comes from params
-  def create_pdf(field_objects, contract_name, save_and_create)
+  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code)
     # CombinePDF is for combine_pdf gem
     pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
     # path for external font ttf
@@ -51,7 +51,7 @@ module CreatePdf
         document_pages_array.push(each["page"].to_i)
       end
       # p "!!!!!! document_pages_array: " + document_pages_array.to_s
-    end
+  end
     # p 'in booking_controller, create_contract, eachField, document_pages_array: ' + document_pages_array.to_s
 
     #!!!!!! START RENDER OF PDF
@@ -62,7 +62,7 @@ module CreatePdf
     (document_pages_max).times do
       # p "!!!!!!!!!!!!!!!!!!!!!!document_pages_max, document_pages_array.include?(page), document_pages_array, page" +" " + document_pages_max.to_s + " "+ document_pages_array.include?(page).to_s + " " + document_pages_array.to_s + " " + (page).to_s
       if document_pages_array.include?(page)
-      field_objects.each do |eachField|
+        field_objects.each do |eachField|
           # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s
         # p "!!!!!! params[:document_field].each, eachField: " + eachField.to_s
         # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
@@ -136,15 +136,53 @@ module CreatePdf
             pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
           end
         end
-      else
-        p "Writing skipped page" + page.to_s
-        pdf.font("IPAEX_GOTHIC") do
-          pdf.draw_text "Skippped", :at => [100, 100], :size => 100
+        # translations on agreement; translation comes from concerns/document_translation_fixed_term.rb
+        # inside doucment
+        # p "!!! translation" + translation.to_s
+        # p "!!! eachTranslationField" + eachTranslationField.class.to_s
+        translation[page].keys.each do |each_key|
+          # adjustment_x = 0.01
+          adjustment_x_translation = 0
+          # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
+          # vertical y adjustment for circle
+          # adjustment_y = 0.015
+          adjustment_y_translation = 0.01
+          # adjustment_y_translation = 0.0075
+          # p "!!!   translation[page][each_key]" + translation[page][each_key].to_s
+          # p "!!!   translation[page][each_key][attributes]" + translation[page][each_key][:attributes].to_s
+          if !translation[page][each_key][:attributes][:width]
+            x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+            y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
+            hor_points = hor_total_inches * x * points_per_inch
+            ver_points = ver_total_inches * (1 - y) * points_per_inch
+            # convert document_language_code to symbol to access hash
+            text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+            p "!!!   translation[page][each_key][:translations] " + translation[page][each_key][:translations].to_s + " " + translation[page][each_key][:translations][:en]
+            p "!!!   text_to_display, document_language_code " + text_to_display.to_s + " " + document_language_code.to_s
+            # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+            pdf.font("IPAEX_GOTHIC") do
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
+              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
+              # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
+              # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
+              # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+            end
+          end
         end
+        # end translation[page].each
+      else
+        # p "Writing skipped page" + page.to_s
+        # pdf.font("IPAEX_GOTHIC") do
+        #   pdf.draw_text "Skippped", :at => [100, 100], :size => 100
+        # end
       end
+      # end if document_pages_array includes page
       pdf.start_new_page
       page += 1
     end
+    # end of document times do
 
     pdf.stroke_axis()
 

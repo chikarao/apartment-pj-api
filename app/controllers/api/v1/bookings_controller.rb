@@ -42,7 +42,7 @@ class Api::V1::BookingsController < ApplicationController
         # p "!!!!!!!!!!!!!!!!!!!!contractorTranslation.count" + contractorTranslation.count.to_s
         unless contractorTranslation.empty?
           contractorTranslation.each do |each|
-            # push all contractor with base_record_id of the contractred controactor into array in object 
+            # push all contractor with base_record_id of the contractred controactor into array in object
             contractor_serializer = parse_json each
             contractorTranslationObject[eachContract.contractor.id].push(contractor_serializer)
           end
@@ -88,12 +88,18 @@ class Api::V1::BookingsController < ApplicationController
     flat = Flat.find_by(id: params[:flat_id].to_i)
     flat_id = params[:flat_id]
     save_and_create = params[:save_and_create]
+    document_language_code = params[:document_language_code]
     # p "!!!!!! params[:document_field]: " + params[:document_field].to_s
     # p "!!!!!! document_field_params[:document_field]: " + document_field_params[:document_field].to_s
     # contract_name = params[:contract_name]
     contract_name = params[:template_file_name]
+    contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
+    # gets translation objects from concerns/document_translation_fixed_term.rb
+    translation = contract_translation_map_object[contract_name]
+    # gets translation objects from concerns/document_translation_important_points.rb
+    # important_points = important_points_explanation_translation
     # call module in create_pdf in concerns/create_pdf
-    create_pdf(params[:document_field], contract_name, save_and_create)
+    create_pdf(params[:document_field], contract_name, save_and_create, translation, document_language_code)
 
     # # CombinePDF is for combine_pdf gem
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
@@ -323,14 +329,11 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def fetch_translation
-    # if params[:document_name] == 'fixed_term_rental_contract'
-      fixed_term = fixed_term_rental_contract_translation
-    # end
+    # gets translation objects from concerns/document_translation_fixed_term.rb
+    fixed_term = fixed_term_rental_contract_translation
+    # gets translation objects from concerns/document_translation_important_points.rb
+    important_points = important_points_explanation_translation
 
-    # if params[:document_name] == 'important_points_explanation'
-      important_points = important_points_explanation_translation
-       # { a: 'nothing' }
-    # end
     translation = { fixed_term_rental_contract_bilingual: fixed_term, important_points_explanation_bilingual: important_points }
 
     unless !translation
