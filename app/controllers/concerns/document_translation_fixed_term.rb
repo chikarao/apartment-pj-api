@@ -6,7 +6,7 @@ module DocumentTranslationFixedTerm
       1 => {
       documentTitle: {
         translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '' },
-        attributes: { top: '10.5%', left: '41%', font_size: '12', class_name: 'document-translation', font_weight: 'bold' }
+        attributes: { top: '10.5%', left: '27.5%', font_size: '12', width: '45%', text_align: 'center', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' }
       },
 
       heading: {
@@ -91,7 +91,7 @@ module DocumentTranslationFixedTerm
 
       yearBuilt: {
         translations: { en: 'Year Built', po: 'Ano de Construção', jpy: '' },
-        attributes: { top: '26.5%', left: '77.8%', font_size: '10', class_name: 'document-translation' }
+        attributes: { top: '26.5%', left: '76.9%', font_size: '10', class_name: 'document-translation' }
       },
 
       majorRenovation: {

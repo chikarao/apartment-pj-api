@@ -7,7 +7,7 @@ module DocumentTranslationImportantPoints
       1 => {
         documentTitle: {
           translations: { en: 'Important Points Explanation of Property to be Leased', po: '', jp: '' },
-          attributes: { top: '7.5%', left: '29%', font_size: '12', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '7.5%', left: '25.9%', font_size: '12', text_align: 'center', width: '50%', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         name: {
@@ -112,7 +112,7 @@ module DocumentTranslationImportantPoints
 
         building: {
           translations: { en: 'Building', po: '', jp: '' },
-          attributes: { top: '78.3%', left: '11%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '80.6%', left: '12.5%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         nameBuilding: {
@@ -804,7 +804,7 @@ module DocumentTranslationImportantPoints
 
         building: {
           translations: { en: 'Building', po: '', jp: '' },
-          attributes: { top: '28.9%', left: '9.5%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '31.2%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         address: {
@@ -892,9 +892,9 @@ module DocumentTranslationImportantPoints
           attributes: { top: '34.1%', left: '61.2%', font_size: '10', class_name: 'document-translation' }
         },
 
-        buildingInpsection: {
+        buildingInspection: {
           translations: { en: 'Building Inspection', po: '', jp: '' },
-          attributes: { top: '56.3%', left: '6.1%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '61%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         inspectionDate: {
@@ -1115,7 +1115,7 @@ module DocumentTranslationImportantPoints
       9 => {
         buildingInspector: {
           translations: { en: 'Building Inspector', po: '', jp: '' },
-          attributes: { top: '20.6%', left: '6.1%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '25%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         nameInspector: {
@@ -1196,7 +1196,7 @@ module DocumentTranslationImportantPoints
 
         building: {
           translations: { en: 'Building', po: '', jp: '' },
-          attributes: { top: '30.8%', left: '8.5%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '33.2%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         address: {
@@ -1284,9 +1284,9 @@ module DocumentTranslationImportantPoints
           attributes: { top: '37.3%', left: '61.2%', font_size: '10', class_name: 'document-translation' }
         },
 
-        buildingInpsection: {
+        buildingInspection: {
           translations: { en: 'Building Inspection', po: '', jp: '' },
-          attributes: { top: '69.3%', left: '5.5%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '73.9%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         inspectionDate: {
@@ -1477,7 +1477,7 @@ module DocumentTranslationImportantPoints
       11 => {
         buildingInspector: {
           translations: { en: 'Building Inspector', po: '', jp: '' },
-          attributes: { top: '22.8%', left: '5.9%', font_size: '10', class_name: 'document-translation', rotate: '90' }
+          attributes: { top: '27.3%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         nameInspector: {

@@ -27,9 +27,11 @@ module CreatePdf
     # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
     # vertical y adjustment for circle
     adjustment_y = 0.015
+    adjustment_input_y = 0.013
+    adjustment_x_text_align = 0.005
+    adjustment_y_text_align = 0.001
     # !!!!!!adjustment for margin on frontend and padding of input fields
     # Use slightly different adjustment for inputs
-    adjustment_input_y = 0.013
     # bigger y farther down; bigger x farther right
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
@@ -72,8 +74,8 @@ module CreatePdf
         # draw input fields
 
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
-          if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && eachField["page"].to_i == (page)
-            x = eachField["left"].to_f / 100 + adjustment_x
+          if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["page"].to_i == (page)
+            x = eachField["left"].to_f / 100 + adjustment_x_text_align
             y = eachField["top"].to_f / 100 + adjustment_input_y
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
@@ -84,6 +86,36 @@ module CreatePdf
               # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
               # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
               pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
+              # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
+              # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
+            end
+          end
+          # end of string inputfield
+          # For aligned text
+          if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && eachField["text_align"] && eachField["page"].to_i == (page)
+            x = eachField["left"].to_f / 100 + adjustment_x
+            y = eachField["top"].to_f / 100 + adjustment_y_text_align
+            hor_points = hor_total_inches * x * points_per_inch
+            ver_points = ver_total_inches * (1 - y) * points_per_inch
+            x_width = eachField["width"].to_f / 100
+            p "!!!   x: " + x.to_s
+            p "!!!   eachField " + eachField.to_s
+            p "!!! eachField[:width], eachField[:width].to_f " + eachField[:width].to_s + " " + eachField[:width].to_f.to_s
+            p "!!! x_width:  " + x_width.to_s
+            hor_points_width = hor_total_inches * x_width * points_per_inch
+            p "!!! hor_points:  " + hor_points.to_s
+            p "!!! hor_points_width:  " + hor_points_width.to_s
+            y_height = eachField["height"].to_f / 100
+            # !!! NOTE ver_points_height is not (1 - y_height)
+            ver_points_height = ver_total_inches * y_height * points_per_inch
+            text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+            # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+            pdf.font("IPAEX_GOTHIC") do
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:name][:value], :at => [hor_points, ver_points], :size => 10
+              # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
+              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align =>  eachField["text_align"].to_sym, :size => 10
               # pdf.draw_text "RC", :at => [construction_type_input_hor_points, construction_type_input_ver_points], :size => 10
               # pdf.draw_text "まかろに町", :at => [0, 0], :size => 10
               # pdf.draw_text "Chateau Margeaux Mansion2", :at => [hor, ver], :size => 10
@@ -208,27 +240,28 @@ module CreatePdf
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             x_width = translation[page][each_key][:attributes][:width].to_f / 100
-            p "!!!   x: " + x.to_s
-            p "!!!   translation[page][each_key] " + translation[page][each_key].to_s
-            p "!!! translation[page][each_key][:translations][:width], translation[page][each_key][:attributes][:width].to_f " + translation[page][each_key][:translations][:width].to_s + " " + translation[page][each_key][:attributes][:width].to_f.to_s
-            p "!!! x_width:  " + x_width.to_s
+            # p "!!!   x: " + x.to_s
+            # p "!!!   translation[page][each_key] " + translation[page][each_key].to_s
+            # p "!!! translation[page][each_key][:translations][:width], translation[page][each_key][:attributes][:width].to_f " + translation[page][each_key][:translations][:width].to_s + " " + translation[page][each_key][:attributes][:width].to_f.to_s
+            # p "!!! x_width:  " + x_width.to_s
             hor_points_width = hor_total_inches * x_width * points_per_inch
-            p "!!! hor_points:  " + hor_points.to_s
-            p "!!! hor_points_width:  " + hor_points_width.to_s
+            # p "!!! hor_points:  " + hor_points.to_s
+            # p "!!! hor_points_width:  " + hor_points_width.to_s
             y_height = translation[page][each_key][:attributes][:height].to_f / 100
             # !!! NOTE ver_points_height is not (1 - y_height)
             ver_points_height = ver_total_inches * y_height * points_per_inch
-            p "!!! ver_points_height:  " + ver_points_height.to_s
-            p "!!! translation[page][each_key][:attributes][:text_align]:  " + translation[page][each_key][:attributes][:text_align].to_s
+            # p "!!! ver_points_height:  " + ver_points_height.to_s
+            # p "!!! translation[page][each_key][:attributes][:text_align]:  " + translation[page][each_key][:attributes][:text_align].to_s
             # convert document_language_code to symbol to access hash
             text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
             # p "!!!   translation[page][each_key][:translations] " + translation[page][each_key][:translations].to_s + " " + translation[page][each_key][:translations][:en]
-            p "!!!   text_to_display, document_language_code " + text_to_display.to_s + " " + document_language_code.to_s
+            # p "!!!   text_to_display, document_language_code " + text_to_display.to_s + " " + document_language_code.to_s
+            font_size = translation[page][each_key][:attributes][:font_size].to_f - 2
             # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
             pdf.font("IPAEX_GOTHIC") do
               # pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
               # pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => 150, :height => 20, :rotate => translation[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
-              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align =>  translation[page][each_key][:attributes][:text_align].to_sym, :size => 8
+              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align =>  translation[page][each_key][:attributes][:text_align].to_sym, :size => font_size
             end
           end
         end
