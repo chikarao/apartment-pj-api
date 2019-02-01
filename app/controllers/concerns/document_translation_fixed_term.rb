@@ -31,7 +31,7 @@ module DocumentTranslationFixedTerm
 
       buildingInformation: {
         translations: { en: 'Building Information', po: 'Informação de construção', jpy: '' },
-        attributes: { top: '34%', left: '16.5%', font_size: '10', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+        attributes: { top: '34%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
       },
 
       buildingType: {
@@ -61,7 +61,7 @@ module DocumentTranslationFixedTerm
 
       construction: {
         translations: { en: 'Construction', po: 'Construção', jpy: '' },
-        attributes: { top: '30.4%', left: '46.2%', font_size: '10', text_align: 'center', class_name: 'document-translation' }
+        attributes: { top: '30.4%', left: '46.2%', font_size: '10', text_align: 'center', width: '9%', height: '1.5%', class_name: 'document-translation' }
       },
 
       numberOfUnits: {
@@ -81,12 +81,12 @@ module DocumentTranslationFixedTerm
 
       unit: {
         translations: { en: 'Unit', po: 'Unidade', jpy: '' },
-        attributes: { top: '37.1%', left: '56.4%', font_size: '10', width: '14%', text_align: 'right', class_name: 'document-translation' }
+        attributes: { top: '37.1%', left: '56.4%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
 
       stories: {
         translations: { en: 'Stories', po: 'Pavimentos', jpy: '' },
-        attributes: { top: '33.3%', left: '56.3%', font_size: '10', width: '14%', text_align: 'right', class_name: 'document-translation' }
+        attributes: { top: '33.3%', left: '56.3%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
 
       yearBuilt: {
@@ -106,12 +106,12 @@ module DocumentTranslationFixedTerm
 
       unitInformation: {
         translations: { en: 'Unit Information', po: 'Informação da Unidade', jpy: '' },
-        attributes: { top: '69.3%', left: '16.5%', font_size: '10', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+        attributes: { top: '69.3%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
       },
 
       equipment: {
         translations: { en: 'Equipment', po: 'Equipamento', jpy: '' },
-        attributes: { top: '71%', left: '23.5%', font_size: '10', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+        attributes: { top: '71%', left: '23.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
       },
 
       unitNumber: {
@@ -121,7 +121,7 @@ module DocumentTranslationFixedTerm
 
       unitNo: {
         translations: { en: 'Unit No.', po: 'Unidade', jpy: '' },
-        attributes: { top: '41%', left: '29.5%', font_size: '10', width: '14%', text_align: 'right', class_name: 'document-translation' }
+        attributes: { top: '41%', left: '29.5%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
       layout: {
         translations: { en: 'Layout', po: 'Layout', jpy: '' },
@@ -150,7 +150,7 @@ module DocumentTranslationFixedTerm
 
       toiletAvailability: {
         translations: { en: 'Own (flush・non-flush) ・Shared (flush・sem flush)', po: 'Próprio (flush, sem flush) ・ Compartilhado (flush, non-flush)', jpy: '' },
-        attributes: { top: '47%', left: '39.6%', font_size: '10', width: '50%', text_align: 'right', class_name: 'document-translation' }
+        attributes: { top: '47%', left: '39.6%', font_size: '10', width: '50%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
 
       yesNoL: {
@@ -240,7 +240,7 @@ module DocumentTranslationFixedTerm
 
       sets: {
         translations: { en: 'Sets', po: 'Conjuntos', jpy: '' },
-        attributes: { top: '74.2%', left: '54.2%', font_size: '10', width: '14%', text_align: 'right', class_name: 'document-translation' }
+        attributes: { top: '74.2%', left: '54.2%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
 
       electricCapacity: {
@@ -286,12 +286,12 @@ module DocumentTranslationFixedTerm
   2 => {
     unitInformation: {
       translations: { en: 'Unit Information (Continued)', po: '', jpy: '' },
-      attributes: { top: '23.5%', left: '16.5%', font_size: '10', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+      attributes: { top: '23.5%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
     },
 
     facilities: {
       translations: { en: 'Facilities', po: '', jpy: '' },
-      attributes: { top: '19.5%', left: '24.5%', font_size: '10', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+      attributes: { top: '19.5%', left: '24.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
     },
 
     includedNotIncluded: {
