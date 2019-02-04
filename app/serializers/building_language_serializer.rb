@@ -17,6 +17,8 @@ class BuildingLanguageSerializer < ActiveModel::Serializer
   :building_owner_name,
   :building_owner_address,
   :language_code,
+  :legal_restrictions,
+  :legal_restrictions_summary,
   :created_at,
   :updated_at
 

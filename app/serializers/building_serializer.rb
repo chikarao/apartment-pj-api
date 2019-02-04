@@ -36,6 +36,8 @@ class BuildingSerializer < ActiveModel::Serializer
     :inspections,
     :building_languages,
     :language_code,
+    :legal_restrictions,
+    :legal_restrictions_summary,
     :created_at,
     :updated_at
   # has_many :flats

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190124063637) do
+ActiveRecord::Schema.define(version: 20190204043337) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -189,6 +189,8 @@ ActiveRecord::Schema.define(version: 20190124063637) do
     t.string "language_code"
     t.string "building_owner_name"
     t.string "building_owner_address"
+    t.string "legal_restrictions"
+    t.text "legal_restrictions_summary"
     t.index ["building_id"], name: "index_building_languages_on_building_id"
   end
 
@@ -230,6 +232,8 @@ ActiveRecord::Schema.define(version: 20190124063637) do
     t.string "building_owner_phone"
     t.string "building_type"
     t.string "language_code"
+    t.string "legal_restrictions"
+    t.text "legal_restrictions_summary"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -423,6 +427,8 @@ ActiveRecord::Schema.define(version: 20190124063637) do
     t.string "owner_contact_name"
     t.string "owner_address"
     t.string "language_code"
+    t.text "ownership_rights"
+    t.text "other_rights"
     t.index ["flat_id"], name: "index_flat_languages_on_flat_id"
   end
 
@@ -499,6 +505,8 @@ ActiveRecord::Schema.define(version: 20190124063637) do
     t.string "transfer_fee_paid_by"
     t.string "rent_payment_method"
     t.integer "management_fee_due_date"
+    t.text "ownership_rights"
+    t.text "other_rights"
     t.index ["bank_account_id"], name: "index_flats_on_bank_account_id"
     t.index ["building_id"], name: "index_flats_on_building_id"
     t.index ["user_id"], name: "index_flats_on_user_id"

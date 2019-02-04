@@ -251,7 +251,8 @@ class Api::V1::FlatsController < ApplicationController
     :station1, :minutes_to_station1, :floor, :deposit, :key_money, :year_built, :construction, :management_fees, :fees,
     :parking_available, :parking_included, :parking_price, :bicycle_parking_included, :storage_included, :motorcycle_parking_included, :dedicated_yard,
     :school_district, :school_district1, :circle_no_marker, :ical_import_url, :layout, :balcony_size, :toilet, :building_id, :unit, :language_code, :payment_due_date, :bank_account_id,
-    :transfer_fee_paid_by, :rent_payment_method, :management_fee_due_date, :owner_name, :owner_contact_name, :owner_address, :owner_phone)
+    :transfer_fee_paid_by, :rent_payment_method, :management_fee_due_date, :owner_name, :owner_contact_name, :owner_address, :owner_phone, :ownership_rights,
+    :other_rights)
   end
 
   def amenity_params

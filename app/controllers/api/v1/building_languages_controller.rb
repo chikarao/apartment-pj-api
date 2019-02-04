@@ -89,7 +89,9 @@ class Api::V1::BuildingLanguagesController < ApplicationController
       :earthquake_study_contents,
       :building_owner_name,
       :building_owner_address,
-      :language_code)
+      :language_code,
+      :legal_restrictions,
+      :legal_restrictions_summary)
   end
 
   def load_building_language

@@ -83,7 +83,9 @@ class Api::V1::FlatLanguagesController < ApplicationController
       :owner_name,
       :owner_contact_name,
       :owner_address,
-      :owner_phone
+      :owner_phone,
+      :ownership_rights,
+      :other_rights
     )
   end
 

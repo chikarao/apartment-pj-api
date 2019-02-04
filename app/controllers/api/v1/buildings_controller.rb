@@ -135,6 +135,8 @@ class Api::V1::BuildingsController < ApplicationController
       :building_owner_phone,
       :inspections,
       :language_code,
+      :legal_restrictions,
+      :legal_restrictions_summary,
       :created_at,
       :updated_at
     )

@@ -66,7 +66,9 @@ class FlatSerializer < ActiveModel::Serializer
   :transfer_fee_paid_by,
   :rent_payment_method,
   :management_fee_due_date,
-  :contracts
+  :contracts,
+  :ownership_rights,
+  :other_rights
 # :building,
 #:bank_account,
   # :total_reviews
