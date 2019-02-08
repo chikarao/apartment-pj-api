@@ -99,13 +99,13 @@ module CreatePdf
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             x_width = eachField["width"].to_f / 100
-            p "!!!   x: " + x.to_s
-            p "!!!   eachField " + eachField.to_s
-            p "!!! eachField[:width], eachField[:width].to_f " + eachField[:width].to_s + " " + eachField[:width].to_f.to_s
-            p "!!! x_width:  " + x_width.to_s
+            # p "!!!   x: " + x.to_s
+            # p "!!!   eachField " + eachField.to_s
+            # p "!!! eachField[:width], eachField[:width].to_f " + eachField[:width].to_s + " " + eachField[:width].to_f.to_s
+            # p "!!! x_width:  " + x_width.to_s
             hor_points_width = hor_total_inches * x_width * points_per_inch
-            p "!!! hor_points:  " + hor_points.to_s
-            p "!!! hor_points_width:  " + hor_points_width.to_s
+            # p "!!! hor_points:  " + hor_points.to_s
+            # p "!!! hor_points_width:  " + hor_points_width.to_s
             y_height = eachField["height"].to_f / 100
             # !!! NOTE ver_points_height is not (1 - y_height)
             ver_points_height = ver_total_inches * y_height * points_per_inch

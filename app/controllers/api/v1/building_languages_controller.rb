@@ -81,6 +81,7 @@ class Api::V1::BuildingLanguagesController < ApplicationController
       :zip,
       :region,
       :country,
+      # :electricity,
       :construction,
       :building_type,
       :building_management_company,

@@ -23,7 +23,6 @@ class Api::V1::InspectionsController < ApplicationController
     # only if have parent
     # inspection.book_id = params[:book_id]
     if inspection.save
-
       flat_serializer = parse_json @flat
       inspection_serializer = parse_json inspection
       json_response "Created inspection succesfully", true, {flat: flat_serializer}, :ok
@@ -71,6 +70,7 @@ class Api::V1::InspectionsController < ApplicationController
     params.require(:inspection).permit(
       :building_id,
       :inspection_language,
+      :language_code,
       :inspection_date,
       :inspection_summary,
       :inspector_name,

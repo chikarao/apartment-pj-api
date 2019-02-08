@@ -389,13 +389,13 @@ module DocumentTranslationImportantPoints
       },
       3 => {
         itemsRecordedInRegistry: {
-          translations: { en: 'State of Repair of Facilities (in case of completed building)', po: '', jp: '' },
+          translations: { en: 'State of Repair of Equipment (in case of completed building)', po: '', jp: '' },
           attributes: { top: '11.4%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
-        facility: {
-          translations: { en: 'Facility', po: '', jp: '' },
-          attributes: { top: '14.4%', left: '14.6%', font_size: '10', class_name: 'document-translation' }
+        equipment: {
+          translations: { en: 'Equipment', po: '', jp: '' },
+          attributes: { top: '14.4%', left: '13.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         available: {
@@ -405,163 +405,163 @@ module DocumentTranslationImportantPoints
 
         format: {
           translations: { en: 'Format', po: '', jp: '' },
-          attributes: { top: '14.4%', left: '43.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '14.4%', left: '47.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         other: {
           translations: { en: 'Other', po: '', jp: '' },
-          attributes: { top: '14.4%', left: '69.5%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '14.4%', left: '73.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         kitchen: {
           translations: { en: 'Kitchen', po: '', jp: '' },
-          attributes: { top: '17.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '18%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         toilet: {
-          translations: { en: 'Kitchen', po: '', jp: '' },
-          attributes: { top: '20.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          translations: { en: 'Toilet', po: '', jp: '' },
+          attributes: { top: '22.2%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         bathtub: {
           translations: { en: 'Bath Tub', po: '', jp: '' },
-          attributes: { top: '23.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '26.2%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         waterHeater: {
           translations: { en: 'Water Heater', po: '', jp: '' },
-          attributes: { top: '26.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '30.4%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         kitchenStove: {
           translations: { en: 'Kitchen Stove', po: '', jp: '' },
-          attributes: { top: '29.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '34.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         ac: {
           translations: { en: 'A/C', po: '', jp: '' },
-          attributes: { top: '32.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '38.5%', left: '10.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         inDisasterPrevention: {
           translations: { en: 'Is the property within a developed residential land disaster prevention zone?', po: '', jp: '' },
-          attributes: { top: '43%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '52.1%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         insideDisasterPrevention: {
           translations: { en: 'Inside residential disaster prevention zone', po: '', jp: '' },
-          attributes: { top: '46.5%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '55.9%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         outsideDisasterPrevention: {
           translations: { en: 'Outside residential disaster prevention zone', po: '', jp: '' },
-          attributes: { top: '46.5%', left: '64.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '55.9%', left: '64.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         inLandslideWarning: {
           translations: { en: 'Is the property within a landslide disaster warning zone?', po: '', jp: '' },
-          attributes: { top: '51.6%', left: '11%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '61%', left: '11%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         insideLandslideWarning: {
           translations: { en: 'Inside a landslide disaster warning zone', po: '', jp: '' },
-          attributes: { top: '55.5%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '64.9%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         outsideLandslideWarning: {
           translations: { en: 'Outside a landslide disaster warning zone', po: '', jp: '' },
-          attributes: { top: '55.5%', left: '65%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '64.9%', left: '65%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         inTsunamiWarning: {
           translations: { en: 'Is the building inside a tsunami warning zone?', po: '', jp: '' },
-          attributes: { top: '62.6%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '71.6%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         insideTsunamiWarning: {
           translations: { en: 'Inside tsunami warning zone', po: '', jp: '' },
-          attributes: { top: '66.1%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '75.5%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         outsideTsunamiWarning: {
           translations: { en: 'Outside tsunami warning zone', po: '', jp: '' },
-          attributes: { top: '66.1%', left: '65%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '75.5%', left: '65%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         asbestos: {
           translations: { en: 'Description of Asbestos Usage Survey', po: '', jp: '' },
-          attributes: { top: '72%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '81.4%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         asbestosRecordsOnRecord: {
           translations: { en: 'Are asbestos usage survey results on record?', po: '', jp: '' },
-          attributes: { top: '76%', left: '10.5%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '85.4%', left: '10.5%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         yesAsbestos: {
           translations: { en: 'Yes', po: '', jp: '' },
-          attributes: { top: '76%', left: '60.3%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '85.4%', left: '60.3%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         noAsbestos: {
           translations: { en: 'No', po: '', jp: '' },
-          attributes: { top: '76%', left: '81.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '85.4%', left: '81.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         asbestosSurveyContents: {
           translations: { en: 'Contents of Asbestos Usage Survey', po: '', jp: '' },
-          attributes: { top: '83%', left: '10.5%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '92.4%', left: '10.5%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         }
       },
       4 => {
         earthquakeStudy: {
           translations: { en: 'Description of Earthquake Resistance Study', po: '', jp: '' },
-          attributes: { top: '12.3%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '7%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         earthQuakeStudyPerformed: {
           translations: { en: 'Has an earthquake resistance study been performed?', po: '', jp: '' },
-          attributes: { top: '16.5%', left: '10.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '11.2%', left: '10.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         yesearthquake: {
           translations: { en: 'Yes', po: '', jp: '' },
-          attributes: { top: '16.5%', left: '60.3%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '11.2%', left: '60.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         noearthquake: {
           translations: { en: 'No', po: '', jp: '' },
-          attributes: { top: '16.5%', left: '81.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '11.2%', left: '81.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         earthquakeStudyContents: {
           translations: { en: 'Contents of Earthquake Resistance Study', po: '', jp: '' },
-          attributes: { top: '24%', left: '10.5%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '18.7%', left: '10.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         transactionConditions: {
           translations: { en: 'Items Regarding Transaction Conditions', po: '', jp: '' },
-          attributes: { top: '34.9%', left: '11.4%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '29.6%', left: '11.4%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         nonRentCharges: {
           translations: { en: 'Non-rent related charges', po: '', jp: '' },
-          attributes: { top: '40.4%', left: '11.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '35.1%', left: '11.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         amount: {
           translations: { en: 'Amount', po: '', jp: '' },
-          attributes: { top: '43.9%', left: '17.8%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '38.6%', left: '17.8%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         purpose: {
           translations: { en: 'Pupose of Charge', po: '', jp: '' },
-          attributes: { top: '43.9%', left: '47.3%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '38.6%', left: '47.3%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         cancellation: {
           translations: { en: 'Cancellation of Contract', po: '', jp: '' },
-          attributes: { top: '57.8%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '58.3%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         }
       },
       5 => {
@@ -687,7 +687,7 @@ module DocumentTranslationImportantPoints
 
         limitationsOnUse: {
           translations: { en: 'Limitations on Use', po: '', jp: '' },
-          attributes: { top: '20.1%', left: '12.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '22.1%', left: '12.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold', width: '10%' }
         },
 
         limitationsForMultiFamily: {
@@ -702,22 +702,22 @@ module DocumentTranslationImportantPoints
 
         limitationsOnOtherUses: {
           translations: { en: 'Limitations on Other Uses', po: '', jp: '' },
-          attributes: { top: '26.8%', left: '12.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold', width: '13%' }
+          attributes: { top: '32.8%', left: '12.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold', width: '13%' }
         },
 
         returnSecurityDeposit: {
           translations: { en: 'Return of Security Deposit', po: '', jp: '' },
-          attributes: { top: '38.8%', left: '12.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '41.4%', left: '12.1%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         propertyManagement: {
           translations: { en: 'Property Management', po: '', jp: '' },
-          attributes: { top: '69.8%', left: '12%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '69.2%', left: '12%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         nameAgent: {
           translations: { en: 'Name of Agent', po: '', jp: '' },
-          attributes: { top: '73.5%', left: '10%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '73.2%', left: '10%', font_size: '10', class_name: 'document-translation' }
         },
 
         rules: {
@@ -803,12 +803,12 @@ module DocumentTranslationImportantPoints
         },
 
         address: {
-          translations: { en: 'Address', po: '', jp: '' },
+          translations: { en: 'Building Name', po: '', jp: '' },
           attributes: { top: '16.5%', left: '16.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         buildingName: {
-          translations: { en: 'Building Name', po: '', jp: '' },
+          translations: { en: 'Address', po: '', jp: '' },
           attributes: { top: '21.7%', left: '16.6%', font_size: '10', class_name: 'document-translation' }
         },
 
@@ -989,17 +989,17 @@ module DocumentTranslationImportantPoints
 
         yesRain: {
           translations: { en: 'Yes', po: '', jp: '' },
-          attributes: { top: '60.3%', left: '77.5%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '60.2%', left: '77.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         noRain: {
           translations: { en: 'No', po: '', jp: '' },
-          attributes: { top: '60.3%', left: '80.9%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '60.2%', left: '80.9%', font_size: '10', class_name: 'document-translation' }
         },
 
         uninspectableRain: {
           translations: { en: 'Uninspectable', po: '', jp: '' },
-          attributes: { top: '60.3%', left: '83.1%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '60.2%', left: '83.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         foundation: {
@@ -1064,7 +1064,7 @@ module DocumentTranslationImportantPoints
 
         reinforcementArrangements: {
           translations: { en: 'Reinforcement Arrangements', po: '', jp: '' },
-          attributes: { top: '92.5%', left: '33.3%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '92.2%', left: '33.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         concreteCompression: {
@@ -1074,37 +1074,37 @@ module DocumentTranslationImportantPoints
 
         exteriorWalls: {
           translations: { en: 'Exterior Walls', po: '', jp: '' },
-          attributes: { top: '63%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '62.5%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         eaves: {
           translations: { en: 'Eaves', po: '', jp: '' },
-          attributes: { top: '65.3%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '64.8%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         balconyRain: {
           translations: { en: 'Balcony', po: '', jp: '' },
-          attributes: { top: '68%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '67.5%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         interiorWallsRain: {
           translations: { en: 'Interior Walls', po: '', jp: '' },
-          attributes: { top: '70.7%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '70.2%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         ceilingsRain: {
           translations: { en: 'Ceilings', po: '', jp: '' },
-          attributes: { top: '73.4%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '72.9%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         roofTrussRain: {
           translations: { en: 'Roof Truss', po: '', jp: '' },
-          attributes: { top: '76.2%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '75.8%', left: '65%', font_size: '10', class_name: 'document-translation' }
         },
 
         roofRain: {
           translations: { en: 'Roof', po: '', jp: '' },
-          attributes: { top: '79.2%', left: '65%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '78.7%', left: '65%', font_size: '10', class_name: 'document-translation' }
         }
       },
       9 => {
@@ -1186,142 +1186,142 @@ module DocumentTranslationImportantPoints
 
         datePrepared: {
           translations: { en: 'Date Prepared', po: '', jp: '' },
-          attributes: { top: '13.8%', left: '65.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '13.5%', left: '65.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         building: {
           translations: { en: 'Building', po: '', jp: '' },
-          attributes: { top: '33.2%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+          attributes: { top: '32.9%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         address: {
           translations: { en: 'Address', po: '', jp: '' },
-          attributes: { top: '24%', left: '16%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '23.7%', left: '16%', font_size: '10', class_name: 'document-translation' }
         },
 
         buildingName: {
           translations: { en: 'Building Name', po: '', jp: '' },
-          attributes: { top: '18%', left: '16%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '17.7%', left: '16%', font_size: '10', class_name: 'document-translation' }
         },
 
         residenceAddress: {
           translations: { en: 'Residence Address', po: '', jp: '' },
-          attributes: { top: '21.8%', left: '79.4%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '21.5%', left: '79.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         siteAddress: {
           translations: { en: 'Site Address', po: '', jp: '' },
-          attributes: { top: '25%', left: '79.4%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '24.7%', left: '79.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         inCaseOfMultiFamily: {
           translations: { en: 'In Case Of Multi-family Building', po: '', jp: '' },
-          attributes: { top: '28.6%', left: '16%', font_size: '10', class_name: 'document-translation', width: '15%' }
+          attributes: { top: '28.3%', left: '16%', font_size: '10', class_name: 'document-translation', width: '15%' }
         },
 
         nameOfBuilding: {
           translations: { en: 'Name of Building', po: '', jp: '' },
-          attributes: { top: '29.8%', left: '32.5%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '29.5%', left: '32.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         unitNumber: {
           translations: { en: 'Unit Number', po: '', jp: '' },
-          attributes: { top: '29.2%', left: '69.4%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '28.9%', left: '69.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         construction: {
           translations: { en: 'Construction', po: '', jp: '' },
-          attributes: { top: '33.4%', left: '16%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '33.1%', left: '16%', font_size: '10', class_name: 'document-translation' }
         },
 
         wooden: {
           translations: { en: 'Wooden', po: '', jp: '' },
-          attributes: { top: '33.4%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '33.1%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         steelFrameRc: {
           translations: { en: 'Steel Frame Reinforced Concrete', po: '', jp: '' },
-          attributes: { top: '33.4%', left: '52.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '33.1%', left: '52.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         others: {
           translations: { en: 'Others', po: '', jp: '' },
-          attributes: { top: '33.4%', left: '75.1%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '33.1%', left: '75.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         floors: {
           translations: { en: 'Floors', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '16%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '16.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         aboveGround: {
           translations: { en: 'Above Ground', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '32.5%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '32.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         floorsAboveGround: {
           translations: { en: 'Floors', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '42%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '42%', font_size: '10', class_name: 'document-translation' }
         },
 
         underGround: {
           translations: { en: 'Basement', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '46.4%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '46.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         floorsUnderground: {
           translations: { en: 'Floors', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '54%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '54%', font_size: '10', class_name: 'document-translation' }
         },
 
         floorArea: {
           translations: { en: 'Floor Area', po: '', jp: '' },
-          attributes: { top: '37.3%', left: '61.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '37%', left: '60.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         buildingInspection: {
           translations: { en: 'Building Inspection', po: '', jp: '' },
-          attributes: { top: '73.9%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
+          attributes: { top: '73.6%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         inspectionDate: {
           translations: { en: 'Inspection Date', po: '', jp: '' },
-          attributes: { top: '40.5%', left: '15.6%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '40.5%', left: '15.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         inspectionCategory: {
           translations: { en: 'Inspection Category', po: '', jp: '' },
-          attributes: { top: '46.1%', left: '17.1%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '45.8%', left: '17.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         singleFamily: {
           translations: { en: 'Single Family', po: '', jp: '' },
-          attributes: { top: '43.7%', left: '36%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '43.4%', left: '36%', font_size: '10', class_name: 'document-translation' }
         },
 
         multiFamily: {
           translations: { en: 'Multi Family', po: '', jp: '' },
-          attributes: { top: '47.4%', left: '36%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '47.1%', left: '36%', font_size: '10', class_name: 'document-translation' }
         },
 
         detachedType: {
           translations: { en: 'Detached Type', po: '', jp: '' },
-          attributes: { top: '47.4%', left: '57.3%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '47.1%', left: '57.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         buildingType: {
           translations: { en: 'Building Type', po: '', jp: '' },
-          attributes: { top: '47.4%', left: '72.6%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '47.1%', left: '72.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         presenceOfDegradation: {
           translations: { en: 'Presence of Degradation', po: '', jp: '' },
-          attributes: { top: '53.2%', left: '15%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '52.9%', left: '15%', font_size: '10', class_name: 'document-translation' }
         },
 
         presenceOfAnyDegradation: {
           translations: { en: 'Presence of Any Degradation etc. of Individual Components', po: '', jp: '' },
-          attributes: { top: '72.9%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%' }
+          attributes: { top: '72.6%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%' }
         },
 
         # // crossOutUnrelated: {
@@ -1346,12 +1346,12 @@ module DocumentTranslationImportantPoints
 
         componentsStructuralResilience: {
           translations: { en: 'Inspected Components Related to Key Structures for Structural Resilience', po: '', jp: '' },
-          attributes: { top: '57%', left: '32.4%', font_size: '10', class_name: 'document-translation', width: '30%' }
+          attributes: { top: '56.7%', left: '32.4%', font_size: '10', class_name: 'document-translation', width: '30%' }
         },
 
         componentsRainWater: {
           translations: { en: 'Inspected Components Related to Structures for Keeping Out Rainwater , etc.', po: '', jp: '' },
-          attributes: { top: '57%', left: '63.4%', font_size: '10', class_name: 'document-translation', width: '28%' }
+          attributes: { top: '56.7%', left: '63.4%', font_size: '10', class_name: 'document-translation', width: '28%' }
         },
 
         degradationStructural: {
@@ -1361,112 +1361,112 @@ module DocumentTranslationImportantPoints
 
         degradationRain: {
           translations: { en: 'Degradation', po: '', jp: '' },
-          attributes: { top: '61%', left: '76.9%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '60.7%', left: '76.9%', font_size: '10', class_name: 'document-translation' }
         },
 
         yesStructural: {
           translations: { en: 'Yes', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '48.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '48.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         noStructural: {
           translations: { en: 'No', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '51.7%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '51.7%', font_size: '10', class_name: 'document-translation' }
         },
 
         uninspectableStructural: {
           translations: { en: 'Uninspectable', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '53.9%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '53.9%', font_size: '10', class_name: 'document-translation' }
         },
 
         yesRain: {
           translations: { en: 'Yes', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '76.7%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '76.7%', font_size: '10', class_name: 'document-translation' }
         },
 
         noRain: {
           translations: { en: 'No', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '80.1%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '80.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         uninspectableRain: {
           translations: { en: 'Uninspectable', po: '', jp: '' },
-          attributes: { top: '63.7%', left: '82.3%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '63.4%', left: '82.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         foundation: {
           translations: { en: 'Foundation', po: '', jp: '' },
-          attributes: { top: '66.2%', left: '32.9%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '65.9%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         floor: {
           translations: { en: 'floor', po: '', jp: '' },
-          attributes: { top: '68.7%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '68.4%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         pillarsAndBeams: {
           translations: { en: 'Pillars & Eaves', po: '', jp: '' },
-          attributes: { top: '71.2%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '70.9%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         exteriorWallsAndEaves: {
           translations: { en: 'Exterior Walls & Eaves', po: '', jp: '' },
-          attributes: { top: '73.9%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '73.6%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         balcony: {
           translations: { en: 'Balcony', po: '', jp: '' },
-          attributes: { top: '76.5%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '76.2%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         halls: {
             translations: { en: 'Halls', po: '', jp: '' },
-            attributes: { top: '79%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+            attributes: { top: '78.7%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
           },
 
         interiorWalls: {
           translations: { en: 'Interior Walls', po: '', jp: '' },
-          attributes: { top: '81.5%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '81.2%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         ceilings: {
           translations: { en: 'Ceilings', po: '', jp: '' },
-          attributes: { top: '84%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '83.7%', left: '32.8%', font_size: '10', class_name: 'document-translation' }
         },
 
         othersDegradation: {
           translations: { en: 'Others', po: '', jp: '' },
-          attributes: { top: '85.7%', left: '40%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '85.4%', left: '40%', font_size: '10', class_name: 'document-translation' }
         },
 
         reinforcement: {
           translations: { en: 'Reinforcement', po: '', jp: '' },
-          attributes: { top: '89.7%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '89.4%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         concreteCompression: {
           translations: { en: 'Concrete Compression', po: '', jp: '' },
-          attributes: { top: '93.4%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '93.1%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         exteriorWalls: {
           translations: { en: 'Exterior Walls', po: '', jp: '' },
-          attributes: { top: '66.2%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '65.9%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         interiorWallsRain: {
           translations: { en: 'Interior Walls', po: '', jp: '' },
-          attributes: { top: '68.9%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '68.6%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         ceilingsRain: {
           translations: { en: 'Ceilings', po: '', jp: '' },
-          attributes: { top: '71.6%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '71.3%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
         },
 
         roofRain: {
           translations: { en: 'Roof', po: '', jp: '' },
-          attributes: { top: '74.5%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '74.2%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
         }
       },
       11 => {

@@ -2,6 +2,7 @@ class InspectionSerializer < ActiveModel::Serializer
   attributes :id,
     :building_id,
     :inspection_language,
+    :language_code,
     :inspection_date,
     :inspection_summary,
     :inspector_name,

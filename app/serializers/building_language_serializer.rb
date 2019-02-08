@@ -9,6 +9,7 @@ class BuildingLanguageSerializer < ActiveModel::Serializer
   :region,
   :country,
   :construction,
+  # :electricity,
   :building_type,
   :building_management_company,
   :building_management_contact,
