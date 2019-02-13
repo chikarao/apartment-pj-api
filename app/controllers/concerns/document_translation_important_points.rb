@@ -17,7 +17,7 @@ module DocumentTranslationImportantPoints
 
         documentPurpose: {
           translations: { en: 'The following details on the property have been written in accordance with Article 35 of the Real Estate Act. Please ensure you completely understand all of these essential points.', po: '', jp: '' },
-          attributes: { top: '18.2%', left: '9.3%', font_size: '10', class_name: 'document-translation', width: '90%' }
+          attributes: { top: '18.2%', left: '9.3%', font_size: '10', class_name: 'document-translation', width: '90%', height: '4%', text_align: 'left' }
         },
 
         year: {
@@ -174,27 +174,27 @@ module DocumentTranslationImportantPoints
 
         itemsRightsOfOwnership: {
           translations: { en: 'Items Related to Rights of Ownership', po: '', jp: '' },
-          attributes: { top: '24%', left: '50.8%', font_size: '10', class_name: 'document-translation', width: '15%' }
+          attributes: { top: '24%', left: '50.8%', font_size: '10', class_name: 'document-translation', width: '15%', text_align: 'left', height: '2%' }
         },
 
         itemsOtherThanRightsOfOwnership: {
           translations: { en: 'Items Related to Rights Other than Ownership (Section B)', po: '', jp: '' },
-          attributes: { top: '21%', left: '70.2%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '21%', left: '70.2%', font_size: '10', class_name: 'document-translation', width: '20%', text_align: 'left', height: '2%' }
         },
 
         owner: {
           translations: { en: 'Owner', po: '', jp: '' },
-          attributes: { top: '25.7%', left: '11.1%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '25.7%', left: '11.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         name: {
           translations: { en: 'Name', po: '', jp: '' },
-          attributes: { top: '29.1%', left: '11%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '29.1%', left: '11%', font_size: '10', class_name: 'document-translation' }
         },
 
         address: {
           translations: { en: 'Address', po: '', jp: '' },
-          attributes: { top: '35%', left: '11.1%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '35%', left: '11.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         mainLegal: {
@@ -204,12 +204,12 @@ module DocumentTranslationImportantPoints
 
         titleOfAct: {
           translations: { en: 'Title of Act', po: '', jp: '' },
-          attributes: { top: '46.4%', left: '11.1%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '46.4%', left: '11.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         summaryOfRestrictions: {
           translations: { en: 'Summary of Restrictions', po: '', jp: '' },
-          attributes: { top: '52.4%', left: '11.1%', font_size: '10', class_name: 'document-translation', width: '20%' }
+          attributes: { top: '52.4%', left: '11.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         utilities: {

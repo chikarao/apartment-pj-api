@@ -205,7 +205,7 @@ class Api::V1::FlatsController < ApplicationController
         image_array.each do |i|
           # p "FlatsController, destroy, images.each, i: " + i.to_s
           result = Cloudinary::Uploader.destroy(i);
-          p "FlatsController, destroy, images.each, result: " + result.to_s
+          # p "FlatsController, destroy, images.each, result: " + result.to_s
         end
       else
         json_response "Delete flat failed", false, {}, :unprocessable_entity
