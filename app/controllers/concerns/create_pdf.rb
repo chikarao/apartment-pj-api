@@ -118,7 +118,7 @@ module CreatePdf
             ver_points_height = ver_total_inches * y_height * points_per_inch
             text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
             pdf.font("IPAEX_GOTHIC") do
-              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit
+              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
             end
           end
           # end of string inputfield
@@ -157,9 +157,10 @@ module CreatePdf
             y = eachField["top"].to_f / 100 + adjustment_input_y + 0.001
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
+            text_to_display = eachField["value"] != "" ? eachField["enclosed_text"] : eachField["value"]
 
             pdf.font("IPAEX_GOTHIC") do
-              pdf.draw_text eachField["enclosed_text"], :at => [hor_points, ver_points], :size => 10
+              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
             end
           end
 

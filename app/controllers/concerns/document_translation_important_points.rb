@@ -1234,8 +1234,8 @@ module DocumentTranslationImportantPoints
           attributes: { top: '33.1%', left: '16%', font_size: '10', class_name: 'document-translation' }
         },
 
-        wooden: {
-          translations: { en: 'Wooden', po: '', jp: '' },
+        rc: {
+          translations: { en: 'RC', po: '', jp: '' },
           attributes: { top: '33.1%', left: '33.6%', font_size: '10', class_name: 'document-translation' }
         },
 
