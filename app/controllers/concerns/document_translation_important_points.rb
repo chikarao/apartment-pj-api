@@ -6,148 +6,148 @@ module DocumentTranslationImportantPoints
     {
       1 => {
         documentTitle: {
-          translations: { en: 'Important Points Explanation of Property to be Leased', po: '', jp: '' },
+          translations: { en: 'Important Points Explanation of Property to be Leased', po: 'Pontos Importantes Explicação da Propriedade a Ser Alugada', jp: '' },
           attributes: { top: '7.5%', left: '25.9%', font_size: '12', text_align: 'center', width: '50%', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         name: {
-          translations: { en: 'Name', po: '', jp: '' },
+          translations: { en: 'Name', po: 'Nome', jp: '' },
           attributes: { top: '11%', left: '9.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         documentPurpose: {
-          translations: { en: 'The following details on the property have been written in accordance with Article 35 of the Real Estate Act. Please ensure you completely understand all of these essential points.', po: '', jp: '' },
+          translations: { en: 'The following details on the property have been written in accordance with Article 35 of the Real Estate Act. Please ensure you completely understand all of these essential points.', po: 'Os seguintes detalhes sobre a propriedade foram escritos em conformidade com o artigo 35 da Lei Imobiliária. Por favor, certifique-se de entender completamente todos esses pontos essenciais.', jp: '' },
           attributes: { top: '18.2%', left: '9.3%', font_size: '10', class_name: 'document-translation', width: '90%', height: '4%', text_align: 'left' }
         },
 
         year: {
-          translations: { en: 'Year', po: '', jp: '' },
+          translations: { en: 'Year', po: 'Ano', jp: '' },
           attributes: { top: '11.9%', left: '71.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         month: {
-          translations: { en: 'Month', po: '', jp: '' },
+          translations: { en: 'Month', po: 'Mês', jp: '' },
           attributes: { top: '11.9%', left: '80.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         day: {
-          translations: { en: 'Day', po: '', jp: '' },
+          translations: { en: 'Day', po: 'Dia', jp: '' },
           attributes: { top: '11.9%', left: '91.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         companyName: {
-          translations: { en: 'Company Name', po: '', jp: '' },
+          translations: { en: 'Company Name', po: 'Company Name', jp: '' },
           attributes: { top: '25.9%', left: '9.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         nameOfRepresentative: {
-          translations: { en: 'Representative', po: '', jp: '' },
+          translations: { en: 'Representative', po: 'Representante', jp: '' },
           attributes: { top: '30.7%', left: '9.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         seal: {
-          translations: { en: 'Seal', po: '', jp: '' },
+          translations: { en: 'Seal', po: 'Selo', jp: '' },
           attributes: { top: '30.7%', left: '88.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         mainOffice: {
-          translations: { en: 'Main Office', po: '', jp: '' },
+          translations: { en: 'Main Office', po: 'Escritório Principal', jp: '' },
           attributes: { top: '35.6%', left: '9.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         licensedNumber: {
-          translations: { en: 'License Number', po: '', jp: '' },
+          translations: { en: 'License Number', po: 'Número de Licença', jp: '' },
           attributes: { top: '39.3%', left: '9.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         dateLicensed: {
-          translations: { en: 'Date Licensed', po: '', jp: '' },
+          translations: { en: 'Date Licensed', po: 'Data Licenciada', jp: '' },
           attributes: { top: '42.1%', left: '9.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         designatedAgent: {
-          translations: { en: 'Designated Agent for Transaction', po: '', jp: '' },
+          translations: { en: 'Designated Agent for Transaction', po: 'Agente Designado para Transação', jp: '' },
           attributes: { top: '50.1%', left: '11%', font_size: '10', class_name: 'document-translation', width: '11%' }
         },
 
         nameAgent: {
-          translations: { en: 'Name', po: '', jp: '' },
+          translations: { en: 'Name', po: 'Nome', jp: '' },
           attributes: { top: '47%', left: '34.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         sealAgent: {
-          translations: { en: 'Seal', po: '', jp: '' },
+          translations: { en: 'Seal', po: 'Selo', jp: '' },
           attributes: { top: '47.5%', left: '89%', font_size: '10', class_name: 'document-translation' }
         },
 
         registrationNumberAgent: {
-          translations: { en: 'Registration No.', po: '', jp: '' },
+          translations: { en: 'Registration No.', po: 'Número de Registro', jp: '' },
           attributes: { top: '51.1%', left: '34.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         officeAddress: {
-          translations: { en: 'Office Address', po: '', jp: '' },
+          translations: { en: 'Office Address', po: 'Endereço do Escritório', jp: '' },
           attributes: { top: '56.9%', left: '30.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         phone: {
-          translations: { en: 'Phone', po: '', jp: '' },
+          translations: { en: 'Phone', po: 'Telefone', jp: '' },
           attributes: { top: '61.2%', left: '57.7%', font_size: '10', class_name: 'document-translation' }
         },
 
         transactionType: {
-          translations: { en: 'Transaction Type (Section 1, Article 34)', po: '', jp: '' },
+          translations: { en: 'Transaction Type (Section 1, Article 34)', po: 'Tipo de Transação (Seção 1, Artigo 34)', jp: '' },
           attributes: { top: '65.5%', left: '18%', font_size: '10', class_name: 'document-translation' }
         },
 
         representative: {
-          translations: { en: 'Representative', po: '', jp: '' },
+          translations: { en: 'Representative', po: 'Representante', jp: '' },
           attributes: { top: '65.5%', left: '63%', font_size: '10', class_name: 'document-translation' }
         },
 
         agent: {
-          translations: { en: 'Agent', po: '', jp: '' },
+          translations: { en: 'Agent', po: 'Agente', jp: '' },
           attributes: { top: '65.5%', left: '78.7%', font_size: '10', class_name: 'document-translation' }
         },
 
         building: {
-          translations: { en: 'Building', po: '', jp: '' },
+          translations: { en: 'Building', po: 'Construção', jp: '' },
           attributes: { top: '80.6%', left: '12.5%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         nameBuilding: {
-          translations: { en: 'Name', po: '', jp: '' },
+          translations: { en: 'Name', po: 'Nome', jp: '' },
           attributes: { top: '70.4%', left: '17.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         addressBuilding: {
-          translations: { en: 'Address', po: '', jp: '' },
+          translations: { en: 'Address', po: 'Endereço', jp: '' },
           attributes: { top: '75.2%', left: '17.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         unit: {
-          translations: { en: 'Unit No.', po: '', jp: '' },
+          translations: { en: 'Unit No.', po: 'Unidade Não', jp: '' },
           attributes: { top: '78.5%', left: '17.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         floorArea: {
-          translations: { en: 'Floor Area', po: '', jp: '' },
+          translations: { en: 'Floor Area', po: 'Área de Piso', jp: '' },
           attributes: { top: '81.5%', left: '17.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         floorAreaOnRecord: {
-          translations: { en: 'Floor Area on Record', po: '', jp: '' },
+          translations: { en: 'Floor Area on Record', po: 'Área de Piso no Registro', jp: '' },
           attributes: { top: '81.5%', left: '62.3%', font_size: '10', class_name: 'document-translation' }
         },
 
         construction: {
-          translations: { en: 'Construction', po: '', jp: '' },
+          translations: { en: 'Construction', po: 'Construção', jp: '' },
           attributes: { top: '85.7%', left: '16.6%', font_size: '10', class_name: 'document-translation' }
         },
 
         landlordNameAddress: {
-          translations: { en: 'Landlord Name & Address', po: '', jp: '' },
-          attributes: { top: '90.5%', left: '11.1%', font_size: '10', class_name: 'document-translation' }
+          translations: { en: 'Landlord Name & Address', po: 'Nome e Endereço do Proprietário', jp: '' },
+          attributes: { top: '90.5%', left: '11.1%', font_size: '10', width: '20%', class_name: 'document-translation' }
         },
 
       },

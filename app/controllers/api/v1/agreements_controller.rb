@@ -76,7 +76,7 @@ class Api::V1::AgreementsController < ApplicationController
       agreement = Agreement.find_by(id: params[:agreement_id])
       document_fields = DocumentField.where(agreement_id: agreement.id)
       document_language_code = params[:document_language_code]
-      contract_translation_map_object = { 'teishaku-saimuhosho' => fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp" => important_points_explanation_translation, "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation, "juyoujikou-setsumei-bilingual-v3-no-translation-20" => important_points_explanation_translation }
+      contract_translation_map_object = { 'teishaku-saimuhosho' => {}, "juyoujikou-setsumei-jp" => {}, "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation, "juyoujikou-setsumei-bilingual-v3-no-translation-20" => important_points_explanation_translation }
       contract_name = params[:template_file_name]
       translation = contract_translation_map_object[contract_name]
       # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s

@@ -187,64 +187,66 @@ module CreatePdf
         end
         # translations on agreement; translation comes from concerns/document_translation_fixed_term.rb
         # inside document
-        translation[page].keys.each do |each_key|
-          # adjustment_x = 0.01
-          adjustment_x_translation = 0
-          # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
-          # vertical y adjustment for circle
-          # adjustment_y = 0.015
-          adjustment_y_translation = 0.01
-          adjustment_y_translation_rotate = 0
-          adjustment_y_translation_align = 0
-          if !translation[page][each_key][:attributes][:width]
-            x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-            y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
-            hor_points = hor_total_inches * x * points_per_inch
-            ver_points = ver_total_inches * (1 - y) * points_per_inch
-            # convert document_language_code to symbol to access hash
-            text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
-            # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
+        if !translation.empty?
+          translation[page].keys.each do |each_key|
+            # adjustment_x = 0.01
+            adjustment_x_translation = 0
+            # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
+            # vertical y adjustment for circle
+            # adjustment_y = 0.015
+            adjustment_y_translation = 0.01
+            adjustment_y_translation_rotate = 0
+            adjustment_y_translation_align = 0
+            if !translation[page][each_key][:attributes][:width]
+              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
+              hor_points = hor_total_inches * x * points_per_inch
+              ver_points = ver_total_inches * (1 - y) * points_per_inch
+              # convert document_language_code to symbol to access hash
+              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+              # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
+              end
             end
-          end
-          # Rotating text
-          if translation[page][each_key][:attributes][:rotate]
-            x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-            y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate
-            hor_points = hor_total_inches * x * points_per_inch
-            ver_points = ver_total_inches * (1 - y) * points_per_inch
-            x_width = translation[page][each_key][:attributes][:width].to_f / 100
-            hor_points_width = hor_total_inches * x_width * points_per_inch
-            y_height = translation[page][each_key][:attributes][:height].to_f / 100
-            # !!! NOTE ver_points_height is not (1 - y_height)
-            ver_points_height = ver_total_inches * y_height * points_per_inch
-            # convert document_language_code to symbol to access hash
-            text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
+            # Rotating text
+            if translation[page][each_key][:attributes][:rotate]
+              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate
+              hor_points = hor_total_inches * x * points_per_inch
+              ver_points = ver_total_inches * (1 - y) * points_per_inch
+              x_width = translation[page][each_key][:attributes][:width].to_f / 100
+              hor_points_width = hor_total_inches * x_width * points_per_inch
+              y_height = translation[page][each_key][:attributes][:height].to_f / 100
+              # !!! NOTE ver_points_height is not (1 - y_height)
+              ver_points_height = ver_total_inches * y_height * points_per_inch
+              # convert document_language_code to symbol to access hash
+              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
+              end
             end
-          end
 
-          if translation[page][each_key][:attributes][:text_align]
-            x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-            y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_align
-            hor_points = hor_total_inches * x * points_per_inch
-            ver_points = ver_total_inches * (1 - y) * points_per_inch
-            x_width = translation[page][each_key][:attributes][:width].to_f / 100
-            hor_points_width = hor_total_inches * x_width * points_per_inch
-            y_height = translation[page][each_key][:attributes][:height].to_f / 100
-            # !!! NOTE ver_points_height is not (1 - y_height)
-            ver_points_height = ver_total_inches * y_height * points_per_inch
-            # convert document_language_code to symbol to access hash
-            text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
-            font_size = translation[page][each_key][:attributes][:font_size].to_f - 2
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align => translation[page][each_key][:attributes][:text_align].to_sym, :size => font_size
+            if translation[page][each_key][:attributes][:text_align]
+              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_align
+              hor_points = hor_total_inches * x * points_per_inch
+              ver_points = ver_total_inches * (1 - y) * points_per_inch
+              x_width = translation[page][each_key][:attributes][:width].to_f / 100
+              hor_points_width = hor_total_inches * x_width * points_per_inch
+              y_height = translation[page][each_key][:attributes][:height].to_f / 100
+              # !!! NOTE ver_points_height is not (1 - y_height)
+              ver_points_height = ver_total_inches * y_height * points_per_inch
+              # convert document_language_code to symbol to access hash
+              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+              font_size = translation[page][each_key][:attributes][:font_size].to_f - 2
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align => translation[page][each_key][:attributes][:text_align].to_sym, :size => font_size
+              end
             end
           end
+          # end translation[page].each
         end
-        # end translation[page].each
       else
         # p "Writing skipped page" + page.to_s
         # pdf.font("IPAEX_GOTHIC") do
