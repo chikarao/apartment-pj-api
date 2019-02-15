@@ -13,6 +13,7 @@ class Api::V1::Images::ImagesController < ApplicationController
       uploaded_flat_id = params[:flatId]
       path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
       # file_array = []
+      # open file for writing in binary 
       File.open(path, 'wb') do |file|
         file.write(uploaded_io.read)
       end

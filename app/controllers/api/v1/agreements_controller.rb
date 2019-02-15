@@ -60,7 +60,7 @@ class Api::V1::AgreementsController < ApplicationController
     agreement = Agreement.find_by(id: params[:agreement_id])
     # update each document field sent in document_field_params
     document_field_params[:document_field].each do |each|
-      # p "each: " + each.to_s
+      p "each: " + each.to_s
       # find each document field an udpate
       document_field = DocumentField.find_by(id: each[:id])
       # if any document_field fails to update, break and send fail message

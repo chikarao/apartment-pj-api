@@ -13,14 +13,17 @@ module CreatePdf
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
     # get base agreement file with only base language on it from Cloudinary
     # contract name comes from object stored on the front end in constants/documents
+    p "contract_name before Cloudinary download " + contract_name.to_s
     download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
     # Define path to base pdf
     path_base = Rails.root.join("public/system/temp_files/pdf_files/pdf_base.pdf")
     # convert encoding from Cloudinary's ASCII-8BIT encoding to UTF-8 encoding
+    # p "download " + download.to_s
     # p "download encoding " + download.encoding.to_s
-    download.force_encoding('utf-8')
+    # download.force_encoding('utf-8')
     # p "download encoding after encoding " + download.encoding.to_s
-    pdf_base = File.new(path_base, "w+")
+    # Create new File instance for writing in binary
+    pdf_base = File.new(path_base, "wb")
     # p "pdf_base after new" + pdf_base.to_s
     pdf_base.write(download)
     pdf_base.close
@@ -116,9 +119,13 @@ module CreatePdf
             hor_points_width = hor_total_inches * x_width * points_per_inch
             y_height = eachField["height"].to_f / 100
             ver_points_height = ver_total_inches * y_height * points_per_inch
-            text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+            value = eachField["value"] ? eachField["value"] : ''
+            text_to_display = eachField["display_text"] ? eachField["display_text"] : value
+            # text_to_display = eachField["value"]
+            # text_to_display = "HERE"
             pdf.font("IPAEX_GOTHIC") do
               pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
+              # pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
             end
           end
           # end of string inputfield
@@ -133,22 +140,27 @@ module CreatePdf
             y_height = eachField["height"].to_f / 100
             # !!! NOTE ver_points_height is not (1 - y_height)
             ver_points_height = ver_total_inches * y_height * points_per_inch
-            text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+            value = eachField["value"] ? eachField["value"] : ''
+            text_to_display = eachField["display_text"] ? eachField["display_text"] : value
+            # text_to_display = eachField["value"]
+            # text_to_display = "HERE"
             # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
             pdf.font("IPAEX_GOTHIC") do
               pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align =>  eachField["text_align"].to_sym, :size => 10
             end
           end
           # end of string inputfield
-          # draw rectagles
+          # draw rectagles for buttons WITHOUT enclosed text such as an "X"
           if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
             rectangle_x = eachField["left"].to_f / 100 + adjustment_x / 3;
             rectangle_y = eachField["top"].to_f / 100;
             rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
             rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
             rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
-            pdf.stroke do
-               pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+            if eachField["value"] == eachField["val"]
+              pdf.stroke do
+                 pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+              end
             end
           end
           # !!!!! enclosed_text Button!!!!
@@ -158,9 +170,10 @@ module CreatePdf
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             text_to_display = eachField["value"] != "" ? eachField["enclosed_text"] : eachField["value"]
-
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
+            if eachField["value"] == eachField["val"]
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10
+              end
             end
           end
 

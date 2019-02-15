@@ -929,17 +929,17 @@ module DocumentTranslationImportantPoints
 
         presenceOfAnyDegradation: {
           translations: { en: 'Presence of Any Degradation etc. of Individual Components', po: '', jp: '' },
-          attributes: { top: '74.9%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%' }
+          attributes: { top: '74.9%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%', height: '10%', text_align: 'left' }
         },
 
         crossOutUnrelated: {
           translations: { en: 'Note: Cross out any components not present in the subject building with two lines.', po: '', jp: '' },
-          attributes: { top: '80.7%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%' }
+          attributes: { top: '80.7%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%', height: '10%', text_align: 'left' }
         },
 
         anyDegradation: {
           translations: { en: 'Any degradation etc. based on standards for inspection of building conditions?', po: '', jp: '' },
-          attributes: { top: '49%', left: '34%', font_size: '10', class_name: 'document-translation', width: '38%' }
+          attributes: { top: '49%', left: '34%', font_size: '10', class_name: 'document-translation', width: '38%', height: '3%', text_align: 'left' }
         },
 
         yes: {
@@ -954,12 +954,12 @@ module DocumentTranslationImportantPoints
 
         componentsStructuralResilience: {
           translations: { en: 'Inspected Components Related to Key Structures for Structural Resilience', po: '', jp: '' },
-          attributes: { top: '53.5%', left: '33%', font_size: '10', class_name: 'document-translation', width: '30%' }
+          attributes: { top: '53.5%', left: '33%', font_size: '10', class_name: 'document-translation', width: '30%', height: '3%', text_align: 'left' }
         },
 
         componentsRainWater: {
           translations: { en: 'Inspected Components Related to Structures for Keeping Out Rainwater , etc.', po: '', jp: '' },
-          attributes: { top: '53.5%', left: '64%', font_size: '10', class_name: 'document-translation', width: '28%' }
+          attributes: { top: '53.5%', left: '64%', font_size: '10', class_name: 'document-translation', width: '28%', height: '3%', text_align: 'left' }
         },
 
         degradationStructural: {
@@ -1321,7 +1321,7 @@ module DocumentTranslationImportantPoints
 
         presenceOfAnyDegradation: {
           translations: { en: 'Presence of Any Degradation etc. of Individual Components', po: '', jp: '' },
-          attributes: { top: '72.6%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%' }
+          attributes: { top: '72.6%', left: '15.9%', font_size: '10', class_name: 'document-translation', width: '17%', height: '10%', text_align: 'left' }
         },
 
         # // crossOutUnrelated: {
@@ -1331,7 +1331,7 @@ module DocumentTranslationImportantPoints
 
         anyDegradation: {
           translations: { en: 'Any degradation etc. based on standards for inspection of building conditions?', po: '', jp: '' },
-          attributes: { top: '52.3%', left: '34%', font_size: '10', class_name: 'document-translation', width: '38%' }
+          attributes: { top: '52.3%', left: '34%', font_size: '10', class_name: 'document-translation', width: '38%', height: '3%', text_align: 'left' }
         },
 
         yes: {
@@ -1346,12 +1346,12 @@ module DocumentTranslationImportantPoints
 
         componentsStructuralResilience: {
           translations: { en: 'Inspected Components Related to Key Structures for Structural Resilience', po: '', jp: '' },
-          attributes: { top: '56.7%', left: '32.4%', font_size: '10', class_name: 'document-translation', width: '30%' }
+          attributes: { top: '56.7%', left: '32.4%', font_size: '10', class_name: 'document-translation', width: '30%', height: '3%', text_align: 'left' }
         },
 
         componentsRainWater: {
           translations: { en: 'Inspected Components Related to Structures for Keeping Out Rainwater , etc.', po: '', jp: '' },
-          attributes: { top: '56.7%', left: '63.4%', font_size: '10', class_name: 'document-translation', width: '28%' }
+          attributes: { top: '56.7%', left: '63.4%', font_size: '10', class_name: 'document-translation', width: '28%', height: '3%', text_align: 'left' }
         },
 
         degradationStructural: {
