@@ -1,6 +1,5 @@
 module CreatePdf
   require 'prawn'
-  require "base64"
   # require DocumentTranslation
   # field_objects and contract_name call in booking#create_contract or agreement#update
   # also called in agreement#update_agreement_fields
@@ -13,22 +12,41 @@ module CreatePdf
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
     # get base agreement file with only base language on it from Cloudinary
     # contract name comes from object stored on the front end in constants/documents
-    p "contract_name before Cloudinary download " + contract_name.to_s
+    # insert is placeholder flag for indicating there is an inserted agreement for fixed term agreement
+    insert = false
+    # Perform below only if insert is true
+    if insert
+      # placeholder for insert public_Id for cloudinary
+      pdf_insert_public_id = "pdf_insert_test"
+      pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
+      # p "pdf_insert_resource[pages]: " + pdf_insert_resource["pages"].to_s
+      pdf_insert_pages = pdf_insert_resource["pages"].to_i
+      pdf_insert_download = Cloudinary::Downloader.download(pdf_insert_public_id, :flags => :attachment)
+      # p "pdf_insert_download: " + pdf_insert_download.to_s
+      # Define path to insert pdf
+      path_insert = Rails.root.join("public/system/temp_files/pdf_files/pdf_insert.pdf")
+      # convert encoding from Cloudinary's ASCII-8BIT encoding to UTF-8 encoding
+      # p "download " + download.to_s
+      # p "download encoding " + download.encoding.to_s
+      # download.force_encoding('utf-8')
+      # p "download encoding after encoding " + download.encoding.to_s
+
+      # Create new File instance for writing in binary
+      pdf_insert = File.new(path_insert, "wb")
+      pdf_insert.write(pdf_insert_download)
+      pdf_insert.close
+      pdf_insert = CombinePDF.load(path_insert)
+    end
+    # END of if insert
+
     download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
     # Define path to base pdf
     path_base = Rails.root.join("public/system/temp_files/pdf_files/pdf_base.pdf")
-    # convert encoding from Cloudinary's ASCII-8BIT encoding to UTF-8 encoding
-    # p "download " + download.to_s
-    # p "download encoding " + download.encoding.to_s
-    # download.force_encoding('utf-8')
-    # p "download encoding after encoding " + download.encoding.to_s
-    # Create new File instance for writing in binary
     pdf_base = File.new(path_base, "wb")
     # p "pdf_base after new" + pdf_base.to_s
     pdf_base.write(download)
     pdf_base.close
     pdf_base = CombinePDF.load(path_base)
-    # path for external font ttf
     # p "field_objects " + field_objects.to_s
     # p "contract_name " + contract_name.to_s
     # p "save_and_create " + save_and_create.to_s
@@ -42,8 +60,8 @@ module CreatePdf
     # A4 dimensions in inches
     hor_total_inches = 8.27
     ver_total_inches = 11.69
+    # Prawn gem points per inch
     points_per_inch = 72
-
     # !!!!!!adjustment for margin on frontend and padding of input fields
     # same horizontal x adjument for input and circle
     adjustment_x = 0.01
@@ -59,6 +77,7 @@ module CreatePdf
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
 
+    # path for external font ttf
     ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
     # define custom font in assets/fonts/ipaexg
     pdf.font_families["IPAEX_GOTHIC"] = {
@@ -67,16 +86,17 @@ module CreatePdf
                         :bold_italic => ipaex_gothic_path,
                         :normal      => ipaex_gothic_path
                       }
-    # get array of pages in params
+    # get array of pages in document field attributes
     document_pages_array = []
     # Push page number in array if not already in array.
-  field_objects.each do |each|
-    # document_field_params[:document_field].each do |each|
-      if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
-        document_pages_array.push(each["page"].to_i)
-      end
-      # p "!!!!!! document_pages_array: " + document_pages_array.to_s
-  end
+    # Iterate through field_objects passed in function call parameter
+    field_objects.each do |each|
+      # document_field_params[:document_field].each do |each|
+        if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
+          document_pages_array.push(each["page"].to_i)
+        end
+        # p "!!!!!! document_pages_array: " + document_pages_array.to_s
+    end
     # p 'in booking_controller, create_contract, eachField, document_pages_array: ' + document_pages_array.to_s
 
     #!!!!!! START RENDER OF PDF
@@ -280,12 +300,65 @@ module CreatePdf
       # pdf_base.pages[i]<< pdf_merge.pages[i]
       pdf_base.pages[(eachPage - 1)]<< pdf_merge.pages[(eachPage - 1)]
     end
-    # pdf_base.pages[1]<< pdf_merge.pages[1]
-    # pdf_base << pdf_merge
-    pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
-    # keep
+    # PERFORM only if insert is true and there is an inserted agreement
+    if insert
+      # create pdf_f with specified # pages to take content from pdf_base
+      pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
+      (document_pages_array.length + pdf_insert_pages - 1).times do
+        pdf_f.start_new_page
+      end
+
+      path_final = Rails.root.join("public/system/temp_files/pdf_files/pdf_final.pdf")
+      pdf_f.render_file(path_final)
+      # p "!!!! pdf_f: " + pdf_f.to_s
+      pdf_final = CombinePDF.load(path_final)
+      # p "!!!! pdf_final.pages: " + pdf_final.pages.to_s
+
+      # page number of the last page in document pages array
+      last_page = document_pages_array.last
+      count = 0
+      # assign last page of inserted, combined file
+      pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
+      # iterate through each page in array
+      document_pages_array.each do |eachPage|
+        # unless eachPage is the last page
+        unless eachPage == last_page
+          # transpose the index of each page in array
+          pdf_final.pages[(eachPage - 1)] << pdf_base.pages[(eachPage - 1)]
+        else
+          # if last page, transpose the last page
+          pdf_final.pages[pdf_final_last_page_index] << pdf_base.pages[(eachPage - 1)]
+        end
+        count += 1
+      end
+
+      count = 0
+      count_insert = 0
+      # Iterate for number of pages in the combined document and agreement
+      (document_pages_array.length + pdf_insert_pages).times do
+        # if the count is not in the document array AND NOT the last page of the document
+        if !document_pages_array.include?((count + 1)) && (count != pdf_final_last_page_index)
+          # Transpose the insert into the blank pages of pdf final with the needed pages in pdf_base
+          pdf_final.pages[count] << pdf_insert.pages[count_insert]
+          # increment count_insert to get ready for the next page to transpose
+          count_insert += 1
+        end
+        # increment count to go to to the next page of the combined document 
+        count += 1
+      end
+
+
+      # save pdf final as combined.pdf
+      pdf_final.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
+    end
+    # END of if insert
+    unless insert
+      # save pdf base as pdf_combined unless insert is true and there is an inserted agreement in place of the standard agreement
+      pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
+    end
+    # KEEP
     # path = Rails.root.join("public/system/temp_files/pdf_files", pdf)
-    path_combined = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
+    # path_combined = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
     # keep
     # file = File.open(path_combined)
     # p "SENDGRID_USERNAME: #{ENV['SENDGRID_USERNAME']}"
@@ -295,11 +368,20 @@ module CreatePdf
     # keep
     # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
     result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"), :width => 792, :height => 1122)
-    # p 'in booking_controller, create_contract, result: ' + result.to_s
+    p 'in create_pdf, result: ' + result.to_s
+    if insert
+      File.delete(path_final)
+      File.delete(path_insert)
+    end
+
     File.delete(path_merge)
     File.delete(path_base)
     unless save_and_create
-      json_response "Created PDF successfully", true, {}, :ok
+      if result
+        json_response "Created PDF successfully", true, {cloudinary_result: result}, :ok
+      else
+        json_response "Create PDF failed", false, {}, :unprocessable_entity
+      end
     else
       return result
     end
