@@ -202,7 +202,9 @@ module CreatePdf
             circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
             circle_hor_points = hor_total_inches * circle_x * points_per_inch
             circle_ver_points = ver_total_inches * circle_y * points_per_inch
-            pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+            if eachField["value"] == eachField["val"]
+              pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+            end
           end
         end
         # translations on agreement; translation comes from concerns/document_translation_fixed_term.rb
@@ -343,7 +345,7 @@ module CreatePdf
           # increment count_insert to get ready for the next page to transpose
           count_insert += 1
         end
-        # increment count to go to to the next page of the combined document 
+        # increment count to go to to the next page of the combined document
         count += 1
       end
 

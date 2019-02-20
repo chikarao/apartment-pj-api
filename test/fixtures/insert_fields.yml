@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  document_insert: one
+  name: MyString
+  value: MyText
+  language_code: MyString
+
+two:
+  document_insert: two
+  name: MyString
+  value: MyText
+  language_code: MyString

@@ -82,7 +82,7 @@ class Api::V1::AgreementsController < ApplicationController
       # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s
       cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
-      # p "cloudinary_result: " + cloudinary_result.to_s
+      # p "cloudinary_result, cloudinary_result.class: " + cloudinary_result.to_s + " " + cloudinary_result.class.to_s
       unless !agreement.document_publicid
         result = Cloudinary::Uploader.destroy(agreement.document_publicid);
         # p "after cloudinary destroy result, params[:save_and_create]: " + result.to_s + params[:save_and_create].to_s
@@ -108,7 +108,7 @@ class Api::V1::AgreementsController < ApplicationController
     unless params[:save_and_create]
       json_response "Updated agreement fields succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
     else
-      json_response "Updated agreement fields and created PDF succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+      json_response "Updated agreement fields and created PDF succesfully", true, {agreement: agreement_serializer, booking: booking_serializer }, :ok
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190204043337) do
+ActiveRecord::Schema.define(version: 20190220062315) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -379,6 +379,21 @@ ActiveRecord::Schema.define(version: 20190204043337) do
     t.index ["agreement_id"], name: "index_document_fields_on_agreement_id"
   end
 
+  create_table "document_inserts", force: :cascade do |t|
+    t.integer "agreement_id"
+    t.string "publicid"
+    t.text "result"
+    t.boolean "main_agreement", default: true
+    t.integer "insert_after_page"
+    t.integer "pages"
+    t.integer "from_page"
+    t.integer "to_page"
+    t.string "insert_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agreement_id"], name: "index_document_inserts_on_agreement_id"
+  end
+
   create_table "facilities", force: :cascade do |t|
     t.integer "flat_id"
     t.integer "booking_id"
@@ -519,6 +534,16 @@ ActiveRecord::Schema.define(version: 20190204043337) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flat_id"], name: "index_images_on_flat_id"
+  end
+
+  create_table "insert_fields", force: :cascade do |t|
+    t.integer "document_insert_id"
+    t.string "name"
+    t.text "value"
+    t.string "language_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_insert_id"], name: "index_insert_fields_on_document_insert_id"
   end
 
   create_table "inspections", force: :cascade do |t|

@@ -87,6 +87,12 @@ Rails.application.routes.draw do
       resources :document_fields do
       end
 
+      resources :document_inserts do
+      end
+
+      resources :insert_fields do
+      end
+      
       resources :buildings do
       end
 
