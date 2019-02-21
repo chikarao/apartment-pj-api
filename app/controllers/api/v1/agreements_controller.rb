@@ -7,10 +7,10 @@ class Api::V1::AgreementsController < ApplicationController
   before_action :valid_token, only: [:destroy, :show, :create, :update]
 
   def show
-    if @agreements
+    if @agreement
       agreement_serializer = parse_json @agreement
-      # agreement_serializer = parse_json @agreement
-      json_response "Showed agreement succesfully", true, {agreement: agreement_serializer}, :ok
+      document_inserts_serializer = parse_json @agreement.document_inserts
+      json_response "Showed agreement succesfully", true, {document_inserts: document_inserts_serializer, agreement: agreement_serializer}, :ok
     else
       json_response "Show agreement failed", false, {}, :unprocessable_entity
     end

@@ -50,7 +50,7 @@ class Api::V1::DocumentInsertsController < ApplicationController
   end
 
   def destroy
-    agreement = Agreement.find_by(id: document_insert_params[:agreement_id])
+    agreement = Agreement.find_by(id:  @document_insert.agreement_id)
     booking = Booking.find_by(id: agreement.booking_id)
     image_to_destroy = @document_insert.publicid
     if @document_insert.destroy

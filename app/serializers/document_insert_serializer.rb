@@ -1,4 +1,4 @@
-class InsertFieldsSerializer < ActiveModel::Serializer
+class DocumentInsertSerializer < ActiveModel::Serializer
   attributes :id,
   :agreement_id,
   :publicid,
@@ -9,8 +9,10 @@ class InsertFieldsSerializer < ActiveModel::Serializer
   :from_page,
   :to_page,
   :insert_name,
+  :insert_fields,
   :created_at,
   :updated_at
-  # has_many :flats
+
+  has_many :insert_fields
   # has_many :inspections
 end

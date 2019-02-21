@@ -25,6 +25,7 @@ class Api::V1::BookingsController < ApplicationController
     # p "!!! in bookings#show: "
     booking_serializer = parse_json @booking
     contracts = @booking.contracts
+    agreements = @booking.agreements
     # assignments = contracts[0].assignments
     # assignments = []
     work_type_object = {}
@@ -70,6 +71,9 @@ class Api::V1::BookingsController < ApplicationController
         # end
       end
     end
+
+    agreements_serializer = parse_json agreements
+
     flat = Flat.find_by(id: @booking.flat_id)
     # owner = User.find_by(id: flat.user_id)
     # assignment_serializer = parse_json assignments
@@ -78,7 +82,7 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
     # owner_serializer = parse_json owner
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer}, :ok
   end
 
   def new

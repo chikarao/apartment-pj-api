@@ -26,6 +26,7 @@ class Api::V1::InsertFieldsController < ApplicationController
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
       booking = Booking.find_by(id: agreement.booking_id)
       booking_serializer = parse_json booking
+      agreement_serializer = parse_json agreement
       # insert_field_serializer = parse_json insert_field
       json_response "Created insert_field succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
     else
