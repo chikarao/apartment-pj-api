@@ -24,11 +24,13 @@ class Api::V1::InsertFieldsController < ApplicationController
     if insert_field.save
       document_insert = DocumentInsert.find_by(id: insert_field_params[:document_insert_id])
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
-      booking = Booking.find_by(id: agreement.booking_id)
-      booking_serializer = parse_json booking
-      agreement_serializer = parse_json agreement
+      # booking = Booking.find_by(id: agreement.booking_id)
+      # booking_serializer = parse_json booking
+      # agreement_serializer = parse_json agreement
+      document_insert_serializer = parse_json agreement.document_inserts
       # insert_field_serializer = parse_json insert_field
-      json_response "Created insert_field succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+      json_response "Created insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
+      # json_response "Created insert_field succesfully", true, {agreement: agreement_serializer, booking: booking_serializer, document_inserts: document_insert_serializer}, :ok
     else
       json_response "Create insert_field failed", false, {}, :unprocessable_entity
     end
