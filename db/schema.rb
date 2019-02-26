@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190220062315) do
+ActiveRecord::Schema.define(version: 20190226055311) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.string "document_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "document_pages"
     t.index ["booking_id"], name: "index_agreements_on_booking_id"
     t.index ["flat_id"], name: "index_agreements_on_flat_id"
   end
@@ -191,6 +192,8 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.string "building_owner_address"
     t.string "legal_restrictions"
     t.text "legal_restrictions_summary"
+    t.string "electricity"
+    t.string "building_management_address"
     t.index ["building_id"], name: "index_building_languages_on_building_id"
   end
 
@@ -234,6 +237,8 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.string "language_code"
     t.string "legal_restrictions"
     t.text "legal_restrictions_summary"
+    t.string "electricity"
+    t.string "building_management_address"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -291,6 +296,11 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.string "registration_jurisdiction"
     t.string "registration_grantor"
     t.string "registration_number_front"
+    t.string "bond_deposit_office"
+    t.string "bond_deposit_office_address"
+    t.string "guaranty_association_name"
+    t.string "guaranty_association_address"
+    t.string "guaranty_association_office_address"
     t.index ["user_id"], name: "index_contractors_on_user_id"
   end
 
@@ -583,6 +593,9 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.datetime "updated_at", null: false
     t.string "inspection_language"
     t.string "language_code"
+    t.string "architect_office_registration_jurisdiction"
+    t.string "architect_registration_jurisdiction"
+    t.string "halls"
     t.index ["building_id"], name: "index_inspections_on_building_id"
   end
 
@@ -735,6 +748,8 @@ ActiveRecord::Schema.define(version: 20190220062315) do
     t.string "language_code"
     t.integer "base_record_id"
     t.string "registration_jurisdiction"
+    t.string "registration_number"
+    t.string "staff_number"
     t.index ["contractor_id"], name: "index_staffs_on_contractor_id"
     t.index ["user_id"], name: "index_staffs_on_user_id"
   end

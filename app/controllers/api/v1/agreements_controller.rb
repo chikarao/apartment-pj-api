@@ -79,8 +79,13 @@ class Api::V1::AgreementsController < ApplicationController
       contract_translation_map_object = { 'teishaku-saimuhosho' => {}, "juyoujikou-setsumei-jp" => {}, "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation, "juyoujikou-setsumei-bilingual-v3-no-translation-20" => important_points_explanation_translation }
       contract_name = params[:template_file_name]
       translation = contract_translation_map_object[contract_name]
+      if params[:use_own_main_agreement]
+        document_insert_main = DocumentInsert.find_by(agreement_id: agreement.id, main_agreement: true)
+      else
+        document_insert_main = nil;
+      end
       # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s
-      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code)
+      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
       # p "cloudinary_result, cloudinary_result.class: " + cloudinary_result.to_s + " " + cloudinary_result.class.to_s
       unless !agreement.document_publicid
@@ -88,9 +93,10 @@ class Api::V1::AgreementsController < ApplicationController
         # p "after cloudinary destroy result, params[:save_and_create]: " + result.to_s + params[:save_and_create].to_s
       end
       agreement.document_publicid = cloudinary_result["public_id"]
+      agreement.document_pages = cloudinary_result["pages"]
 
       unless agreement.save
-        # json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
+        json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
         # break
       end
     end

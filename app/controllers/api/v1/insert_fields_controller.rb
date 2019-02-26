@@ -43,24 +43,26 @@ class Api::V1::InsertFieldsController < ApplicationController
     if @insert_field.update insert_field_params
       document_insert = DocumentInsert.find_by(id: insert_field_params[:document_insert_id])
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
-      booking = Booking.find_by(id: agreement.booking_id)
-      booking_serializer = parse_json booking
+      # booking = Booking.find_by(id: agreement.booking_id)
+      document_insert_serializer = parse_json agreement.document_inserts
+      # booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
-      insert_field_serializer = parse_json @insert_field
       # insert_field_serializer = parse_json @insert_field
-      json_response "Updated insert_field succesfully", true, {insert_field: insert_field_serializer, booking: booking_serializer}, :ok
+      # insert_field_serializer = parse_json @insert_field
+      json_response "Updated insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end
   end
 
   def destroy
-    agreement = Agreement.find_by(id: insert_field_params[:agreement_id])
-    booking = Booking.find_by(id: agreement.booking_id)
+    document_insert = DocumentInsert.find_by(id: @insert_field[:document_insert_id])
+    agreement = Agreement.find_by(id: document_insert[:agreement_id])
+    # booking = Booking.find_by(id: agreement.booking_id)
     if @insert_field.destroy
-      booking_serializer = parse_json booking
-      insert_field_serializer = parse_json @insert_field
-      json_response "Deleted insert_field succesfully", true, {booking: booking_serializer}, :ok
+      document_insert_serializer = parse_json agreement.document_inserts
+      # insert_field_serializer = parse_json @insert_field
+      json_response "Deleted insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
     else
       json_response "Delete insert_field failed", false, {}, :unprocessable_entity
     end

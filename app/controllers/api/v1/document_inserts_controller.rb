@@ -36,6 +36,7 @@ class Api::V1::DocumentInsertsController < ApplicationController
   end
 
   def update
+    original_publicid = @document_insert.publicid
     if @document_insert.update document_insert_params
       agreement = Agreement.find_by(id: document_insert_params[:agreement_id])
       booking = Booking.find_by(id: agreement.booking_id)
@@ -43,6 +44,14 @@ class Api::V1::DocumentInsertsController < ApplicationController
       # flat = Flat.find_by(id: params[:flat_id])
       document_insert_serializer = parse_json @document_insert
       # document_insert_serializer = parse_json @document_insert
+      # p "!!!!!! document_insert_params[:publicid] " + document_insert_params[:publicid].to_s
+      # p "!!!!!! Before destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
+      if document_insert_params[:publicid] && (original_publicid != document_insert_params[:publicid])
+        # p "!!!!!! Destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
+        image_to_destroy = original_publicid
+        result = Cloudinary::Uploader.destroy(image_to_destroy);
+        # p "!!!!!! Destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
+      end
       json_response "Updated document_insert succesfully", true, {document_insert: document_insert_serializer, booking: booking_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity

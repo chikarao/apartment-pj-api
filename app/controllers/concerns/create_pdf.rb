@@ -6,18 +6,19 @@ module CreatePdf
   # field_objects can come from params or DocumentField.where(agreement_id = agreement.id)
   # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf
   # save_and_create comes from params
-  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code)
+  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main)
     # CombinePDF is for combine_pdf gem
     # get base agreement file from local directory (not used now)
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
     # get base agreement file with only base language on it from Cloudinary
     # contract name comes from object stored on the front end in constants/documents
     # insert is placeholder flag for indicating there is an inserted agreement for fixed term agreement
-    insert = false
+    insert = document_insert_main
     # Perform below only if insert is true
     if insert
       # placeholder for insert public_Id for cloudinary
-      pdf_insert_public_id = "pdf_insert_test"
+      # pdf_insert_public_id = "pdf_insert_test"
+      pdf_insert_public_id = document_insert_main.publicid
       pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
       # p "pdf_insert_resource[pages]: " + pdf_insert_resource["pages"].to_s
       pdf_insert_pages = pdf_insert_resource["pages"].to_i

@@ -13,7 +13,7 @@ class Api::V1::Images::ImagesController < ApplicationController
       uploaded_flat_id = params[:flatId]
       path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
       # file_array = []
-      # open file for writing in binary 
+      # open file for writing in binary
       File.open(path, 'wb') do |file|
         file.write(uploaded_io.read)
       end
@@ -23,7 +23,7 @@ class Api::V1::Images::ImagesController < ApplicationController
       # result = Cloudinary::Uploader.upload(image, options = {})
 
       # p 'in images/images_controller, upload, image: ' + image.to_s
-      # p 'in images/images_controller, upload cloudinary upload, result: ' + result['public_id']
+      # p 'in images/images_controller, upload cloudinary upload, result: ' + result.to_s
       # p 'in images/images_controller, upload cloudinary upload, flat_id: ' +   uploaded_flat_id
       if result
         json_response "Uploaded image successfully", true, {response: result}, :ok
