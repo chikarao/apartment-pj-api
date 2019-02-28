@@ -479,6 +479,7 @@ class Api::V1::BookingsController < ApplicationController
   def email_documents
     p "!!!!email documents params message: " + params[:message].to_s
     p "!!!!email documents params documents_array: " + params[:documents_array].to_s
+    message_to_recipient =  params[:message]
     documents_array =  params[:documents_array]
     pdf_path_array = []
     pdf_path_file_object = {}
@@ -496,22 +497,27 @@ class Api::V1::BookingsController < ApplicationController
         # p "download encoding after encoding " + download.encoding.to_s
 
         # Create new File instance for writing in binary
+        # agreement_pdf_download.force_encoding('utf-8')
         agreement_pdf = File.new(path_agreement_pdf, "wb")
+        # agreement_pdf = File.new(path_agreement_pdf, "wb")
         agreement_pdf.write(agreement_pdf_download)
-        # agreement_pdf.close
+        agreement_pdf.close
         pdf_path_array.push(path_agreement_pdf)
         pdf_path_file_object[agreement.document_name] = path_agreement_pdf
       end
       #end of documents_array each
     end
     # end of unless documents_array.empty?
-    p "!!!!pdf_path_file_object: " + pdf_path_file_object.to_s
+    # p "!!!!pdf_path_file_object: " + pdf_path_file_object.to_s
 
-    sent = UserNotifier.send_contract_email(pdf_path_file_object, @user).deliver
+    # path = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
+
+    sent = UserNotifier.send_contract_email(pdf_path_file_object, @user, message_to_recipient).deliver
+    # sent = UserNotifier.send_contract_email(path, @user).deliver
 
     if sent
       pdf_path_file_object.keys.each do |eachKey|
-        File.delete(pdf_path_file_object[eachKey])
+        # File.delete(pdf_path_file_object[eachKey])
         p "!!! each deleted" + eachKey.to_s
       end
       json_response "Emailed documents succesfully", true, {}, :ok
