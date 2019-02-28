@@ -517,7 +517,7 @@ class Api::V1::BookingsController < ApplicationController
 
     if sent
       pdf_path_file_object.keys.each do |eachKey|
-        # File.delete(pdf_path_file_object[eachKey])
+        File.delete(pdf_path_file_object[eachKey])
         p "!!! each deleted" + eachKey.to_s
       end
       json_response "Emailed documents succesfully", true, {}, :ok
