@@ -119,6 +119,9 @@ class Api::V1::StaffsController < ApplicationController
       :calendar,
       :language_code,
       :base_record_id,
+      :registration_jurisdiction,
+      :registration_number,
+      :staff_number,
       :registration_jurisdiction
     )
   end

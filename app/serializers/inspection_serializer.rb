@@ -35,7 +35,10 @@ class InspectionSerializer < ActiveModel::Serializer
     :roof_truss_rain,
     :roof,
     :exterior_walls_rain,
-    :inspection_language
+    :inspection_language,
+    :architect_office_registration_jurisdiction,
+    :architect_registration_jurisdiction,
+    :halls
   # has_many :flats
   belongs_to :building
 

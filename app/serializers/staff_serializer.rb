@@ -39,6 +39,8 @@ class StaffSerializer < ActiveModel::Serializer
   :language_code,
   :base_record_id,
   :registration_jurisdiction,
+  :registration_number,
+  :staff_number,
   :created_at,
   :updated_at
 

@@ -102,7 +102,10 @@ class Api::V1::InspectionsController < ApplicationController
       :ceilings_rain,
       :roof_truss_rain,
       :roof,
-      :exterior_walls_rain)
+      :exterior_walls_rain,
+      :architect_office_registration_jurisdiction,
+      :architect_registration_jurisdiction,
+      :halls)
   end
 
   def load_inspection

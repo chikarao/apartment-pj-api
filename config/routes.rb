@@ -79,6 +79,7 @@ Rails.application.routes.draw do
       resources :bookings do
       end
       post 'fetch_translation', to: 'bookings#fetch_translation'
+      post 'email_documents', to: 'bookings#email_documents'
 
       resources :agreements do
       end
@@ -92,7 +93,7 @@ Rails.application.routes.draw do
 
       resources :insert_fields do
       end
-      
+
       resources :buildings do
       end
 

@@ -19,10 +19,18 @@ class UserNotifier < ActionMailer::Base
   #   mail( :to => @user.email, :subject => 'Thank you for signing up!' )
   # end
 
-  def send_contract_email(path, user)
+  def send_contract_email(path_file_object, user)
     # @user = user
-    attachments['combined.pdf'] = File.read(path)
-    mail( :to => @user.email, :subject => 'Here is the contract!' )
+    path_file_object.keys.each do |each_key|
+      p "each_key path_file_object[each_key]: " + each_key.to_s + " " + path_file_object[each_key].to_s
+      # file = File.open(path_file_object[each_key], "rb")
+      # attachments[each_key.to_s] = file.read
+      # file = File.open(path_file_object[each_key], "rb")
+      attachments[each_key.to_s] = File.read(path_file_object[each_key])
+    end
+    mail( :to => 'chikara@gmail.com', :subject => 'Here are the booking documents!' )
+    # mail( :to => @user.email, :subject => 'Here are the booking documents!' )
+    return true;
   end
 end
 

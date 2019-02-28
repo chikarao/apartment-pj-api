@@ -45,6 +45,11 @@ class ContractorSerializer < ActiveModel::Serializer
     :staffs,
     :language_code,
     :base_record_id,
+    :bond_deposit_office,
+    :bond_deposit_office_address,
+    :guaranty_association_name,
+    :guaranty_association_address,
+    :guaranty_association_office_address,
     :created_at,
     :updated_at
 

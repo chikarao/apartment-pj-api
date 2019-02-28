@@ -476,10 +476,59 @@ class Api::V1::BookingsController < ApplicationController
   end
   # end of blockout_dates_ical
 
+  def email_documents
+    p "!!!!email documents params message: " + params[:message].to_s
+    p "!!!!email documents params documents_array: " + params[:documents_array].to_s
+    documents_array =  params[:documents_array]
+    pdf_path_array = []
+    pdf_path_file_object = {}
+    unless documents_array.empty?
+      documents_array.each_with_index do |each_id, i|
+        agreement = Agreement.find_by(id: each_id)
+        agreement_pdf_download = Cloudinary::Downloader.download(agreement.document_publicid, :flags => :attachment)
+        # p "pdf_insert_download: " + pdf_insert_download.to_s
+        # Define path to insert pdf
+        path_agreement_pdf = Rails.root.join("public/system/temp_files/pdf_files/#{agreement.document_name}_#{i}.pdf")
+        # convert encoding from Cloudinary's ASCII-8BIT encoding to UTF-8 encoding
+        # p "download " + download.to_s
+        # p "download encoding " + download.encoding.to_s
+        # download.force_encoding('utf-8')
+        # p "download encoding after encoding " + download.encoding.to_s
+
+        # Create new File instance for writing in binary
+        agreement_pdf = File.new(path_agreement_pdf, "wb")
+        agreement_pdf.write(agreement_pdf_download)
+        # agreement_pdf.close
+        pdf_path_array.push(path_agreement_pdf)
+        pdf_path_file_object[agreement.document_name] = path_agreement_pdf
+      end
+      #end of documents_array each
+    end
+    # end of unless documents_array.empty?
+    p "!!!!pdf_path_file_object: " + pdf_path_file_object.to_s
+
+    sent = UserNotifier.send_contract_email(pdf_path_file_object, @user).deliver
+
+    if sent
+      pdf_path_file_object.keys.each do |eachKey|
+        File.delete(pdf_path_file_object[eachKey])
+        p "!!! each deleted" + eachKey.to_s
+      end
+      json_response "Emailed documents succesfully", true, {}, :ok
+    else
+      pdf_path_file_object.keys.each do |eachKey|
+        File.delete(pdf_path_file_object[eachKey])
+        p "!!! each deleted" + eachKey.to_s
+      end
+      json_response "Send email failed", false, {}, :unprocessable_entity
+    end
+
+  end
+
   private
 
   def booking_params
-    params.require(:booking).permit(:flat_id, :date_start, :date_end, :booking_by_owner)
+    params.require(:booking).permit(:flat_id, :date_start, :date_end, :booking_by_owner, :approved)
   end
 
   # def facility_params
