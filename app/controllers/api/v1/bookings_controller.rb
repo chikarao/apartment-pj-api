@@ -479,7 +479,20 @@ class Api::V1::BookingsController < ApplicationController
   def email_documents
     p "!!!!email documents params message: " + params[:message].to_s
     p "!!!!email documents params documents_array: " + params[:documents_array].to_s
-    message_to_recipient =  params[:message]
+    message_to_recipient = params[:message]
+    email_subject =  params[:subject]
+    cc_array = params[:cc_array]
+    bcc_array = params[:bcc_array]
+    tenant_user_id = params[:user_id]
+    booking_id = params[:booking_id]
+    p "!!!!email documents params cc_array: " + cc_array.to_s
+    p "!!!!email documents params bcc_array: " + bcc_array.to_s
+    p "!!!!email documents params email_subject: " + email_subject.to_s
+    p "!!!!email documents params tenant_user_id: " + tenant_user_id.to_s
+    p "!!!!email documents params booking_id: " + booking_id.to_s
+    user_tenant = User.find_by(id: tenant_user_id)
+    user_email = 'chikara@gmail.com'
+    tenant_user_email = 'chikara_okada@yahoo.co.jp'
     documents_array =  params[:documents_array]
     pdf_path_array = []
     pdf_path_file_object = {}
@@ -512,7 +525,7 @@ class Api::V1::BookingsController < ApplicationController
 
     # path = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
 
-    sent = UserNotifier.send_contract_email(pdf_path_file_object, @user, message_to_recipient).deliver
+    sent = UserNotifier.send_contract_email(pdf_path_file_object, @user, user_email, tenant_user_email, email_subject, cc_array, bcc_array, message_to_recipient).deliver
     # sent = UserNotifier.send_contract_email(path, @user).deliver
 
     if sent
