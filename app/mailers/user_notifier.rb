@@ -21,32 +21,19 @@ class UserNotifier < ActionMailer::Base
 
   # def send_contract_email(path_file_object, user)
   def send_contract_email(path_file_object, user, user_email, tenant_user_email, email_subject, cc_array, bcc_array, message_to_recipient)
-    # @user = user
+    @user = user
+    # assign message body to instance variable to be passed to views/user_notifier/send_contract_email.html.erb
     @message_to_recipient = message_to_recipient
-    p "!!!!!! @message_to_recipient " + @message_to_recipient.to_s
-
+    # p "!!!!!! @message_to_recipient " + @message_to_recipient.to_s
     path_file_object.keys.each do |each_key|
-      # p "!!!!!!each_key path_file_object[each_key]: " + each_key.to_s + " " + path_file_object[each_key].to_s
       # file = File.open(path_file_object[each_key], "rb")
       # attachments[each_key.to_s] = file.read
       file = File.open(path_file_object[each_key])
-      # p "file : " + file.to_s
-      # p "!!!!!path: " + path.to_s
+      # Make sure to add .pdf or file extension at end of file name or browser will not read it
       attachments["#{each_key.to_s}.pdf"] = File.read(path_file_object[each_key])
     end
-
-    # cc_array.each do |each_cc|
-    #   :cc => each_cc
-    #   p "!!!!!cc: " + cc.to_s
-    # end
-
-    cc_array.push(user_email);
-
-    # bcc_array.each do |each_bcc|
-    #   :bcc => each_bcc
-    #   p "!!!!!bcc: " + bcc.to_s
-    # end
     # attachments["combined.pdf"] = File.read(path)
+    # Assign array of email addresses in cc and bcc
     # mail( :to => tenant_user_email, cc: user_email, :subject => email_subject )
     mail( :to => tenant_user_email, :cc => cc_array, :bcc => bcc_array, :subject => email_subject )
     # mail( :to => @user.email, :subject => 'Here are the booking documents!' )

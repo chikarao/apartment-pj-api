@@ -477,25 +477,28 @@ class Api::V1::BookingsController < ApplicationController
   # end of blockout_dates_ical
 
   def email_documents
-    p "!!!!email documents params message: " + params[:message].to_s
-    p "!!!!email documents params documents_array: " + params[:documents_array].to_s
+    # p "!!!!email documents params message: " + params[:message].to_s
+    # p "!!!!email documents params documents_array: " + params[:documents_array].to_s
     message_to_recipient = params[:message]
     email_subject =  params[:subject]
     cc_array = params[:cc_array]
     bcc_array = params[:bcc_array]
     tenant_user_id = params[:user_id]
     booking_id = params[:booking_id]
-    p "!!!!email documents params cc_array: " + cc_array.to_s
-    p "!!!!email documents params bcc_array: " + bcc_array.to_s
-    p "!!!!email documents params email_subject: " + email_subject.to_s
-    p "!!!!email documents params tenant_user_id: " + tenant_user_id.to_s
-    p "!!!!email documents params booking_id: " + booking_id.to_s
+    # p "!!!!email documents params cc_array: " + cc_array.to_s
+    # p "!!!!email documents params bcc_array: " + bcc_array.to_s
+    # p "!!!!email documents params email_subject: " + email_subject.to_s
+    # p "!!!!email documents params tenant_user_id: " + tenant_user_id.to_s
+    # p "!!!!email documents params booking_id: " + booking_id.to_s
     user_tenant = User.find_by(id: tenant_user_id)
-    user_email = 'chikara@gmail.com'
+    # WHEN ready, assign landlord email, @user.email, to user_email
+    user_email = 'c.okada@tothetable.co.jp'
+    # WHEN ready, assign booking.user_id email to tenant_user_email
     tenant_user_email = 'chikara_okada@yahoo.co.jp'
     documents_array =  params[:documents_array]
     pdf_path_array = []
     pdf_path_file_object = {}
+    agreements_array = []
     unless documents_array.empty?
       documents_array.each_with_index do |each_id, i|
         agreement = Agreement.find_by(id: each_id)
@@ -517,6 +520,7 @@ class Api::V1::BookingsController < ApplicationController
         agreement_pdf.close
         pdf_path_array.push(path_agreement_pdf)
         pdf_path_file_object[agreement.document_name] = path_agreement_pdf
+        agreements_array.push(agreement)
       end
       #end of documents_array each
     end
@@ -524,20 +528,33 @@ class Api::V1::BookingsController < ApplicationController
     # p "!!!!pdf_path_file_object: " + pdf_path_file_object.to_s
 
     # path = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
-
+    # Call send_contract_email in UserNotifier in app/mailers/user_notifier.rb
     sent = UserNotifier.send_contract_email(pdf_path_file_object, @user, user_email, tenant_user_email, email_subject, cc_array, bcc_array, message_to_recipient).deliver
     # sent = UserNotifier.send_contract_email(path, @user).deliver
 
     if sent
       pdf_path_file_object.keys.each do |eachKey|
         File.delete(pdf_path_file_object[eachKey])
-        p "!!! each deleted" + eachKey.to_s
+        # p "!!! each deleted" + eachKey.to_s
       end
-      json_response "Emailed documents succesfully", true, {}, :ok
+      agreement_save_count = 0
+      agreements_array.each do |eachAgreement|
+        eachAgreement.sent_to_tenant = true
+        unless eachAgreement.save
+          agreement_save_count += 1
+        end
+      end
+      if agreement_save_count == 0
+        booking = Booking.find_by(id: booking_id)
+        booking_serializer = parse_json booking
+        json_response "Emailed documents succesfully", true, {booking: booking_serializer}, :ok
+      else
+        json_response "Send email failed", false, {}, :unprocessable_entity
+      end
     else
       pdf_path_file_object.keys.each do |eachKey|
         File.delete(pdf_path_file_object[eachKey])
-        p "!!! each deleted" + eachKey.to_s
+        # p "!!! each deleted" + eachKey.to_s
       end
       json_response "Send email failed", false, {}, :unprocessable_entity
     end
