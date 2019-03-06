@@ -712,17 +712,17 @@ module DocumentTranslationImportantPoints
 
         propertyManagement: {
           translations: { en: 'Property Management', po: '', jp: '' },
-          attributes: { top: '69.2%', left: '12%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+          attributes: { top: '75.7%', left: '12%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
         nameAgent: {
           translations: { en: 'Name of Agent', po: '', jp: '' },
-          attributes: { top: '73.2%', left: '10%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '79.2%', left: '10%', font_size: '10', class_name: 'document-translation' }
         },
 
         rules: {
           translations: { en: '(Registration No. under Article 46, Paragraph 1, Subparagraph 2 of the Act on Advancement of Proper Condominium Management or registration no. under Article  5,  Paragraph 1, Subparagraph 2 of the Rental Residential Property Manager Registration Regulations)', po: '', jp: '' },
-          attributes: { top: '80.3%', left: '10.3%', font_size: '10', class_name: 'document-translation', width: '24%' }
+          attributes: { top: '86.2%', left: '36.8%', font_size: '10', class_name: 'document-translation', width: '54%' }
         },
 
         addressAgent: {

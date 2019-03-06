@@ -46,7 +46,7 @@ class Api::V1::DocumentInsertsController < ApplicationController
       # document_insert_serializer = parse_json @document_insert
       # p "!!!!!! document_insert_params[:publicid] " + document_insert_params[:publicid].to_s
       # p "!!!!!! Before destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
-      if document_insert_params[:publicid] && (original_publicid != document_insert_params[:publicid])
+      if document_insert_params[:publicid]
         # p "!!!!!! Destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
         image_to_destroy = original_publicid
         result = Cloudinary::Uploader.destroy(image_to_destroy);

@@ -119,8 +119,12 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def update
+    image_to_destroy = @agreement.document_publicid
     if @agreement.update agreement_params
       booking = Booking.find_by(id: agreement_params[:booking_id])
+      if agreement_params[:document_publicid]
+        result = Cloudinary::Uploader.destroy(image_to_destroy);
+      end
       booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
       agreement_serializer = parse_json @agreement
@@ -132,19 +136,19 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def destroy
-      booking = Booking.find_by(id: @agreement.booking_id)
-      image_to_destroy = @agreement.document_publicid
-      if @agreement.destroy
-        # check if image_to_destroy = null in case no pdf create yet
-        unless !image_to_destroy
-          result = Cloudinary::Uploader.destroy(image_to_destroy);
-        end
-        booking_serializer = parse_json booking
-        # agreement_serializer = parse_json @agreement
-        json_response "Deleted agreement succesfully", true, {booking: booking_serializer}, :ok
-      else
-        json_response "Delete agreement failed", false, {}, :unprocessable_entity
+    booking = Booking.find_by(id: @agreement.booking_id)
+    image_to_destroy = @agreement.document_publicid
+    if @agreement.destroy
+      # check if image_to_destroy = null in case no pdf create yet
+      unless !image_to_destroy
+        result = Cloudinary::Uploader.destroy(image_to_destroy);
       end
+      booking_serializer = parse_json booking
+      # agreement_serializer = parse_json @agreement
+      json_response "Deleted agreement succesfully", true, {booking: booking_serializer}, :ok
+    else
+      json_response "Delete agreement failed", false, {}, :unprocessable_entity
+    end
   end
 
   private

@@ -72,6 +72,17 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
 
+    document_inserts_array = []
+    agreements.each do |each_agreement|
+      document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+      if !document_inserts.empty?
+        document_inserts.each do |each_insert|
+          document_inserts_serializer = parse_json document_inserts
+          document_inserts_array.push(document_inserts_serializer)
+        end
+      end
+    end
+
     agreements_serializer = parse_json agreements
 
     flat = Flat.find_by(id: @booking.flat_id)
@@ -82,7 +93,7 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
     # owner_serializer = parse_json owner
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer, document_inserts: document_inserts_array}, :ok
   end
 
   def new
