@@ -93,7 +93,7 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
     # owner_serializer = parse_json owner
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer, document_inserts: document_inserts_array}, :ok
+    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer, document_inserts_all: document_inserts_array}, :ok
   end
 
   def new
@@ -108,7 +108,9 @@ class Api::V1::BookingsController < ApplicationController
     # p "!!!!!! document_field_params[:document_field]: " + document_field_params[:document_field].to_s
     # contract_name = params[:contract_name]
     contract_name = params[:template_file_name]
-    contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
+    # contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
+    # contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
+    contract_translation_map_object = { 'teishaku-saimuhosho': DocumentTranslationFixedTerm::OBJECT, "juyoujikou-setsumei-jp": DocumentTranslationImportantPoints::OBJECT }
     # gets translation objects from concerns/document_translation_fixed_term.rb
     translation = contract_translation_map_object[contract_name]
     # gets translation objects from concerns/document_translation_important_points.rb
@@ -345,16 +347,18 @@ class Api::V1::BookingsController < ApplicationController
 
   def fetch_translation
     # gets translation objects from concerns/document_translation_fixed_term.rb
-    fixed_term = fixed_term_rental_contract_translation
+    fixed_term = DocumentTranslationFixedTerm::OBJECT
+    # fixed_term = fixed_term_rental_contract_translation
     # gets translation objects from concerns/document_translation_important_points.rb
-    important_points = important_points_explanation_translation
+    important_points = DocumentTranslationImportantPoints::OBJECT
+    # important_points = important_points_explanation_translation
 
     translation = { fixed_term_rental_contract_bilingual: fixed_term, important_points_explanation_bilingual: important_points }
 
     unless !translation
-      json_response "Fetch traslation succesfully", true, {translation: translation}, :ok
+      json_response "Fetched traslation succesfully", true, {translation: translation}, :ok
     else
-      json_response "Fetch traslation failed", false, {}, :unprocessable_entity
+      json_response "Fetched traslation failed", false, {}, :unprocessable_entity
     end
   end
 

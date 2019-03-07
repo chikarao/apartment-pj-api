@@ -76,7 +76,16 @@ class Api::V1::AgreementsController < ApplicationController
       agreement = Agreement.find_by(id: params[:agreement_id])
       document_fields = DocumentField.where(agreement_id: agreement.id)
       document_language_code = params[:document_language_code]
-      contract_translation_map_object = { 'teishaku-saimuhosho' => {}, "juyoujikou-setsumei-jp" => {}, "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation, "juyoujikou-setsumei-bilingual-v3-no-translation-20" => important_points_explanation_translation }
+      #!!!!!! Cloudinary file names NEED to be change each time a new file is uploaded as a template to Cloudinary
+      contract_translation_map_object =
+        {
+          "teishaku-saimuhosho" => {},
+          "juyoujikou-setsumei-jp" => {},
+          # "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation,
+          "teishaku-saimuhosho-bilingual-v3-no-translation-8" => DocumentTranslationFixedTerm::OBJECT,
+          # "juyoujikou-setsumei-bilingual-v3-no-translation-26" => important_points_explanation_translation
+          "juyoujikou-setsumei-bilingual-v3-no-translation-26" => DocumentTranslationImportantPoints::OBJECT
+        }
       contract_name = params[:template_file_name]
       translation = contract_translation_map_object[contract_name]
       if params[:use_own_main_agreement]

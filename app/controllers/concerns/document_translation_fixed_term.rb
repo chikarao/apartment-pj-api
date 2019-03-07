@@ -1,8 +1,8 @@
 module DocumentTranslationFixedTerm
-
-  def fixed_term_rental_contract_translation
+  # CONTANT for fetch_translation and save and create agreement in booking
+  # def fixed_term_rental_contract_translation
     # include FixedTermRentalContractTranslation
-    object = {
+    OBJECT = {
       1 => {
       documentTitle: {
         translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '' },
@@ -958,6 +958,6 @@ module DocumentTranslationFixedTerm
   }
 };
     # object = fixed_term_rental
-    return object
-  end
+  #   return object
+  # end
 end

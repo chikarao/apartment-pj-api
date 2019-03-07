@@ -24,12 +24,23 @@ class Api::V1::InsertFieldsController < ApplicationController
     if insert_field.save
       document_insert = DocumentInsert.find_by(id: insert_field_params[:document_insert_id])
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
+      agreements = Agreement.where(booking_id: agreement.booking_id)
+      document_inserts_array = []
+      agreements.each do |each_agreement|
+        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+        if !document_inserts.empty?
+          document_inserts.each do |each_insert|
+            document_inserts_serializer = parse_json document_inserts
+            document_inserts_array.push(document_inserts_serializer)
+          end
+        end
+      end
       # booking = Booking.find_by(id: agreement.booking_id)
       # booking_serializer = parse_json booking
       # agreement_serializer = parse_json agreement
       document_insert_serializer = parse_json agreement.document_inserts
       # insert_field_serializer = parse_json insert_field
-      json_response "Created insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
+      json_response "Created insert_field succesfully", true, {document_inserts: document_insert_serializer, document_inserts_all: document_inserts_array}, :ok
       # json_response "Created insert_field succesfully", true, {agreement: agreement_serializer, booking: booking_serializer, document_inserts: document_insert_serializer}, :ok
     else
       json_response "Create insert_field failed", false, {}, :unprocessable_entity
@@ -45,11 +56,22 @@ class Api::V1::InsertFieldsController < ApplicationController
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
       # booking = Booking.find_by(id: agreement.booking_id)
       document_insert_serializer = parse_json agreement.document_inserts
+      agreements = Agreement.where(booking_id: agreement.booking_id)
+      document_inserts_array = []
+      agreements.each do |each_agreement|
+        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+        if !document_inserts.empty?
+          document_inserts.each do |each_insert|
+            document_inserts_serializer = parse_json document_inserts
+            document_inserts_array.push(document_inserts_serializer)
+          end
+        end
+      end
       # booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
       # insert_field_serializer = parse_json @insert_field
       # insert_field_serializer = parse_json @insert_field
-      json_response "Updated insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
+      json_response "Updated insert_field succesfully", true, {document_inserts: document_insert_serializer, document_inserts_all: document_inserts_array}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end

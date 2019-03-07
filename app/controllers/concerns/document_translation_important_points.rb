@@ -1,8 +1,8 @@
 module DocumentTranslationImportantPoints
-
-  def important_points_explanation_translation
+  # CONTANT for fetch_translation and save and create agreement in booking
+  # def important_points_explanation_translation
     # include ImportantPointsExplanationTranslation
-    object =
+    OBJECT =
     {
       1 => {
         documentTitle: {
@@ -720,9 +720,14 @@ module DocumentTranslationImportantPoints
           attributes: { top: '79.2%', left: '10%', font_size: '10', class_name: 'document-translation' }
         },
 
+        registrationAgent: {
+          translations: { en: 'Registration Number*', po: '', jp: '' },
+          attributes: { top: '83.2%', left: '10%', font_size: '10', class_name: 'document-translation', superscript_last: true }
+        },
+
         rules: {
-          translations: { en: '(Registration No. under Article 46, Paragraph 1, Subparagraph 2 of the Act on Advancement of Proper Condominium Management or registration no. under Article  5,  Paragraph 1, Subparagraph 2 of the Rental Residential Property Manager Registration Regulations)', po: '', jp: '' },
-          attributes: { top: '86.2%', left: '36.8%', font_size: '10', class_name: 'document-translation', width: '54%' }
+          translations: { en: '*(Registration No. under Article 46, Paragraph 1, Subparagraph 2 of the Act on Advancement of Proper Condominium Management or registration no. under Article  5,  Paragraph 1, Subparagraph 2 of the Rental Residential Property Manager Registration Regulations)', po: '', jp: '' },
+          attributes: { top: '86.7%', left: '34.5%', font_size: '10', class_name: 'document-translation', width: '57%' }
         },
 
         addressAgent: {
@@ -1537,6 +1542,6 @@ module DocumentTranslationImportantPoints
       },
     };
     # object = important_points_explanation
-    return object
-  end
+  #   return object
+  # end
 end
