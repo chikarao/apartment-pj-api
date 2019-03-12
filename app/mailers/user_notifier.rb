@@ -32,10 +32,11 @@ class UserNotifier < ActionMailer::Base
       # Make sure to add .pdf or file extension at end of file name or browser will not read it
       attachments["#{each_key.to_s}.pdf"] = File.read(path_file_object[each_key])
     end
+    test_from = 'testfromemail@email.com'
     # attachments["combined.pdf"] = File.read(path)
     # Assign array of email addresses in cc and bcc
     # mail( :to => tenant_user_email, cc: user_email, :subject => email_subject )
-    mail( :to => tenant_user_email, :cc => cc_array, :bcc => bcc_array, :subject => email_subject )
+    mail( :from => test_from, :to => tenant_user_email, :cc => cc_array, :bcc => bcc_array, :subject => email_subject )
     # mail( :to => @user.email, :subject => 'Here are the booking documents!' )
     return true;
   end

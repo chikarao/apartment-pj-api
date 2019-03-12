@@ -30,7 +30,7 @@ class Api::V1::InsertFieldsController < ApplicationController
         document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
         if !document_inserts.empty?
           document_inserts.each do |each_insert|
-            document_inserts_serializer = parse_json document_inserts
+            document_inserts_serializer = parse_json each_insert
             document_inserts_array.push(document_inserts_serializer)
           end
         end
@@ -62,7 +62,7 @@ class Api::V1::InsertFieldsController < ApplicationController
         document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
         if !document_inserts.empty?
           document_inserts.each do |each_insert|
-            document_inserts_serializer = parse_json document_inserts
+            document_inserts_serializer = parse_json each_insert
             document_inserts_array.push(document_inserts_serializer)
           end
         end
@@ -80,11 +80,22 @@ class Api::V1::InsertFieldsController < ApplicationController
   def destroy
     document_insert = DocumentInsert.find_by(id: @insert_field[:document_insert_id])
     agreement = Agreement.find_by(id: document_insert[:agreement_id])
+    agreements = Agreement.where(booking_id: agreement.booking_id)
     # booking = Booking.find_by(id: agreement.booking_id)
     if @insert_field.destroy
       document_insert_serializer = parse_json agreement.document_inserts
+      document_inserts_array = []
+      agreements.each do |each_agreement|
+        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+        if !document_inserts.empty?
+          document_inserts.each do |each_insert|
+            document_inserts_serializer = parse_json each_insert
+            document_inserts_array.push(document_inserts_serializer)
+          end
+        end
+      end
       # insert_field_serializer = parse_json @insert_field
-      json_response "Deleted insert_field succesfully", true, {document_inserts: document_insert_serializer}, :ok
+      json_response "Deleted insert_field succesfully", true, {document_inserts: document_insert_serializer, document_inserts_all: document_inserts_array}, :ok
     else
       json_response "Delete insert_field failed", false, {}, :unprocessable_entity
     end

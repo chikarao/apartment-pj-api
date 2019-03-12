@@ -77,7 +77,7 @@ class Api::V1::BookingsController < ApplicationController
       document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
       if !document_inserts.empty?
         document_inserts.each do |each_insert|
-          document_inserts_serializer = parse_json document_inserts
+          document_inserts_serializer = parse_json each_insert
           document_inserts_array.push(document_inserts_serializer)
         end
       end
@@ -105,11 +105,10 @@ class Api::V1::BookingsController < ApplicationController
     save_and_create = params[:save_and_create]
     document_language_code = params[:document_language_code]
     # p "!!!!!! params[:document_field]: " + params[:document_field].to_s
-    # p "!!!!!! document_field_params[:document_field]: " + document_field_params[:document_field].to_s
+    # p "!!!!!! document_field_params[:document_field]: " + and document_field_params[:document_field].to_s
     # contract_name = params[:contract_name]
     contract_name = params[:template_file_name]
-    # contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
-    # contract_translation_map_object = { 'teishaku-saimuhosho': fixed_term_rental_contract_translation, "juyoujikou-setsumei-jp": important_points_explanation_translation }
+    # calling module in concerns/document_translation and getting object...
     contract_translation_map_object = { 'teishaku-saimuhosho': DocumentTranslationFixedTerm::OBJECT, "juyoujikou-setsumei-jp": DocumentTranslationImportantPoints::OBJECT }
     # gets translation objects from concerns/document_translation_fixed_term.rb
     translation = contract_translation_map_object[contract_name]
@@ -306,6 +305,12 @@ class Api::V1::BookingsController < ApplicationController
     flat = Flat.find_by(id: booking_params[:flat_id])
     facilities_array = params[:facilities]
     tenants_array =  params[:tenants]
+    booking.final_rent = flat.price_per_month
+    booking.final_deposit = flat.deposit
+    # booking.final_key_money = flat.key_money
+    # parking included
+    # final key money
+
     # only if have parent
     # booking.book_id = params[:book_id]
     # p "!!!!!!params[:profile]:" + params[:profile].to_s
@@ -579,7 +584,20 @@ class Api::V1::BookingsController < ApplicationController
   private
 
   def booking_params
-    params.require(:booking).permit(:flat_id, :date_start, :date_end, :booking_by_owner, :approved)
+    params.require(:booking).permit(:flat_id,
+      :date_start,
+      :date_end,
+      :booking_by_owner,
+      :final_rent,
+      :adjustments,
+      :fees,
+      :taxes,
+      :total_price,
+      :final_deposit,
+      # :final_key_money,
+      # :parking_included,
+      :paid,
+      :approved)
   end
 
   # def facility_params
