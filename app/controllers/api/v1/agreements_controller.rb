@@ -1,6 +1,7 @@
 class Api::V1::AgreementsController < ApplicationController
-  include DocumentTranslationImportantPoints
-  include DocumentTranslationFixedTerm
+  # include DocumentTranslationImportantPoints
+  # include DocumentTranslationFixedTerm
+  include ContractTranslationMapObject
   include CreatePdf
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
@@ -77,15 +78,17 @@ class Api::V1::AgreementsController < ApplicationController
       document_fields = DocumentField.where(agreement_id: agreement.id)
       document_language_code = params[:document_language_code]
       #!!!!!! Cloudinary file names NEED to be change each time a new file is uploaded as a template to Cloudinary
-      contract_translation_map_object =
-        {
-          "teishaku-saimuhosho" => {},
-          "juyoujikou-setsumei-jp" => {},
-          # "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation,
-          "teishaku-saimuhosho-bilingual-v3-no-translation-8" => DocumentTranslationFixedTerm::OBJECT,
-          # "juyoujikou-setsumei-bilingual-v3-no-translation-26" => important_points_explanation_translation
-          "juyoujikou-setsumei-bilingual-v3-no-translation-26" => DocumentTranslationImportantPoints::OBJECT
-        }
+      contract_translation_map_object = ContractTranslationMapObject::OBJECT
+      # p "!!!!!ContractTranslationMapObject::OBJECT: " + ContractTranslationMapObject::OBJECT.to_s
+      # contract_translation_map_object =
+      #   {
+      #     "teishaku-saimuhosho" => {},
+      #     "juyoujikou-setsumei-jp" => {},
+      #     # "teishaku-saimuhosho-bilingual-v3-no-translation-8" => fixed_term_rental_contract_translation,
+      #     "teishaku-saimuhosho-bilingual-v3-no-translation-9" => DocumentTranslationFixedTerm::OBJECT,
+      #     # "juyoujikou-setsumei-bilingual-v3-no-translation-26" => important_points_explanation_translation
+      #     "juyoujikou-setsumei-bilingual-v3-no-translation-26" => DocumentTranslationImportantPoints::OBJECT
+      #   }
       contract_name = params[:template_file_name]
       translation = contract_translation_map_object[contract_name]
       if params[:use_own_main_agreement]

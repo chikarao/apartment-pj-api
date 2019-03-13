@@ -369,6 +369,34 @@ class Api::V1::BookingsController < ApplicationController
 
   def update
     if @booking.update(booking_params)
+
+      def get_deposit_amount
+        p "!!!!! get_deposit_amount, @booking.final_rent, @booking.final_deposit: " + @booking.final_rent.to_s + " " + @booking.final_deposit.to_s
+        return (@booking.final_rent * @booking.final_deposit)
+      end
+      # Reference: https://stackoverflow.com/questions/27645773/store-functions-in-hash
+      booking_documents_fields = {
+        "final_rent" => {field_name: "final_rent"},
+        "final_deposit" => {field_name: "final_deposit"},
+        "deposit_amount" => {field_name: "deposit_amount", method_hash: method(:get_deposit_amount) }
+      }
+
+      agreements = Agreement.where(booking_id: @booking.id)
+      booking_documents_fields.keys.each do |each_field_key|
+        agreements.each do |each_agreement|
+          field = DocumentField.find_by(agreement_id: each_agreement.id, name: booking_documents_fields[each_field_key][:field_name])
+          p "!!!!! each_field_key, field: " + each_field_key.to_s + " " + field.to_s
+          unless !field
+            field_value = booking_params[each_field_key]
+            if booking_documents_fields[each_field_key][:method_hash]
+              field_value = booking_documents_fields[each_field_key][:method_hash].()
+              p "!!!!! update in if booking..., field_value: " + field_value.to_s
+            end
+            field.value = field_value
+            field.save
+          end
+        end
+      end
       booking_serializer = parse_json @booking
       json_response "Created booking succesfully", true, {booking: booking_serializer}, :ok
     else

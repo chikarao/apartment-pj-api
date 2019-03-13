@@ -24,17 +24,19 @@ class Api::V1::InsertFieldsController < ApplicationController
     if insert_field.save
       document_insert = DocumentInsert.find_by(id: insert_field_params[:document_insert_id])
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
-      agreements = Agreement.where(booking_id: agreement.booking_id)
-      document_inserts_array = []
-      agreements.each do |each_agreement|
-        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
-        if !document_inserts.empty?
-          document_inserts.each do |each_insert|
-            document_inserts_serializer = parse_json each_insert
-            document_inserts_array.push(document_inserts_serializer)
-          end
-        end
-      end
+      document_inserts_array = getDocumentInsertsAll(agreement)
+
+      # agreements = Agreement.where(booking_id: agreement.booking_id)
+      # document_inserts_array = []
+      # agreements.each do |each_agreement|
+      #   document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+      #   if !document_inserts.empty?
+      #     document_inserts.each do |each_insert|
+      #       document_inserts_serializer = parse_json each_insert
+      #       document_inserts_array.push(document_inserts_serializer)
+      #     end
+      #   end
+      # end
       # booking = Booking.find_by(id: agreement.booking_id)
       # booking_serializer = parse_json booking
       # agreement_serializer = parse_json agreement
@@ -56,17 +58,17 @@ class Api::V1::InsertFieldsController < ApplicationController
       agreement = Agreement.find_by(id: document_insert[:agreement_id])
       # booking = Booking.find_by(id: agreement.booking_id)
       document_insert_serializer = parse_json agreement.document_inserts
-      agreements = Agreement.where(booking_id: agreement.booking_id)
-      document_inserts_array = []
-      agreements.each do |each_agreement|
-        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
-        if !document_inserts.empty?
-          document_inserts.each do |each_insert|
-            document_inserts_serializer = parse_json each_insert
-            document_inserts_array.push(document_inserts_serializer)
-          end
-        end
-      end
+      # agreements = Agreement.where(booking_id: agreement.booking_id)
+      document_inserts_array = getDocumentInsertsAll(agreement)
+      # agreements.each do |each_agreement|
+      #   document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+      #   if !document_inserts.empty?
+      #     document_inserts.each do |each_insert|
+      #       document_inserts_serializer = parse_json each_insert
+      #       document_inserts_array.push(document_inserts_serializer)
+      #     end
+      #   end
+      # end
       # booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
       # insert_field_serializer = parse_json @insert_field
@@ -80,20 +82,21 @@ class Api::V1::InsertFieldsController < ApplicationController
   def destroy
     document_insert = DocumentInsert.find_by(id: @insert_field[:document_insert_id])
     agreement = Agreement.find_by(id: document_insert[:agreement_id])
-    agreements = Agreement.where(booking_id: agreement.booking_id)
+    # agreements = Agreement.where(booking_id: agreement.booking_id)
     # booking = Booking.find_by(id: agreement.booking_id)
     if @insert_field.destroy
       document_insert_serializer = parse_json agreement.document_inserts
-      document_inserts_array = []
-      agreements.each do |each_agreement|
-        document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
-        if !document_inserts.empty?
-          document_inserts.each do |each_insert|
-            document_inserts_serializer = parse_json each_insert
-            document_inserts_array.push(document_inserts_serializer)
-          end
-        end
-      end
+      document_inserts_array = getDocumentInsertsAll(agreement)
+      # document_inserts_array = []
+      # agreements.each do |each_agreement|
+      #   document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+      #   if !document_inserts.empty?
+      #     document_inserts.each do |each_insert|
+      #       document_inserts_serializer = parse_json each_insert
+      #       document_inserts_array.push(document_inserts_serializer)
+      #     end
+      #   end
+      # end
       # insert_field_serializer = parse_json @insert_field
       json_response "Deleted insert_field succesfully", true, {document_inserts: document_insert_serializer, document_inserts_all: document_inserts_array}, :ok
     else
@@ -128,4 +131,20 @@ class Api::V1::InsertFieldsController < ApplicationController
       json_response "Invalid token", false, {}, :failure
     end
   end
+
+  def getDocumentInsertsAll(agreement)
+    agreements = Agreement.where(booking_id: agreement.booking_id)
+    document_inserts_array = []
+    agreements.each do |each_agreement|
+      document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
+      if !document_inserts.empty?
+        document_inserts.each do |each_insert|
+          document_inserts_serializer = parse_json each_insert
+          document_inserts_array.push(document_inserts_serializer)
+        end
+      end
+    end
+    return document_inserts_array
+  end
+
 end

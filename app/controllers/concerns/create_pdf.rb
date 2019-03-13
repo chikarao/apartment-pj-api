@@ -39,8 +39,13 @@ module CreatePdf
       pdf_insert = CombinePDF.load(path_insert)
     end
     # END of if insert
+    # p "!!!!!!insert: " + insert.to_s
+    # p "!!!!!!Cloudinary download contract_name: " + contract_name.to_s
+    # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "apartmentpj_constant_assets")
+    # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
+    download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "/apartmentpj_constant_assets")
 
-    download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
+    # p "!!!!!!Cloudinary download: " + download.to_s
     # Define path to base pdf
     path_base = Rails.root.join("public/system/temp_files/pdf_files/pdf_base.pdf")
     pdf_base = File.new(path_base, "wb")
@@ -301,7 +306,7 @@ module CreatePdf
     document_pages_array.each_with_index do |eachPage, i|
       # p "!!!! PDF Merge each_with_index: " + eachPage.to_s
       # pdf_base.pages[i]<< pdf_merge.pages[i]
-      pdf_base.pages[(eachPage - 1)]<< pdf_merge.pages[(eachPage - 1)]
+      pdf_base.pages[(eachPage - 1)] << pdf_merge.pages[(eachPage - 1)]
     end
     # PERFORM only if insert is true and there is an inserted agreement
     if insert
