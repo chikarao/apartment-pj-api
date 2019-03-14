@@ -80,6 +80,7 @@ Rails.application.routes.draw do
       end
       post 'fetch_translation', to: 'bookings#fetch_translation'
       post 'email_documents', to: 'bookings#email_documents'
+      post 'mark_documents_signed', to: 'bookings#mark_documents_signed'
 
       resources :agreements do
       end

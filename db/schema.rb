@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190226055311) do
+ActiveRecord::Schema.define(version: 20190314050307) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -156,6 +156,15 @@ ActiveRecord::Schema.define(version: 20190226055311) do
     t.boolean "paid", default: false
     t.text "special_requests"
     t.boolean "booking_by_ical", default: false
+    t.float "final_key_money"
+    t.string "booking_by_owner_notes"
+    t.string "booking_by_ical_notes"
+    t.boolean "signed", default: false
+    t.boolean "tenant_approved", default: false
+    t.boolean "parking_included", default: false
+    t.boolean "bicycle_parking_included", default: false
+    t.boolean "motorcycle_parking_included", default: false
+    t.boolean "storage_included", default: false
     t.index ["flat_id"], name: "index_bookings_on_flat_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
@@ -543,6 +552,8 @@ ActiveRecord::Schema.define(version: 20190226055311) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "caption"
+    t.string "comment"
     t.index ["flat_id"], name: "index_images_on_flat_id"
   end
 

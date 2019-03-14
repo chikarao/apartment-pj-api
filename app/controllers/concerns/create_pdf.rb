@@ -43,9 +43,11 @@ module CreatePdf
     # p "!!!!!!Cloudinary download contract_name: " + contract_name.to_s
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "apartmentpj_constant_assets")
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
-    download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "/apartmentpj_constant_assets")
-
+    contract_name_with_folder = "apartmentpj-constant-assets/" + contract_name + ".pdf"
+    # p "!!!!!!contract_name_with_folder: " + contract_name_with_folder.to_s
+    download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
     # p "!!!!!!Cloudinary download: " + download.to_s
+    # p "!!!!!!translation: " + translation.to_s
     # Define path to base pdf
     path_base = Rails.root.join("public/system/temp_files/pdf_files/pdf_base.pdf")
     pdf_base = File.new(path_base, "wb")

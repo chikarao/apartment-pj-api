@@ -609,6 +609,32 @@ class Api::V1::BookingsController < ApplicationController
 
   end
 
+  def mark_documents_signed
+    documents_array = params[:documents_array]
+    booking_id = params[:booking_id]
+    booking = Booking.find_by(id: booking_id)
+
+    if documents_array.length <= booking.agreements.length
+      agreement_save_count = 0
+      documents_array.each do |each_document_id|
+        agreement = Agreement.find_by(id: each_document_id)
+        agreement.tenant_signed = true
+        unless agreement.save
+          agreement_save_count += 1
+        end
+      end
+      # end of each
+      if agreement_save_count == 0
+        booking = Booking.find_by(id: booking_id)
+        booking_serializer = parse_json booking
+        json_response "Marked documents signed succesfully", true, {booking: booking_serializer}, :ok
+      else
+        json_response "Mark documents signed failed", false, {}, :unprocessable_entity
+      end
+    end
+    #end of documents_array <=
+  end
+
   private
 
   def booking_params
