@@ -361,7 +361,7 @@ class Api::V1::BookingsController < ApplicationController
     translation = { fixed_term_rental_contract_bilingual: fixed_term, important_points_explanation_bilingual: important_points }
 
     unless !translation
-      json_response "Fetched traslation succesfully", true, {translation: translation}, :ok
+      json_response "Fetched traslation succesfully", true, {translation: translation.to_json}, :ok
     else
       json_response "Fetched traslation failed", false, {}, :unprocessable_entity
     end
@@ -613,12 +613,13 @@ class Api::V1::BookingsController < ApplicationController
     documents_array = params[:documents_array]
     booking_id = params[:booking_id]
     booking = Booking.find_by(id: booking_id)
+    mark_as_signed = params[:mark_as_signed]
 
     if documents_array.length <= booking.agreements.length
       agreement_save_count = 0
       documents_array.each do |each_document_id|
         agreement = Agreement.find_by(id: each_document_id)
-        agreement.tenant_signed = true
+        agreement.tenant_signed = mark_as_signed
         unless agreement.save
           agreement_save_count += 1
         end
