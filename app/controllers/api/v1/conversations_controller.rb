@@ -20,7 +20,7 @@ class Api::V1::ConversationsController < ApplicationController
     p "ConversationsController, create, here is conversation params" + conversation_params.to_s
     conversation = Conversation.new conversation_params
     # conversation.flat_id = conversation_params[:flat_id]
-    conversation.user_id = @user.id
+    conversation.user_id = conversation_params[:user_id] ? conversation_params[:user_id] : @user.id
     conversation.created_at = DateTime.now
     # only if have parent
     # conversation.book_id = params[:book_id]
@@ -43,7 +43,7 @@ class Api::V1::ConversationsController < ApplicationController
     # send back same conversations to front end
     #!!! Need to send array of ids as paramenter not conversation paramenters
     @conversations = Conversation.where id: params[:conversation_id_array]
-    # !!!! tried present, blank and nil and only nil worked 
+    # !!!! tried present, blank and nil and only nil worked
     # p "update_conversation conversation_update_params[:trashed_by_user].present?: " + conversation_update_params[:trashed_by_user].present?.to_s
     # p "update_conversation conversation_update_params[:deleted].present?: " + conversation_update_params[:deleted].present?.to_s
     # p "update_conversation conversation_update_param?: " + conversation_update_params.to_s
@@ -190,7 +190,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def conversation_params
-    params.require(:conversation).permit(:flat_id)
+    params.require(:conversation).permit(:flat_id, :user_id)
   end
 
   def conversation_update_params

@@ -29,9 +29,14 @@ class Api::V1::MessagesController < ApplicationController
       @conversation.archived = false
       @conversation.archived_by_user = false
       @conversation.save
-      # message_serializer = parse_json message
+      booking_serializer = nil
+      if params[:booking_id]
+        booking = Booking.find_by(id: params[:booking_id])
+        # message_serializer = parse_json message
+        booking_serializer = parse_json booking
+      end
       conversation_serializer = parse_json @conversation
-      json_response "Created message succesfully", true, {conversation: conversation_serializer}, :ok
+      json_response "Created message succesfully", true, {conversation: conversation_serializer, booking: booking_serializer}, :ok
     else
       # p "MessagesController, create, in if else " + message.to_s
       json_response "Create message failed", false, {}, :unprocessable_entity
