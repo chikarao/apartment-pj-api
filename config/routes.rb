@@ -157,6 +157,8 @@ Rails.application.routes.draw do
       post 'get_user_credentials', to: 'stripe#get_user_credentials'
       post 'deauthorize_user', to: 'stripe#deauthorize_user'
 
+      mount ActionCable.server => '/cable'
+
       # resources :books, only: [:index, :show] do
       #   #do since book has many reviews
       #   resources :reviews, only: [:index, :show, :create, :update, :destroy]

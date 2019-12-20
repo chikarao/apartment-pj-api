@@ -17,6 +17,7 @@ class Api::V1::MessagesController < ApplicationController
   def create
     # p "MessagesController, create, here is message params" + message_params.to_s
     message = Message.new message_params
+    message.current_user = @user.id
     message.created_at = DateTime.now
     # only if have parent
     if message.save
