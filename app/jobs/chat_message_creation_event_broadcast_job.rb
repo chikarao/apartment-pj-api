@@ -14,11 +14,9 @@ class ChatMessageCreationEventBroadcastJob < ApplicationJob
     # processed by messages controller then when saved, sent to the sender via AJAX and sent to the
     # recipient via actioncable websocket connnection addressed to the recipient's
     # own chat room. When message is received redux action updates state on the frontend.
-    # So, both sender's and recipient's conversation is updated without having to refresh the screen 
+    # So, both sender's and recipient's conversation is updated without having to refresh the screen
     channel_names_array.each do |channel|
-      ActionCable
-        .server
-        .broadcast(channel, chat_message)
+      ActionCable.server.broadcast(channel, chat_message)
     end
   end
 end
