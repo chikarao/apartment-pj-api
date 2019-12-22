@@ -21,7 +21,7 @@ class Message < ApplicationRecord
     else
     # message was not sent by user means sent by owner so needs to be sent to tenant
     # conversation user_id is the tenant (proposed or otherwise)
-    # conversations are started by tenant user 
+    # conversations are started by tenant user
       delivery_addresses = ["messaging_room_#{conversation.user_id}"]
     end
 
@@ -38,14 +38,14 @@ class Message < ApplicationRecord
     # ChatMessageCreationEventBroadcastJob.perform_later(self, ['test_room', 'test_room2'])
     # ChatMessageCreationEventBroadcastJob.perform_later(conversation_serializer, ['test_room', 'test_room2'])
     # Calls job class to send conversation through chat channels
-    ChatMessageCreationEventBroadcastJob.perform_later(conversation_serializer, delivery_addresses)
+    ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
    end
 
    after_save do
      conversation = Conversation.find_by(id: self.conversation_id)
      conversation_serializer = ConversationSerializer.new(conversation).to_json
      delivery_addresses = ["messaging_room_#{conversation.flat.user_id}"]
-     ChatMessageCreationEventBroadcastJob.perform_later(conversation_serializer, delivery_addresses)
+     ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
    end
 
 end

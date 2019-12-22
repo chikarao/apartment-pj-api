@@ -22,6 +22,6 @@ class Conversation < ApplicationRecord
     else
       delivery_addresses = ["messaging_room_#{self.user_id}"]
     end
-    ChatMessageCreationEventBroadcastJob.perform_later(conversation_serializer, delivery_addresses)
+    ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
   end
 end
