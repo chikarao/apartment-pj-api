@@ -16,6 +16,19 @@ class ChatChannel < ApplicationCable::Channel
     stream_from params[:room]
   end
 
+ def message(m)
+   p '**** ChatChannel pinged in message' + ' ' + m.to_s
+ end
+
+ def typing(addressee_id)
+   notification = {notification: 'typing'}
+   ActionCable.server.broadcast("messaging_room_#{addressee_id["addresseeId"]}", notification)
+ end
+
+#  def ping
+#    p '**** ChatChannel pinged in ping'
+#  end
+
   def unsubscribed
     # This will broadcast that user unsubscribed but the frontend will not receive the final broadcast
     p '**** ChatChannel unsubscribed'
