@@ -20,9 +20,10 @@ class ChatChannel < ApplicationCable::Channel
    p '**** ChatChannel pinged in message' + ' ' + m.to_s
  end
 
- def typing(addressee_id)
-   notification = {notification: 'typing'}
-   ActionCable.server.broadcast("messaging_room_#{addressee_id["addresseeId"]}", notification)
+ def typing(data)
+   # data is a hash of {user_id: x, addressee_id: y}
+   notification = {notification: 'typing', user_id: data["user_id"]}
+   ActionCable.server.broadcast("messaging_room_#{data["addressee_id"]}", notification)
  end
 
 #  def ping
