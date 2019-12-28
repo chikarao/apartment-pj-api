@@ -664,6 +664,33 @@ buildings = [
    floors_underground: 1
   }
 ]
+
+bookings = [
+  {
+    date_start: "2020-02-01",
+    date_end: "2020-02-31",
+    booking_by_owner: false,
+    approved: true,
+    final_rent: 5000.0,
+    adjustments: nil,
+    fees: nil,
+    taxes: nil,
+    total_price: nil,
+    final_deposit: 2.0,
+    paid: false,
+    special_requests: nil,
+    booking_by_ical: false,
+    final_key_money: nil,
+    booking_by_owner_notes: nil,
+    booking_by_ical_notes: nil,
+    signed: false,
+    tenant_approved: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    storage_included: false
+  }
+]
 p "**************** Starting DB:Seed ********************"
 p "Seeding Buildings"
 building_count = 0
@@ -690,6 +717,7 @@ p "Seeding users"
 user_count = 0
 # test_owner to assign to test_flat
 test_owner = null
+test_tenant = null
 users.each do |user|
   new_user = User.new
   new_user.email = user[:email]
@@ -699,7 +727,8 @@ users.each do |user|
   new_user.image = user[:image]
   new_user.save
   # assign test user to test flat
-  test_owner = user[:test_owner] ? new_user.id : null
+  test_owner = user[:test_owner] ? new_user.id : test_owner
+  test_tenant = user[:test_tenant] ? new_user.id : test_tenant
   user_count += 1
   if user[:profiles]
     user[:profiles].each do |profile|
@@ -904,6 +933,14 @@ flats.each do |flat|
   end
   p new_flat
   flat_count += 1
+  if flat[:test_flat]
+    bookings.each do |booking|
+      new_booking = Booking.new(booking)
+      new_booking.user_id = test_tenant
+      new_booking.flat_id = flat.id
+      new_booking.save
+    end
+  end
 end
 p "Seeded " + flat_count.to_s + " flats"
 
