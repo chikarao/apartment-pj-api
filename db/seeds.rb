@@ -18,7 +18,7 @@
 # #
 # # 10.times do |user|
 # #   User.create! email: Faker::Internet.email,
-# #     password: "test_user"
+# #     password: "test_owner"
 # # end
 # #
 # # p "Seeding 100 reviews"
@@ -37,7 +37,8 @@
      password_confirmation: '123456',
      email_confirmed: true,
      image: 'mlk',
-     test_user: true,
+     test_owner: true,
+     test_tenant: false,
      bank_accounts: [
        {
         account_first_name: null,
@@ -189,7 +190,64 @@
     email_confirmed: true,
     image: 'einstein_tongue',
     profile: null,
-    test_user: false
+    test_owner: false,
+    test_tenant: true,
+    profiles: [
+      {
+        first_name: "金太郎",
+        middle_name: nil,
+        last_name: "斎藤",
+        username: "TheThirdIncarnation",
+        address1: "麻布十番１−１−１",
+        address2: nil,
+        city: "港区",
+        state: "東京都",
+        zip: "100-0001",
+        region: nil,
+        country: "日本",
+        language: nil,
+        birthday: "1950-04-01",
+        gender: nil,
+        introduction: "こんにちは。タローです。",
+        phone: "06-3333-3333",
+        emergency_contact_name: "斎藤桃太郎",
+        emergency_contact_address: "111−1111東京都港区麻布十番１−１−１",
+        emergency_contact_phone: "0311111111",
+        emergency_contact_relationship: "妻",
+        corporation: false,
+        contact_name: nil,
+        language_code: "jp"
+      },
+      {
+        image: "blank_profile_picture_4",
+        identification: nil,
+        title: "Mr.",
+        name: nil,
+        first_name: "Kintaro",
+        middle_name: nil,
+        last_name: "Saito",
+        username: nil,
+        address1: "Azabu Juban 1-1-1",
+        address2: nil,
+        city: "Minato-ku",
+        state: "Tokyo",
+        zip: "111-1111",
+        region: nil,
+        country: "Japan",
+        language: nil,
+        birthday: "1950-02-02",
+        gender: nil,
+        introduction: "Hello I am Kintaro. Call me Kinta.",
+        phone: nil,
+        emergency_contact_name: "Momotaro Saito",
+        emergency_contact_address: "1-1-1 Azabu Juban Minato-ku Tokyo 111-1111",
+        emergency_contact_phone: "0311111111",
+        emergency_contact_relationship: "Wife",
+        corporation: false,
+        contact_name: nil,
+        language_code: "en"
+      }
+    ]
   },
   { email: "test3@test.com",
     password: '123456',
@@ -197,7 +255,8 @@
     email_confirmed: true,
     image: 'oh_sadaharu',
     profile: null,
-     test_user: false,
+    test_owner: false,
+    test_tenant: false,
   },
   { email: "test4@test.com",
     password: '123456',
@@ -205,7 +264,8 @@
     email_confirmed: true,
     image: 'ali',
     profile: null,
-    test_user: false,
+    test_owner: false,
+    test_tenant: false,
   },
 ]
 
@@ -628,8 +688,8 @@ p "Seeded " + building_count.to_s + " buildings"
 
 p "Seeding users"
 user_count = 0
-# test_user to assign to test_flat
-test_user = null
+# test_owner to assign to test_flat
+test_owner = null
 users.each do |user|
   new_user = User.new
   new_user.email = user[:email]
@@ -639,7 +699,7 @@ users.each do |user|
   new_user.image = user[:image]
   new_user.save
   # assign test user to test flat
-  test_user = user[:test_user] ? new_user.id : null
+  test_owner = user[:test_owner] ? new_user.id : null
   user_count += 1
   if user[:profiles]
     user[:profiles].each do |profile|
@@ -766,7 +826,7 @@ flats.each do |flat|
     state: flat[:state],
     zip: flat[:zip],
     country: flat[:country],
-    user_id: flat[:test_user] ? test_user : Faker::Number::between(1, user_count),
+    user_id: flat[:test_owner] ? test_owner : Faker::Number::between(1, user_count),
     building_id: Building.find_by(address1: flat[:address1]).id
   )
   new_flat.save
