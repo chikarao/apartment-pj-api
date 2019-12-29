@@ -691,6 +691,63 @@ bookings = [
     storage_included: false
   }
 ]
+
+tenants = [
+  {
+    name: "斎藤猿の助",
+    age: 11,
+    phone: null,
+    email: null,
+    identification: null,
+    corporate_identification: null
+  },
+  {
+    name: "斎藤とりか",
+    age: 5,
+    phone: null,
+    email: null,
+    identification: null,
+    corporate_identification: null
+  }
+]
+
+contracts = [
+  {
+    work_type: "rental_broker",
+    work_sub_type: "broker",
+    contract_price: null,
+    total_price: null,
+    taxes: null,
+    fees: null,
+    adjustments: null,
+    paid: false,
+    special_requests: null,
+    approved: false,
+    contract_by_ical: false,
+    contract_by_self: false,
+    date_from: null,
+    date_to: null
+  }
+]
+
+assignments = [
+  {
+    staff_approved: false,
+    staff_finished: false,
+    finished: false,
+    taxes: null,
+    fees: null,
+    adjustments: null,
+    total_pay: null,
+    paid: false,
+    role: null,
+    leader: true,
+    assignment_by_ical: false,
+    assignment_by_self: false,
+    date_from: null,
+    date_to: null
+  }
+]
 p "**************** Starting DB:Seed ********************"
 p "Seeding Buildings"
 building_count = 0
@@ -913,7 +970,7 @@ flats.each do |flat|
   end
   if flat[:facilities]
     flat[:facilities].each do |facility|
-      new_flat_language = Facility.new(
+      new_facility = Facility.new(
         optional: facitity[:optional],
         facility_type: facitity[:facility_type],
         price_per_month: facitity[:price_per_month],
@@ -928,17 +985,38 @@ flats.each do |flat|
         on_building_grounds: facitity[:on_building_grounds],
         flat_id: flat.id
       )
-      new_flat_language.save
+      new_facility.save
     end
   end
   p new_flat
   flat_count += 1
   if flat[:test_flat]
+    # Start with just one booking to make easier
     bookings.each do |booking|
       new_booking = Booking.new(booking)
       new_booking.user_id = test_tenant
       new_booking.flat_id = flat.id
       new_booking.save
+      tenants.each do |tenant|
+        new_tenant = Tenant.new(tenant)
+        new_tenant.booking_id = new_booking.id
+        new_tenant.user_id = User.find_by(id: test_tenant)
+        new_tenant.save
+      end
+      contracts.each do |contract|
+        new_contract = Contract.new(contract)
+        new_contract.flat_id = flat.id
+        new_contract.booking_id = new_booking.id
+        new_contract.contractor_id = Contractor.find_by(user_id: test_owner, base_record: true).id
+        new_contract.save
+        assignments.each do |assignment|
+          new_assignment = Assignment.new(assignment)
+          new_assignment.contract_id = new_contract.id
+          new_assignment.staff_id = Staff.find_by(contractor_id: new_contract.contractor_id, base_record: true)
+          new_assignment.save
+        end
+      end
+      # end of contracts.each do
     end
   end
 end
