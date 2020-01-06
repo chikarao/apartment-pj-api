@@ -6,6 +6,7 @@ class Api::V1::FlatsController < ApplicationController
 
   def index
     # this is for fetchFlats in front end
+    p "************************ params in Flats controller index, params" + params.to_s
     if params[:east] && params[:west] && params[:north] && params[:south]
 
       # Base conditions for search; string
