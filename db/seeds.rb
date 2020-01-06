@@ -123,6 +123,7 @@
         state: "Tokyo",
         country: "Japan",
         language_code: "en",
+        # !!!! Need to have base_record: true as first in array of contractors
         base_record: true,
         staffs: [
           {
@@ -139,7 +140,6 @@
             country: "Japan",
             zip: "100-0001",
             language_code: "en",
-            base_record_id: nil,
             registration_jurisdiction: "Tokyo",
             base_record: true,
           },
@@ -846,6 +846,7 @@ users.each do |user|
     end
   end
   if user[:contractors]
+    base_record_iden = nil
     user[:contractors].each do |contractor|
       new_contractor = Contractor.new(
         user_id: new_user.id,
@@ -864,12 +865,15 @@ users.each do |user|
         state: contractor[:state],
         country: contractor[:country],
         language_code: contractor[:language_code],
-        base_record_id: contractor[:contractor_type]
       )
 
-      base_record_id = contractor[:base_record] ? nil : base_record_id
-      new_contractor.base_record_id = base_record_id
+      base_record_iden = contractor[:base_record] ? nil : base_record_iden
+      p "contractor[:base_record] " + contractor[:base_record].to_s
+      p "base_record_iden " + base_record_iden.to_s
+      new_contractor.base_record_id = base_record_iden
       new_contractor.save
+      base_record_iden = contractor[:base_record] ? new_contractor.id : nil
+
       # p "********** constractor[:staffs] " + contractor[:staffs].to_s
       if contractor[:staffs]
         contractor[:staffs].each do |staff|
@@ -895,26 +899,26 @@ users.each do |user|
           new_staff.save
         end
       end
-      if user[:bank_accounts]
-        user[:bank_accounts].each do |bank_account|
-          new_bank_account = BankAccount.new(
-            account_first_name: bank_account[:account_first_name],
-            account_last_name: bank_account[:account_last_name],
-            account_name: bank_account[:account_name],
-            bank_name: bank_account[:bank_name],
-            branch_name: bank_account[:branch_name],
-            bank_address: bank_account[:bank_address],
-            branch_number: bank_account[:branch_number],
-            account_number: bank_account[:account_number],
-            account_type: bank_account[:account_type],
-            routing_number: bank_account[:routing_number],
-            swift: bank_account[:swift],
-            bank_name_english: bank_account[:bank_name_english],
-            account_name_english: bank_account[:account_name_english]
-          )
-          new_bank_account.user_id = new_user.id
-          new_bank_account.save
-        end
+    end
+    if user[:bank_accounts]
+      user[:bank_accounts].each do |bank_account|
+        new_bank_account = BankAccount.new(
+          account_first_name: bank_account[:account_first_name],
+          account_last_name: bank_account[:account_last_name],
+          account_name: bank_account[:account_name],
+          bank_name: bank_account[:bank_name],
+          branch_name: bank_account[:branch_name],
+          bank_address: bank_account[:bank_address],
+          branch_number: bank_account[:branch_number],
+          account_number: bank_account[:account_number],
+          account_type: bank_account[:account_type],
+          routing_number: bank_account[:routing_number],
+          swift: bank_account[:swift],
+          bank_name_english: bank_account[:bank_name_english],
+          account_name_english: bank_account[:account_name_english]
+        )
+        new_bank_account.user_id = new_user.id
+        new_bank_account.save
       end
     end
   end
