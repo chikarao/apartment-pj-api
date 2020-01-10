@@ -12,6 +12,7 @@ class ChatChannel < ApplicationCable::Channel
   # transmit(data, via: nil)
 
   def subscribed
+    p '**** chat_channel subscribed params[:room]' + ' ' + params[:room].to_s
     # stream_from 'chat_channel'
     stream_from params[:room]
   end
@@ -63,7 +64,7 @@ class ChatChannel < ApplicationCable::Channel
     p '**** ChatChannel authenticated, token:' + ' ' + token.to_s + ' User ID: ' + user.id.to_s
     # if user with the authntication token exists, positive notification sent to front end
     if user
-      notification = {notification: 'The messaging connection has been authenticated'}
+      notification = {notification: 'authenticated'}
       notification_all = {notification: 'User X has connected'}
       # transmits just to subscriber; Broadcast transmits to all subscribers?
       transmit(notification)
@@ -77,29 +78,29 @@ class ChatChannel < ApplicationCable::Channel
       reject_subscription
     end
   end
-
-  def create(opts)
-    # !!!!! NOT USED. Messages and conversations are created in their controllers via ajax call from frontend
-    # Do not need to use this create function for message as
-    # action Controller is wathing out for any messages created in Message model
-    # pubsub = ActionCable.server.pubsub
-    # channel_with_prefix = pubsub.send(:channel_with_prefix, ChatChannel.channel_name)
-    # p 'Here is the channel_with_prefix' + ' ' + channel_with_prefix.to_s
-    # chnage this to conversation.create
-    # User.create({ :first_name => 'Jamie', :is_admin => true }, :without_protection => true)
-    message = Message.new
-    # message.body = opts.fetch('content')
-    message.body = opts.fetch('content')
-    message.conversation_id = 44
-    p 'Here is the new message' + ' ' + message.body.to_s
-    p 'Here is the params' + ' ' + params[:room]
-    message.save
-    # Message.create( {
-    #   :body => opts.fetch('content'),
-    #   :conversation_id => 44
-    # }, :without_protection => true
-    # )
-  end
+ # This is not used but save for now for reference
+  # def create(opts)
+  #   # !!!!! NOT USED. Messages and conversations are created in their controllers via ajax call from frontend
+  #   # Do not need to use this create function for message as
+  #   # action Controller is wathing out for any messages created in Message model
+  #   # pubsub = ActionCable.server.pubsub
+  #   # channel_with_prefix = pubsub.send(:channel_with_prefix, ChatChannel.channel_name)
+  #   # p 'Here is the channel_with_prefix' + ' ' + channel_with_prefix.to_s
+  #   # chnage this to conversation.create
+  #   # User.create({ :first_name => 'Jamie', :is_admin => true }, :without_protection => true)
+  #   message = Message.new
+  #   # message.body = opts.fetch('content')
+  #   message.body = opts.fetch('content')
+  #   message.conversation_id = 44
+  #   p 'Here is the new message' + ' ' + message.body.to_s
+  #   p 'Here is the params' + ' ' + params[:room]
+  #   message.save
+  #   # Message.create( {
+  #   #   :body => opts.fetch('content'),
+  #   #   :conversation_id => 44
+  #   # }, :without_protection => true
+  #   # )
+  # end
 
   private
 

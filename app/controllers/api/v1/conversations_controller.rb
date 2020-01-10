@@ -43,7 +43,8 @@ class Api::V1::ConversationsController < ApplicationController
     # send back same conversations to front end
     #!!! Need to send array of ids as paramenter not conversation paramenters
     @conversations = Conversation.where(id: params[:conversation_id_array])
-    @conversations.current_user = @user.id
+    @conversations[0].current_user = @user.id
+    p "ConversationsController, update_conversation, here is @conversations " + @conversations.to_s
     # !!!! tried present, blank and nil and only nil worked
     # p "update_conversation conversation_update_params[:trashed_by_user].present?: " + conversation_update_params[:trashed_by_user].present?.to_s
     # p "update_conversation conversation_update_params[:deleted].present?: " + conversation_update_params[:deleted].present?.to_s
@@ -130,9 +131,9 @@ class Api::V1::ConversationsController < ApplicationController
     # p "ConversationsController, update, here is @conversation" + @conversation.to_s
     @flat = Flat.find_by(id: @conversation.flat_id)
     isOwner = (@flat.user_id == @user.id)
-    p "ConversationsController, update, here is @conversation.user_id" + @conversation.user_id.to_s
-    p "ConversationsController, update, here is isOwner" + isOwner.to_s
-    @conversations.current_user = @user.id
+    p "ConversationsController, update, here is @conversation.user_id " + @conversation.user_id.to_s
+    p "ConversationsController, update, here is isOwner " + isOwner.to_s
+    @conversation.current_user = @user.id
 
     messages = @conversation.messages
 

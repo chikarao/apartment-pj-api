@@ -27,7 +27,6 @@ class Message < ApplicationRecord
 
      p 'In message model self' + ' ' + self.body.to_s
      p 'In message model current_user' + ' ' + ' ' + self.current_user.to_s
-     p 'In message model delivery_addresses' + ' ' + ' ' + delivery_addresses.to_s
 
      # p 'In message model conversation.id' + ' ' + conversation.id.to_s
      # p 'In message model message_serializer' + ' ' + message_serializer.to_s
@@ -40,12 +39,13 @@ class Message < ApplicationRecord
     # Calls job class to send conversation through chat channels
     ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
    end
-
-   after_save do
-     conversation = Conversation.find_by(id: self.conversation_id)
-     conversation_serializer = ConversationSerializer.new(conversation).to_json
-     delivery_addresses = ["messaging_room_#{conversation.flat.user_id}"]
-     ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
-   end
+   # after_save is redundant with after_create_commit as far as when new messages are created
+   # after_save do
+   #   conversation = Conversation.find_by(id: self.conversation_id)
+   #   conversation_serializer = ConversationSerializer.new(conversation).to_json
+   #   delivery_addresses = ["messaging_room_#{conversation.flat.user_id}"]
+   #   p 'In message model delivery_addresses' + ' ' + ' ' + delivery_addresses.to_s
+   #   ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer}, delivery_addresses)
+   # end
 
 end

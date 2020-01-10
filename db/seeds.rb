@@ -314,7 +314,7 @@ amenity = {
 }
 
 public_id_interior = ['RPP9419_mp7xjn', 'redbrick_bklymp', 'dewhirst_electric_co_lofts-01_oxgife', 'flat_image-1524032783-4', 'flat_image-1524032783-2', 'flat_image-1524032783-5', 'industrial_apt_u71ypd']
-public_id_facade = ['flat_image-1524032783-0', 'flat_image-1523948892-1, flat_image-1523948892-2']
+public_id_facade = ['flat_image-1524032783-0', 'flat_image-1523948892-1', 'flat_image-1523948892-2']
 flats = [
   {
     lat: 37.7952,
@@ -334,8 +334,12 @@ flats = [
     state: "California",
     zip: "94111",
     country: "United States of America",
-    test_flat: false
-  },
+    test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0
+    },
   {
     lat: 37.787994,
     lng: -122.407437,
@@ -355,8 +359,12 @@ flats = [
     zip: "94108",
     country: "United States of America",
     places: nil,
-    test_flat: false
-  },
+    test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0
+    },
   {
     lat: 37.787994,
     lng: -122.407437,
@@ -376,6 +384,10 @@ flats = [
     zip: "94108",
     country: "United States of America",
     test_flat: true,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: [
       {
         placeid: "ChIJUUH7B4aAhYARZzM1r72kDbQ",
@@ -519,6 +531,10 @@ flats = [
     zip: "94122",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -540,6 +556,10 @@ flats = [
     zip: "94133",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -561,6 +581,10 @@ flats = [
     zip: "94110",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -582,6 +606,10 @@ flats = [
     zip: "94612",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -603,6 +631,10 @@ flats = [
     zip: "94123",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -624,6 +656,10 @@ flats = [
     zip: "94109",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -645,6 +681,10 @@ flats = [
     zip: "94123",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
     places: nil
   },
   {
@@ -666,6 +706,11 @@ flats = [
     zip: "94115",
     country: "United States of America",
     test_flat: false,
+    parking_included: false,
+    bicycle_parking_included: false,
+    motorcycle_parking_included: false,
+    key_money: 0,
+    final_key_money: 0,
     places: nil
   }
 ]
@@ -683,7 +728,8 @@ buildings = [
    last_renovation_year: 2000,
    units: 20,
    floors: 5,
-   floors_underground: 1
+   floors_underground: 1,
+   language_code: 'en'
   }
 ]
 
@@ -701,7 +747,7 @@ bookings = [
     paid: false,
     special_requests: nil,
     booking_by_ical: false,
-    final_key_money: nil,
+    final_key_money: 0,
     booking_by_owner_notes: nil,
     booking_by_ical_notes: nil,
     signed: false,
@@ -792,7 +838,7 @@ buildings.each do |building|
   b.save
   building_count += 1
 end
-p "Seeded " + building_count.to_s + " buildings"
+p "Seeded " + building_count.to_s + " building(s)"
 
 p "Seeding users"
 user_count = 0
@@ -809,13 +855,13 @@ users.each do |user|
   # assign test user to test flat
   test_owner = user[:test_owner] ? new_user.id : test_owner
   test_tenant = user[:test_tenant] ? new_user.id : test_tenant
-  p "test_tenant ternary " + test_tenant.to_s
-  p "test_owner ternary " + test_owner.to_s
-  p "new_user :test_owner? " + user[:test_owner].to_s
-  p "new_user :email? " + user[:email].to_s
-  p "new_user id " + new_user.id.to_s
+  # p "test_tenant ternary " + test_tenant.to_s
+  # p "test_owner ternary " + test_owner.to_s
+  # p "new_user :test_owner? " + user[:test_owner].to_s
+  # p "new_user :email? " + user[:email].to_s
+  p "new_user id: " + new_user.id.to_s
   user_count += 1
-  p "user_count " + user_count.to_s
+  # p "user_count " + user_count.to_s
   if user[:profiles]
     user[:profiles].each do |profile|
     new_profile = Profile.new(
@@ -868,8 +914,8 @@ users.each do |user|
       )
 
       base_record_iden = contractor[:base_record] ? nil : base_record_iden
-      p "contractor[:base_record] " + contractor[:base_record].to_s
-      p "base_record_iden " + base_record_iden.to_s
+      # p "contractor[:base_record] " + contractor[:base_record].to_s
+      # p "base_record_iden " + base_record_iden.to_s
       new_contractor.base_record_id = base_record_iden
       new_contractor.save
       base_record_iden = contractor[:base_record] ? new_contractor.id : nil
@@ -924,15 +970,16 @@ users.each do |user|
   end
 end
 
-p "Seeded " + user_count.to_s + " users"
+p "Seeded " + user_count.to_s + " user(s)"
 
 p "Seeding flats"
 flat_count = 0
 flats.each do |flat|
-  p "flat[:lat] " + flat[:lat].to_s
-  p "flat[:lng] " + flat[:lng].to_s
+  # p "flat[:lat] " + flat[:lat].to_s
+  # p "flat[:lng] " + flat[:lng].to_s
+  p "flat[:address1] " + flat[:address1].to_s
   flat_building = Building.find_by(address1: flat[:address1])
-  p "Building.find_by(address1: flat[:address1]) " + Building.find_by(address1: flat[:address1]).to_s
+  # p "Building.find_by(address1: flat[:address1]) " + Building.find_by(address1: flat[:address1]).to_s
   new_flat = Flat.new(
     lat: flat[:lat],
     lng: flat[:lng],
@@ -951,6 +998,10 @@ flats.each do |flat|
     state: flat[:state],
     zip: flat[:zip],
     country: flat[:country],
+    parking_included: flat[:parking_included],
+    bicycle_parking_included: flat[:bicycle_parking_included],
+    motorcycle_parking_included: flat[:motorcycle_parking_included],
+    key_money: flat[:key_money],
     user_id: flat[:test_flat] ? test_owner : Faker::Number::between(1, user_count),
     building_id: flat_building ? flat_building.id : nil
   )
@@ -1027,19 +1078,19 @@ flats.each do |flat|
       new_facility.save
     end
   end
-  p "new_flat created " + new_flat.id.to_s
-  p "flat test_flat " + flat[:test_flat].to_s
+  p "new_flat created id: " + new_flat.id.to_s
+  # p "flat test_flat " + flat[:test_flat].to_s
   flat_count += 1
-  p "flat[:test_flat] " + flat[:test_flat].to_s
+  # p "flat[:test_flat] " + flat[:test_flat].to_s
   if flat[:test_flat]
-    p "flat[:test_flat] " + flat[:test_flat].to_s
-    p "test_tenant " + test_tenant.to_s
-    p "test_owner " + test_owner.to_s
+    # p "flat[:test_flat] " + flat[:test_flat].to_s
+    # p "test_tenant " + test_tenant.to_s
+    # p "test_owner " + test_owner.to_s
     booking_flat = Flat.find_by(user_id: test_owner)
-    p "booking_flat.id " + booking_flat.id.to_s
+    # p "booking_flat.id " + booking_flat.id.to_s
     # Start with just one booking to make easier
     bookings.each do |booking|
-      p "bookings " + booking.to_s
+      # p "bookings " + booking.to_s
       new_booking = Booking.new(
         date_start: booking[:date_start],
         date_end: booking[:date_end],
@@ -1059,11 +1110,11 @@ flats.each do |flat|
 
       new_booking.user_id = test_tenant
       new_booking.flat_id = Flat.find_by(user_id: test_owner) ? Flat.find_by(user_id: test_owner).id : Faker::Number::between(1,user_count)
-      p "new_booking new_booking flat_id, user_id " + new_booking.flat_id.to_s + ' ' + new_booking.user_id.to_s
-      p "new_booking new_booking date_start, date_end " + new_booking.date_start.to_s + ' ' + new_booking.date_end.to_s
+      # p "new_booking new_booking flat_id, user_id " + new_booking.flat_id.to_s + ' ' + new_booking.user_id.to_s
+      # p "new_booking new_booking date_start, date_end " + new_booking.date_start.to_s + ' ' + new_booking.date_end.to_s
       if new_booking.save
         booking_count += 1
-        p "new_booking created id, flat_id " + new_booking.id.to_s + ' ' + new_booking.flat_id.to_s
+        # p "new_booking created id, flat_id " + new_booking.id.to_s + ' ' + new_booking.flat_id.to_s
       end
       tenants.each do |tenant|
         new_tenant = Tenant.new(
@@ -1075,7 +1126,7 @@ flats.each do |flat|
           corporate_identification: tenant[:corporate_identification],
         )
         new_tenant.booking_id = new_booking.id
-        p "******* test_tenant " + test_tenant.to_s
+        # p "******* test_tenant " + test_tenant.to_s
         new_tenant.user_id = User.find_by(id: test_tenant).id
         new_tenant.save
       end
@@ -1098,7 +1149,7 @@ flats.each do |flat|
         )
         new_contract.flat_id = new_flat.id
         new_contract.booking_id = new_booking.id
-        p "******* contracts test_owner " + test_owner.to_s
+        # p "******* contracts test_owner " + test_owner.to_s
         new_contract.contractor_id = Contractor.find_by(user_id: test_owner).id
         new_contract.save
         assignments.each do |assignment|
@@ -1119,7 +1170,7 @@ flats.each do |flat|
             date_to: assignment[:date_to]
           )
           new_assignment.contract_id = new_contract.id
-          p "******* staff find_by " + Staff.find_by(contractor_id: new_contract.contractor_id).to_s
+          # p "******* staff find_by " + Staff.find_by(contractor_id: new_contract.contractor_id).to_s
           new_assignment.staff_id = Staff.find_by(contractor_id: new_contract.contractor_id).id
           new_assignment.save
         end

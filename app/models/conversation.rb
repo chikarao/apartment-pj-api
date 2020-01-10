@@ -15,6 +15,9 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy
 
   after_update do
+    p 'In conversation model after update self' + ' ' + self.trashed.to_s
+    p 'In conversation model after update self' + ' ' + self.archived.to_s
+
     # conversation = Conversation.find_by(id: self.conversation_id)
     conversation_serializer = ConversationSerializer.new(self).to_json
     if self.current_user = self.user_id
