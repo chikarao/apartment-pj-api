@@ -17,6 +17,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def create
+    # Creates conversation and a message at the same time
     p "ConversationsController, create, here is conversation params" + conversation_params.to_s
     conversation = Conversation.new conversation_params
     # conversation.flat_id = conversation_params[:flat_id]
@@ -25,8 +26,15 @@ class Api::V1::ConversationsController < ApplicationController
     # only if have parent
     # conversation.book_id = params[:book_id]
     if conversation.save
-      conversation_serializer = parse_json conversation
-      json_response "Created conversation succesfully", true, {conversation: conversation_serializer}, :ok
+      message = Message.new(message_params)
+      message.conversation_id = conversation.id
+      if message.save
+        conversation_serializer = parse_json conversation
+        json_response "Created conversation and message succesfully", true, {conversation: conversation_serializer}, :ok
+      else
+        conversation.destroy
+        json_response "Create message failed conversation create rolled back", false, {}, :unprocessable_entity
+      end
     else
       json_response "Create conversation failed", false, {}, :unprocessable_entity
     end
@@ -194,6 +202,10 @@ class Api::V1::ConversationsController < ApplicationController
 
   def conversation_params
     params.require(:conversation).permit(:flat_id, :user_id)
+  end
+
+  def message_params
+    params.require(:message).permit(:body, :sent_by_user)
   end
 
   def conversation_update_params
