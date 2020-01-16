@@ -158,6 +158,15 @@ class Api::V1::FlatsController < ApplicationController
   end
 
   def get_google_map_bounds_keys
+    # Record of key changes by google api
+    # change from b.f f.f to j.l and l.l
+    # changed again 12/12/18 to ea.l and j and la.l and j
+    # changed again 12/26/18 to fa.l and j ma.l and j
+    # changed again 1/16/19 to ga.l and j ma.l and j
+    # changed yet again 4/19 to ia.l and j, na.l and j
+    # changed yet again 7/24 to ga.l and j, na.l and j what for????
+    # changed yet again 12/17/2019 or before to ka.h, ka.g, pa.h, pa.g
+    # changed yet again 1/16/2020 to Ya.i, Ya.g, Ta.i, Ya.g
     east_west_first = 'Ta'
     east_second = 'i'
     west_second = 'g'
@@ -165,12 +174,18 @@ class Api::V1::FlatsController < ApplicationController
     north_second = 'i'
     south_second = 'g'
     # Sample bounds logs from Googlemap API for illustration
-    #     Ya: he
-    #        g: 37.74363581410171
-    #        i: 37.84672822108214
     #     Ta: de
     #       g: -122.52821280517578
     #       i: -122.2775871948242
+    #     Ya: he
+    #        g: 37.74363581410171
+    #        i: 37.84672822108214
+
+    #     east: -122.27758719482422
+    #     west: -122.52821280517578
+    #     north: 37.84672822108214
+    #     south: 37.74363581410171
+
     google_map_bounds_keys = {
       east_west_first: east_west_first,
       east_second: east_second,
