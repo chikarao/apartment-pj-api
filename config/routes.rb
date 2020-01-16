@@ -157,6 +157,9 @@ Rails.application.routes.draw do
       post 'get_user_credentials', to: 'stripe#get_user_credentials'
       post 'deauthorize_user', to: 'stripe#deauthorize_user'
 
+      # to retrieve Googlemap bounds object keys; in flats controller
+      post 'get_google_map_bounds_keys', to: 'flats#get_google_map_bounds_keys'
+      # route for action cable when connecting websocket
       mount ActionCable.server => '/cable'
 
       # resources :books, only: [:index, :show] do

@@ -157,6 +157,32 @@ class Api::V1::FlatsController < ApplicationController
   def edit
   end
 
+  def get_google_map_bounds_keys
+    east_west_first = 'Ta'
+    east_second = 'i'
+    west_second = 'g'
+    north_south_first = 'Ya'
+    north_second = 'i'
+    south_second = 'g'
+    # Sample bounds logs from Googlemap API for illustration
+    #     Ya: he
+    #        g: 37.74363581410171
+    #        i: 37.84672822108214
+    #     Ta: de
+    #       g: -122.52821280517578
+    #       i: -122.2775871948242
+    google_map_bounds_keys = {
+      east_west_first: east_west_first,
+      east_second: east_second,
+      west_second: west_second,
+      north_south_first: north_south_first,
+      north_second: north_second,
+      south_second: south_second
+    }
+
+    json_response "Received google map bounds keys successfully", true, google_map_bounds_keys, :ok
+  end
+
   def update
     # p "flats_controller, flat_params.empty?" + flat_params.empty?
 
