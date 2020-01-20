@@ -56,3 +56,9 @@ gem 'prawn'
 # reponders installed for prawn
 gem 'responders'
 gem 'combine_pdf'
+
+gem 'redis-rails'
+# redis 4.0 is installed as part of redis-rails
+# gem 'redis'
+gem 'redis-namespace'
+# gem 'redis-rack-cache`

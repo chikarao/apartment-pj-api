@@ -1,12 +1,17 @@
+require 'json'
+
 class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: [:show, :update, :destroy]
   before_action :load_amenity, only: [:update]
   before_action :valid_token, only: [:create, :update, :destroy]
   before_action :authenticate_with_token, only: [:create, :update, :destroy]
-
   def index
     # this is for fetchFlats in front end
     p "************************ params in Flats controller index, params" + params.to_s
+    cached_flats = $redis.get('flats')
+    cached_flat_buildings = $redis.get('flat_buildings')
+
+    # unless cached_flats && cached_flat_buildings
     if params[:east] && params[:west] && params[:north] && params[:south]
 
       # Base conditions for search; string
@@ -104,6 +109,14 @@ class Api::V1::FlatsController < ApplicationController
         flat_buildings = get_flats_in_same_building_array(@flats)
         reviewsArray = get_reviews_for_flats(@flats)
         flats_serializer = parse_json @flats
+
+        # p "*************cached flats class name: " + cached_flats.class.name.to_s
+        # json_response converts to json so parse json the value in redis key
+        $redis.set('flats', flats_serializer.to_json)
+        $redis.set('flat_buildings', flat_buildings.to_json)
+        p "*************cached flats class name to string: " + cached_flats.to_s
+        p "*************cached flats class name as is: " + cached_flats
+        # redis set takes a string so flat_serializer which is an array converted to json
         # flats_in_buildings_serializer = parse_json buildings_with_multiple_flats.flats_with_building_siblings
         # flats__buildings_serializer = parse_json buildings_with_multiple_flats.flats_no_building_siblings
         # p "!!!!! buildings_with_multiple_flats" + buildings_with_multiple_flats.to_s
@@ -119,6 +132,11 @@ class Api::V1::FlatsController < ApplicationController
       # does not need includes; flat_serializer has_many images and bookings and will fetch both
       json_response "You did not provide the right parameters", true, {flats: []}, :ok
     end
+    # KEEP for Redis
+  # else
+
+  #   json_response "Indexed flats within area successfully", true, {flats: JSON.parse(cached_flats), reviews: review_serializer, flat_buildings: JSON.parse(cached_flat_buildings)}, :ok
+  # end
   end
 
   def show
@@ -167,32 +185,34 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 7/24 to ga.l and j, na.l and j what for????
     # changed yet again 12/17/2019 or before to ka.h, ka.g, pa.h, pa.g
     # changed yet again 1/16/2020 to Ya.i, Ya.g, Ta.i, Ya.g
-    east_west_first = 'Ta'
-    east_second = 'i'
-    west_second = 'g'
-    north_south_first = 'Ya'
-    north_second = 'i'
+    # changed yet again 1/17/2020 to Ya.i, Ya.g, Ta.i, Ya.g
+    north_south_first = 'pa'
     south_second = 'g'
+    north_second = 'h'
+    east_west_first = 'ka'
+    west_second = 'g'
+    east_second = 'h'
     # Sample bounds logs from Googlemap API for illustration
-    #     Ta: de
-    #       g: -122.52821280517578
-    #       i: -122.2775871948242
-    #     Ya: he
-    #        g: 37.74363581410171
-    #        i: 37.84672822108214
+    # pa: je
+    #   g: 37.74363581410171
+    #   h: 37.84672822108214
+    #
+    # ka: fe
+    #   g: -122.52821280517578
+    #   h: -122.27758719482422
 
-    #     east: -122.27758719482422
-    #     west: -122.52821280517578
     #     north: 37.84672822108214
     #     south: 37.74363581410171
+    #     east: -122.27758719482422
+    #     west: -122.52821280517578
 
     google_map_bounds_keys = {
-      east_west_first: east_west_first,
-      east_second: east_second,
-      west_second: west_second,
       north_south_first: north_south_first,
       north_second: north_second,
-      south_second: south_second
+      south_second: south_second,
+      east_west_first: east_west_first,
+      east_second: east_second,
+      west_second: west_second
     }
 
     json_response "Received google map bounds keys successfully", true, google_map_bounds_keys, :ok

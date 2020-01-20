@@ -12,19 +12,36 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # REDIS *****************************************
+  # reference: https://github.com/redis-store/redis-rails
+  # https://www.rubycommunity.org/articles/install-and-use-redis-in-rails-application
   # Enable/disable caching. By default caching is disabled.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
-    config.action_controller.perform_caching = true
+  # if Rails.root.join('tmp/caching-dev.txt').exist?
+  config.action_controller.perform_caching = true
 
-    config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
+  # take out memory_store to not be limited to that server's caching and so can be shared across multiple
+  # config.cache_store = :memory_store
+  #passing
+  config.cache_store = :redis_store, {
+    host: 'localhost',
+    port: 6379,
+    db: 0
+    # password: '',
+    # namespace used if multiple applications use db
+    # namespace:
+  },{
+  expires_in: 90.minutes
+  }
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
-  else
-    config.action_controller.perform_caching = false
 
-    config.cache_store = :null_store
-  end
+  # else
+  #   config.action_controller.perform_caching = false
+  #
+  #   config.cache_store = :null_store
+  # end
+# REDIS **********************************
 
 # SENDGRID ********************************
 config.action_mailer.raise_delivery_errors = true
