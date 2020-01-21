@@ -6,7 +6,10 @@ Rails.application.routes.draw do
       devise_scope :user do
         post "sign_up", to: "registrations#create"
         post "sign_in", to: "sessions#create"
-        delete "log_out", to: "sessions#destroy"
+        # use post for log_out to simplify sending token in header
+        # delete allows for data such as headers to be sent in URI
+        # post "log_out", to: "sessions#destroy"
+        post "log_out", to: "sessions#log_out"
         post 'password/forgot', to: 'passwords#forgot'
         post 'password/reset', to: 'passwords#reset'
       end

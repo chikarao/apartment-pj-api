@@ -6,6 +6,7 @@ module Authenticate
   end
 
   def authenticate_with_token
+    p "******* in Authenticate authentication_token run"
     return if current_user
     json_response "Unauthorized request", false, {}, :unauthorized
   end

@@ -1,4 +1,8 @@
 # reference: http://jameshuynh.com/rails/react%20js/chat/2017/07/30/build-chat-using-react-js-and-rails-action-cable/
+# UserStatus in concerns/user_status for creating and upding redis hash
+include UserStatus
+
+
 class ChatChannel < ApplicationCable::Channel
   # Reference: https://edgeapi.rubyonrails.org/classes/ActionCable/Channel/Base.html#method-i-unsubscribed
   # https://stackoverflow.com/questions/39815216/how-to-terminate-subscription-to-an-actioncable-channel-from-server
@@ -13,6 +17,8 @@ class ChatChannel < ApplicationCable::Channel
 
   def subscribed
     p '**** chat_channel subscribed params[:room]' + ' ' + params[:room].to_s
+    # array = params[:room].split('_')
+    # p '**** chat_channel subscribed array' + ' ' + array.to_s
     # stream_from 'chat_channel'
     stream_from params[:room]
   end
@@ -21,10 +27,12 @@ class ChatChannel < ApplicationCable::Channel
    p '**** ChatChannel pinged in message' + ' ' + m.to_s
  end
 
- def typing(data)
+ def typing(hash)
+   # data hash has user_id the message sender, and addressee_id, the intended recipient
    # data is a hash of {user_id: x, addressee_id: y}
-   notification = {notification: 'typing', user_id: data["user_id"]}
-   ActionCable.server.broadcast("messaging_room_#{data["addressee_id"]}", notification)
+   set_last_user_activity({user_id: hash["user_id"], logged_in: true, online: true})
+   notification = {notification: 'typing', user_id: hash["user_id"]}
+   ActionCable.server.broadcast("messaging_room_#{hash["addressee_id"]}", notification)
  end
 
 #  def ping
@@ -54,16 +62,19 @@ class ChatChannel < ApplicationCable::Channel
     # An authntication token is sent from frontend after websocket connection is established,
     # since we do not want to send the token in an URL. Token is validated by finding user
     # with the token. If no user, the connection is rejected and closed.
-    p '**** ChatChannel authenticated, token:' + ' ' + token.to_s
-    p '**** ChatChannel authenticated, token[:token]:' + ' ' + token["token"].to_s
+    # p '**** ChatChannel authenticated, token:' + ' ' + token.to_s
+    # p '**** ChatChannel authenticated, token[:token]:' + ' ' + token["token"].to_s
     # parsed_token = JSON.parse(token)
     # p '**** ChatChannel authenticated, token[:token]:' + ' ' + parsed_token[:token].to_s
     # Find user by authntication token (needs to be encrypted!!!!!!)
     user = User.find_by(authentication_token: token["token"])
     # user = nil
-    p '**** ChatChannel authenticated, token:' + ' ' + token.to_s + ' User ID: ' + user.id.to_s
+    # p '**** ChatChannel authenticated, token:' + ' ' + token.to_s + ' User ID: ' + user.id.to_s
     # if user with the authntication token exists, positive notification sent to front end
     if user
+      # create hash for user_status for user in $redis
+      # passes user id; the user must be logged in and online
+      set_last_user_activity({user_id: user.id, logged_in: true, online: true})
       notification = {notification: 'authenticated'}
       notification_all = {notification: 'User X has connected'}
       # transmits just to subscriber; Broadcast transmits to all subscribers?

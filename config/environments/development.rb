@@ -18,15 +18,14 @@ Rails.application.configure do
   # Enable/disable caching. By default caching is disabled.
   # if Rails.root.join('tmp/caching-dev.txt').exist?
   config.action_controller.perform_caching = true
-
   # take out memory_store to not be limited to that server's caching and so can be shared across multiple
   # config.cache_store = :memory_store
   #passing
   config.cache_store = :redis_store, {
     host: 'localhost',
     port: 6379,
-    db: 0
-    # password: '',
+    db: 0,
+    password: ENV["REDIS_PASSWORD"]
     # namespace used if multiple applications use db
     # namespace:
   },{
@@ -50,13 +49,13 @@ config.action_mailer.perform_deliveries = true
 config.action_mailer.delivery_method = :smtp
 
 config.action_mailer.smtp_settings = {
-:address        => 'smtp.sendgrid.net',
-:port           => '587',
-:authentication => :plain,
-:user_name      =>  'apikey',
-:password       =>  ENV['SENDGRID_API_KEY'],
-:domain         => 'localhost:3000',
-:enable_starttls_auto => true
+  :address        => 'smtp.sendgrid.net',
+  :port           => '587',
+  :authentication => :plain,
+  :user_name      =>  'apikey',
+  :password       =>  ENV['SENDGRID_API_KEY'],
+  :domain         => 'localhost:3000',
+  :enable_starttls_auto => true
 }
   # SENDGRID ********************************
 
@@ -79,9 +78,9 @@ config.action_mailer.smtp_settings = {
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.after_initialize do
-  Bullet.enable = true
-  Bullet.console = true
-  Bullet.rails_logger = true
-end
+    Bullet.enable = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+  end
 
 end

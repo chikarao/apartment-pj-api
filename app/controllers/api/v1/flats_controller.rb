@@ -1,8 +1,11 @@
 require 'json'
+# UserStatus in concerns/user_status for creating and upding redis hash
+include UserStatus
 
 class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: [:show, :update, :destroy]
   before_action :load_amenity, only: [:update]
+  # TAKE out index from valid_token; In there just for experiment
   before_action :valid_token, only: [:create, :update, :destroy]
   before_action :authenticate_with_token, only: [:create, :update, :destroy]
   def index
@@ -10,6 +13,7 @@ class Api::V1::FlatsController < ApplicationController
     p "************************ params in Flats controller index, params" + params.to_s
     cached_flats = $redis.get('flats')
     cached_flat_buildings = $redis.get('flat_buildings')
+
 
     # unless cached_flats && cached_flat_buildings
     if params[:east] && params[:west] && params[:north] && params[:south]
@@ -114,8 +118,20 @@ class Api::V1::FlatsController < ApplicationController
         # json_response converts to json so parse json the value in redis key
         $redis.set('flats', flats_serializer.to_json)
         $redis.set('flat_buildings', flat_buildings.to_json)
-        p "*************cached flats class name to string: " + cached_flats.to_s
-        p "*************cached flats class name as is: " + cached_flats
+        # $redis.hmset('user_status:1,1;2', 'last_activity', 12345678)
+
+
+        all = $redis.keys(pattern = '*')
+        flat_bldgs = $redis.keys(pattern = 'flat_*')
+        user_key = $redis.keys(pattern = '*:1*')
+        # user_last_activity = $redis.hgetall(user_key)
+        # user = User.first
+        # set_function = set_last_user_activity(user)
+        p "*************redis all keys: " + all.to_s
+        p "*************redis user_key: " + user_key.to_s
+        # p "*************redis user_last_activity: " + user_last_activity.to_s
+        # p "*************cached flats class name to string: " + cached_flats.to_s
+        # p "*************cached flats class name as is: " + cached_flats
         # redis set takes a string so flat_serializer which is an array converted to json
         # flats_in_buildings_serializer = parse_json buildings_with_multiple_flats.flats_with_building_siblings
         # flats__buildings_serializer = parse_json buildings_with_multiple_flats.flats_no_building_siblings
@@ -142,7 +158,20 @@ class Api::V1::FlatsController < ApplicationController
   def show
     #this is for show_flats in front end
     flat_serializer = parse_json @flat
-    json_response "Showed flat successfully", true, {flat: flat_serializer}, :ok
+    user_status_hash = {}
+    if $redis
+      user_status_hash = get_user_status(@flat.user_id)
+      # user_status = $redis.keys(pattern = "*:#{@flat.user_id},*")
+      # p "*************redis flats#show, user_status: " + user_status.to_s
+      # last_activity = $redis.hget(user_status[0], "last_activity").to_i
+      # p "*************redis flats#show, last_activity: " + last_activity.to_s
+      # logged_in = user_status[0][user_status[0].index(',') + 1].to_i;
+      # p "*************redis flats#show, logged_in: " + logged_in.to_s
+      # online = user_status[0][user_status[0].index(';') + 1].to_i;
+      # p "*************redis flats#show, online: " + online.to_s
+      # user_status_hash = {user_id: @flat.user_id, logged_in: logged_in, online: online, last_activity: last_activity}
+    end
+    json_response "Showed flat successfully", true, {flat: flat_serializer, user_status: user_status_hash}, :ok
   end
 
   def new

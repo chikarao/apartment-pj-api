@@ -1,8 +1,13 @@
+# UserStatus in concerns/user_status for creating and upding redis hash
+include UserStatus
+
 class Api::V1::SessionsController < Devise::SessionsController
   before_action :sign_in_params, only: :create
   before_action :load_user, only: :create
-  before_action :valid_token, only: :destroy
-  skip_before_action :verify_signed_out_user, only: :destroy
+  # before_action :valid_token, only: :destroy
+  before_action :valid_token, only: :log_out
+  skip_before_action :verify_signed_out_user, only: :log_out
+  # skip_before_action :verify_signed_out_user, only: :destroy
   # comes from devise/app/controllers/devise/sessions_controller
   # verify_signed_out_user called in prepend_before_action
   def create
@@ -12,6 +17,7 @@ class Api::V1::SessionsController < Devise::SessionsController
       # json_response "Signed in successfully", true, {user: @user}, :ok
       if @user.email_confirmed
         sign_in "user", @user
+        set_last_user_activity({user_id: @user.id, logged_in: true, online: true})
         json_response "Signed in successfully", true, {user: @user}, :ok
      else
        # redirect_to 'localhost:8080/'
@@ -22,8 +28,11 @@ class Api::V1::SessionsController < Devise::SessionsController
     end
   end
 
-  def destroy
+  def log_out
+  # def destroy
+    set_last_user_activity({user_id: @user.id, logged_in: false, online: false})
     sign_out @user
+    # p "***************** in Sessions#log_out @user.id: " + @user.id.to_s
     #sign_out comes from devise/lib/devise/controllers/sign_in_out.rb
     @user.generate_new_authentication_token
     json_response "Logged out successfully", true, {}, :ok
@@ -58,6 +67,7 @@ class Api::V1::SessionsController < Devise::SessionsController
     if @user
       return @user
     else
+      # p "***************** in Sessions#destroy in if else @user: "
       json_response "Invalid token", false, {}, :failure
     end
   end
