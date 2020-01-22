@@ -12,6 +12,8 @@ Rails.application.routes.draw do
         post "log_out", to: "sessions#log_out"
         post 'password/forgot', to: 'passwords#forgot'
         post 'password/reset', to: 'passwords#reset'
+        # set_online_offline for redis online offline setting purposes
+        post "set_get_online_offline", to: "sessions#set_get_online_offline"
       end
 
       get "confirm_email/:confirm_token", to: "users#confirm_email"

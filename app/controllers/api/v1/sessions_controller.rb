@@ -3,9 +3,10 @@ include UserStatus
 
 class Api::V1::SessionsController < Devise::SessionsController
   before_action :sign_in_params, only: :create
+  before_action :set_get_online_offline_params, only: :set_get_online_offline
   before_action :load_user, only: :create
   # before_action :valid_token, only: :destroy
-  before_action :valid_token, only: :log_out
+  before_action :valid_token, only: [:log_out, :set_get_online_offline]
   skip_before_action :verify_signed_out_user, only: :log_out
   # skip_before_action :verify_signed_out_user, only: :destroy
   # comes from devise/app/controllers/devise/sessions_controller
@@ -17,7 +18,7 @@ class Api::V1::SessionsController < Devise::SessionsController
       # json_response "Signed in successfully", true, {user: @user}, :ok
       if @user.email_confirmed
         sign_in "user", @user
-        set_last_user_activity({user_id: @user.id, logged_in: true, online: true})
+        set_last_user_activity({user_id: @user.id, logged_in: true, online: false})
         json_response "Signed in successfully", true, {user: @user}, :ok
      else
        # redirect_to 'localhost:8080/'
@@ -28,11 +29,34 @@ class Api::V1::SessionsController < Devise::SessionsController
     end
   end
 
+  def set_get_online_offline
+    result = false
+    # p "***************** in set_get_online_offline, set_get_online_offline_params: " + set_get_online_offline_params.to_s
+    # p "***************** in set_get_online_offline, set_get_online_offline_params[:user_id]: " + set_get_online_offline_params[:user_id].to_s
+    # p "***************** in set_get_online_offline, set_get_online_offline_params[:online]: " + set_get_online_offline_params[:online].to_s
+    online = set_get_online_offline_params[:online].to_i == 1 ? true : false
+    # params will have 'set' or get as action; if set, then set the hash in redis
+    # result return true or false depding on redis response of OK or not
+    if set_get_online_offline_params[:action] == 'set'
+      result = set_last_user_activity({user_id: @user.id, logged_in: true, online: online, keep_online_status: false})
+    end
+    # if action in params is 'get'
+    if result || set_get_online_offline_params[:action] = 'get'
+      if $redis
+        user_status_hash = get_user_status_by_user_id(@user.id)
+      end
+      # p "***************** in set_get_online_offline, in result OK: "
+      json_response "Set user key successfully", true, {user_status: user_status_hash}, :ok
+    else
+      # p "***************** in set_get_online_offline, in result NOT OK, result: " + result.to_s
+      json_response "Set user key Unsuccessful", false, {}, :failure
+    end
+  end
+
   def log_out
   # def destroy
     set_last_user_activity({user_id: @user.id, logged_in: false, online: false})
     sign_out @user
-    # p "***************** in Sessions#log_out @user.id: " + @user.id.to_s
     #sign_out comes from devise/lib/devise/controllers/sign_in_out.rb
     @user.generate_new_authentication_token
     json_response "Logged out successfully", true, {}, :ok
@@ -42,6 +66,10 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def sign_in_params
     params.require(:sign_in).permit(:email, :password)
+  end
+
+  def set_get_online_offline_params
+    params.require(:set_get_online_offline).permit(:user_id, :online, :action)
   end
 
   # check if user exists

@@ -30,7 +30,7 @@ class ChatChannel < ApplicationCable::Channel
  def typing(hash)
    # data hash has user_id the message sender, and addressee_id, the intended recipient
    # data is a hash of {user_id: x, addressee_id: y}
-   set_last_user_activity({user_id: hash["user_id"], logged_in: true, online: true})
+   set_last_user_activity({user_id: hash["user_id"], logged_in: true, online: true, keep_online_status: true})
    notification = {notification: 'typing', user_id: hash["user_id"]}
    ActionCable.server.broadcast("messaging_room_#{hash["addressee_id"]}", notification)
  end
@@ -48,6 +48,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def unsubscribe_connection()
+    # *********This is not used
     notification = {notification: 'The messaging connection is disconnecting'}
     # ActionCable.server.broadcast(params[:room], notification)
     # send_broadcast(params[:room], notification)
@@ -69,13 +70,17 @@ class ChatChannel < ApplicationCable::Channel
     # Find user by authntication token (needs to be encrypted!!!!!!)
     user = User.find_by(authentication_token: token["token"])
     # user = nil
-    # p '**** ChatChannel authenticated, token:' + ' ' + token.to_s + ' User ID: ' + user.id.to_s
     # if user with the authntication token exists, positive notification sent to front end
     if user
       # create hash for user_status for user in $redis
       # passes user id; the user must be logged in and online
-      set_last_user_activity({user_id: user.id, logged_in: true, online: true})
-      notification = {notification: 'authenticated'}
+      user_status_hash = {online: false}
+      result = set_last_user_activity({user_id: user.id, logged_in: true, online: false, keep_online_status: true})
+      # p '**** ChatChannel authenticated, result:' + result.to_s
+      if result
+        user_status_hash = get_user_status_by_user_id(user.id)
+      end
+      notification = {notification: 'authenticated', user_status: user_status_hash}
       notification_all = {notification: 'User X has connected'}
       # transmits just to subscriber; Broadcast transmits to all subscribers?
       transmit(notification)

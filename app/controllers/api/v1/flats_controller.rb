@@ -158,9 +158,10 @@ class Api::V1::FlatsController < ApplicationController
   def show
     #this is for show_flats in front end
     flat_serializer = parse_json @flat
-    user_status_hash = {}
+    
+    user_status_hash = nil
     if $redis
-      user_status_hash = get_user_status(@flat.user_id)
+      user_status_hash = get_user_status_by_user_id(@flat.user_id)
       # user_status = $redis.keys(pattern = "*:#{@flat.user_id},*")
       # p "*************redis flats#show, user_status: " + user_status.to_s
       # last_activity = $redis.hget(user_status[0], "last_activity").to_i
