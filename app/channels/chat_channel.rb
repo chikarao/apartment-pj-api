@@ -89,7 +89,8 @@ class ChatChannel < ApplicationCable::Channel
 
       # p '******* redis chat_channel params_hash ' + params_hash.to_s
       if params_hash["expiration"]
-        connection_result = set_connections({ user_ids: [user.id, 3], expiration: params_hash["expiration"]})
+        connection_result = set_connections({ user_ids: [user.id, params_hash["other_user_id"]], expiration: params_hash["expiration"]})
+        # connection_result = set_connections({ user_ids: [user.id, 3], expiration: params_hash["expiration"]})
         # p '******* redis chat_channel connection_result ' + connection_result.to_s
       end
       notification = {notification: 'authenticated', user_status: user_status_hash, other_user_status: [other_user_hash]}

@@ -93,8 +93,8 @@ module UserStatus
      connection = $redis.keys("connection*,#{user_id}*")
      # connectin will be like ["connection,2,3", "connection,2,4", "connection,5,2"]
      # !!!!!!!own messaging room just for testing
-     others_user_id_array = ["messaging_room_#{user_id}"]
-     # others_user_id_array = []
+     # others_user_address_array = ["messaging_room_#{user_id}"]
+     others_user_address_array = []
      #iterate through connections
      connection.each do |eachConnection|
        connection_split_array = []
@@ -104,18 +104,18 @@ module UserStatus
        connection_split_array.each_with_index do |each, i|
          # push into array ids (messagin room name) not the connection which is index 0
          if i > 0 && each.to_s != user_id.to_s
-           others_user_id_array.push("messaging_room_#{each}")
+           others_user_address_array.push("messaging_room_#{each}")
          end
        end
      end
      # p '******* redis in user_status send_notification_to_other_users user_id: ' + user_id.to_s
      # p '******* redis in user_status send_notification_to_other_users connection: ' + connection.to_s
-     # p '******* redis in user_status send_notification_to_other_users others_user_id_array: ' + others_user_id_array.to_s
+     p '******* redis in user_status send_notification_to_other_users others_user_address_array: ' + others_user_address_array.to_s
      user_status = get_user_status_by_user_id(user_id)
 
      # Send to other users current user's status in an array to process as other_user_status
      if user_status
-       ChatMessageCreationEventBroadcastJob.perform_later({:notification => "others_user_status_change", user_status: [user_status]}, others_user_id_array)
+       ChatMessageCreationEventBroadcastJob.perform_later({:notification => "others_user_status_change", user_status: user_status ? [user_status] : []}, others_user_address_array)
      end
   end
 
