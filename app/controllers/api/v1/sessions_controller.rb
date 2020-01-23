@@ -31,6 +31,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def set_get_online_offline
     result = false
+    user_status_hash = nil
     # p "***************** in set_get_online_offline, set_get_online_offline_params: " + set_get_online_offline_params.to_s
     # p "***************** in set_get_online_offline, set_get_online_offline_params[:user_id]: " + set_get_online_offline_params[:user_id].to_s
     # p "***************** in set_get_online_offline, set_get_online_offline_params[:online]: " + set_get_online_offline_params[:online].to_s
@@ -44,12 +45,15 @@ class Api::V1::SessionsController < Devise::SessionsController
     if result || set_get_online_offline_params[:action] = 'get'
       if $redis
         user_status_hash = get_user_status_by_user_id(@user.id)
+        if set_get_online_offline_params[:action] = 'set'
+          send_notification_to_other_users(@user.id)
+        end
       end
       # p "***************** in set_get_online_offline, in result OK: "
-      json_response "Set user key successfully", true, {user_status: user_status_hash}, :ok
+      json_response "Set/got user key successfully", true, {user_status: user_status_hash}, :ok
     else
       # p "***************** in set_get_online_offline, in result NOT OK, result: " + result.to_s
-      json_response "Set user key Unsuccessful", false, {}, :failure
+      json_response "Set/got user key Unsuccessful", false, {}, :failure
     end
   end
 

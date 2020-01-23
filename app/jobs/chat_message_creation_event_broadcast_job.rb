@@ -17,6 +17,7 @@ class ChatMessageCreationEventBroadcastJob < ApplicationJob
     # own chat room. When message is received redux action updates state on the frontend.
     # So, both sender's and recipient's conversation is updated without having to refresh the screen
     channel_names_array.each do |channel|
+      p '****** in Job each channel, chat_payload_object: ' + channel.to_s + ' ' + chat_payload_object.to_s
       ActionCable.server.broadcast(channel, chat_payload_object)
     end
   end

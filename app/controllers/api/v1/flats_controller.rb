@@ -158,7 +158,7 @@ class Api::V1::FlatsController < ApplicationController
   def show
     #this is for show_flats in front end
     flat_serializer = parse_json @flat
-    
+
     user_status_hash = nil
     if $redis
       user_status_hash = get_user_status_by_user_id(@flat.user_id)
@@ -172,7 +172,7 @@ class Api::V1::FlatsController < ApplicationController
       # p "*************redis flats#show, online: " + online.to_s
       # user_status_hash = {user_id: @flat.user_id, logged_in: logged_in, online: online, last_activity: last_activity}
     end
-    json_response "Showed flat successfully", true, {flat: flat_serializer, user_status: user_status_hash}, :ok
+    json_response "Showed flat successfully", true, {flat: flat_serializer, user_status: [user_status_hash]}, :ok
   end
 
   def new

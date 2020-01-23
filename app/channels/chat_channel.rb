@@ -30,8 +30,10 @@ class ChatChannel < ApplicationCable::Channel
  def typing(hash)
    # data hash has user_id the message sender, and addressee_id, the intended recipient
    # data is a hash of {user_id: x, addressee_id: y}
-   set_last_user_activity({user_id: hash["user_id"], logged_in: true, online: true, keep_online_status: true})
-   notification = {notification: 'typing', user_id: hash["user_id"]}
+   # set user activity; If user types online becomes true
+   # user_hash = get_user_status_by_user_id(params_hash["user_id"].to_i)
+   set_last_user_activity({user_id: hash["user_id"], logged_in: true, online: true, keep_online_status: false})
+   notification = {notification: 'typing', user_id: hash["user_id"] }
    ActionCable.server.broadcast("messaging_room_#{hash["addressee_id"]}", notification)
  end
 
@@ -59,7 +61,7 @@ class ChatChannel < ApplicationCable::Channel
     #disconnect # does not work
   end
 
-  def authenticated(token)
+  def authenticated(params_hash)
     # An authntication token is sent from frontend after websocket connection is established,
     # since we do not want to send the token in an URL. Token is validated by finding user
     # with the token. If no user, the connection is rejected and closed.
@@ -68,19 +70,29 @@ class ChatChannel < ApplicationCable::Channel
     # parsed_token = JSON.parse(token)
     # p '**** ChatChannel authenticated, token[:token]:' + ' ' + parsed_token[:token].to_s
     # Find user by authntication token (needs to be encrypted!!!!!!)
-    user = User.find_by(authentication_token: token["token"])
-    # user = nil
+    user = User.find_by(authentication_token: params_hash["token"])
     # if user with the authntication token exists, positive notification sent to front end
     if user
       # create hash for user_status for user in $redis
       # passes user id; the user must be logged in and online
       user_status_hash = {online: false}
+      other_user_hash = nil
       result = set_last_user_activity({user_id: user.id, logged_in: true, online: false, keep_online_status: true})
       # p '**** ChatChannel authenticated, result:' + result.to_s
       if result
         user_status_hash = get_user_status_by_user_id(user.id)
       end
-      notification = {notification: 'authenticated', user_status: user_status_hash}
+
+      if params_hash["other_user_id"]
+        other_user_hash = get_user_status_by_user_id(params_hash["other_user_id"].to_i)
+      end
+
+      # p '******* redis chat_channel params_hash ' + params_hash.to_s
+      if params_hash["expiration"]
+        connection_result = set_connections({ user_ids: [user.id, 3], expiration: params_hash["expiration"]})
+        # p '******* redis chat_channel connection_result ' + connection_result.to_s
+      end
+      notification = {notification: 'authenticated', user_status: user_status_hash, other_user_status: [other_user_hash]}
       notification_all = {notification: 'User X has connected'}
       # transmits just to subscriber; Broadcast transmits to all subscribers?
       transmit(notification)
