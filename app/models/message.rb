@@ -25,7 +25,8 @@ class Message < ApplicationRecord
       delivery_addresses = ["messaging_room_#{conversation.user_id}"]
     end
 
-     # p 'In message model self' + ' ' + self.body.to_s
+     p '************ In message model delivery_addresses: ' + delivery_addresses.to_s
+     p '************ In message model self.body: ' + self.body.to_s
      # p 'In message model current_user' + ' ' + ' ' + self.current_user.to_s
 
      # p 'In message model conversation.id' + ' ' + conversation.id.to_s

@@ -139,8 +139,8 @@ class Api::V1::ConversationsController < ApplicationController
     # p "ConversationsController, update, here is @conversation" + @conversation.to_s
     @flat = Flat.find_by(id: @conversation.flat_id)
     isOwner = (@flat.user_id == @user.id)
-    p "ConversationsController, update, here is @conversation.user_id " + @conversation.user_id.to_s
-    p "ConversationsController, update, here is isOwner " + isOwner.to_s
+    # p "ConversationsController, update, here is @conversation.user_id " + @conversation.user_id.to_s
+    # p "ConversationsController, update, here is isOwner " + isOwner.to_s
     @conversation.current_user = @user.id
 
     messages = @conversation.messages

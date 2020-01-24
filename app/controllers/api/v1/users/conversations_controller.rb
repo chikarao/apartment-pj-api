@@ -35,7 +35,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
 
      # authorize @cars
   end
-
+  # conversations_by_user_and_flat NOT used in frontend
   def conversations_by_user_and_flat
     # p 'in users, ConversationsController, conversation_params: ' + conversation_params.to_s
     # p 'in users, ConversationsController, @user: ' + @user.to_s
@@ -55,21 +55,27 @@ class Api::V1::Users::ConversationsController < ApplicationController
     # @flat = policy_scope(Flat).order(created_at: :desc)
 
   end
-
+  # called in header.js and messaging_main.js in frontend
   def conversations_by_user
-    # p 'in users, conversations_by_user, conversation_params: ' + conversation_params.to_s
     # p 'in users, conversations_by_user, @user: ' + @user.id.to_s
     # p 'in users, conversations_by_user, @flats: ' + @flats.to_s
     # DO NOT use before_action load_flats since that would render a 404 Not found error
     # Get flats in action
-    @flats = Flat.where(user_id: @user.id)
-
-    if @flats
-      flat_id_array = []
-      @flats.each do |flat|
-        flat_id_array.push(flat.id)
-        # p flat.to_s
-      end
+    # @flats = Flat.where(user_id: @user.id)
+    # get ids of flats with user_id equal to current current @user
+    flat_id_array = []
+    user_status_hash_array = []
+    # pluck gets just array of ids of flats belonging to @user
+    flat_id_array = Flat.where(user_id: @user.id).pluck(:id)
+    # check if
+    if !flat_id_array.empty?
+      # get user's flats and push ids in array
+    # if @flats
+      # flat_id_array = []
+      # @flats.each do |flat|
+      #   flat_id_array.push(flat.id)
+      #   # p flat.to_s
+      # end
       # Post.where('id = 1').or(Post.where('id = 2'))
       # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
       # @conversations = Conversation.where(user_id: @user.id, deleted: false).or(Conversation.where(flat_id: flat_id_array, deleted: false)).includes(:messages, :user, :flat)
@@ -78,21 +84,29 @@ class Api::V1::Users::ConversationsController < ApplicationController
 
       # p @conversation
       if @conversations
+        if $redis
+          user_status_hash_array = get_user_ids_of_conversations(@user.id, @conversations)
+          p '**********in users, conversations_by_user, user_status_hash_array: ' + user_status_hash_array.to_s
+        end
         conversations_serializer = parse_json @conversations
-        json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer}, :ok
+        json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array}, :ok
       else
         json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
         # json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
       end
-    else
+    else # flat_id_array.empty
       # @conversations = Conversation.where(user_id: @user.id, deleted: false).or(Conversation.where(flat_id: flat_id_array, deleted: false)).includes(:messages, :user, :flat)
       @conversations = Conversation.where(user_id: @user.id).includes(:messages, :user, :flat)
       p 'in users, ConversationsController, conversations_by_user, no flats conversations_by_user: ' + @conversations.to_s
 
       # p @conversation
       if @conversations
+        if $redis
+          user_status_hash_array = get_user_ids_of_conversations(@user.id, @conversations)
+          p '**********in users, conversations_by_user, user_status_hash_array: ' + user_status_hash_array.to_s
+        end
         conversations_serializer = parse_json @conversations
-        json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer}, :ok
+        json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array}, :ok
       else
         json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
         # json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
@@ -148,4 +162,26 @@ class Api::V1::Users::ConversationsController < ApplicationController
       json_response "Invalid token", false, {}, :failure
     end
   end
-end
+
+  def get_user_ids_of_conversations(user_id, conversations)
+    flat_owner_ids = []
+    user_status_hash_array = []
+    
+    conversations.each do |conv|
+      if conv.user_id == user_id
+        p '**********in users, get_user_ids_of_conversations, conv: ' + conv.to_s
+        p '**********in users, get_user_ids_of_conversations, conv.flat_id: ' + conv.flat_id.to_s
+        flat_owner_ids = Flat.where(id: conv.flat_id).pluck(:user_id)
+      else
+        flat_owner_ids.push(conv.user_id)
+      end # end of if
+    end # end of each
+
+    flat_owner_ids.each do |each_id|
+      user_status_hash = get_user_status_by_user_id(each_id)
+      user_status_hash_array.push(user_status_hash)
+    end
+    return user_status_hash_array
+  end # end of get_user_ids_of_conversations
+
+end # end of Class

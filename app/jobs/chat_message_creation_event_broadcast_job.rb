@@ -8,7 +8,7 @@ class ChatMessageCreationEventBroadcastJob < ApplicationJob
     # p 'here is the params in Job' + ' ' + params[:room] params does not work
     # p '****** here is the chat_payload_object.attribute_names   in Job' + ' ' + chat_payload_object.attribute_names.to_s
     p '****** here is the channel_names_array in Job' + ' ' + channel_names_array.to_s
-    p '****** here is the chat_payload_object in Job' + ' ' + chat_payload_object.to_s
+    # p '****** here is the chat_payload_object in Job' + ' ' + chat_payload_object.to_s
     # .broadcast('chat_channel',
     # Calls action cable broadcast for each channel.
     # KEY!! Sender and recipient each have its own channel. Sender creates message which is

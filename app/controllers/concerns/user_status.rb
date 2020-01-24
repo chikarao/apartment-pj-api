@@ -66,7 +66,7 @@ module UserStatus
     # test for existing connection
     if connection[0]
       # if connection exists, delete it before creating a new
-      $redis.del(user_status[0])
+      $redis.del(connection[0])
       # create a string to represent the hey to the hash in redis, passing an array of user ids
       string = create_string(connection_hash[:user_ids])
       # call redis method to create hash with time stamp

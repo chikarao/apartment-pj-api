@@ -215,21 +215,20 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 7/24 to ga.l and j, na.l and j what for????
     # changed yet again 12/17/2019 or before to ka.h, ka.g, pa.h, pa.g
     # changed yet again 1/16/2020 to Ya.i, Ya.g, Ta.i, Ya.g
-    # changed yet again 1/17/2020 to Ya.i, Ya.g, Ta.i, Ya.g
-    north_south_first = 'pa'
+    # changed yet again 1/17/2020 to pa.h, pa.g, ka.h, ka.g
+    # changed yet again 1/24/2020 back to Ya.i, Ya.g, Ta.i, Ya.g
+    north_south_first = 'Ya'
     south_second = 'g'
-    north_second = 'h'
-    east_west_first = 'ka'
+    north_second = 'i'
+    east_west_first = 'Ta'
     west_second = 'g'
-    east_second = 'h'
+    east_second = 'i'
     # Sample bounds logs from Googlemap API for illustration
-    # pa: je
-    #   g: 37.74363581410171
-    #   h: 37.84672822108214
-    #
-    # ka: fe
-    #   g: -122.52821280517578
-    #   h: -122.27758719482422
+    # 1/24/20
+    # north_second is the larger number of 37....
+    # west_second is the larger NEGATIVE of -122....
+    #   Ya: he {g: 37.74363581410171, i: 37.84672822108214}
+    #   Ta: de {g: -122.52821280517578, i: -122.27758719482422}
 
     #     north: 37.84672822108214
     #     south: 37.74363581410171
