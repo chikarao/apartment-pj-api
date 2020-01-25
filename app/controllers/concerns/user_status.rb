@@ -23,7 +23,9 @@ module UserStatus
         online = user_status[0][user_status[0].index(';') + 1].to_i;
       end
       # if user_status DOES exist for user, delete the current user_status and create a new hash with last_activity: current time in # of millisconds since epoch
-      $redis.del(user_status[0])
+      user_status.each do |each_status|
+        $redis.del(each_status)
+      end
       user_status_created = $redis.hmset("user_status:#{hash[:user_id]},#{logged_in};#{online}", "last_activity", (Time.now.to_f * 1000).to_i)
       # p "************** in UserStatus module user_status_created: " + user_status_created.to_s
     # if else user does not have a user hash in redis create one
@@ -66,7 +68,10 @@ module UserStatus
     # test for existing connection
     if connection[0]
       # if connection exists, delete it before creating a new
-      $redis.del(connection[0])
+      # $redis.del(connection[0])
+      connection.each do |each_connection|
+        $redis.del(each_connection)
+      end
       # create a string to represent the hey to the hash in redis, passing an array of user ids
       users_string = create_string(connection_hash[:user_ids])
       # call redis method to create hash with time stamp
