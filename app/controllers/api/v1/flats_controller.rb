@@ -11,8 +11,8 @@ class Api::V1::FlatsController < ApplicationController
   def index
     # this is for fetchFlats in front end
     p "************************ params in Flats controller index, params" + params.to_s
-    cached_flats = $redis.get('flats')
-    cached_flat_buildings = $redis.get('flat_buildings')
+    # cached_flats = $redis.get('flats')
+    # cached_flat_buildings = $redis.get('flat_buildings')
 
 
     # unless cached_flats && cached_flat_buildings
@@ -158,12 +158,15 @@ class Api::V1::FlatsController < ApplicationController
   def show
     #this is for show_flats in front end
     flat_serializer = parse_json @flat
+    # p "*************flats#show, @user: " + @user.id.to_s
 
     user_status_hash = nil
     if $redis
       user_status_hash = get_user_status_by_user_id(@flat.user_id)
+      if !user_status_hash
+        user_status_hash = set_last_user_activity({user_id: @flat.user_id, logged_in: false, online: false, keep_online_status: false})
+      end
       # user_status = $redis.keys(pattern = "*:#{@flat.user_id},*")
-      # p "*************redis flats#show, user_status: " + user_status.to_s
       # last_activity = $redis.hget(user_status[0], "last_activity").to_i
       # p "*************redis flats#show, last_activity: " + last_activity.to_s
       # logged_in = user_status[0][user_status[0].index(',') + 1].to_i;

@@ -78,13 +78,17 @@ class ChatChannel < ApplicationCable::Channel
       user_status_hash = {online: false}
       other_user_hash = nil
       result = set_last_user_activity({user_id: user.id, logged_in: true, online: false, keep_online_status: true})
-      # p '**** ChatChannel authenticated, result:' + result.to_s
       if result
         user_status_hash = get_user_status_by_user_id(user.id)
       end
 
       if params_hash["other_user_id"]
         other_user_hash = get_user_status_by_user_id(params_hash["other_user_id"].to_i)
+        p '**** ChatChannel authenticated, other_user_hash:' + other_user_hash.to_s
+        if !other_user_hash
+          set_last_user_activity({user_id: params_hash["other_user_id"].to_i, logged_in: false, online: false, keep_online_status: false})
+          other_user_hash = get_user_status_by_user_id(params_hash["other_user_id"].to_i)
+        end
       end
 
       # p '******* redis chat_channel params_hash ' + params_hash.to_s

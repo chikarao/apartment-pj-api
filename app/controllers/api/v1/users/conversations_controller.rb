@@ -36,25 +36,26 @@ class Api::V1::Users::ConversationsController < ApplicationController
      # authorize @cars
   end
   # conversations_by_user_and_flat NOT used in frontend
-  def conversations_by_user_and_flat
-    # p 'in users, ConversationsController, conversation_params: ' + conversation_params.to_s
-    # p 'in users, ConversationsController, @user: ' + @user.to_s
-    # Post.where('id = 1').or(Post.where('id = 2'))
-    # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
-    @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(conversation_params[:flat_id_array]))
-    # p 'in users, ConversationsController, conversation_by_user_and_flat, conversations_by_user: ' + @conversations.to_s
-
-    # p @conversation
-    if @conversations
-      conversations_serializer = parse_json @conversations
-      json_response "Fetched conversations by user and flat successfully", true, {conversations: conversations_serializer}, :ok
-    else
-      json_response "Cannot find conversation for user", false, {}, :not_found
-    end
-    # @flat = Flat.order(created_at: :desc)
-    # @flat = policy_scope(Flat).order(created_at: :desc)
-
-  end
+  # deprecated for conversations_by_user
+  # def conversations_by_user_and_flat
+  #   # p 'in users, ConversationsController, conversation_params: ' + conversation_params.to_s
+  #   # p 'in users, ConversationsController, @user: ' + @user.to_s
+  #   # Post.where('id = 1').or(Post.where('id = 2'))
+  #   # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
+  #   @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(conversation_params[:flat_id_array]))
+  #   # p 'in users, ConversationsController, conversation_by_user_and_flat, conversations_by_user: ' + @conversations.to_s
+  #
+  #   # p @conversation
+  #   if @conversations
+  #     conversations_serializer = parse_json @conversations
+  #     json_response "Fetched conversations by user and flat successfully", true, {conversations: conversations_serializer}, :ok
+  #   else
+  #     json_response "Cannot find conversation for user", false, {}, :not_found
+  #   end
+  #   # @flat = Flat.order(created_at: :desc)
+  #   # @flat = policy_scope(Flat).order(created_at: :desc)
+  #
+  # end
   # called in header.js and messaging_main.js in frontend
   def conversations_by_user
     # p 'in users, conversations_by_user, @user: ' + @user.id.to_s
@@ -85,7 +86,13 @@ class Api::V1::Users::ConversationsController < ApplicationController
       # p @conversation
       if @conversations
         if $redis
-          user_status_hash_array = get_user_ids_of_conversations(@user.id, @conversations)
+          user_status_hash_array = get_status_of_conversation_users(@user.id, @conversations)
+          if user_status_hash_array.empty?
+            result_set = set_status_of_conversation_users(@user.id, @conversations)
+            if result_set
+              user_status_hash_array = get_status_of_conversation_users(@user.id, @conversations)
+            end
+          end
           p '**********in users, conversations_by_user, user_status_hash_array: ' + user_status_hash_array.to_s
         end
         conversations_serializer = parse_json @conversations
@@ -102,8 +109,8 @@ class Api::V1::Users::ConversationsController < ApplicationController
       # p @conversation
       if @conversations
         if $redis
-          user_status_hash_array = get_user_ids_of_conversations(@user.id, @conversations)
-          p '**********in users, conversations_by_user, user_status_hash_array: ' + user_status_hash_array.to_s
+          user_status_hash_array = get_status_of_conversation_users(@user.id, @conversations)
+          p '**********in users, conversations_by_user, if flat id empty user_status_hash_array: ' + user_status_hash_array.to_s
         end
         conversations_serializer = parse_json @conversations
         json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array}, :ok
@@ -163,14 +170,27 @@ class Api::V1::Users::ConversationsController < ApplicationController
     end
   end
 
-  def get_user_ids_of_conversations(user_id, conversations)
+  def set_status_of_conversation_users(user_id, conversations)
+    conversations.each do |conv|
+      if conv.user_id = user_id
+        flat_owner_id = Flat.find_by(id: conv.flat_id).user_id
+        result = set_last_user_activity({user_id: flat_owner_id, logged_in: false, online: false, keep_online_status: false})
+      else
+        result = set_last_user_activity({user_id: user_id, logged_in: false, online: false, keep_online_status: false})
+      end
+      break unless result
+    end # end each conversations
+    return true
+  end
+
+  def get_status_of_conversation_users(user_id, conversations)
     flat_owner_ids = []
     user_status_hash_array = []
-    
+
     conversations.each do |conv|
       if conv.user_id == user_id
-        p '**********in users, get_user_ids_of_conversations, conv: ' + conv.to_s
-        p '**********in users, get_user_ids_of_conversations, conv.flat_id: ' + conv.flat_id.to_s
+        p '**********in users, get_status_of_conversation_users, conv: ' + conv.to_s
+        p '**********in users, get_status_of_conversation_users, conv.flat_id: ' + conv.flat_id.to_s
         flat_owner_ids = Flat.where(id: conv.flat_id).pluck(:user_id)
       else
         flat_owner_ids.push(conv.user_id)
@@ -179,9 +199,9 @@ class Api::V1::Users::ConversationsController < ApplicationController
 
     flat_owner_ids.each do |each_id|
       user_status_hash = get_user_status_by_user_id(each_id)
-      user_status_hash_array.push(user_status_hash)
+      user_status_hash_array.push(user_status_hash) unless !user_status_hash
     end
     return user_status_hash_array
-  end # end of get_user_ids_of_conversations
+  end # end of get_status_of_conversation_users
 
 end # end of Class

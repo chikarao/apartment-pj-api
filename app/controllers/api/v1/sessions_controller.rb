@@ -32,7 +32,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   def set_get_online_offline
     result = false
     user_status_hash = nil
-    # p "***************** in set_get_online_offline, set_get_online_offline_params: " + set_get_online_offline_params.to_s
+    p "***************** in set_get_online_offline, set_get_online_offline_params: " + set_get_online_offline_params.to_s
     # p "***************** in set_get_online_offline, set_get_online_offline_params[:user_id]: " + set_get_online_offline_params[:user_id].to_s
     # p "***************** in set_get_online_offline, set_get_online_offline_params[:online]: " + set_get_online_offline_params[:online].to_s
     online = set_get_online_offline_params[:online].to_i == 1 ? true : false
@@ -45,6 +45,9 @@ class Api::V1::SessionsController < Devise::SessionsController
     if result || set_get_online_offline_params[:action] = 'get'
       if $redis
         user_status_hash = get_user_status_by_user_id(@user.id)
+        if !user_status_hash
+          user_status_hash = set_last_user_activity({user_id: @user.id, logged_in: true, online: online, keep_online_status: false})
+        end
         if set_get_online_offline_params[:action] = 'set'
           send_notification_to_other_users(@user.id)
         end

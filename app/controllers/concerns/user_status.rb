@@ -42,12 +42,12 @@ module UserStatus
     # .keys return array of keys for hashes
     user_status = $redis.keys(pattern = "*:#{user_id},*")
     # .hget returns a string; convert to integer
+    if user_status[0]
     last_activity = $redis.hget(user_status[0], "last_activity").to_i
     # returns string 1 for yes or 0 no; convert to integer
     logged_in = user_status[0][user_status[0].index(',') + 1].to_i;
     # returns string 1 for yes or 0 no; convert to integer
     online = user_status[0][user_status[0].index(';') + 1].to_i;
-    if user_status[0]
       user_status_hash = {user_id: user_id, logged_in: logged_in, online: online, last_activity: last_activity}
     else
       # return nil if no user status in redis for user
@@ -68,17 +68,17 @@ module UserStatus
       # if connection exists, delete it before creating a new
       $redis.del(connection[0])
       # create a string to represent the hey to the hash in redis, passing an array of user ids
-      string = create_string(connection_hash[:user_ids])
+      users_string = create_string(connection_hash[:user_ids])
       # call redis method to create hash with time stamp
       connection_created = $redis.hmset("connection#{users_string}", "time_connected", (Time.now.to_f * 1000).to_i)
       # set expiration of the key that is tied to the disconnect time passed from the front end disconnetTime in actionCableManager
       # the key will expire and be deleted in x seconds. Can check time to live redis.ttl(key)
-      expiration_set = $redis.expire(connection_hash[:expiration])
+      expiration_set = $redis.expire("connection#{users_string}", connection_hash[:expiration])
     else
-      users_string = ','
-      string = create_string(connection_hash[:user_ids])
-      connection_created = $redis.hmset("connection#{string}", "time_connected", (Time.now.to_f * 1000).to_i)
-      expiration_set = $redis.expire("connection#{string}", connection_hash[:expiration])
+      # users_string = ','
+      users_string = create_string(connection_hash[:user_ids])
+      connection_created = $redis.hmset("connection#{users_string}", "time_connected", (Time.now.to_f * 1000).to_i)
+      expiration_set = $redis.expire("connection#{users_string}", connection_hash[:expiration])
       # p "*************redis module UserStatus, set_connections connection_created, expiration_set: " + connection_created.to_s + ' ' + expiration_set.to_s
     end
     return connection_created == "OK" && expiration_set

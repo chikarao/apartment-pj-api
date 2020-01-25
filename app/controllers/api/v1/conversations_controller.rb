@@ -44,6 +44,7 @@ class Api::V1::ConversationsController < ApplicationController
   end
 
   def update_conversation
+    # different update function than conversations#update which is to update messages read
     # receives deleted, trashed arhived params and array of conversation ids;
     # get conversation based on array of conversation ids
     # iterate through each conversation and if params exist for delete trash and archive, take action
@@ -132,8 +133,6 @@ class Api::V1::ConversationsController < ApplicationController
     # end
   end
 
-
-
   # user update conversation to mark messages read when user reads messages of conversation
   def update
     # p "ConversationsController, update, here is @conversation" + @conversation.to_s
@@ -157,7 +156,7 @@ class Api::V1::ConversationsController < ApplicationController
             end
           end # end of message read
         end # end of !message sent by user
-      else # else of first if
+      else # else of first if isOwner
         if !message.sent_by_user
           if message.read == false
             message.read = !message.read
@@ -168,8 +167,11 @@ class Api::V1::ConversationsController < ApplicationController
           end #end of if message read
         end
       end #end of if isowner
-    end #end of each
+    end #end of each do message
     conversation_serializer = parse_json @conversation
+    delivery_addresses = isOwner ? ["messaging_room_#{@conversation.user_id}"] : ["messaging_room_#{@flat.user_id}"]
+    # calling this here does not work since action cable is not yet connected when opening actioncable
+    ChatMessageCreationEventBroadcastJob.perform_later({conversation: conversation_serializer.to_json}, delivery_addresses)
     json_response "Updated messages to read for conversation successfully", true, {conversation: conversation_serializer}, :ok
   end
 
