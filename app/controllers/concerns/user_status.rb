@@ -59,7 +59,7 @@ module UserStatus
   end
 
   def set_connections(connection_hash)
-    # function set_connections creates a hash in redis in the form of 'connection,1,2'
+    # function set_connections creates a hash in redis in the form of 'connection,1,2,'
     # 'connection' idetifies a hash representing a connection between users, and time connection established as a value to the key
     # comman in between users will allow for calling split(',') on the string key
     # hash as users, an array, and expiration an integer for seconds in which hash will expire
@@ -89,6 +89,39 @@ module UserStatus
     return connection_created == "OK" && expiration_set
   end
 
+  def update_connections(connection_hash)
+    # function update_connections updates the expiration a hash in redis in the form of 'connection,1,2,'
+    # 'connection' idetifies a hash representing a connection between users, and time connection established as a value to the key
+    # a comma in between users will allow for calling split(',') on the string key
+    # hash as users, an array, and expiration an integer for seconds in which hash will expire
+    # get an existing key in redis. returns array which is empty if none exists
+    connection = $redis.keys(pattern = "*,#{connection_hash[:user_ids][0]},*")
+    # test for existing connection
+    if !connection.empty?
+      # if connection exists, delete it before creating a new
+      # $redis.del(connection[0])
+      connection.each do |each_connection|
+        # set the expiration to one passed in connection_hash
+        expiration_set = $redis.expire(each_connection, connection_hash[:expiration])
+      end
+      # if there is no connection, 
+      # # create a string to represent the hey to the hash in redis, passing an array of user ids
+      # users_string = create_string(connection_hash[:user_ids])
+      # # call redis method to create hash with time stamp
+      # connection_created = $redis.hmset("connection#{users_string}", "time_connected", (Time.now.to_f * 1000).to_i)
+      # # set expiration of the key that is tied to the disconnect time passed from the front end disconnetTime in actionCableManager
+      # # the key will expire and be deleted in x seconds. Can check time to live redis.ttl(key)
+      # expiration_set = $redis.expire("connection#{users_string}", connection_hash[:expiration])
+    else
+      # users_string = ','
+      users_string = create_string(connection_hash[:user_ids])
+      connection_created = $redis.hmset("connection#{users_string}", "time_connected", (Time.now.to_f * 1000).to_i)
+      expiration_set = $redis.expire("connection#{users_string}", connection_hash[:expiration])
+      # p "*************redis module UserStatus, set_connections connection_created, expiration_set: " + connection_created.to_s + ' ' + expiration_set.to_s
+    end
+    return connection_created == "OK" && expiration_set
+  end
+
   def send_notification_to_other_users(user_id)
     # function called to send status change of current user to other connected users
     # eg flat owners who are connected via chat with the user has a "connection,1,2" type hash with a time stamp
@@ -105,7 +138,9 @@ module UserStatus
        connection_split_array = []
        # assuming splits the array like ['connection', '1', '2', '3']
        connection_split_array = eachConnection.split(',')
-       # p '******* redis in user_status send_notification_to_other_users connection_split_array: ' + connection_split_array.to_s
+       # Do not need to pop to remove last element in array
+       # connection_split_array.pop
+       p '******* redis in user_status send_notification_to_other_users connection_split_array: ' + connection_split_array.to_s
        connection_split_array.each_with_index do |each, i|
          # push into array ids (messagin room name) not the connection which is index 0
          if i > 0 && each.to_s != user_id.to_s
@@ -128,13 +163,15 @@ module UserStatus
 
   def create_string(array)
     # create string to be passed to hmset
+    # initial string needs a comma so user id can be added then add another comma after id
     string = ','
     array.each_with_index do |each, i|
       string.concat(each.to_s)
-      if i < array.length - 1
+      # add a comma bofore AND after each user id
+      # if i < array.length - 1
         # insert a common infront of all user ids except after the last id
         string.concat(',')
-      end
+      # end
     end
     return string
   end
