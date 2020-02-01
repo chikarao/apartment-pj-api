@@ -32,10 +32,12 @@ class ChatChannel < ApplicationCable::Channel
    # data is a params_hash of {user_id: x, addressee_id: y}
    # set user activity; If user types online becomes true
    # user_params_hash = get_user_status_by_user_id(params_params_hash["user_id"].to_i)
-   set_last_user_activity({user_id: params_hash["user_id"], logged_in: true, online: true, keep_online_status: false})
-   if params_hash["expiration"]
-     connection_result = update_connections({ user_ids: [params_hash["user_id"]].concat(params_hash["other_user_id"]), expiration: params_hash["expiration"]})
-   end # end if expiration
+   if $redis
+     set_last_user_activity({user_id: params_hash["user_id"], logged_in: true, online: true, keep_online_status: false})
+     if params_hash["expiration"]
+       connection_result = update_connections({ user_ids: [params_hash["user_id"]].concat(params_hash["other_user_id"]), expiration: params_hash["expiration"]})
+     end # end if expiration
+   end
    notification = {notification: 'typing', user_id: params_hash["user_id"] }
    ActionCable.server.broadcast("messaging_room_#{params_hash["addressee_id"]}", notification)
  end
@@ -72,7 +74,7 @@ class ChatChannel < ApplicationCable::Channel
     p '**** ChatChannel authenticated, params_hash: ' + params_hash.to_s
     # parsed_token = JSON.parse(token)
     # p '**** ChatChannel authenticated, token[:token]:' + ' ' + parsed_token[:token].to_s
-    # Find user by authntication token (needs to be encrypted!!!!!!)
+    # Find user by authentication token (needs to be encrypted!!!!!!)
     user = User.find_by(authentication_token: params_hash["token"])
     # if user with the authntication token exists, positive notification sent to front end
     if user
@@ -80,37 +82,39 @@ class ChatChannel < ApplicationCable::Channel
       # passes user id; the user must be logged in and online
       user_status_hash = {online: false}
       other_user_hash_array = nil
-      result = set_last_user_activity({user_id: user.id, logged_in: true, online: false, keep_online_status: true})
-      if result
-        user_status_hash = get_user_status_by_user_id(user.id)
-      end
-      # params_hash["other_user_id"] is an array of other user ids
-      # if there is such an array params, get each user hash in redis (if doesn't exist create a dummy one)
-      # then get the user status hash to push into an array other_user_hash_array to be sent back in the response
-      if params_hash["other_user_id"] && !params_hash["other_user_id"].empty?
-        other_user_hash_array = []
-        params_hash["other_user_id"].each do |each_other_user_id|
-          other_user_hash_result = get_user_status_by_user_id(each_other_user_id.to_i)
-          p '**** ChatChannel authenticated, other_user_hash_result:' + other_user_hash_result.to_s
-          if !other_user_hash_result
-            set_last_user_activity({user_id: each_other_user_id.to_i, logged_in: false, online: false, keep_online_status: false})
+      if $redis # check to make sure redis is available; Set return hash and array before
+        result = set_last_user_activity({user_id: user.id, logged_in: true, online: false, keep_online_status: true})
+        if result
+          user_status_hash = get_user_status_by_user_id(user.id)
+        end
+        # params_hash["other_user_id"] is an array of other user ids
+        # if there is such an array params, get each user hash in redis (if doesn't exist create a dummy one)
+        # then get the user status hash to push into an array other_user_hash_array to be sent back in the response
+        if params_hash["other_user_id"] && !params_hash["other_user_id"].empty?
+          other_user_hash_array = []
+          params_hash["other_user_id"].each do |each_other_user_id|
             other_user_hash_result = get_user_status_by_user_id(each_other_user_id.to_i)
-            other_user_hash_array.push(other_user_hash_result)
-          else #!other_user_hash_result
-            other_user_hash_array.push(other_user_hash_result)
-          end #!other_user_hash_result
-        end # end each do other user id
-      end # params_hash["other_user_id"].empty?
+            p '**** ChatChannel authenticated, other_user_hash_result:' + other_user_hash_result.to_s
+            if !other_user_hash_result
+              set_last_user_activity({user_id: each_other_user_id.to_i, logged_in: false, online: false, keep_online_status: false})
+              other_user_hash_result = get_user_status_by_user_id(each_other_user_id.to_i)
+              other_user_hash_array.push(other_user_hash_result)
+            else #!other_user_hash_result
+              other_user_hash_array.push(other_user_hash_result)
+            end #!other_user_hash_result
+          end # end each do other user id
+        end # params_hash["other_user_id"].empty?
+        # p '******* redis chat_channel params_hash ' + params_hash.to_s
+        # sets a connection hash in the form of connection,1,2,3, (with a comma before and after EACH user id) indicating there is a connection among users 1, 2, 3
+        # MUST be in that format with commas to be able to run redis.keys()
+        # if a user's status changes while expiration period, can send other users a notification with the status change
+        if params_hash["expiration"]
+          connection_result = set_connections({ user_ids: [user.id].concat(params_hash["other_user_id"]), expiration: params_hash["expiration"]})
+          # connection_result = set_connections({ user_ids: [user.id, 3], expiration: params_hash["expiration"]})
+          # p '******* redis chat_channel connection_result ' + connection_result.to_s
+        end
 
-      # p '******* redis chat_channel params_hash ' + params_hash.to_s
-      # sets a connection hash in the form of connection,1,2,3, (with a comma before and after EACH user id) indicating there is a connection among users 1, 2, 3
-      # MUST be in that format with commas to be able to run redis.keys()
-      # if a user's status changes while expiration period, can send other users a notification with the status change
-      if params_hash["expiration"]
-        connection_result = set_connections({ user_ids: [user.id].concat(params_hash["other_user_id"]), expiration: params_hash["expiration"]})
-        # connection_result = set_connections({ user_ids: [user.id, 3], expiration: params_hash["expiration"]})
-        # p '******* redis chat_channel connection_result ' + connection_result.to_s
-      end
+      end # end of if $redis
       notification = {notification: 'authenticated', user_status: user_status_hash, other_user_status: other_user_hash_array}
       notification_all = {notification: 'User X has connected'}
       # transmits just to subscriber; Broadcast transmits to all subscribers?

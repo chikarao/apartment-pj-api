@@ -27,7 +27,6 @@ module UserStatus
         $redis.del(each_status)
       end
       user_status_created = $redis.hmset("user_status:#{hash[:user_id]},#{logged_in};#{online}", "last_activity", (Time.now.to_f * 1000).to_i)
-      # p "************** in UserStatus module user_status_created: " + user_status_created.to_s
     # if else user does not have a user hash in redis create one
     else
       # the hash keys have code. ':1' is user id; ',1' is log in status (1 for yes, NOT incremented for multiple logins since sessions controllers
@@ -45,11 +44,12 @@ module UserStatus
     user_status = $redis.keys(pattern = "*:#{user_id},*")
     # .hget returns a string; convert to integer
     if user_status[0]
-    last_activity = $redis.hget(user_status[0], "last_activity").to_i
-    # returns string 1 for yes or 0 no; convert to integer
-    logged_in = user_status[0][user_status[0].index(',') + 1].to_i;
-    # returns string 1 for yes or 0 no; convert to integer
-    online = user_status[0][user_status[0].index(';') + 1].to_i;
+      last_activity = $redis.hget(user_status[0], "last_activity").to_i
+      # p "************** in UserStatus module get_user_status_by_user_id user_status[0]: " + user_status[0].to_s
+      # returns string 1 for yes or 0 no; convert to integer
+      logged_in = user_status[0][user_status[0].index(',') + 1].to_i;
+      # returns string 1 for yes or 0 no; convert to integer
+      online = user_status[0][user_status[0].index(';') + 1].to_i;
       user_status_hash = {user_id: user_id, logged_in: logged_in, online: online, last_activity: last_activity}
     else
       # return nil if no user status in redis for user
@@ -104,7 +104,7 @@ module UserStatus
         # set the expiration to one passed in connection_hash
         expiration_set = $redis.expire(each_connection, connection_hash[:expiration])
       end
-      # if there is no connection, 
+      # if there is no connection,
       # # create a string to represent the hey to the hash in redis, passing an array of user ids
       # users_string = create_string(connection_hash[:user_ids])
       # # call redis method to create hash with time stamp

@@ -7,10 +7,11 @@ class Conversation < ApplicationRecord
 
   belongs_to :user
   belongs_to :flat
-
-#  after_create_commit do
-#   ChatMessageCreationEventBroadcastJob.perform_later(self)
-#  end
+  # ****************************************
+  # IMPORTANT NOTE: Covnersation user_id is for non-flatowner users.
+  # Flat owner users' id is set in conversation.flat.user_id
+  # Messages attached to conversations are identified by sent_by_user: true, which means conversation.user_id sent it
+  # ****************************************
 
   has_many :messages, dependent: :destroy
 

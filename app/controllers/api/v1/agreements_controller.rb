@@ -209,6 +209,7 @@ class Api::V1::AgreementsController < ApplicationController
       :component_type,
       :component_name,
       :display_text,
+      :template_file_name
       ]
     )
   end
