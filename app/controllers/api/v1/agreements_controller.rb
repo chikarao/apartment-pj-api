@@ -56,6 +56,16 @@ class Api::V1::AgreementsController < ApplicationController
   # def edit
   # end
 
+  def save_template_agreement_fields
+    p "save_template_agreement_fields, new_document_field_params, document_field_params: " + new_document_field_params.to_s + ' ' + document_field_params.to_s
+    booking = Booking.find_by(id: params[:booking_id])
+    agreement = Agreement.find_by(id: params[:agreement_id])
+    agreement_serializer = parse_json agreement
+    booking_serializer = parse_json booking
+    json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+
+  end
+
   def update_agreement_fields
     booking = Booking.find_by(id: params[:booking_id])
     agreement = Agreement.find_by(id: params[:agreement_id])
@@ -210,8 +220,35 @@ class Api::V1::AgreementsController < ApplicationController
       :component_name,
       :display_text,
       :template_file_name
-      ]
-    )
+    ]
+  )
+  end
+
+  def new_document_field_params
+    params.permit(new_document_field: [
+      :id,
+      :name,
+      :agreement_id,
+      :input_type,
+      :text_align,
+      :page,
+      :val,
+      :value,
+      :enclosed_text,
+      :top,
+      :left,
+      :width,
+      :height,
+      :font_size,
+      :margin,
+      :class_name,
+      :class_name_1,
+      :component_type,
+      :component_name,
+      :display_text,
+      :template_file_name
+    ]
+  )
   end
 
   def load_agreement

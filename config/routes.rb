@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       resources :agreements do
       end
       post 'update_agreement_fields', to: 'agreements#update_agreement_fields'
+      post 'save_template_agreement_fields', to: 'agreements#save_template_agreement_fields'
 
       resources :document_fields do
       end
