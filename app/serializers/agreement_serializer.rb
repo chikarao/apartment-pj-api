@@ -18,6 +18,7 @@ class AgreementSerializer < ActiveModel::Serializer
   :document_fields,
   :document_inserts,
   :document_pages,
+  :document_type,
   :created_at,
   :updated_at
   # has_many :flats

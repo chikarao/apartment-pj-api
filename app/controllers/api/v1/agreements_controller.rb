@@ -5,7 +5,7 @@ class Api::V1::AgreementsController < ApplicationController
   include CreatePdf
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
-  before_action :valid_token, only: [:destroy, :show, :create, :update]
+  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields]
 
   def show
     if @agreement
@@ -26,7 +26,7 @@ class Api::V1::AgreementsController < ApplicationController
     # just_document_keys_array = create_document_keys_array(params)
     # only if have parent
     # agreement.book_id = params[:book_id]
-    p "document_field_params.document_field.count: " + document_field_params["document_field"].count.to_s
+    # p "document_field_params.document_field.count: " + document_field_params["document_field"].count.to_s
     if agreement.save
       document_field_params["document_field"].each do |each|
         # p "each: " + each.to_s
@@ -57,11 +57,46 @@ class Api::V1::AgreementsController < ApplicationController
   # end
 
   def save_template_agreement_fields
-    p "save_template_agreement_fields, new_document_field_params, document_field_params: " + new_document_field_params.to_s + ' ' + document_field_params.to_s
+    # This creates new fields and updates existing fields
+    p "save_template_agreement_fields, document_field_params, document_field_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
     booking = Booking.find_by(id: params[:booking_id])
     agreement = Agreement.find_by(id: params[:agreement_id])
+    document_field_params["document_field"].each do |each|
+      p "save_template_agreement_fields, document_field_params.each do, each, each.except(:id): " + each.to_s + ' ' + each.except(:id).to_s
+      # If id includes character 'a' it is a new field, so create new
+      if each["id"].is_a?(String) && each["id"].include?('a')
+        document_field = DocumentField.new(each.except(:id))
+        document_field.agreement_id = agreement.id
+        unless document_field.save
+          json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
+          break
+        end # end of unless
+      else # if doesn't include 'a' it is an existing field in DB, so update
+        document_field = DocumentField.find_by(id: each["id"])
+        unless document_field.update(each)
+          json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
+          break
+        end
+      end #end of if include
+    end # end of each
+
+    # If there are ids in the deleted_document_field array, delete document_fields
+    if params["deleted_document_field"].length > 0
+      params["deleted_document_field"].each do |each|
+        document_field = DocumentField.find_by(id: each)
+        unless document_field.destroy
+          json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
+          break
+        end
+      end #end of deleted each
+    end #end of deleted lengh > 0
+
+    # document_field_params["document_field"].each do |each|
+    # end
+
     agreement_serializer = parse_json agreement
     booking_serializer = parse_json booking
+    # if none of the above each loops do not break, send successful json response
     json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
 
   end
@@ -71,7 +106,7 @@ class Api::V1::AgreementsController < ApplicationController
     agreement = Agreement.find_by(id: params[:agreement_id])
     # update each document field sent in document_field_params
     document_field_params[:document_field].each do |each|
-      p "each: " + each.to_s
+      # p "each: " + each.to_s
       # find each document field an udpate
       document_field = DocumentField.find_by(id: each[:id])
       # if any document_field fails to update, break and send fail message
@@ -213,43 +248,55 @@ class Api::V1::AgreementsController < ApplicationController
       :width,
       :height,
       :font_size,
+      :font,
+      :font_family,
+      :font_style,
+      :font_weight,
       :margin,
+      :border_color,
       :class_name,
       :class_name_1,
       :component_type,
       :component_name,
+      :component,
       :display_text,
       :template_file_name
     ]
   )
   end
 
-  def new_document_field_params
-    params.permit(new_document_field: [
-      :id,
-      :name,
-      :agreement_id,
-      :input_type,
-      :text_align,
-      :page,
-      :val,
-      :value,
-      :enclosed_text,
-      :top,
-      :left,
-      :width,
-      :height,
-      :font_size,
-      :margin,
-      :class_name,
-      :class_name_1,
-      :component_type,
-      :component_name,
-      :display_text,
-      :template_file_name
-    ]
-  )
-  end
+  # def document_field_params
+  #   params.permit(new_document_field: [
+  #     :id,
+  #     :name,
+  #     :agreement_id,
+  #     :input_type,
+  #     :text_align,
+  #     :page,
+  #     :val,
+  #     :value,
+  #     :enclosed_text,
+  #     :top,
+  #     :left,
+  #     :width,
+  #     :height,
+  #     :font_size,
+  #     :font,
+  #     :font_family,
+  #     :font_style,
+  #     :font_weight,
+  #     :margin,
+  #     :border_color,
+  #     :class_name,
+  #     :class_name_1,
+  #     :component_type,
+  #     :component_name,
+  #     :component,
+  #     :display_text,
+  #     :template_file_name
+  #   ]
+  # )
+  # end
 
   def load_agreement
     # front end gets params and sends it in fetchFlatFromParams

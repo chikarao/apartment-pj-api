@@ -11,6 +11,7 @@ class DocumentFieldsSerializer < ActiveModel::Serializer
   :font_style,
   :font_size,
   :font_color,
+  :font_weight,
   :font,
   :border_color,
   :border_width,
@@ -23,6 +24,7 @@ class DocumentFieldsSerializer < ActiveModel::Serializer
   :class_name_1,
   :component_type,
   :component_name,
+  :component,
   :created_at,
   :updated_at
   # has_many :flats
