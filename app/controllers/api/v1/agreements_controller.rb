@@ -81,8 +81,8 @@ class Api::V1::AgreementsController < ApplicationController
     end # end of each
 
     # If there are ids in the deleted_document_field array, delete document_fields
-    if params["deleted_document_field"].length > 0
-      params["deleted_document_field"].each do |each|
+    if params["deleted_document_field_id_array"].length > 0
+      params["deleted_document_field_id_array"].each do |each|
         document_field = DocumentField.find_by(id: each)
         unless document_field.destroy
           json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
