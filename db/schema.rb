@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200217021606) do
+ActiveRecord::Schema.define(version: 20200331070043) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -363,6 +363,35 @@ ActiveRecord::Schema.define(version: 20200217021606) do
     t.boolean "archived_by_user", default: false
     t.index ["flat_id"], name: "index_conversations_on_flat_id"
     t.index ["user_id"], name: "index_conversations_on_user_id"
+  end
+
+  create_table "document_field_choices", force: :cascade do |t|
+    t.integer "document_field_id"
+    t.string "val"
+    t.string "valName"
+    t.string "top"
+    t.string "left"
+    t.string "width"
+    t.string "height"
+    t.string "class_name"
+    t.string "border_radius"
+    t.string "border"
+    t.string "border_color"
+    t.string "border_width"
+    t.string "border_style"
+    t.string "underline"
+    t.string "margin"
+    t.string "text_align"
+    t.string "background_color"
+    t.string "font_style"
+    t.string "font_size"
+    t.string "font_color"
+    t.string "font_weight"
+    t.string "font_family"
+    t.string "input_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_field_id"], name: "index_document_field_choices_on_document_field_id"
   end
 
   create_table "document_fields", force: :cascade do |t|

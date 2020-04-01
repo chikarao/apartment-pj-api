@@ -83,6 +83,10 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
 
+    # agreements_serializer = parse_json agreements, include: 'document_field.document_field_choices'
+    # @project.to_json( include: { estimates: {
+    #                 include: {:project, :project_code, :tax_type, :proposals } } }
+    # serialized_agreement = agreement.to_json(include: { document_field_choices })
     agreements_serializer = parse_json agreements
 
     flat = Flat.find_by(id: @booking.flat_id)

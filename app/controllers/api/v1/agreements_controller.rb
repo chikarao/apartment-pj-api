@@ -58,25 +58,51 @@ class Api::V1::AgreementsController < ApplicationController
 
   def save_template_agreement_fields
     # This creates new fields and updates existing fields
-    p "save_template_agreement_fields, document_field_params, document_field_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
+    # p "save_template_agreement_fields, document_field_params, document_field_choice_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_choice_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
     booking = Booking.find_by(id: params[:booking_id])
     agreement = Agreement.find_by(id: params[:agreement_id])
     document_field_params["document_field"].each do |each|
-      p "save_template_agreement_fields, document_field_params.each do, each, each.except(:id): " + each.to_s + ' ' + each.except(:id).to_s
+      # p '!!!!!!!!!!!!!!! each each.keys: ' + each.to_s + ' ' + each.keys.to_s
+      # p "save_template_agreement_fields, document_field_params.each do, each, each.except(:id): " + each.to_s + ' ' + each.except(:id).to_s
+      # p "save_template_agreement_fields, document_field_params.each do, each, params[:document_field_choice]: " + params[:document_field_choice].to_s
       # If id includes character 'a' it is a new field, so create new
       if each["id"].is_a?(String) && each["id"].include?('a')
         document_field = DocumentField.new(each.except(:id))
+        # document_field = DocumentField.new(each.except(:id, :document_field_choice))
         document_field.agreement_id = agreement.id
         unless document_field.save
           json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
           break
-        end # end of unless
+        # else # else of unless document_field.save
+        #   # p '!!!!!!!!!!!!!!! each each["document_field_choice"]: ' + each.to_s + ' ' + each["document_field_choice"].to_s
+        #
+        #   if each["document_field_choices"]
+        #     each["document_field_choices"].each do |eachChoice|
+        #       document_field_choice = DocumentFieldChoice.new(eachChoice)
+        #       document_field_choice.document_field_id = document_field.id
+        #       unless document_field_choice.save
+        #         json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
+        #         break
+        #       end # end of unless
+        #     end # end of each
+        #   end # end of if each.document_field_choices
+        end # end of unless document_field.save
       else # if doesn't include 'a' it is an existing field in DB, so update
         document_field = DocumentField.find_by(id: each["id"])
         unless document_field.update(each)
           json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
           break
-        end
+        # else #else for unless
+        #   if each["document_field_choices"]
+        #     each["document_field_choices"].each do |eachChoice|
+        #       document_field_choice = DocumentFieldChoice.find_by(id: eachChoice["id  "])
+        #       unless document_field_choice.update(eachChoice)
+        #         json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
+        #         break
+        #       end # end of unless
+        #     end # end of each
+        #   end # end of if each["document_field_choices"]
+        end #end of unless
       end #end of if include
     end # end of each
 
@@ -94,10 +120,27 @@ class Api::V1::AgreementsController < ApplicationController
     # document_field_params["document_field"].each do |each|
     # end
 
+    # agreement = Agreement.find_by(id: params[:agreement_id])
+    document_fields = agreement.document_fields
+    # document_field_choices_object = {}
+    # document_fields_returned = [];
+    # document_fields.each do |each|
+    #   p '!!!!!!!!!!!!!!! document_fields document_fields: ' + document_fields.to_s + ' ' + document_fields.to_s
+    #   if each.document_field_choices
+    #     each.document_field_choices.each_with_index do |each, i|
+    #       document_field_choices_object[i] = each
+    #     end
+    #     each.document_field_choices = document_field_choices_object
+    #     document_fields_returned.push(each)
+    #   else
+    #     document_fields_returned.push(each)
+    #   end
+    # end
     agreement_serializer = parse_json agreement
+    document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
     # if none of the above each loops do not break, send successful json response
-    json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+    json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
 
   end
 
@@ -114,7 +157,7 @@ class Api::V1::AgreementsController < ApplicationController
         json_response "Update agreement fields failed", false, {}, :unprocessable_entity
         break
       end
-    end
+    end # end of each
 
     # if save_and_create: true sent in params
     if params[:save_and_create]
@@ -260,40 +303,63 @@ class Api::V1::AgreementsController < ApplicationController
       :component_name,
       :component,
       :display_text,
-      :template_file_name
+      :template_file_name,
+      document_field_choices_attributes: [
+        :id,
+        :document_field_id,
+        :val,
+        :valName,
+        :top,
+        :left,
+        :width,
+        :height,
+        :class_name,
+        :border_radius,
+        :border,
+        :border_color,
+        :border_width,
+        :border_style,
+        :underline,
+        :margin,
+        :text_align,
+        :background_color,
+        :font_style,
+        :font_size,
+        :font_color,
+        :font_weight,
+        :font_family,
+        :input_type
+      ]
     ]
   )
   end
 
-  # def document_field_params
-  #   params.permit(new_document_field: [
+  # def document_field_choice_params
+  #   params.permit(document_field_choice: [
   #     :id,
-  #     :name,
-  #     :agreement_id,
-  #     :input_type,
-  #     :text_align,
-  #     :page,
+  #     :document_field_id,
   #     :val,
-  #     :value,
-  #     :enclosed_text,
+  #     :valName,
   #     :top,
   #     :left,
   #     :width,
   #     :height,
-  #     :font_size,
-  #     :font,
-  #     :font_family,
-  #     :font_style,
-  #     :font_weight,
-  #     :margin,
-  #     :border_color,
   #     :class_name,
-  #     :class_name_1,
-  #     :component_type,
-  #     :component_name,
-  #     :component,
-  #     :display_text,
-  #     :template_file_name
+  #     :border_radius,
+  #     :border,
+  #     :border_color,
+  #     :border_width,
+  #     :border_style,
+  #     :underline,
+  #     :margin,
+  #     :text_align,
+  #     :background_color,
+  #     :font_style,
+  #     :font_size,
+  #     :font_color,
+  #     :font_weight,
+  #     :font_family,
+  #     :input_type
   #   ]
   # )
   # end
@@ -323,3 +389,19 @@ class Api::V1::AgreementsController < ApplicationController
   #   return objectReturned
   # end
 end
+
+# def document_params
+#   params.permit(document: [
+#     :id,
+#     :name,
+#     :agreement_id,
+#     choice: [
+#       :id,
+#       :document_id,
+#       :text
+#     ]
+#   ]
+# end
+#
+# {"id"=>2, "agreement_name"=>"test4", "document"=>[{"id"=>1, "name"=>"test1", "agreement_id"=>2, "choice"=>[{"id"=>1, "document_id"=>1, "text"=>"abc"}, {"id"=>2, "document_id"=>1, "text"=>"def"}, {"id"=>3, "document_id"=>1, "text"=>"ghi"}]}]}
+#

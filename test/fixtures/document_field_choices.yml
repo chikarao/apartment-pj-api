@@ -1,0 +1,51 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  document_field: one
+  val: MyString
+  valName: MyString
+  top: MyString
+  left: MyString
+  width: MyString
+  height: MyString
+  class_name: MyString
+  border_radius: MyString
+  border: MyString
+  border_color: MyString
+  border_width: MyString
+  border_style: MyString
+  underline: MyString
+  margin: MyString
+  text_align: MyString
+  background_color: MyString
+  font_style: MyString
+  font_size: MyString
+  font_color: MyString
+  font_weight: MyString
+  font_family: MyString
+  input_type: MyString
+
+two:
+  document_field: two
+  val: MyString
+  valName: MyString
+  top: MyString
+  left: MyString
+  width: MyString
+  height: MyString
+  class_name: MyString
+  border_radius: MyString
+  border: MyString
+  border_color: MyString
+  border_width: MyString
+  border_style: MyString
+  underline: MyString
+  margin: MyString
+  text_align: MyString
+  background_color: MyString
+  font_style: MyString
+  font_size: MyString
+  font_color: MyString
+  font_weight: MyString
+  font_family: MyString
+  input_type: MyString

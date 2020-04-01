@@ -87,7 +87,8 @@ class Api::V1::DocumentFieldsController < ApplicationController
       :class_name,
       :class_name_1,
       :component_type,
-      :component_name
+      :component_name,
+      :document_field_choices
     )
   end
 
