@@ -29,21 +29,17 @@ class Api::V1::AgreementsController < ApplicationController
     # p "document_field_params.document_field.count: " + document_field_params["document_field"].count.to_s
     if agreement.save
       document_field_params["document_field"].each do |each|
-        # p "each: " + each.to_s
         document_field_instance = DocumentField.new(each)
         document_field_instance.agreement_id = agreement.id
 
-        # document_field.field_name = params[each].field_name
-        # document_field.agreement_id = agreement.id
-        # document_field.value = params[each].value
         if document_field_instance.save
           # return
         else
           agreement.destroy
           break
           # json_response "Create agreement failed", false, {}, :unprocessable_entity
-        end
-      end
+        end # end of if document_field_instance
+      end # End of each document_field
       booking = Booking.find_by(id: agreement_params[:booking_id])
       booking_serializer = parse_json booking
       agreement_serializer = parse_json agreement
@@ -57,51 +53,30 @@ class Api::V1::AgreementsController < ApplicationController
   # end
 
   def save_template_agreement_fields
-    # This creates new fields and updates existing fields
+    # This endpoint creates new fields and updates existing template fields
     # p "save_template_agreement_fields, document_field_params, document_field_choice_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_choice_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
     booking = Booking.find_by(id: params[:booking_id])
     agreement = Agreement.find_by(id: params[:agreement_id])
     document_field_params["document_field"].each do |each|
-      # p '!!!!!!!!!!!!!!! each each.keys: ' + each.to_s + ' ' + each.keys.to_s
-      # p "save_template_agreement_fields, document_field_params.each do, each, each.except(:id): " + each.to_s + ' ' + each.except(:id).to_s
-      # p "save_template_agreement_fields, document_field_params.each do, each, params[:document_field_choice]: " + params[:document_field_choice].to_s
       # If id includes character 'a' it is a new field, so create new
       if each["id"].is_a?(String) && each["id"].include?('a')
+        # IMPORTANT: .new enables nested document_field_choices to be created
+        # See document_field model for accepts_nested_attributes_for method
+        # document_field params needs to be document_fields_attributes for nesting to work
         document_field = DocumentField.new(each.except(:id))
-        # document_field = DocumentField.new(each.except(:id, :document_field_choice))
         document_field.agreement_id = agreement.id
         unless document_field.save
           json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
           break
-        # else # else of unless document_field.save
-        #   # p '!!!!!!!!!!!!!!! each each["document_field_choice"]: ' + each.to_s + ' ' + each["document_field_choice"].to_s
-        #
-        #   if each["document_field_choices"]
-        #     each["document_field_choices"].each do |eachChoice|
-        #       document_field_choice = DocumentFieldChoice.new(eachChoice)
-        #       document_field_choice.document_field_id = document_field.id
-        #       unless document_field_choice.save
-        #         json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
-        #         break
-        #       end # end of unless
-        #     end # end of each
-        #   end # end of if each.document_field_choices
         end # end of unless document_field.save
       else # if doesn't include 'a' it is an existing field in DB, so update
         document_field = DocumentField.find_by(id: each["id"])
+        # IMPORTANT: .update enables nested document_field_choices to be created
+        # See document_field model for accepts_nested_attributes_for method
+        # document_field params needs to be document_fields_attributes for nesting to work
         unless document_field.update(each)
           json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
           break
-        # else #else for unless
-        #   if each["document_field_choices"]
-        #     each["document_field_choices"].each do |eachChoice|
-        #       document_field_choice = DocumentFieldChoice.find_by(id: eachChoice["id  "])
-        #       unless document_field_choice.update(eachChoice)
-        #         json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
-        #         break
-        #       end # end of unless
-        #     end # end of each
-        #   end # end of if each["document_field_choices"]
         end #end of unless
       end #end of if include
     end # end of each
@@ -117,31 +92,15 @@ class Api::V1::AgreementsController < ApplicationController
       end #end of deleted each
     end #end of deleted lengh > 0
 
-    # document_field_params["document_field"].each do |each|
-    # end
-
-    # agreement = Agreement.find_by(id: params[:agreement_id])
+    # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
+    # and document_field_choice serializer that returns document_field_choices
+    # Rails default depth of child ssociations is one, so use custom to get another layer
     document_fields = agreement.document_fields
-    # document_field_choices_object = {}
-    # document_fields_returned = [];
-    # document_fields.each do |each|
-    #   p '!!!!!!!!!!!!!!! document_fields document_fields: ' + document_fields.to_s + ' ' + document_fields.to_s
-    #   if each.document_field_choices
-    #     each.document_field_choices.each_with_index do |each, i|
-    #       document_field_choices_object[i] = each
-    #     end
-    #     each.document_field_choices = document_field_choices_object
-    #     document_fields_returned.push(each)
-    #   else
-    #     document_fields_returned.push(each)
-    #   end
-    # end
     agreement_serializer = parse_json agreement
     document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
     # if none of the above each loops do not break, send successful json response
     json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
-
   end
 
   def update_agreement_fields

@@ -83,20 +83,16 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
 
-    # agreements_serializer = parse_json agreements, include: 'document_field.document_field_choices'
-    # @project.to_json( include: { estimates: {
-    #                 include: {:project, :project_code, :tax_type, :proposals } } }
-    # serialized_agreement = agreement.to_json(include: { document_field_choices })
+    # NOTE: agreement_serializer has a custom serializer for document_fields which also
+    # includes document_field_choices since Rails defualt is to return one later of associations
     agreements_serializer = parse_json agreements
 
     flat = Flat.find_by(id: @booking.flat_id)
-    # owner = User.find_by(id: flat.user_id)
-    # assignment_serializer = parse_json assignments
+
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
-    # owner_serializer = parse_json owner
     json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer, document_inserts_all: document_inserts_array}, :ok
   end
 

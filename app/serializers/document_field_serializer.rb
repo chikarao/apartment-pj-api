@@ -36,7 +36,10 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   # has_many :inspections
   has_many :document_field_choices, include: :all
 
+  # IMPORTANT: Below is a custom document_field serializer that returns document_field_choices
+  # place document_field_choices in a hash mapped by index { 0: obj, 1: obj }
   def document_field_choices
+    # Return hash object of document_field_choices mapped; Nil if no document_field_choices
     obj = nil
     if !object.document_field_choices.empty?
       obj = {}
@@ -47,7 +50,6 @@ class DocumentFieldSerializer < ActiveModel::Serializer
       end
     end
     return obj
-  end
-  # ["id", "agreement_id", "val", "value", "enclosed_text", "top", "left", "height", "font_style", "font_size", "font_color", "font", "border_color", "border_width", "border_style", "underline", "italic", "background_color", "margin", "class_name", "class_name_1", "component_type", "component_name", "created_at", "updated_at", "name", "text_align", "input_type", "page", "width", "display_text", "font_family", "component", "font_weight"]
+  end # End of function
 
-end
+end # End of class

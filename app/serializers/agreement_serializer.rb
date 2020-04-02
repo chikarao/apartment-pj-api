@@ -23,8 +23,14 @@ class AgreementSerializer < ActiveModel::Serializer
   :updated_at
   # has_many :flats
   # has_many :inspections
+
+  # IMPORTANT: Below is a custom document_field serializer that returns document_field_choices
+  # Rails default depth of child ssociations is one, so use custom to get another layer
   def document_fields
+    # Return array of document_fields
     array = []
+    # Object is an agreement instance; Go through each document field to get
+    # document field choices if any and put them in a hash object mapped by index
     if object.document_fields
       object.document_fields.each do |eachDF|
         custom_document_field = eachDF.attributes
@@ -41,10 +47,8 @@ class AgreementSerializer < ActiveModel::Serializer
         end # end of if document_field_choices empty
         array.push(custom_document_field)
       end # end of each
-      #object is a DocumentField instance
     end # end of if object.document_fields
-  # end
     return array
   end # end of function
-  # !!!!!!add building_type to replace type; does not show up in serialized results
-end
+  
+end # End of class
