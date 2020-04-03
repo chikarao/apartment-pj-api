@@ -11,6 +11,8 @@ require 'prawn'
 class Api::V1::BookingsController < ApplicationController
   include DocumentTranslationImportantPoints
   include DocumentTranslationFixedTerm
+  include FixedTermRentalContractBilingualAll
+  include ImportantPointsExplanationBilingualAll
   include CreatePdf
   # before_action :ensure_params_exist, only: :create
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
@@ -89,11 +91,26 @@ class Api::V1::BookingsController < ApplicationController
 
     flat = Flat.find_by(id: @booking.flat_id)
 
+    fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
+    important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
+
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
-    json_response "Showed booking successfully", true, {booking: booking_serializer, user: user_serializer, flat: flat_serializer, contracts: contract_serializer, assignments: work_type_object, contractorTranslations: contractorTranslationObject, staffTranslations: staffTranslationObject, agreements: agreements_serializer, document_inserts_all: document_inserts_array}, :ok
+    json_response "Showed booking successfully", true, {
+      booking: booking_serializer,
+      user: user_serializer,
+      flat: flat_serializer,
+      contracts: contract_serializer,
+      assignments: work_type_object,
+      contractorTranslations: contractorTranslationObject,
+      staffTranslations: staffTranslationObject,
+      agreements: agreements_serializer,
+      document_inserts_all: document_inserts_array,
+      fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
+      important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json
+      }, :ok
   end
 
   def new
