@@ -10,7 +10,9 @@ require 'prawn'
 
 class Api::V1::BookingsController < ApplicationController
   include DocumentTranslationImportantPoints
+  include DocumentTranslationImportantPointsByPage
   include DocumentTranslationFixedTerm
+  include DocumentTranslationFixedTermByPage
   include FixedTermRentalContractBilingualAll
   include ImportantPointsExplanationBilingualAll
   include CreatePdf
@@ -84,6 +86,40 @@ class Api::V1::BookingsController < ApplicationController
         end
       end
     end
+
+    translations = DocumentTranslationImportantPoints::OBJECT
+    # translations = DocumentTranslationFixedTerm::OBJECT
+    count = 0
+    object = {}
+    overlapped = {}
+    translations.keys.each do |page|
+      # p "!!!!! booking_controller DocumentTranslationImportantPoints object, page: " + object.to_s + ' ' + page.to_s
+      # p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations[page].keys: " + object.to_s + ' ' + translations[page].keys.to_s
+      translations[page].keys.each do |each_key|
+        # p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations[page].keys, each_key: " + object.to_s + ' ' + translations[page].keys.to_s + ' ' + each_key.to_s
+        unless object[each_key]
+          # object[page] = {}
+          # object[page][each_key] = "Base[:#{each_key}]"
+          object[each_key] = 1
+        else
+          # unless object[page][each_key]
+            # object[page][each_key] = "Base[:#{each_key}]"
+            # object[page][each_key] = 1
+          # else
+            object[each_key] += 1
+          #   # object[page][each_key] += 1
+            if overlapped[each_key]
+              overlapped[each_key] += 1
+            else
+              overlapped[each_key] = 1
+            end
+          # end
+        end
+        count += 1
+      end
+    end
+
+      p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations.keys, count, overlapped: " + object.to_s + ' ' + translations.keys.to_s + ' ' + count.to_s + ' ' + overlapped.to_s
 
     # NOTE: agreement_serializer has a custom serializer for document_fields which also
     # includes document_field_choices since Rails defualt is to return one later of associations
@@ -369,10 +405,11 @@ class Api::V1::BookingsController < ApplicationController
 
   def fetch_translation
     # gets translation objects from concerns/document_translation_fixed_term.rb
-    fixed_term = DocumentTranslationFixedTerm::OBJECT
+    fixed_term = DocumentTranslationFixedTermByPage::OBJECT
+    # fixed_term = DocumentTranslationFixedTerm::OBJECT
     # fixed_term = fixed_term_rental_contract_translation
     # gets translation objects from concerns/document_translation_important_points.rb
-    important_points = DocumentTranslationImportantPoints::OBJECT
+    important_points = DocumentTranslationImportantPointsByPage::OBJECT
     # important_points = important_points_explanation_translation
 
     translation = { fixed_term_rental_contract_bilingual: fixed_term, important_points_explanation_bilingual: important_points }

@@ -34,7 +34,7 @@ class AgreementSerializer < ActiveModel::Serializer
     if object.document_fields
       object.document_fields.each do |eachDF|
         custom_document_field = eachDF.attributes
-        p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
+        # p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
         obj = nil
         if !eachDF.document_field_choices.empty?
           obj = {}
@@ -50,5 +50,5 @@ class AgreementSerializer < ActiveModel::Serializer
     end # end of if object.document_fields
     return array
   end # end of function
-  
+
 end # End of class

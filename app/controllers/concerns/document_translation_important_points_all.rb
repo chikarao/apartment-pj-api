@@ -1,10 +1,10 @@
-module DocumentTranslationImportantPoints
+module DocumentTranslationImportantPointsAll
   # CONTANT for fetch_translation and save and create agreement in booking
   # def important_points_explanation_translation
     # include ImportantPointsExplanationTranslation
     OBJECT =
     {
-      1 => {
+      # 1 => {
         documentTitle: {
           translations: { en: 'Important Points Explanation of Property to be Leased', po: 'Pontos Importantes Explicação da Propriedade a Ser Alugada', jp: '' },
           attributes: { top: '7.5%', left: '25.9%', font_size: '12', text_align: 'center', width: '50%', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' }
@@ -150,8 +150,8 @@ module DocumentTranslationImportantPoints
           attributes: { top: '90.5%', left: '11.1%', font_size: '10', width: '20%', class_name: 'document-translation' }
         },
 
-      },
-      2 => {
+      # },
+      # 2 => {
         itemsDirectlyRelated: {
           translations: { en: 'Items Directly Related to the Property', po: '', jp: '' },
           attributes: { top: '10.5%', left: '12.1%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -386,8 +386,8 @@ module DocumentTranslationImportantPoints
           translations: { en: 'Summary of Results of Inspection of Building Conditions', po: '', jp: '' },
           attributes: { top: '92.4%', left: '10.1%', font_size: '10', class_name: 'document-translation' }
         },
-      },
-      3 => {
+      # },
+      # 3 => {
         itemsRecordedInRegistry: {
           translations: { en: 'State of Repair of Equipment (in case of completed building)', po: '', jp: '' },
           attributes: { top: '11.4%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -511,9 +511,9 @@ module DocumentTranslationImportantPoints
         asbestosSurveyContents: {
           translations: { en: 'Contents of Asbestos Usage Survey', po: '', jp: '' },
           attributes: { top: '92.4%', left: '10.5%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
-        }
-      },
-      4 => {
+        },
+      # },
+      # 4 => {
         earthquakeStudy: {
           translations: { en: 'Description of Earthquake Resistance Study', po: '', jp: '' },
           attributes: { top: '7%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -562,9 +562,9 @@ module DocumentTranslationImportantPoints
         cancellation: {
           translations: { en: 'Cancellation of Contract', po: '', jp: '' },
           attributes: { top: '58.3%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
-        }
-      },
-      5 => {
+        },
+      # },
+      # 5 => {
         damageCompensation: {
           translations: { en: 'Compensation for Damages or Breach of Contract', po: '', jp: '' },
           attributes: { top: '8.2%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -673,13 +673,13 @@ module DocumentTranslationImportantPoints
         termsOfRenewal: {
           translations: { en: 'Terms of Renewal', po: '', jp: '' },
           attributes: { top: '72.5%', left: '10.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
-        }
+        },
         # // contractRenewal: {
         # //   translations: { en: 'Contract Renewal', po: '', jp: '' },
         # //   attributes: { top: '71.5%', left: '10.2%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         # // },
-      },
-      6 => {
+      # },
+      # 6 => {
         limitationsOnUseAndOthers: {
           translations: { en: 'Limitations on Use and Others', po: '', jp: '' },
           attributes: { top: '6.8%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -733,9 +733,9 @@ module DocumentTranslationImportantPoints
         addressAgent: {
           translations: { en: 'Address', po: '', jp: '' },
           attributes: { top: '95%', left: '10.7%', font_size: '10', class_name: 'document-translation' }
-        }
-      },
-      7 => {
+        },
+      # },
+      # 7 => {
         otherItems: {
           translations: { en: 'Other Items', po: '', jp: '' },
           attributes: { top: '9.5%', left: '11.4%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -784,10 +784,10 @@ module DocumentTranslationImportantPoints
         bondOfficeAddress1: {
           translations: { en: 'Office Address and Name Where Bond is Deposited', po: '', jp: '' },
           attributes: { top: '60%', left: '11.6%', font_size: '10', class_name: 'document-translation', width: '19%' }
-        }
-      },
-      8 => {
-        documentTitle: {
+        },
+      # },
+      # 8 => {
+        documentTitle1: {
           translations: { en: 'Summary of Results of Inspection of Building Conditions (For Use in Explanation of Important Matters)', po: '', jp: '' },
           attributes: { top: '7.5%', left: '16.3%', font_size: '12', class_name: 'document-translation', font_weight: 'bold' }
         },
@@ -1110,9 +1110,9 @@ module DocumentTranslationImportantPoints
         roofRain: {
           translations: { en: 'Roof', po: '', jp: '' },
           attributes: { top: '78.7%', left: '65%', font_size: '10', class_name: 'document-translation' }
-        }
-      },
-      9 => {
+        },
+      # },
+      # 9 => {
         buildingInspector: {
           translations: { en: 'Building Inspector', po: '', jp: '' },
           attributes: { top: '25%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
@@ -1176,10 +1176,10 @@ module DocumentTranslationImportantPoints
         governorsRegistrationOffice: {
           translations: { en: 'Governor\'s Reg.', po: '', jp: '' },
           attributes: { top: '32.8%', left: '54.4%', font_size: '10', class_name: 'document-translation' }
-        }
-      },
-      10 => {
-        documentTitle: {
+        },
+      # },
+      # 10 => {
+        documentTitle2: {
           translations: { en: 'Summary of Results of Inspection of Building Conditions (For Use in Explanation of Important Matters)', po: '', jp: '' },
           attributes: { top: '8%', left: '16.3%', font_size: '12', class_name: 'document-translation', font_weight: 'bold' }
         },
@@ -1472,9 +1472,9 @@ module DocumentTranslationImportantPoints
         roofRain1: {
           translations: { en: 'Roof', po: '', jp: '' },
           attributes: { top: '74.2%', left: '64.2%', font_size: '10', class_name: 'document-translation' }
-        }
-      },
-      11 => {
+        },
+      # },
+      # 11 => {
         buildingInspector: {
           translations: { en: 'Building Inspector', po: '', jp: '' },
           attributes: { top: '27.3%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
@@ -1538,9 +1538,9 @@ module DocumentTranslationImportantPoints
         governorsRegistrationOffice1: {
           translations: { en: 'Governor\'s Reg.', po: '', jp: '' },
           attributes: { top: '35.4%', left: '53.6%', font_size: '10', class_name: 'document-translation' }
-        },
-      },
-    };
+        }
+      # },
+    }
     # object = important_points_explanation
   #   return object
   # end

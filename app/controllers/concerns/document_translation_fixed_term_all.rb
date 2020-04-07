@@ -1,9 +1,9 @@
-module DocumentTranslationFixedTerm
+module DocumentTranslationFixedTermAll
   # CONTANT for fetch_translation and save and create agreement in booking
   # def fixed_term_rental_contract_translation
     # include FixedTermRentalContractTranslation
     OBJECT = {
-      1 => {
+      # 1 => {
       documentTitle: {
         translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '' },
         attributes: { top: '10.5%', left: '27.5%', font_size: '12', width: '45%', text_align: 'center', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' }
@@ -281,9 +281,9 @@ module DocumentTranslationFixedTerm
       sewageAvailability: {
         translations: { en: 'Yes (Public Sewage・Septic Tank) ・ None', po: 'Sim (Esgoto Público ・ Fossa Séptica) ・ Nenhum', jpy: '' },
         attributes: { top: '89%', left: '48.6%', font_size: '10', class_name: 'document-translation' }
-      }
-  },
-  2 => {
+      },
+  # },
+  # 2 => {
     unitInformation: {
       translations: { en: 'Unit Information (Continued)', po: '', jpy: '' },
       attributes: { top: '23.5%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
@@ -557,9 +557,9 @@ module DocumentTranslationFixedTerm
     others: {
       translations: { en: 'Others', po: '', jpy: '' },
       attributes: { top: '89.5%', left: '17%', font_size: '10', class_name: 'document-translation' }
-    }
-  },
-  3 => {
+    },
+  # },
+  # 3 => {
     landlordAndManagemement: {
       translations: { en: 'Landlord & Management', po: '', jpy: '' },
       attributes: { top: '7.7%', left: '37%', font_size: '10', class_name: 'document-translation' }
@@ -803,9 +803,9 @@ module DocumentTranslationFixedTerm
     ministersRegistrationGuarantee: {
       translations: { en: 'Land & Transportation Minister', po: '', jpy: '' },
       attributes: { top: '88.9%', left: '55.7%', font_size: '10', class_name: 'document-translation' }
-    }
-  },
-  12 => {
+    },
+  # },
+  # 12 => {
     signedAndSealed: {
       translations: { en: 'To be signed and sealed below', po: '', jpy: '' },
       attributes: { top: '8.8%', left: '22.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -955,8 +955,8 @@ module DocumentTranslationFixedTerm
       translations: { en: 'Seal', po: '', jpy: '' },
       attributes: { top: '82.4%', left: '87%', font_size: '10', class_name: 'document-translation' }
     },
-  }
-};
+  # }
+}
     # object = fixed_term_rental
   #   return object
   # end
