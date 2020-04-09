@@ -16,6 +16,7 @@ class Api::V1::BookingsController < ApplicationController
   include FixedTermRentalContractBilingualAll
   include ImportantPointsExplanationBilingualAll
   include CreatePdf
+  include TemplateElementFunctions
   # before_action :ensure_params_exist, only: :create
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :update, :destroy]
@@ -87,39 +88,16 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
 
-    translations = DocumentTranslationImportantPoints::OBJECT
-    # translations = DocumentTranslationFixedTerm::OBJECT
-    count = 0
-    object = {}
-    overlapped = {}
-    translations.keys.each do |page|
-      # p "!!!!! booking_controller DocumentTranslationImportantPoints object, page: " + object.to_s + ' ' + page.to_s
-      # p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations[page].keys: " + object.to_s + ' ' + translations[page].keys.to_s
-      translations[page].keys.each do |each_key|
-        # p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations[page].keys, each_key: " + object.to_s + ' ' + translations[page].keys.to_s + ' ' + each_key.to_s
-        unless object[each_key]
-          # object[page] = {}
-          # object[page][each_key] = "Base[:#{each_key}]"
-          object[each_key] = 1
-        else
-          # unless object[page][each_key]
-            # object[page][each_key] = "Base[:#{each_key}]"
-            # object[page][each_key] = 1
-          # else
-            object[each_key] += 1
-          #   # object[page][each_key] += 1
-            if overlapped[each_key]
-              overlapped[each_key] += 1
-            else
-              overlapped[each_key] = 1
-            end
-          # end
-        end
-        count += 1
-      end
-    end
+    base = FixedTermRentalContractBilingualAll::OBJECT
+    translation = DocumentTranslationFixedTermAll::OBJECT
+    template_mapping_object_fixed = get_template_object(translation, base)
 
-      p "!!!!! booking_controller DocumentTranslationImportantPoints object, translations.keys, count, overlapped: " + object.to_s + ' ' + translations.keys.to_s + ' ' + count.to_s + ' ' + overlapped.to_s
+    base = ImportantPointsExplanationBilingualAll::OBJECT
+    translation = DocumentTranslationImportantPointsAll::OBJECT
+    template_mapping_object_important_points = get_template_object(translation, base)
+
+    p "!!!!! booking_controller create object, template_mapping_object_fixed: " + template_mapping_object_fixed.to_s
+    p "!!!!! booking_controller create object, template_mapping_object_important_points: " + template_mapping_object_important_points.to_s
 
     # NOTE: agreement_serializer has a custom serializer for document_fields which also
     # includes document_field_choices since Rails defualt is to return one later of associations
@@ -145,7 +123,9 @@ class Api::V1::BookingsController < ApplicationController
       agreements: agreements_serializer,
       document_inserts_all: document_inserts_array,
       fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
-      important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json
+      important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
+      template_mapping_object_fixed: template_mapping_object_fixed.to_json,
+      template_mapping_object_important_points: template_mapping_object_important_points.to_json
       }, :ok
   end
 

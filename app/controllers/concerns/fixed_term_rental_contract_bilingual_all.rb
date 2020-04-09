@@ -3,6 +3,10 @@ module FixedTermRentalContractBilingualAll
   # CONSTANT for fetch_translation and save and create agreement in booking
   # def important_points_explanation_translation
     # include ImportantPointsExplanationTranslation
+    include DocumentConstants
+    building = DocumentConstants::BUILDING
+    amenities = DocumentConstants::AMENITIES
+    flat = DocumentConstants::FLAT_FOR_DOCUMENTS
 
     OBJECT =
     {
@@ -27,7 +31,9 @@ module FixedTermRentalContractBilingualAll
                     }
                   }
            },
-          required: true
+          required: true,
+          translation_key: 'documentTitle',
+          category: 'document'
         },
 
         name: {
@@ -59,7 +65,12 @@ module FixedTermRentalContractBilingualAll
             translation_column: 'name',
             # translation field is the field in the document that takes the translation
             translation_field: 'name_translation',
-            translation_object_key: 'name'
+
+            # translation_object_key: 'name',
+            # translation_key for getting object from DocumentTranslationFixedTermAll
+            translation_key: 'buildingName',
+            # template_element_object divided into category and group
+            category: 'building'
           },
 
           name_translation: {
@@ -83,7 +94,11 @@ module FixedTermRentalContractBilingualAll
                         }
                       }
                     },
-                    required: true,
+              required: true,
+              translation_key: 'buildingName',
+              # template_element_object divided into category and group
+              category: 'building',
+              translation_object: true
             },
 
           address: {
@@ -110,7 +125,9 @@ module FixedTermRentalContractBilingualAll
               # name is the column in model building language
               # translation_column: 'name',
               # translation field is the field in the document that takes the translation
-              translation_field: 'address_translation'
+              translation_field: 'address_translation',
+              translation_key: 'address',
+              category: 'flat'
             },
 
           address_translation: {
@@ -133,51 +150,66 @@ module FixedTermRentalContractBilingualAll
                       }
                     },
               # required: true
+              translation_key: 'address',
+              category: 'flat',
+              translation_object: true
             },
 
         flat_type: {
-            name: 'flat_type',
-            input_type: 'string',
-            choices: {
-                0 => { params: { val: 'flat_in_building', top: '25%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } },
-                1 => { params: { val: 'town_house', top: '28.7%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } },
-                2 => { params: { val: 'single_family', top: '32.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } },
-                3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
-              },
-              box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
-              className: 'form-control-document',
-              height: '23px',
-              component: 'DocumentChoices'
+          name: 'flat_type',
+          input_type: 'string',
+          choices: {
+              0 => { params: { val: 'flat_in_building', top: '25%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+                    translation: building[:building_type][0] },
+              1 => { params: { val: 'town_house', top: '28.7%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+                    translation: building[:building_type][1] },
+              2 => { params: { val: 'single_family', top: '32.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+                    translation: building[:building_type][2] },
+              3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+                    translation: building[:building_type][3] }
             },
+            box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
+            className: 'form-control-document',
+            height: '23px',
+            component: 'DocumentChoices',
+            translation_key: 'buildingType',
+            category: 'flat'
+        },
 
 
         construction: {
           name: 'construction',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'Wooden', top: '25%', left: '55.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } },
+            0 => { params: { val: 'Wooden', top: '25%', left: '55.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+                  nonTemplate: true },
             1 => { params: { val: 'inputFieldValue', top: '30.3%', left: '57.6%', width: '10%', height: '1.8%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' },
+                  selectChoices: building[:construction][:choices],
             # selectChoices: Building.construction.choices
             }
           },
-          box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'cent' } },
+          box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
           className: 'form-control-document',
           height: '23px',
           component: 'DocumentChoices',
           required: true,
           # hybrid_field if there are multipe types of fields eg button and input
           hybrid_field: true,
+          translation_key: 'construction',
+          category: 'building'
         },
 
         floors: {
-              name: 'floors',
-              input_type: 'string',
-              choices: {
-                0 => { params: { val: 'inputFieldValue', top: '32%', left: '63%', width: '4%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
-              },
-              className: 'form-control-document',
-              component: 'DocumentChoices'
-            },
+          name: 'floors',
+          input_type: 'string',
+          choices: {
+            0 => { params: { val: 'inputFieldValue', top: '32%', left: '63%', width: '4%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+          },
+          className: 'form-control-document',
+          component: 'DocumentChoices',
+          translation_key: 'stories',
+          category: 'building'
+        },
 
         year_built: {
           name: 'year_built',
@@ -186,7 +218,9 @@ module FixedTermRentalContractBilingualAll
             0 => { params: { val: 'inputFieldValue', top: '29.1%', left: '81%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'yearBuilt',
+          category: 'building'
         },
 
         units: {
@@ -196,7 +230,9 @@ module FixedTermRentalContractBilingualAll
             0 => { params: { val: 'inputFieldValue', top: '35.5%', left: '63.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'numberOfUnits',
+          category: 'building'
         },
 
         last_renovation_year: {
@@ -206,7 +242,9 @@ module FixedTermRentalContractBilingualAll
             0 => { params: { val: 'inputFieldValue', top: '33.3%', left: '77.1%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'majorRenovation',
+          category: 'flat'
         },
 
         unit: {
@@ -216,18 +254,22 @@ module FixedTermRentalContractBilingualAll
             0 => { params: { val: 'inputFieldValue', top: '39.6%', left: '35%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'unit',
+          category: 'flat'
         },
 
         rooms: {
-            name: 'rooms',
-            input_type: 'string',
-            choices: {
-                0 => { params: { val: 'inputFieldValue', top: '39.6%', left: '59%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
-              },
-              className: 'form-control-document',
-              component: 'DocumentChoices'
+          name: 'rooms',
+          input_type: 'string',
+          choices: {
+              0 => { params: { val: 'inputFieldValue', top: '39.6%', left: '59%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
+            className: 'form-control-document',
+            component: 'DocumentChoices',
+            translation_key: 'floors',
+            category: 'flat'
+        },
 
         layout: {
             name: 'layout',
@@ -241,44 +283,56 @@ module FixedTermRentalContractBilingualAll
               box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
               className: 'form-control-document',
               height: '23px',
-              component: 'DocumentChoices'
+              component: 'DocumentChoices',
+              translation_key: 'layout',
+              category: 'flat'
               # borderColor: 'blue'
             },
 
         size: {
-            name: 'size',
-            input_type: 'string',
-            choices: {
-                0 => { params: { val: 'inputFieldValue', top: '42.7%', left: '46%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
-              },
-              className: 'form-control-document',
-              component: 'DocumentChoices'
+          name: 'size',
+          input_type: 'string',
+          choices: {
+              0 => { params: { val: 'inputFieldValue', top: '42.7%', left: '46%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
+            className: 'form-control-document',
+            component: 'DocumentChoices',
+            translation_key: 'floorSpace',
+            category: 'flat'
+        },
 
         balcony_size: {
-            name: 'balcony_size',
-            input_type: 'string',
-            choices: {
-                0 => { params: { val: 'inputFieldValue', top: '42.5%', left: '79.7%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
-              },
-              className: 'form-control-document',
-              component: 'DocumentChoices'
+          name: 'balcony_size',
+          input_type: 'string',
+          choices: {
+              0 => { params: { val: 'inputFieldValue', top: '42.5%', left: '79.7%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
+          className: 'form-control-document',
+          component: 'DocumentChoices',
+          translation_key: 'balcony',
+          category: 'flat'
+        },
 
 
         toilet: {
           name: 'toilet',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'Dedicated Flushing Toilet', top: '45.5%', left: '58.4%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-            1 => { params: { val: 'Dedicated Non-flushing Toilet', top: '45.5%', left: '63.7%', width: '7%', class_name: 'document-rectangle', input_type: 'button' } },
-            2 => { params: { val: 'Shared Flushing Toilet', top: '45.5%', left: '77%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-            3 => { params: { val: 'Shared Non-flushing Toilet', top: '45.5%', left: '82%', width: '7%', class_name: 'document-rectangle', input_type: 'button' } }
+            0 => { params: { val: 'Dedicated Flushing Toilet', top: '45.5%', left: '58.4%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][0] },
+            1 => { params: { val: 'Dedicated Non-flushing Toilet', top: '45.5%', left: '63.7%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][1] },
+            2 => { params: { val: 'Shared Flushing Toilet', top: '45.5%', left: '77%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][2] },
+            3 => { params: { val: 'Shared Non-flushing Toilet', top: '45.5%', left: '82%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][3] }
           },
           className: 'form-control-document',
           height: '23px',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
           # borderColor: 'blue'
+          translation_key: 'toilet',
+          category: 'flat'
         },
 
         # !!!!!!bath is assuming if there is a shower, there is a bathingroom
@@ -292,7 +346,9 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           # attributes; keep just in case
-          attributes: { names: ['bath_tub'], input_type: 'boolean' }
+          attributes: { names: ['bath_tub'], input_type: 'boolean' },
+          translation_key: 'bathTub',
+          category: 'flat'
         },
 
         shower: {
@@ -304,7 +360,9 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '53.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'shower',
+          category: 'flat'
         },
 
         wash_basin: {
@@ -316,7 +374,9 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '56.7%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'washBasin',
+          category: 'flat'
         },
 
         washer_dryer_area: {
@@ -328,7 +388,10 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '59.4%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'washerArea',
+          category: 'flat',
+          group: 'amenities'
         },
 
         hot_water: {
@@ -340,7 +403,9 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '62.3%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'waterHeater',
+          category: 'flat'
         },
 
         kitchen_grill: {
@@ -352,7 +417,10 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '65.1%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'kitchenStove',
+          category: 'flat',
+          group: 'amenities'
         },
 
         parcel_delivery_box: {
@@ -364,7 +432,10 @@ module FixedTermRentalContractBilingualAll
             1 => { valName: 'N', params: { val: false, top: '67.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
-          component: 'DocumentChoices'
+          component: 'DocumentChoices',
+          translation_key: 'parcelBox',
+          category: 'flat',
+          group: 'amenities'
       },
 
       ac: {
@@ -376,7 +447,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '50.8%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'ac',
+        category: 'flat',
+        group: 'amenities'
       },
 
       lighting_fixed: {
@@ -388,7 +462,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '53.7%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'fixedLighting',
+        category: 'flat',
+        group: 'amenities'
       },
 
       auto_lock: {
@@ -400,7 +477,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '56.6%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'autoLock',
+        category: 'flat',
+        group: 'amenities'
       },
       # cable_tv includes digital
       cable_tv: {
@@ -412,7 +492,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '59.3%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'digitalTv',
+        category: 'flat',
+        group: 'amenities'
       },
 
       internet_ready: {
@@ -424,7 +507,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '62.2%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'internetReady',
+        category: 'flat',
+        group: 'amenities'
       },
 
       mail_box: {
@@ -436,7 +522,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '65%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'mailBox',
+        category: 'flat',
+        group: 'amenities'
       },
 
       lock_key: {
@@ -448,7 +537,10 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '70.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'lock_key',
+        category: 'flat',
+        group: 'amenities'
       },
 
       key_number: {
@@ -459,7 +551,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '73%', left: '36.4%', width: '13%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'key',
+        category: 'flat'
       },
 
       keys: {
@@ -470,7 +564,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '73%', left: '62.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'sets',
+        category: 'flat'
       },
 
       power_usage_amount: {
@@ -481,20 +577,27 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '75.9%', left: '53%', width: '7%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'electricCapacity',
+        category: 'building'
       },
 
       gas: {
         name: 'gas',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Gas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'Propane Gas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' } },
-          2 => { params: { val: 'None', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'Public Gas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:gas][:choices][0]},
+          1 => { params: { val: 'Propane Gas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:gas][:choices][1]},
+          2 => { params: { val: 'None', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:gas][:choices][2]}
         },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'gas',
+        category: 'building'
         # borderColor: 'blue'
       },
 
@@ -502,28 +605,38 @@ module FixedTermRentalContractBilingualAll
         name: 'water',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Water', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'Tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' } },
-          2 => { params: { val: 'Well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'Public Water', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][0] },
+          1 => { params: { val: 'Tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][1] },
+          2 => { params: { val: 'Well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][2] },
         },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
         # borderColor: 'blue'
+        category: 'building',
+        translation_key: 'water'
       },
 
       sewage: {
         name: 'sewage',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Sewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'Septic Tank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' } },
-          2 => { params: { val: 'None', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'Public Sewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][0]},
+          1 => { params: { val: 'Septic Tank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][1]},
+          2 => { params: { val: 'None', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][2]},
         },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
-        # borderColor: 'blue'
+        component: 'DocumentChoices',
+        # borderColor: 'blue',
+        translation_key: 'sewage',
+        category: 'building'
       },
   # }, # end of 1
   # 2: {
@@ -536,7 +649,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       parking_spaces: {
@@ -547,7 +662,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '9%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       parking_space_number: {
@@ -558,7 +675,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '9%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       bicycle_parking_included: {
@@ -570,7 +689,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '12.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       bicycle_parking_spaces: {
@@ -581,7 +702,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '12.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       bicycle_parking_space_number: {
@@ -592,7 +715,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '12.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       motorcycle_parking_included: {
@@ -604,7 +729,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '16%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       motorcycle_parking_spaces: {
@@ -615,7 +742,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '16%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       motorcycle_parking_space_number: {
@@ -626,7 +755,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '16%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       storage_included: {
@@ -638,7 +769,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '19.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       storage_spaces: {
@@ -649,7 +782,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '19.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       storage_space_number: {
@@ -660,7 +795,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '19.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       dedicated_yard: {
@@ -672,7 +809,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '22.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       other_facility: {
@@ -684,7 +823,9 @@ module FixedTermRentalContractBilingualAll
           1 => { valName: 'N', params: { val: false, top: '25.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       other_facility_name: {
@@ -695,7 +836,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '25.9%', left: '30%', width: '11.4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       from_year: {
@@ -706,7 +849,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       from_month: {
@@ -717,7 +862,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       from_day: {
@@ -728,7 +875,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       to_year: {
@@ -739,7 +888,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       to_month: {
@@ -750,7 +901,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       to_day: {
@@ -761,7 +914,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       contract_length_years: {
@@ -772,7 +927,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '36%', left: '72.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       contract_length_months: {
@@ -783,7 +940,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '36%', left: '80.3%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       notice_from_year: {
@@ -794,7 +953,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '42.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       notice_from_month: {
@@ -805,7 +966,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '50%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       notice_from_day: {
@@ -816,7 +979,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '55.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
       notice_to_year: {
         name: 'notice_to_year',
@@ -826,7 +991,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '64.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       notice_to_month: {
@@ -837,7 +1004,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '72%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       notice_to_day: {
@@ -848,7 +1017,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '77.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       final_rent: {
@@ -872,7 +1043,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       payment_due_date: {
@@ -895,7 +1068,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       management_fees: {
@@ -919,7 +1094,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       fees_payment_due_date: {
@@ -943,7 +1120,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       bank_name: {
@@ -967,7 +1146,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       bank_name_english: {
@@ -991,7 +1172,9 @@ module FixedTermRentalContractBilingualAll
               input_type: 'string'
             }
           }
-        }
+        },
+        translation_key: 'floors',
+        category: 'building'
       },
 
       account_type: {
@@ -1003,7 +1186,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         # height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
         # borderColor: 'blue'
       },
 
@@ -1015,7 +1200,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '59.7%', left: '69.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       swift: {
@@ -1026,7 +1213,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '64.7%', left: '59.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       account_name: {
@@ -1037,7 +1226,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '68.2%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       account_name_english: {
@@ -1048,7 +1239,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '71.4%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       transfer_fee_paid_by: {
@@ -1060,7 +1253,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
         # borderColor: 'blue'
       },
 
@@ -1073,7 +1268,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-
+        translation_key: 'floors',
+        category: 'building'
       },
 
       # rent_payment_method_translation: {
@@ -1098,7 +1294,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '82%', left: '27.5%', width: '3.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       deposit_amount: {
@@ -1110,7 +1308,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '82%', left: '53.8%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       facilities_usage_fee: {
@@ -1121,7 +1321,9 @@ module FixedTermRentalContractBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '85.8%', left: '29.8%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
       },
 
       other_fees: {
@@ -1133,6 +1335,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
         # required: true
       },
   # },
@@ -1151,7 +1355,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       # translation_record: 'flat_languages',
       # translation_column: 'owner_address',
-      translation_field: 'owner_address_translation'
+      translation_field: 'owner_address_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     owner_address_translation: {
@@ -1162,7 +1368,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '11.2%', left: '37.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     owner_company: {
@@ -1176,7 +1385,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       # translation_record: 'flat_languages',
       # translation_column: 'owner_address',
-      translation_field: 'owner_address_translation'
+      translation_field: 'owner_address_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     owner_company_translation: {
@@ -1187,7 +1398,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '15.1%', left: '37.8%', width: '24.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     owner_name: {
@@ -1201,7 +1415,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       # translation_record: 'flat_languages',
       # translation_column: 'owner_name',
-      translation_field: 'owner_name_translation'
+      translation_field: 'owner_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     owner_name_translation: {
@@ -1212,7 +1428,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '19.2%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     owner_phone: {
@@ -1223,7 +1442,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '13.2%', left: '70%', width: '19.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     management_address: {
@@ -1235,7 +1456,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'management_address_translation'
+      translation_field: 'management_address_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     management_address_translation: {
@@ -1246,7 +1469,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '23%', left: '39.5%', width: '50%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     management_company: {
@@ -1259,6 +1485,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     management_company_translation: {
@@ -1269,7 +1497,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '26.67%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     management_name: {
@@ -1282,6 +1513,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     management_name_translation: {
@@ -1292,7 +1525,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '30.7%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     management_phone: {
@@ -1303,7 +1539,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '24.9%', left: '70%', width: '19.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     management_registration_number_front: {
@@ -1314,7 +1552,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '32.6%', left: '67.7%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
     # management_registration_type: {
     #   name: 'management_registration_type',
@@ -1335,7 +1575,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '32.6%', left: '75.2%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     # chnaged from building_owner_name address and phone;
@@ -1351,6 +1593,8 @@ module FixedTermRentalContractBilingualAll
       translation_record: 'flat_languages',
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     flat_owner_address_translation: {
@@ -1361,7 +1605,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '40.8%', left: '37.5%', width: '51.8%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     flat_owner_company: {
@@ -1375,7 +1622,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_record: 'flat_languages',
       translation_column: 'owner_name',
-      translation_field: 'flat_owner_company_translation'
+      translation_field: 'flat_owner_company_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     flat_owner_company_translation: {
@@ -1386,7 +1635,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '44.7%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     flat_owner_name: {
@@ -1400,7 +1652,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_record: 'flat_languages',
       translation_column: 'owner_contact_name',
-      translation_field: 'flat_owner_name_translation'
+      translation_field: 'flat_owner_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     flat_owner_name_translation: {
@@ -1411,7 +1665,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '48.3%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     flat_owner_phone: {
@@ -1424,6 +1681,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       record_column: 'owner_phone',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     tenant_name: {
@@ -1434,7 +1693,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '56.6%', left: '29%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     tenant_age: {
@@ -1445,7 +1706,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '59.3%', left: '32%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     tenant_phone: {
@@ -1456,7 +1719,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '64.6%', left: '23.3%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     co_tenant_name: {
@@ -1467,7 +1732,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '55.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     co_tenant_age: {
@@ -1478,7 +1745,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '55.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     co_tenant_name_1: {
@@ -1490,6 +1759,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
       # required: true
     },
 
@@ -1502,6 +1773,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
       # required: true
     },
 
@@ -1513,7 +1786,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '61.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     co_tenant_age_2: {
@@ -1524,7 +1799,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '61.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     co_tenants: {
@@ -1535,7 +1812,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '64.7%', left: '83%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     emergency_contact_address: {
@@ -1546,7 +1825,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '67.6%', left: '38.5%', width: '51%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
   emergency_contact_name: {
@@ -1557,7 +1838,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '31.1%', width: '14.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     emergency_contact_phone: {
@@ -1568,7 +1851,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '49.8%', width: '17%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     emergency_contact_relationship: {
@@ -1579,86 +1864,105 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '70%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     guarantor_address: {
-        name: 'guarantor_address',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '77.3%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices',
-        translation_field: 'guarantor_address_translation',
+      name: 'guarantor_address',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '77.3%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_field: 'guarantor_address_translation',
+      translation_key: 'floors',
+      category: 'building'
+    },
 
     guarantor_address_translation: {
-        name: 'guarantor_address_translation',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '79.4%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices',
+      name: 'guarantor_address_translation',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '79.4%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
+    },
 
-      guarantor_name: {
-        name: 'guarantor_name',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '82%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices',
-        translation_field: 'guarantor_name_translation',
+    guarantor_name: {
+      name: 'guarantor_name',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '82%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_field: 'guarantor_name_translation',
+      translation_key: 'floors',
+      category: 'building'
+    },
 
-      guarantor_name_translation: {
-        name: 'guarantor_name_translation',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '84.5%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices'
+    guarantor_name_translation: {
+      name: 'guarantor_name_translation',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '84.5%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
+    },
 
-      guarantor_phone: {
-        name: 'guarantor_phone',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '81.9%', left: '69.7%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices'
+    guarantor_phone: {
+      name: 'guarantor_phone',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '81.9%', left: '69.7%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
+    },
 
-      guarantor_type: {
-        name: 'guarantor_type',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '66.6%', width: '2.5%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices'
+    guarantor_type: {
+      name: 'guarantor_type',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '66.6%', width: '2.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
-      guarantor_registration: {
-        name: 'guarantor_registration',
-        input_type: 'string',
-        choices: {
-          # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '72.5%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
-        },
-        className: 'form-control-document',
-        component: 'DocumentChoices'
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
+    },
+
+    guarantor_registration: {
+      name: 'guarantor_registration',
+      input_type: 'string',
+      choices: {
+        # add 1.5% to top
+        0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '72.5%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
       },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
+    },
   #
   #
   # },
@@ -1671,7 +1975,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '22.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     contract_month: {
@@ -1682,7 +1988,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '34.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     contract_day: {
@@ -1693,7 +2001,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '43.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     owner_address_1: {
@@ -1705,7 +2015,7 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'owner_address_translation'
+      translation_field: 'owner_address_translation',
     },
 
     owner_address_translation_1: {
@@ -1716,7 +2026,7 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '25.2%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
     },
 
     owner_name_1: {
@@ -1728,7 +2038,7 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'owner_name_translation'
+      translation_field: 'owner_name_translation',
     },
 
     owner_name_translation_1: {
@@ -1739,7 +2049,7 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '29.8%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
     },
 
     owner_phone_1: {
@@ -1750,7 +2060,7 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '32.4%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
     },
 
     tenant_address: {
@@ -1762,6 +2072,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
       # translation_field: 'owner_address_translation'
     },
 
@@ -1785,7 +2097,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '45.6%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_registration_jurisdiction: {
@@ -1795,7 +2109,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '37%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_registration_jurisdiction_translation: {
@@ -1805,24 +2121,29 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '56.2%', left: '36%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     broker_registration_grantor: {
-        name: 'broker_registration_grantor',
-        input_type: 'string',
-        choices: {
-            0 => { params: { val: 'governor', top: '54.2%', left: '47.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-            1 => { params: { val: 'minister', top: '54.2%', left: '52.9%', width: '12%', class_name: 'document-rectangle', input_type: 'button' } },
-            # 2 => { params: { val: 'K', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
-            # 3 => { params: { val: 'One Room', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
-          },
-          box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
-          className: 'form-control-document',
-          height: '23px',
-          component: 'DocumentChoices'
-          # borderColor: 'blue'
+      name: 'broker_registration_grantor',
+      input_type: 'string',
+      choices: {
+          0 => { params: { val: 'governor', top: '54.2%', left: '47.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { params: { val: 'minister', top: '54.2%', left: '52.9%', width: '12%', class_name: 'document-rectangle', input_type: 'button' } },
+          # 2 => { params: { val: 'K', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
+          # 3 => { params: { val: 'One Room', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
         },
+        box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
+        className: 'form-control-document',
+        height: '23px',
+        component: 'DocumentChoices',
+        translation_key: 'floors',
+        category: 'building'
+        # borderColor: 'blue'
+    },
 
     broker_registration_front_number: {
       name: 'broker_registration_front_number',
@@ -1831,7 +2152,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '67%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_registration_number: {
@@ -1841,7 +2164,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '78.3%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_address_hq: {
@@ -1852,7 +2177,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'broker_address_hq_translation'
+      translation_field: 'broker_address_hq_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_address_hq_translation: {
@@ -1862,7 +2189,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '64.3%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     broker_company_name: {
@@ -1873,7 +2203,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'broker_company_name_translation'
+      translation_field: 'broker_company_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_company_name_translation: {
@@ -1883,7 +2215,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '68.7%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     broker_representative_name: {
@@ -1894,7 +2229,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'broker_representative_name_translation'
+      translation_field: 'broker_representative_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_representative_name_translation: {
@@ -1904,7 +2241,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '72.9%', left: '38.8%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     broker_staff_registration_jurisdiction: {
@@ -1914,7 +2254,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '75.4%', left: '58.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_staff_registration_jurisdiction_translation: {
@@ -1924,7 +2266,10 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '77.4%', left: '58%', width: '11%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
 
     broker_staff_registration: {
@@ -1934,7 +2279,9 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '75.4%', left: '78.5%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_staff_name: {
@@ -1945,7 +2292,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_field: 'broker_staff_name_translation'
+      translation_field: 'broker_staff_name_translation',
+      translation_key: 'floors',
+      category: 'building'
     },
 
     broker_staff_name_translation: {
@@ -1955,12 +2304,15 @@ module FixedTermRentalContractBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '82.2%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
-      component: 'DocumentChoices'
+      component: 'DocumentChoices',
+      translation_key: 'floors',
+      category: 'building',
+      translation_object: true
     },
   # }
       #
 
-    };
+  };
     # object = important_points_explanation
   #   return object
   # end

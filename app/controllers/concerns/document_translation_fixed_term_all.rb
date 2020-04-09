@@ -64,6 +64,12 @@ module DocumentTranslationFixedTermAll
         attributes: { top: '30.4%', left: '46.2%', font_size: '10', text_align: 'center', width: '9%', height: '1.5%', class_name: 'document-translation' }
       },
 
+
+      # floors: {
+      #   translations: { en: 'Floors', po: 'Pavimentos', jpy: '' },
+      #   attributes: nil
+      # },
+
       numberOfUnits: {
         translations: { en: 'No. of Units', po: 'Nº de Unidades', jpy: '' },
         attributes: { top: '37.1%', left: '46.4%', font_size: '10', class_name: 'document-translation' }
@@ -123,8 +129,14 @@ module DocumentTranslationFixedTermAll
         translations: { en: 'Unit No.', po: 'Unidade', jpy: '' },
         attributes: { top: '41%', left: '29.5%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' }
       },
+
       layout: {
         translations: { en: 'Layout', po: 'Layout', jpy: '' },
+        attributes: { top: '41%', left: '48%', font_size: '10', class_name: 'document-translation' }
+      },
+
+      rooms: {
+        translations: { en: 'Rooms', po: 'Quartos', jpy: '' },
         attributes: { top: '41%', left: '48%', font_size: '10', class_name: 'document-translation' }
       },
 
@@ -284,7 +296,7 @@ module DocumentTranslationFixedTermAll
       },
   # },
   # 2 => {
-    unitInformation: {
+    unitInformation1: {
       translations: { en: 'Unit Information (Continued)', po: '', jpy: '' },
       attributes: { top: '23.5%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
     },

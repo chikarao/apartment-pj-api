@@ -2,12 +2,14 @@
 # require Amenities::AMENITIES
 module ImportantPointsExplanationBilingualAll
   include DocumentConstants
+  include DocumentTranslationImportantPointsAll
   amenities = DocumentConstants::AMENITIES
   building = DocumentConstants::BUILDING
   flat_for_documents = DocumentConstants::FLAT_FOR_DOCUMENTS
+  translation = DocumentTranslationImportantPointsAll::OBJECT
 
-  p "in module ImportantPointsExplanationBilingualAll amenities: " + amenities.to_s
-  p "in module ImportantPointsExplanationBilingualAll amenities[:kitchen]: " + amenities[:kitchen].to_s
+  # p "in module ImportantPointsExplanationBilingualAll amenities: " + amenities.to_s
+  # p "in module ImportantPointsExplanationBilingualAll amenities[:kitchen]: " + amenities[:kitchen].to_s
   # p "in module ImportantPointsExplanationBilingualAll amenities, Amenties::AMENITIES: " + amenities.to_s + ' ' + Amenities::AMENITIES.to_s
   # CONSTANT for fetch_translation and save and create agreement in booking
   # def important_points_explanation_translation
@@ -34,7 +36,9 @@ module ImportantPointsExplanationBilingualAll
           }
         }
       },
-      required: true
+      required: true,
+      translation_key: 'documentTitle',
+      category: 'document'
     },
 
       tenant_name: {
@@ -44,7 +48,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '10.2%', left: '13.3%', width: '29.5%', height: '1.6%', text_align: 'right', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'name',
+        category: 'tenant'
       },
 
       date_year: {
@@ -54,7 +60,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '10.2%', left: '64.4%', width: '5.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'year',
+        category: 'document',
+        group: 'documentDate'
       },
 
       date_month: {
@@ -64,7 +73,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '10.2%', left: '75.4%', width: '4.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'month',
+        category: 'document',
+        group: 'documentDate'
       },
 
       date_day: {
@@ -74,7 +86,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '10.2%', left: '86.4%', width: '4.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'day',
+        category: 'document',
+        group: 'documentDate'
       },
 
       broker_company_name: {
@@ -84,7 +99,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '23.5%', left: '20.4%', width: '40%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'companyName',
+        category: 'broker'
       },
 
       broker_company_name_translation: {
@@ -94,7 +111,11 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '25.7%', left: '20.4%', width: '40%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'companyName',
+        category: 'broker',
+        #translation_object means it is a translation for template_element_object
+        translation_object: true
       },
 
       broker_representative_name: {
@@ -104,7 +125,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '28.1%', left: '20.4%', width: '40%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'nameOfRepresentative',
+        category: 'broker'
       },
 
       broker_representative_name_translation: {
@@ -114,7 +137,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '30.3%', left: '20.4%', width: '40%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'nameOfRepresentative',
+        category: 'broker',
+        translation_object: true
       },
 
       broker_address_hq: {
@@ -124,7 +150,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '33.1%', left: '20.4%', width: '60%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'mainOffice',
+        category: 'broker'
       },
 
       broker_address_hq_translation: {
@@ -134,7 +162,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '35.1%', left: '20.4%', width: '60%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'mainOffice',
+        category: 'broker',
+        translation_object: true
       },
 
       broker_registration_number: {
@@ -144,7 +175,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '37.7%', left: '20.4%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'licensedNumber',
+        category: 'broker'
       },
 
       broker_registration_date: {
@@ -154,7 +187,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '40.7%', left: '20.4%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dateLicensed',
+        category: 'broker'
       },
 
       broker_staff_name: {
@@ -164,7 +199,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '45.1%', left: '46.9%', width: '35%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'nameAgent',
+        category: 'broker',
+        group: 'brokerStaff'
       },
 
       broker_staff_name_translation: {
@@ -174,7 +212,11 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '47%', left: '46.9%', width: '35%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'nameAgent',
+        category: 'broker',
+        translation_object: true,
+        group: 'brokerStaff'
       },
 
       broker_staff_registration: {
@@ -184,7 +226,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '49.4%', left: '62.8%', width: '13%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'registrationNumberAgent',
+        category: 'broker',
+        group: 'brokerStaff'
       },
 
       broker_staff_address: {
@@ -194,7 +239,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '46.6%', width: '45.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'officeAddress',
+        category: 'broker',
+        group: 'brokerStaff'
       },
 
       broker_staff_address_translation: {
@@ -204,7 +252,11 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '56.6%', left: '46.6%', width: '45.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'officeAddress',
+        category: 'broker',
+        translation_object: true,
+        group: 'brokerStaff'
       },
 
       broker_staff_phone: {
@@ -214,22 +266,30 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '59.9%', left: '68.4%', width: '20.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'phone',
+        category: 'broker',
+        group: 'brokerStaff'
       },
 
       contract_work_sub_type: {
         name: 'contract_work_sub_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'representative', top: '63.9%', left: '60.5%', width: '7%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'broker', top: '63.9%', left: '76%', width: '7%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'representative', top: '63.9%', left: '60.5%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:representative] },
+          1 => { params: { val: 'broker', top: '63.9%', left: '76%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:agent] }
           # 2 => { params: { val: 'single_family', top: '25.8%', left: '27%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } },
           # 3 => { params: { val: 'others', top: '27.3%', left: '27%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         # box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'contractWorkSubType',
+        category: 'broker',
+        # translationInChoices: true
       },
 
       address: {
@@ -244,7 +304,9 @@ module ImportantPointsExplanationBilingualAll
         # name is the column in model building language
         # translation_column: 'address_translation',
         # translation field is the field in the document that takes the translation
-        translation_field: 'address_translation'
+        translation_field: 'address_translation',
+        translation_key: 'addressBuilding',
+        category: 'building'
       },
 
       address_translation: {
@@ -254,7 +316,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '75.1%', left: '29%', width: '63%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'addressBuilding',
+        category: 'building',
+        translation_object: true
       },
       # name is building name
       name: {
@@ -269,7 +334,9 @@ module ImportantPointsExplanationBilingualAll
         # name is the column in model building language
         translation_column: 'name',
         # translation field is the field in the document that takes the translation
-        translation_field: 'name_translation'
+        translation_field: 'name_translation',
+        translation_key: 'nameBuilding',
+        category: 'building'
       },
 
       name_translation: {
@@ -279,7 +346,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '70.7%', left: '29%', width: '63%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'nameBuilding',
+        category: 'building',
+        translation_object: true
       },
 
       unit: {
@@ -289,7 +359,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '77.6%', left: '29%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'unit',
+        category: 'flat'
       },
 
       size: {
@@ -299,7 +371,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '80.5%', left: '29%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floorArea',
+        category: 'flat'
       },
 
       floor_area_official: {
@@ -309,7 +383,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '79.9%', left: '74%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'floorAreaOnRecord',
+        category: 'flat'
       },
 
       construction: {
@@ -339,7 +415,9 @@ module ImportantPointsExplanationBilingualAll
         # translation field is the field in the document that takes the translation
         translation_field: 'construction_translation',
         # if only base record building keeps this data
-        language_independent: true
+        language_independent: true,
+        translation_key: 'construction',
+        category: 'building'
       },
 
       construction_translation: {
@@ -360,7 +438,10 @@ module ImportantPointsExplanationBilingualAll
           },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'construction',
+        category: 'building',
+        translation_object: true
       },
 
       owner_name: {
@@ -370,7 +451,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '88.5%', left: '29%', width: '29.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'landlordName',
+        category: 'landlord'
       },
 
       owner_name_translation: {
@@ -380,7 +463,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '90.5%', left: '29%', width: '29.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'landlordName',
+        category: 'landlord',
+        translation_object: true
       },
 
       owner_address: {
@@ -390,7 +476,9 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '94%', left: '29%', width: '63%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'landlordAddress',
+        category: 'landlord'
       },
 
       owner_address_translation: {
@@ -400,7 +488,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '96%', left: '29%', width: '63%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'landlordAddress',
+        category: 'landlord',
+        translation_object: true
       },
     #
     # },
@@ -416,7 +507,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         translation_record: 'flat_languages',
         translation_column: 'owner_contact_name',
-        translation_field: 'flat_owner_name_translation'
+        translation_field: 'flat_owner_name_translation',
+        translation_key: 'name',
+        category: 'owner'
       },
 
       flat_owner_name_translation: {
@@ -426,7 +519,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '29.1%', left: '15.4%', width: '32.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'name',
+        category: 'owner',
+        translation_object: true
       },
 
       # not using building owner; corresponds to flat owner_address
@@ -442,6 +538,8 @@ module ImportantPointsExplanationBilingualAll
         translation_record: 'flat_languages',
         translation_column: 'owner_address',
         translation_field: 'flat_owner_address_translation',
+        translation_key: 'address',
+        category: 'owner'
       },
 
       flat_owner_address_translation: {
@@ -453,6 +551,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'owner',
+        translation_object: true
       },
 
       # building_owner_address2 => {
@@ -476,7 +577,9 @@ module ImportantPointsExplanationBilingualAll
         charLimit: 50,
         translation_record: 'flat_languages',
         translation_column: 'ownership_rights',
-        translation_field: 'ownership_rights_translation'
+        translation_field: 'ownership_rights_translation',
+        translation_key: 'ownershipRights',
+        category: 'owner'
       },
 
       ownership_rights_translation: {
@@ -488,6 +591,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'ownershipRights',
+        category: 'owner',
+        translation_object: true
       },
 
       other_rights: {
@@ -501,7 +607,9 @@ module ImportantPointsExplanationBilingualAll
         charLimit: 60,
         translation_record: 'flat_languages',
         translation_column: 'other_rights',
-        translation_field: 'other_rights_translation'
+        translation_field: 'other_rights_translation',
+        translation_key: 'otherOwnershipRights',
+        category: 'owner'
       },
 
       other_rights_translation: {
@@ -513,6 +621,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 60,
+        translation_key: 'otherOwnershipRights',
+        category: 'owner',
+        translation_object: true
       },
 
       legal_restrictions: {
@@ -528,7 +639,9 @@ module ImportantPointsExplanationBilingualAll
         # name is the column in model building language
         translation_column: 'legal_restrictions',
         # translation field is the field in the document that takes the translation
-        translation_field: 'legal_restrictions_translation'
+        translation_field: 'legal_restrictions_translation',
+        translation_key: 'mainLegal',
+        category: 'building'
       },
 
       legal_restrictions_translation: {
@@ -540,6 +653,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 70,
+        translation_key: 'mainLegal',
+        category: 'building',
+        translation_object: true
       },
 
       legal_restrictions_summary: {
@@ -555,7 +671,9 @@ module ImportantPointsExplanationBilingualAll
         # name is the column in model building language
         translation_column: 'legal_restrictions_summary',
         # translation field is the field in the document that takes the translation
-        translation_field: 'legal_restrictions_summary_translation'
+        translation_field: 'legal_restrictions_summary_translation',
+        translation_key: 'summaryOfRestrictions',
+        category: 'building'
       },
 
       legal_restrictions_summary_translation: {
@@ -567,21 +685,29 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 120,
+        translation_key: 'summaryOfRestrictions',
+        category: 'building',
+        translation_object: true
       },
 
       water: {
         name: 'water',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Water', top: '66.7%', left: '17.3%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          1 => { params: { val: 'Tank', top: '66.7%', left: '23.3%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          2 => { params: { val: 'Well', top: '66.7%', left: '30%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
+          0 => { params: { val: 'Public Water', top: '66.7%', left: '17.3%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                translation: translation[:publicWater][:translations] },
+          1 => { params: { val: 'Tank', top: '66.7%', left: '23.3%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                translation: translation[:tank][:translations] },
+          2 => { params: { val: 'Well', top: '66.7%', left: '30%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                translation: translation[:wellWater][:translations]},
         },
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
         # borderColor: 'blue'
         second_click_off: true,
+        translation_key: 'water',
+        category: 'building'
       },
 
       water_year: {
@@ -591,7 +717,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '66.7%', left: '36%', width: '4.9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearWater',
+        category: 'building',
+        group: 'water_date'
       },
 
       water_month: {
@@ -601,7 +730,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '66.7%', left: '43%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthWater',
+        category: 'building',
+        group: 'water_date'
       },
 
       water_day: {
@@ -611,16 +743,22 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '66.7%', left: '48.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dayWater',
+        category: 'building',
+        group: 'water_date'
       },
 
       water_scheduled: {
         name: 'water_scheduled',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Water', top: '66.7%', left: '52.9%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          1 => { params: { val: 'Private Water', top: '66.7%', left: '58.4%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          2 => { params: { val: 'Well', top: '66.7%', left: '65.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
+          0 => { params: { val: 'Public Water', top: '66.7%', left: '52.9%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                 translation: translation[:publicWater][:translations]},
+          1 => { params: { val: 'Private Water', top: '66.7%', left: '58.4%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                 translation: translation[:tank][:translations]},
+          2 => { params: { val: 'Well', top: '66.7%', left: '65.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                 translation: translation[:wellWater][:translations]},
         },
         className: 'form-control-document',
         height: '23px',
@@ -629,6 +767,9 @@ module ImportantPointsExplanationBilingualAll
         # and attribute is not required such as with water.
         second_click_off: true,
         # borderColor: 'blue'
+        translation_key: 'water',
+        category: 'building',
+
       },
 
       water_notes: {
@@ -640,6 +781,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'waterNotes',
+        category: 'building'
       },
 
       water_notes_translation: {
@@ -651,6 +794,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'waterNotes',
+        category: 'building',
+        translation_object: true
       },
 
       electricity: {
@@ -666,6 +812,8 @@ module ImportantPointsExplanationBilingualAll
         # translation_column: 'electricity',
         # # # translation field is the field in the document that takes the translation
         # translation_field: 'electricity_translation',
+        translation_key: 'electricity',
+        category: 'building'
       },
 
       electricity_translation: {
@@ -675,7 +823,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '70.9%', left: '17.3%', width: '17.7%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'electricity',
+        category: 'building',
+        translation_object: true
       },
 
       electricity_year: {
@@ -685,7 +836,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '69.6%', left: '36%', width: '4.9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearElectricity',
+        category: 'building',
+        group: 'electricity_date'
       },
 
       electricity_month: {
@@ -695,7 +849,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '69.6%', left: '43%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthElectricity',
+        category: 'building',
+        group: 'electricity_date'
       },
 
       electricity_day: {
@@ -705,7 +862,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '69.6%', left: '48.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dayElectricity',
+        category: 'building',
+        group: 'electricity_date'
       },
 
       electricity_scheduled: {
@@ -717,6 +877,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'electricityScheduled',
+        category: 'building'
       },
 
       electricity_scheduled_translation: {
@@ -728,6 +890,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'electricityScheduled',
+        category: 'building',
+        translation_object: true
       },
 
       electricity_notes: {
@@ -739,6 +904,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'electricityNotes',
+        category: 'building'
       },
 
       electricity_notes_translation: {
@@ -750,14 +917,19 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 40,
+        translation_key: 'electricityNotes',
+        category: 'building',
+        translation_object: true
       },
 
       gas: {
         name: 'gas',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Gas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          1 => { params: { val: 'Propane Gas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
+          0 => { params: { val: 'Public Gas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                translation: translation[:cityGas][:translation]},
+          1 => { params: { val: 'Propane Gas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                translation: translation[:propaneGas][:translation]},
           # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
           # 2 => { params: { val: 'None', top: '24.95%', left: '64.4%', width: '4%', class_name: 'document-rectangle', input_type: 'button' } },
@@ -766,6 +938,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         second_click_off: true,
+        translation_key: 'gas',
+        category: 'building'
         # borderColor: 'blue',
       },
 
@@ -776,7 +950,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '72.9%', left: '36%', width: '4.9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearGas',
+        category: 'building',
+        group: 'gas_date'
       },
 
       gas_month: {
@@ -786,7 +963,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '72.9%', left: '43%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthGas',
+        category: 'building',
+        group: 'gas_date'
       },
 
       gas_day: {
@@ -796,15 +976,20 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '72.9%', left: '48.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dayGas',
+        category: 'building',
+        group: 'gas_date'
       },
 
       gas_scheduled: {
         name: 'gas_scheduled',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Gas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
-          1 => { params: { val: 'Propane Gas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' } },
+          0 => { params: { val: 'Public Gas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                 translation: translation[:cityGas][:translation] },
+          1 => { params: { val: 'Propane Gas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+                 translation: translation[:propaneGas][:translation] },
           # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
           # 2 => { params: { val: 'None', top: '24.95%', left: '64.4%', width: '4%', class_name: 'document-rectangle', input_type: 'button' } },
@@ -813,6 +998,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         second_click_off: true,
+        translation_key: 'gasScheduled',
+        category: 'building'
         # borderColor: 'blue'
       },
 
@@ -825,6 +1012,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'gasNotes',
+        category: 'building'
       },
 
       gas_notes_translation: {
@@ -836,6 +1025,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'gasNotes',
+        category: 'building',
+        translation_object: true
       },
 
       # sewage: {
@@ -902,6 +1094,8 @@ module ImportantPointsExplanationBilingualAll
         # translation field is the field in the document that takes the translation
         translation_field: 'sewage_translation',
         language_independent: true,
+        translation_key: 'sewage',
+        category: 'building'
       },
 
       sewage_translation: {
@@ -917,12 +1111,15 @@ module ImportantPointsExplanationBilingualAll
             font_size: '10px',
             class_name: 'document-rectangle',
             input_type: 'string' },
-            # selectChoices: building[:[:sewa][:e][:cho]ices],
+            selectChoices: building[:sewage][:choices],
             showLocalLanguage: true
           },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'sewage',
+        category: 'building',
+        translation_object: true
       },
 
       sewage_year: {
@@ -932,7 +1129,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '75.75%', left: '36%', width: '4.9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearSewage',
+        category: 'building',
+        group: 'sewage_date'
       },
 
       sewage_month: {
@@ -942,7 +1142,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '75.75%', left: '43%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthSewage',
+        category: 'building',
+        group: 'sewage_date'
       },
 
       sewage_day: {
@@ -952,7 +1155,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '75.75%', left: '48.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'daySewage',
+        category: 'building',
+        group: 'sewage_date'
       },
 
       sewage_scheduled: {
@@ -975,6 +1181,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'sewageScheduled',
+        category: 'building'
         # language_independent: true
       },
 
@@ -990,13 +1198,16 @@ module ImportantPointsExplanationBilingualAll
             font_size: '10px',
             class_name: 'document-rectangle',
             input_type: 'string' },
-            selectChoices: building[:sewage][:choices],
+            # selectChoices: building[:sewage][:choices],
             showLocalLanguage: true
           },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'sewageScheduled',
+        category: 'building',
+        translation_object: true
       },
 
       sewage_notes: {
@@ -1008,6 +1219,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'sewageNotes',
+        category: 'building'
       },
 
       sewage_notes_translation: {
@@ -1019,17 +1232,24 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 20,
+        translation_key: 'sewageNotes',
+        category: 'building',
+        translation_object: true
       },
 
       building_inspection_conducted: {
         name: 'building_inspection_conducted',
         input_type: 'boolean',
         choices: {
-          0 => { valName: 'Y', params: { val: true, top: '83.9%', left: '58.1%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-         1 => { valName: 'N', params: { val: false, top: '83.9%', left: '78.9%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'Y', params: { val: true, top: '83.9%', left: '58.1%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:yes] },
+          1 => { valName: 'N', params: { val: false, top: '83.9%', left: '78.9%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:no] }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'inspectionConducted',
+        category: 'building'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1048,6 +1268,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'inspection_summary',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_inspection_summary_translation',
+        translation_key: 'inspectionSummary',
+        category: 'building'
       },
 
       building_inspection_summary_translation: {
@@ -1059,6 +1281,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'inspectionSummary',
+        category: 'building',
+        translation_object: true
       },
     #
     # },
@@ -1099,6 +1324,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'kitchen',
+        category: 'flat',
+        group: 'kitchen'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1113,6 +1341,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'kitchen'
       },
 
       kitchen_format_translation: {
@@ -1125,6 +1356,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        translation_object: true,
+        group: 'kitchen'
       },
 
       kitchen_other: {
@@ -1137,6 +1372,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'kitchen'
       },
 
       kitchen_other_translation: {
@@ -1149,6 +1387,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'kitchen'
       },
 
       toilet: {
@@ -1186,6 +1428,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'toilet',
+        category: 'flat',
+        group: 'toilet'
         # height: '23px',
         # mapToModel: FlatForDocuments,!!!!!!!!!
       },
@@ -1200,6 +1445,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'toilet'
       },
 
       toilet_format_translation: {
@@ -1212,6 +1460,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        translation_object: true,
+        group: 'toilet'
       },
 
       toilet_other: {
@@ -1224,6 +1476,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'toilet'
       },
 
       toilet_other_translation: {
@@ -1236,6 +1491,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'toilet'
       },
 
       bath_tub: {
@@ -1273,6 +1532,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'bathtub',
+        category: 'flat',
+        group: 'bathTub'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1287,6 +1549,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'bathTub'
       },
 
       bath_tub_format_translation: {
@@ -1299,6 +1564,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        translation_object: true,
+        group: 'bathTub'
       },
 
       bath_tub_other: {
@@ -1311,6 +1580,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'bathTub'
       },
 
       bath_tub_other_translation: {
@@ -1323,6 +1595,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'bathTub'
       },
 
       hot_water: {
@@ -1360,6 +1636,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'waterHeater',
+        category: 'flat',
+        group: 'hot_water'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1374,6 +1653,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'hot_water'
       },
 
       hot_water_format_translation: {
@@ -1386,6 +1668,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        translation_object: true,
+        group: 'hot_water'
       },
 
       hot_water_other: {
@@ -1398,6 +1684,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'hot_water'
       },
 
       hot_water_other_translation: {
@@ -1410,6 +1699,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'hot_water'
       },
 
       kitchen_grill: {
@@ -1431,6 +1724,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'kitchenStove',
+        category: 'flat',
+        group: 'kitchen_grill'
         # height: '23px',
         # mapToModel: Amenities,!!!!!!!!!!!!!!!!!
       },
@@ -1445,6 +1741,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'kitchen_grill'
       },
 
       kitchen_grill_format_translation: {
@@ -1457,6 +1756,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        translation_object: true,
+        group: 'kitchen_grill'
       },
 
       kitchen_grill_other: {
@@ -1469,6 +1772,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'kitchen_grill'
       },
 
       kitchen_grill_other_translation: {
@@ -1481,6 +1787,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'kitchen_grill'
       },
 
       ac: {
@@ -1502,6 +1812,9 @@ module ImportantPointsExplanationBilingualAll
              },
         className: 'form-control-document',
         component: 'select',
+        translation_key: 'ac',
+        category: 'flat',
+        group: 'ac'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1516,6 +1829,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'format',
+        category: 'flat',
+        group: 'ac'
       },
 
       ac_format_translation: {
@@ -1528,6 +1844,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'ac',
+        category: 'flat',
+        translation_object: true,
+        group: 'ac'
       },
 
       ac_other: {
@@ -1540,6 +1860,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        group: 'ac'
       },
 
       ac_other_translation: {
@@ -1552,6 +1875,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        translation_key: 'other',
+        category: 'flat',
+        translation_object: true,
+        group: 'ac'
       },
 
       equipment1_name: {
@@ -1564,6 +1891,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'equipment',
+        # category: 'flat'
       },
 
       equipment1_name_translation: {
@@ -1576,6 +1905,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'equipmentName',
+        # category: 'flat',
+        # translation_object: true
       },
 
       equipment1: {
@@ -1590,6 +1922,8 @@ module ImportantPointsExplanationBilingualAll
         #      },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1604,6 +1938,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'format',
+        # category: 'flat'
       },
 
       equipment1_format_translation: {
@@ -1616,6 +1952,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'format',
+        # category: 'flat',
+        # translation_object: true
       },
 
       equipment1_other: {
@@ -1628,6 +1967,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'other',
+        # category: 'flat'
       },
 
       equipment1_other_translation: {
@@ -1640,6 +1981,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'other',
+        # category: 'flat',
+        # translation_object: true
       },
 
       equipment2_name: {
@@ -1652,6 +1996,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'equipmentName',
+        # category: 'flat'
       },
 
       equipment2_name_translation: {
@@ -1664,6 +2010,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'equipmentName',
+        # category: 'flat',
+        # translation_object: true
       },
 
       equipment2: {
@@ -1678,6 +2027,8 @@ module ImportantPointsExplanationBilingualAll
         #      },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'equipment',
+        # category: 'flat'
         # height: '23px',
         # mapToModel: Amenities,
       },
@@ -1692,6 +2043,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'format',
+        # category: 'flat'
       },
 
       equipment2_format_translation: {
@@ -1704,6 +2057,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'format',
+        # category: 'flat',
+        # translation_object: true
       },
 
       equipment2_other: {
@@ -1716,6 +2072,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'other',
+        # category: 'flat'
       },
 
       equipment2_other_translation: {
@@ -1728,6 +2086,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 8,
+        # translation_key: 'other',
+        # category: 'flat',
+        # translation_object: true
       },
 
       inside_disaster_prevention: {
@@ -1739,6 +2100,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'inDisasterPrevention',
+        category: 'building'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1752,6 +2115,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'inLandslideWarning',
+        category: 'building'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1765,6 +2130,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'inTsunamiWarning',
+        category: 'building'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1778,6 +2145,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'asbestosRecordsOnRecord',
+        category: 'building',
+        group: 'asbestos'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1796,6 +2166,9 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'asbestos_survey_contents',
         # # translation field is the field in the document that takes the translation
         translation_field: 'asbestos_survey_contents_translation',
+        translation_key: 'asbestosSurveyContents',
+        category: 'building',
+        group: 'asbestos'
       },
 
       asbestos_survey_contents_translation: {
@@ -1807,6 +2180,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'asbestosSurveyContents',
+        category: 'building',
+        translation_object: true,
+        group: 'asbestos'
       },
     # },
     # 4: {
@@ -1819,6 +2196,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'earthQuakeStudyPerformed',
+        category: 'building',
+        group: 'earthquake'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -1837,6 +2217,9 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'earthquake_study_contents',
         # # translation field is the field in the document that takes the translation
         translation_field: 'earthquake_study_contents_translation',
+        translation_key: 'earthquakeStudyContents',
+        category: 'building',
+        group: 'earthquake'
       },
 
       earthquake_study_contents_translation: {
@@ -1848,6 +2231,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'earthquakeStudyContents',
+        category: 'building',
+        translation_object: true,
+        group: 'earthquake'
       },
 
       other_payments1: {
@@ -1860,6 +2247,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 16,
+        # translation_key: 'nonRentCharges',
+        # category: 'agreement'
       },
 
       other_payments1_explanation: {
@@ -1872,6 +2261,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        translation_key: 'nonRentChargesExplanation',
+        category: 'agreement'
       },
 
       other_payments1_explanation_translation: {
@@ -1884,6 +2275,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        translation_key: 'nonRentChargesExplanation',
+        category: 'agreement',
+        translation_object: true
       },
 
       other_payments2: {
@@ -1896,6 +2290,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 16,
+        # translation_key: 'nonRentCharges',
+        # category: 'agreement'
       },
 
       other_payments2_explanation: {
@@ -1908,6 +2304,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement'
       },
 
       other_payments2_explanation_translation: {
@@ -1920,6 +2318,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement',
+        # translation_object: true
       },
 
       other_payments3: {
@@ -1932,6 +2333,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 16,
+        # translation_key: 'nonRentCharges',
+        # category: 'agreement'
       },
 
       other_payments3_explanation: {
@@ -1944,6 +2347,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement'
       },
 
       other_payments3_explanation_translation: {
@@ -1956,6 +2361,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement',
+        # translation_object: true
       },
 
       other_payments4: {
@@ -1968,6 +2376,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 16,
+        # translation_key: 'nonRentCharges',
+        # category: 'agreement'
       },
 
       other_payments4_explanation: {
@@ -1980,6 +2390,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement'
       },
 
       other_payments4_explanation_translation: {
@@ -1992,6 +2404,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        # translation_key: 'nonRentChargesExplanation',
+        # category: 'agreement',
+        # translation_object: true
       },
 
       contract_break_terms: {
@@ -2003,7 +2418,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 600,
-        translation_field: 'contract_break_terms_translation'
+        translation_field: 'contract_break_terms_translation',
+        translation_key: 'cancellation',
+        category: 'agreement'
       },
 
       contract_break_terms_translation: {
@@ -2015,6 +2432,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 600,
+        translation_key: 'cancellation',
+        category: 'agreement',
+        translation_object: true
       },
     # },
     # 5: {
@@ -2027,7 +2447,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 600,
-        translation_field: 'warranties_translation'
+        translation_field: 'warranties_translation',
+        translation_key: 'damageCompensation',
+        category: 'agreement'
       },
 
       warranties_translation: {
@@ -2039,6 +2461,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 600,
+        translation_key: 'damageCompensation',
+        category: 'agreement',
+        translation_object: true
       },
 
       escrow_for_deposit: {
@@ -2050,6 +2475,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        translation_key: 'guaranteeOfDeposits',
+        category: 'agreement'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2064,6 +2491,8 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        translation_key: 'financialInstitution',
+        category: 'agreement'
       },
 
       escrow_agent_deposit_translation: {
@@ -2076,6 +2505,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 60,
+        translation_key: 'financialInstitution',
+        category: 'agreement',
+        translation_object: true
       },
 
       from_year: {
@@ -2086,7 +2518,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '60.4%', left: '32.6%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearStart',
+        category: 'agreement',
+        group: 'contractPeriodFrom'
       },
 
       from_month: {
@@ -2097,7 +2532,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '60.4%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthStart',
+        category: 'agreement',
+        group: 'contractPeriodFrom'
       },
 
       from_day: {
@@ -2108,7 +2546,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '60.4%', left: '45.4%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dayStart',
+        category: 'agreement',
+        group: 'contractPeriodFrom'
       },
 
       to_year: {
@@ -2119,7 +2560,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '64.2%', left: '32.6%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'yearEnd',
+        category: 'agreement',
+        group: 'contractPeriodTo'
       },
 
       to_month: {
@@ -2130,7 +2574,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '64.2%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'monthEnd',
+        category: 'agreement',
+        group: 'contractPeriodTo'
       },
 
       to_day: {
@@ -2141,7 +2588,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '64.2%', left: '45.4%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'dayEnd',
+        category: 'agreement',
+        group: 'contractPeriodTo'
       },
 
       contract_length_years: {
@@ -2152,7 +2602,10 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '60.3%', left: '57%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'years',
+        category: 'agreement',
+        group: 'contractPeriodLength'
       },
 
       contract_length_months: {
@@ -2163,20 +2616,28 @@ module ImportantPointsExplanationBilingualAll
           0 => { params: { val: 'inputFieldValue', top: '60.3%', left: '64.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'months',
+        category: 'agreement',
+        group: 'contractPeriodLength'
       },
 
       contract_type: {
         name: 'contract_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'ordinary_rental_contract', top: '60%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'fixed_term_rental_contract', top: '63%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' } },
-          2 => { params: { val: 'end_of_life_rental_contract', top: '65.9%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'ordinary_rental_contract', top: '60%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' },
+             translation: translation[:ordinaryRentalContract][:translations] },
+          1 => { params: { val: 'fixed_term_rental_contract', top: '63%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' },
+             translation: translation[:fixedTermRentalContract][:translations] },
+          2 => { params: { val: 'end_of_life_rental_contract', top: '65.9%', left: '73.2%', width: '17.5%', class_name: 'document-rectangle', input_type: 'button' },
+             translation: translation[:endOfLifeRentalContract][:translations] },
         },
         className: 'form-control-document',
         height: '23px',
-        component: 'DocumentChoices'
+        component: 'DocumentChoices',
+        translation_key: 'contractType',
+        category: 'agreement'
         # borderColor: 'blue'
       },
 
@@ -2189,7 +2650,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
-        translation_field: 'contract_renewal_terms_translation'
+        translation_field: 'contract_renewal_terms_translation',
+        translation_key: 'termsOfRenewal',
+        category: 'agreement'
       },
 
       contract_renewal_terms_translation: {
@@ -2201,6 +2664,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'termsOfRenewal',
+        category: 'agreement',
+        translation_object: true
       },
     # },
     # 6: {
@@ -2213,6 +2679,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUse',
+        category: 'agreement'
       },
 
       limitations_use_translation: {
@@ -2224,6 +2692,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUse',
+        category: 'agreement',
+        translation_object: true
       },
 
       limitations_use_other: {
@@ -2235,6 +2706,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUseAndOthers',
+        category: 'agreement'
       },
 
       limitations_use_other_translation: {
@@ -2246,6 +2719,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUseAndOthers',
+        category: 'agreement',
+        translation_object: true
       },
 
       restrictions_use: {
@@ -2257,6 +2733,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUse',
+        category: 'agreement'
       },
 
       restrictions_use_translation: {
@@ -2268,6 +2746,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUse',
+        category: 'agreement',
+        translation_object: true
       },
 
       restrictions_use_other: {
@@ -2279,6 +2760,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUseAndOthers',
+        category: 'agreement'
       },
 
       restrictions_use_other_translation: {
@@ -2290,6 +2773,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'limitationsOnUseAndOthers',
+        category: 'agreement',
+        translation_object: true
       },
 
       deposit_return_terms: {
@@ -2301,7 +2787,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 300,
-        translation_field: 'deposit_return_terms_translation'
+        translation_field: 'deposit_return_terms_translation',
+        translation_key: 'returnSecurityDeposit',
+        category: 'agreement'
       },
 
       deposit_return_terms_translation: {
@@ -2313,6 +2801,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 300,
+        translation_key: 'returnSecurityDeposit',
+        category: 'agreement',
+        translation_object: true
       },
 
       building_management_company: {
@@ -2330,6 +2821,9 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'building_management_company',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_management_company_translation',
+        translation_key: 'propertyManagement',
+        category: 'building',
+        group: 'buildingManagement'
       },
 
       building_management_company_translation: {
@@ -2341,7 +2835,11 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         # component: 'input',
         component: 'DocumentChoices',
-        charLimit: 509
+        charLimit: 509,
+        translation_key: 'propertyManagement',
+        category: 'building',
+        translation_object: true,
+        group: 'buildingManagement'
       },
 
       building_management_registration: {
@@ -2354,6 +2852,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 30,
+        translation_key: 'registrationAgent',
+        category: 'building',
+        group: 'buildingManagement'
       },
 
       building_management_address: {
@@ -2369,7 +2870,9 @@ module ImportantPointsExplanationBilingualAll
         translation_record: 'building_languages',
         translation_column: 'building_management_address',
         translation_field: 'building_management_address_translation',
-
+        translation_key: 'addressAgent',
+        category: 'building',
+        group: 'buildingManagement'
       },
 
       building_management_address_translation: {
@@ -2382,6 +2885,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'addressAgent',
+        category: 'building',
+        translation_object: true,
+        group: 'buildingManagement'
       },
     #
     # },
@@ -2396,6 +2903,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'bondOfficeAddress',
+        category: 'broker',
+        group: 'bond'
       },
 
       bond_deposit_office_translation: {
@@ -2408,6 +2918,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'bondOfficeAddress',
+        category: 'broker',
+        translation_object: true,
+        group: 'bond'
       },
 
       bond_deposit_office_address: {
@@ -2420,6 +2934,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        group: 'bond'
       },
 
       bond_deposit_office_address_translation: {
@@ -2432,6 +2949,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        translation_object: true,
+        group: 'bond'
       },
 
       guaranty_association_name: {
@@ -2444,6 +2965,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'association',
+        category: 'broker',
+        group: 'guaranty'
       },
 
       guaranty_association_name_translation: {
@@ -2456,6 +2980,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'association',
+        category: 'broker',
+        translation_object: true,
+        group: 'guaranty'
       },
 
       guaranty_association_address: {
@@ -2468,6 +2996,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        group: 'guaranty'
       },
 
       guaranty_association_address_translation: {
@@ -2480,6 +3011,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        translation_object: true,
+        group: 'guaranty'
       },
 
       guaranty_association_office_address: {
@@ -2492,6 +3027,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        group: 'guaranty'
       },
 
       guaranty_association_office_address_translation: {
@@ -2504,6 +3042,10 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        translation_key: 'address',
+        category: 'broker',
+        translation_object: true,
+        group: 'guaranty'
       },
 
       bond_deposit_office_1: {
@@ -2516,7 +3058,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
-        baseKey: 'bond_deposit_office'
+        baseKey: 'bond_deposit_office',
+        # translation_key: 'bondOfficeAddress',
+        # category: 'bond'
       },
 
       bond_deposit_office_1_translation: {
@@ -2529,6 +3073,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        # translation_key: 'bondOfficeAddress',
+        # category: 'broker',
+        # translation_object: true
       },
 
       bond_deposit_office_address_1: {
@@ -2541,7 +3088,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
-        baseKey: 'bond_deposit_office_address'
+        baseKey: 'bond_deposit_office_address',
+        # translation_key: 'address',
+        # category: 'broker'
       },
 
       bond_deposit_office_address_1_translation: {
@@ -2554,6 +3103,9 @@ module ImportantPointsExplanationBilingualAll
         # component: 'input',
         component: 'DocumentChoices',
         charLimit: 50,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
     # },
     # 8: {
@@ -2566,6 +3118,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         # component: 'input',
         component: 'DocumentChoices',
+        translation_key: 'mainOffice',
+        category: 'document'
         # charLimit: 50,
       },
 
@@ -2583,6 +3137,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_name_1_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_1_translation: {
@@ -2593,6 +3149,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'name'
       },
 
@@ -2608,6 +3167,8 @@ module ImportantPointsExplanationBilingualAll
         baseKey: 'address',
         translation_record: 'flat_languages',
         translation_field: 'address_1_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       address_1_translation: {
@@ -2620,6 +3181,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         charLimit: 100,
         # baseKey: 'address',
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
 
       address_check: {
@@ -2634,6 +3198,9 @@ module ImportantPointsExplanationBilingualAll
         # xbox mean check box toggle with x inside button div
         # xbox: true,
         second_click_off: true,
+        # translation_key: 'address',
+        # category: 'broker',
+        # translation_object: true
       },
 
       address_site_check: {
@@ -2647,6 +3214,8 @@ module ImportantPointsExplanationBilingualAll
         charLimit: 1,
         # xbox: true,
         second_click_off: true,
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_2: {
@@ -2664,6 +3233,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_name_2_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_2_translation: {
@@ -2676,6 +3247,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         baseKey: 'name',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
 
       unit_1: {
@@ -2686,7 +3260,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        baseKey: 'unit'
+        baseKey: 'unit',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # charLimit: 10,
       },
 
@@ -2701,7 +3277,11 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
-        baseKey: 'construction'
+        baseKey: 'construction',
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # borderColor: 'blue'
       },
 
@@ -2713,6 +3293,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'floors',
+        # category: 'broker'
         # charLimit: 10,
       },
 
@@ -2724,6 +3306,8 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # charLimit: 10,
       },
 
@@ -2736,7 +3320,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'size'
+        baseKey: 'size',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       inspection_date: {
@@ -2748,22 +3334,29 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'size'
+        baseKey: 'size',
+        translation_key: 'inspectionDate',
+        category: 'inspection'
       },
 
       flat_type: {
         name: 'flat_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'single_family', enclosed_text: 'X', top: '39.2%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: ['flat_sub_type'], value: '' } },
-          1 => { params: { val: 'flat_in_building', enclosed_text: 'X', top: '42.5%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, inactive: true },
-          2 => { params: { val: 'town_house', enclosed_text: 'X', top: '42.5%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, inactive: true },
+          0 => { params: { val: 'single_family', enclosed_text: 'X', top: '39.2%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: ['flat_sub_type'], value: '' },
+            translation: translation[:singleFamily][:translations] },
+          1 => { params: { val: 'flat_in_building', enclosed_text: 'X', top: '42.5%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, inactive: true,
+            translation: translation[:multiFamily][:translations] },
+          2 => { params: { val: 'town_house', enclosed_text: 'X', top: '42.5%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' }, inactive: true,
+            translation: translation[:detachedType][:translations] },
           # 3 => { params: { val: 'others', top: '27.3%', left: '27%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         # box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
+        translation_key: 'flatType',
+        category: 'inspection'
       },
 
       # dependentKeys changes other fields to value (self is its own val); eg if below single_family clicked, field flat_sub_types turns to ''
@@ -2781,6 +3374,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         baseKey: 'flat_type',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # dependentValue: 'single_family'
         # changeBaseKey: true,
       },
@@ -2797,6 +3392,8 @@ module ImportantPointsExplanationBilingualAll
         wooden: true,
         summaryKey: true,
         inactive: true,
+        translation_key: 'presenceOfDegradation',
+        category: 'inspection'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2813,6 +3410,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'foundation',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2829,6 +3429,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'baseAndFloorAssemble',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2845,6 +3448,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'floor',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2861,6 +3467,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'pillarsAndBeams',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2877,6 +3486,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'exteriorWallsAndEaves',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2893,6 +3505,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'balcony',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2909,6 +3524,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'interiorWalls',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2925,6 +3543,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'ceilings',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2941,6 +3562,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'roofTruss',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2957,6 +3581,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'termiteDamage',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2973,6 +3600,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'rotCorrosion',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -2989,6 +3619,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'reinforcementArrangements',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3005,6 +3638,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'concreteCompression',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3021,6 +3657,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'exteriorWalls',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3037,6 +3676,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'eaves',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3053,6 +3695,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'balconyRain',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3069,6 +3714,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'interiorWallsRain',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3085,6 +3733,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'ceilingsRain',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3101,6 +3752,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'roofTrussRain',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3117,6 +3771,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: true,
+        translation_key: 'roofRain',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3136,6 +3793,9 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'inspector_name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'inspector_name_translation',
+        translation_key: 'nameInspector',
+        category: 'inspection',
+        group: 'inspector'
       },
 
       inspector_name_translation: {
@@ -3147,6 +3807,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'nameInspector',
+        category: 'inspection',
+        translation_object: true,
+        group: 'inspector'
       },
 
       inspector_trainer: {
@@ -3162,7 +3826,10 @@ module ImportantPointsExplanationBilingualAll
         # # name is the column in model building language
         translation_column: 'inspector_trainer',
         # # translation field is the field in the document that takes the translation
-        translation_field: 'inspector_trainer_translation'
+        translation_field: 'inspector_trainer_translation',
+        translation_key: 'nameOfAgency',
+        category: 'inspection',
+        group: 'inspector'
       },
 
       inspector_trainer_translation: {
@@ -3174,6 +3841,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'nameOfAgency',
+        category: 'inspection',
+        translation_object: true,
+        group: 'inspector'
         # translation_record: 'inspections',
         # # # name is the column in model building language
         # translation_column: 'inspector_trainer',
@@ -3190,34 +3861,48 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'certificateNumber',
+        category: 'inspection',
+        group: 'inspector'
       },
 
       architect_qualification_type: {
         name: 'architect_qualification_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Class 1', enclosed_text: 'X', top: '17.7%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'Class 2', enclosed_text: 'X', top: '17.7%', left: '46.1%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
-          2 => { params: { val: 'Wooden Strcture', enclosed_text: 'X', top: '17.7%', left: '58.5%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'Class 1', enclosed_text: 'X', top: '17.7%', left: '33.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:classI][:translations] },
+          1 => { params: { val: 'Class 2', enclosed_text: 'X', top: '17.7%', left: '46.1%', width: '2%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:classIi][:translations] },
+          2 => { params: { val: 'Wooden Structure', enclosed_text: 'X', top: '17.7%', left: '58.5%', width: '2%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:woodenStructureClass][:translations] },
           # 3 => { params: { val: 'others', top: '27.3%', left: '27%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
+        translation_key: 'typeArchitectQualification',
+        category: 'inspection',
+        group: 'architect'
       },
 
       architect_type: {
         name: 'architect_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Minister Registration', enclosed_text: 'X', top: '20.8%', left: '51.2%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'Governor Registration', enclosed_text: 'X', top: '24.4%', left: '51.2%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
+          0 => { params: { val: 'Minister Registration', enclosed_text: 'X', top: '20.8%', left: '51.2%', width: '2%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:ministersRegistration][:translation] },
+          1 => { params: { val: 'Governor Registration', enclosed_text: 'X', top: '24.4%', left: '51.2%', width: '2%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: translation[:governorRegistration][:translation] },
           # 2 => { params: { val: 'Wooden Strcture', enclosed_text: 'X', top: '82.7%', left: '58.3%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
           # 3 => { params: { val: 'others', top: '27.3%', left: '27%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
+        translation_key: 'typeArchitectRegistration',
+        category: 'inspection',
+        group: 'architect'
       },
 
       architect_registration_number: {
@@ -3229,6 +3914,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'architectRegistrationNumber',
+        category: 'inspection',
+        group: 'architect'
       },
 
       architect_registration_jurisdiction: {
@@ -3240,6 +3928,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'mainOffice',
+        category: 'inspection',
+        group: 'architect'
         # translation_record: 'inspections',
         # # # name is the column in model building language
         # translation_column: 'architect_office_registration_jurisdiction',
@@ -3256,6 +3947,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'mainOffice',
+        category: 'inspection',
+        translation_object: true,
+        group: 'architect'
       },
 
       architect_office_name: {
@@ -3272,6 +3967,9 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'architect_office_name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'architect_office_name_translation',
+        translation_key: 'architectOfficeName',
+        category: 'inspection',
+        group: 'architect'
       },
 
       architect_office_name_translation: {
@@ -3283,6 +3981,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'architectOfficeName',
+        category: 'inspection',
+        translation_object: true,
+        group: 'architect'
       },
 
       architect_office_registration_jurisdiction: {
@@ -3294,6 +3996,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'architectOfficeRegistrationJurisdiction',
+        category: 'inspection',
+        group: 'architect'
         # translation_record: 'inspections',
         # # # name is the column in model building language
         # translation_column: 'architect_office_registration_jurisdiction',
@@ -3310,6 +4015,10 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'architectOfficeRegistrationJurisdiction',
+        category: 'inspection',
+        translation_object: true,
+        group: 'architect'
       },
 
       architect_office_registration: {
@@ -3321,6 +4030,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'officeRegistrationNumber',
+        category: 'inspection',
+        group: 'architect'
       },
     #
     # },
@@ -3336,6 +4048,8 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         # charLimit: 50,
         baseKey: 'date_prepared',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_3: {
@@ -3352,6 +4066,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_name_2_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_3_translation: {
@@ -3362,6 +4078,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'name'
       },
 
@@ -3377,6 +4096,8 @@ module ImportantPointsExplanationBilingualAll
         baseKey: 'address',
         translation_record: 'flat_languages',
         translation_field: 'address_2_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       address_2_translation: {
@@ -3388,6 +4109,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'address',
       },
 
@@ -3403,6 +4127,8 @@ module ImportantPointsExplanationBilingualAll
         # xbox mean check box toggle with x inside button div
         # xbox: true,
         second_click_off: true,
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       address_site_check_1: {
@@ -3416,6 +4142,8 @@ module ImportantPointsExplanationBilingualAll
         charLimit: 1,
         # xbox: true,
         second_click_off: true,
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_4: {
@@ -3433,6 +4161,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'building_name_3_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       building_name_4_translation: {
@@ -3445,6 +4175,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         baseKey: 'name',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
 
       unit_2: {
@@ -3455,7 +4188,9 @@ module ImportantPointsExplanationBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        baseKey: 'unit'
+        baseKey: 'unit',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # charLimit: 10,
       },
 
@@ -3470,7 +4205,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
-        baseKey: 'construction'
+        baseKey: 'construction',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # borderColor: 'blue'
       },
 
@@ -3483,7 +4220,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'floors'
+        baseKey: 'floors',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       floors_underground_1: {
@@ -3495,7 +4234,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'floors_underground'
+        baseKey: 'floors_underground',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       size_2: {
@@ -3507,7 +4248,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'size'
+        baseKey: 'size',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       inspection_date_1: {
@@ -3519,7 +4262,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         # charLimit: 10,
-        baseKey: 'inspection_date'
+        baseKey: 'inspection_date',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       flat_type_1: {
@@ -3535,7 +4280,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
-        baseKey: 'flat_type'
+        baseKey: 'flat_type',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       # dependentKeys changes other fields to value (self is its own val); eg if below single_family clicked, field flat_sub_types turns to ''
@@ -3553,6 +4300,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         baseKey: 'flat_type',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # dependentValue: 'single_family'
         # changeBaseKey: true,
       },
@@ -3569,6 +4318,8 @@ module ImportantPointsExplanationBilingualAll
         wooden: false,
         summaryKey: true,
         inactive: true,
+        translation_key: 'presenceOfDegradation1',
+        category: 'inspection'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3586,6 +4337,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'foundation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3603,6 +4356,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'floor',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3620,6 +4375,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'pillars',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3637,6 +4394,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'exterior_walls',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3654,6 +4413,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'balcony',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3670,6 +4431,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: false,
+        translation_key: 'halls',
+        category: 'inspection',
+        group: 'degradation'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3687,6 +4451,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'interior_walls',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3704,6 +4470,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'ceilings',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3720,7 +4488,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: false,
-        baseKey: 'reinforcement'
+        baseKey: 'reinforcement',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3737,7 +4507,9 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         degradationKey: true,
         wooden: false,
-        baseKey: 'concrete_compression'
+        baseKey: 'concrete_compression',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3755,6 +4527,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'exterior_walls_rain',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3772,6 +4546,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'interior_walls_rain',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3789,6 +4565,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'ceilings_rain',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3806,6 +4584,8 @@ module ImportantPointsExplanationBilingualAll
         degradationKey: true,
         wooden: false,
         baseKey: 'roof',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # attributes; keep just in case
         # attributes: { names: ['bath_tub'], input_type: 'boolean' }
       },
@@ -3827,6 +4607,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'inspector_name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'inspector_name_1_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       inspector_name_1_translation: {
@@ -3838,6 +4620,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'inspector_name',
       },
 
@@ -3856,6 +4641,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'inspector_trainer',
         # # translation field is the field in the document that takes the translation
         translation_field: 'inspector_trainer_1_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       inspector_trainer_1_translation: {
@@ -3867,6 +4654,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'inspector_trainer',
       },
 
@@ -3880,6 +4670,8 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         charLimit: 100,
         baseKey: 'inspector_certificate_number',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       architect_qualification_type_1: {
@@ -3895,6 +4687,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         baseKey: 'architect_qualification_type',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       architect_type_1: {
@@ -3910,6 +4704,8 @@ module ImportantPointsExplanationBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         baseKey: 'architect_type',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       architect_registration_number_1: {
@@ -3922,6 +4718,8 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         charLimit: 100,
         baseKey: 'architect_registration_number',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       architect_registration_jurisdiction_1: {
@@ -3933,6 +4731,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # translation_record: 'inspections',
         # # # name is the column in model building language
         # translation_column: 'architect_office_registration_jurisdiction',
@@ -3949,6 +4749,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
 
       architect_office_name_1: {
@@ -3966,6 +4769,8 @@ module ImportantPointsExplanationBilingualAll
         translation_column: 'architect_office_name',
         # # translation field is the field in the document that takes the translation
         translation_field: 'architect_office_name_1_translation',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 
       architect_office_name_1_translation: {
@@ -3977,6 +4782,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
         # baseKey: 'architect_office_name',
       },
 
@@ -3989,6 +4797,8 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker'
         # translation_record: 'inspections',
         # # # name is the column in model building language
         # translation_column: 'architect_office_registration_jurisdiction',
@@ -4005,6 +4815,9 @@ module ImportantPointsExplanationBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         charLimit: 100,
+        # translation_key: 'mainOffice',
+        # category: 'broker',
+        # translation_object: true
       },
 
       architect_office_registration_1: {
@@ -4017,6 +4830,8 @@ module ImportantPointsExplanationBilingualAll
         component: 'DocumentChoices',
         charLimit: 100,
         baseKey: 'architect_office_registration',
+        # translation_key: 'mainOffice',
+        # category: 'broker'
       },
 # },
     };

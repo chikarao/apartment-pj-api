@@ -100,6 +100,11 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '65.5%', left: '18%', font_size: '10', class_name: 'document-translation' }
         },
 
+        contractWorkSubType: {
+          translations: { en: 'Type of Transaction', po: 'Tipo de Transação', jp: '' },
+          attibutes: nil
+        },
+
         representative: {
           translations: { en: 'Representative', po: 'Representante', jp: '' },
           attributes: { top: '65.5%', left: '63%', font_size: '10', class_name: 'document-translation' }
@@ -150,6 +155,16 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '90.5%', left: '11.1%', font_size: '10', width: '20%', class_name: 'document-translation' }
         },
 
+        landlordName: {
+          translations: { en: 'Landlord Name', po: 'Nome do Proprietário', jp: '' },
+          attributes: nil
+        },
+
+        landlordAddress: {
+          translations: { en: 'Landlord Address', po: 'Endereço do Proprietário', jp: '' },
+          attributes: nil
+        },
+
       # },
       # 2 => {
         itemsDirectlyRelated: {
@@ -170,6 +185,16 @@ module DocumentTranslationImportantPointsAll
         sectionA: {
           translations: { en: '(Section A)', po: '', jp: '' },
           attributes: { top: '21.2%', left: '26%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        ownershipRights: {
+          translations: { en: 'Owership Rights', po: 'Direitos de Propriedade', jp: '' },
+          attributes: nil
+        },
+
+        otherOwnershipRights: {
+          translations: { en: 'Other Rights', po: 'Outros Direitos', jp: '' },
+          attributes: nil
         },
 
         itemsRightsOfOwnership: {
@@ -227,7 +252,7 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '64.8%', left: '47.5%', font_size: '10', class_name: 'document-translation' }
         },
 
-        Notes: {
+        notes: {
           translations: { en: 'Notes', po: '', jp: '' },
           attributes: { top: '64.8%', left: '77%', font_size: '10', class_name: 'document-translation' }
         },
@@ -235,6 +260,11 @@ module DocumentTranslationImportantPointsAll
         water: {
           translations: { en: 'Water', po: '', jp: '' },
           attributes: { top: '68.1%', left: '11%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        waterNotes: {
+          translations: { en: 'Water Notes', po: 'Notas da água', jp: '' },
+          attributes: nil
         },
 
         publicWater: {
@@ -288,23 +318,43 @@ module DocumentTranslationImportantPointsAll
         },
 
         yearElectricity: {
-          translations: { en: 'Year', po: '', jp: '' },
+          translations: { en: 'Year', po: 'Ano', jp: '' },
           attributes: { top: '71.2%', left: '41.4%', font_size: '10', class_name: 'document-translation' }
         },
 
         monthElectricity: {
-          translations: { en: 'Month', po: '', jp: '' },
+          translations: { en: 'Month', po: 'Mês', jp: '' },
           attributes: { top: '71.2%', left: '46.5%', font_size: '10', class_name: 'document-translation' }
         },
 
         dayElectricity: {
-          translations: { en: 'Day', po: '', jp: '' },
+          translations: { en: 'Day', po: 'Dia', jp: '' },
           attributes: { top: '71.2%', left: '52%', font_size: '10', class_name: 'document-translation' }
         },
 
+        electricityScheduled: {
+          translations: { en: 'Electricity Scheduled', po: 'Eletricidade Programada', jp: '' },
+          attributes: nil
+        },
+
+        electricityNotes: {
+          translations: { en: 'Electricity Notes', po: 'Eletricidade Programada', jp: '' },
+          attributes: nil
+        },
+
         gas: {
-          translations: { en: 'Gas', po: '', jp: '' },
+          translations: { en: 'Gas', po: 'Gás', jp: '' },
           attributes: { top: '74.3%', left: '11%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        gasScheduled: {
+          translations: { en: 'Gas Scheduled', po: 'Gás Programada', jp: '' },
+          attributes: nil
+        },
+
+        gasNotes: {
+          translations: { en: 'Gas Notes', po: 'Gás Notas', jp: '' },
+          attributes: nil
         },
 
         cityGas1: {
@@ -338,13 +388,23 @@ module DocumentTranslationImportantPointsAll
         },
 
         propaneGas: {
-          translations: { en: 'Propane', po: '', jp: '' },
+          translations: { en: 'Propane', po: 'Propano', jp: '' },
           attributes: { top: '74.3%', left: '60%', font_size: '10', class_name: 'document-translation' }
         },
 
         sewage: {
-          translations: { en: 'Sewage', po: '', jp: '' },
+          translations: { en: 'Sewage', po: 'Esgoto', jp: '' },
           attributes: { top: '77.4%', left: '11%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        sewageScheduled: {
+          translations: { en: 'Sewage Scheduled', po: 'Esgoto Programado', jp: '' },
+          attributes: nil
+        },
+
+        sewageNotes: {
+          translations: { en: 'Sewage Notes', po: 'Esgoto Notas', jp: '' },
+          attributes: nil
         },
 
         yearSewage: {
@@ -388,7 +448,7 @@ module DocumentTranslationImportantPointsAll
         },
       # },
       # 3 => {
-        itemsRecordedInRegistry: {
+        itemsRecordedInRegistry1: {
           translations: { en: 'State of Repair of Equipment (in case of completed building)', po: '', jp: '' },
           attributes: { top: '11.4%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
@@ -549,6 +609,11 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '35.1%', left: '11.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
+        nonRentChargesExplanation: {
+          translations: { en: 'Non-rent related charges explanation', po: '', jp: '' },
+          attributes: nil
+        },
+
         amount: {
           translations: { en: 'Amount', po: '', jp: '' },
           attributes: { top: '38.6%', left: '17.8%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -653,6 +718,11 @@ module DocumentTranslationImportantPointsAll
         months: {
           translations: { en: 'Month(s)', po: '', jp: '' },
           attributes: { top: '62.2%', left: '67.8%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        contractType: {
+          translations: { en: 'Contract Type', po: '', jp: '' },
+          attributes: nil
         },
 
         ordinaryRentalContract: {
@@ -761,7 +831,7 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '36.9%', left: '13.6%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
-        Association: {
+        association: {
           translations: { en: 'Real Estate Transaction Guarantee Association', po: '', jp: '' },
           attributes: { top: '44.9%', left: '11%', font_size: '10', class_name: 'document-translation', width: '10%' }
         },
@@ -905,6 +975,11 @@ module DocumentTranslationImportantPointsAll
         inspectionCategory: {
           translations: { en: 'Inspection Category', po: '', jp: '' },
           attributes: { top: '43.4%', left: '18.2%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        flatType: {
+          translations: { en: 'Type of Property', po: '', jp: '' },
+          attributes: nil
         },
 
         singleFamily: {
@@ -1123,14 +1198,39 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '7%', left: '14%', font_size: '10', class_name: 'document-translation' }
         },
 
-        certificateNumber: {
+        certificateNumberAndName: {
           translations: { en: 'Name of Agency Training Inspector and Completion Certificate No.', po: '', jp: '' },
           attributes: { top: '13.4%', left: '14%', font_size: '10', class_name: 'document-translation', width: '20%' }
+        },
+
+        nameOfAgency: {
+          translations: { en: 'Name of Agency Training Inspector', po: '', jp: '' },
+          attributes: nil
+        },
+
+        certificateNumber: {
+          translations: { en: 'Completion Certificate No.', po: '', jp: '' },
+          attributes: nil
         },
 
         typeArchitectQualification: {
           translations: { en: 'Type of Architect Qualification', po: '', jp: '' },
           attributes: { top: '19.4%', left: '14%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        typeArchitectRegistration: {
+          translations: { en: 'Type of Architect Registration', po: '', jp: '' },
+          attributes: nil
+        },
+
+        ministerRegistration: {
+          translations: { en: 'Minister Registration', po: '', jp: '' },
+          attributes: nil
+        },
+
+        governorRegistration: {
+          translations: { en: 'Governor Registration', po: '', jp: '' },
+          attributes: nil
         },
 
         classI: {
@@ -1151,6 +1251,16 @@ module DocumentTranslationImportantPointsAll
         architectRegistrationNumber: {
           translations: { en: 'Architect Registration No.', po: '', jp: '' },
           attributes: { top: '25.4%', left: '14%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        architectOfficeName: {
+          translations: { en: 'Architect Office Name', po: '', jp: '' },
+          attributes: nil
+        },
+
+        architectOfficeRegistrationJurisdiction: {
+          translations: { en: 'Architect Registration Jurisdiction', po: '', jp: '' },
+          attributes: nil
         },
 
         ministersRegistration: {
@@ -1475,7 +1585,7 @@ module DocumentTranslationImportantPointsAll
         },
       # },
       # 11 => {
-        buildingInspector: {
+        buildingInspector1: {
           translations: { en: 'Building Inspector', po: '', jp: '' },
           attributes: { top: '27.3%', left: '10.4%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
