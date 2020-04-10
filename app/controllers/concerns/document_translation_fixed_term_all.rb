@@ -21,6 +21,7 @@ module DocumentTranslationFixedTermAll
 
       buildingName: {
         translations: { en: 'Name', po: 'Nome', jpy: '' },
+        examples: { en: 'The Building Name', p: 'O nome do Edifício'},
         attributes: { top: '18.8%', left: '22.5%', font_size: '10', class_name: 'document-translation' }
       },
 
@@ -97,12 +98,14 @@ module DocumentTranslationFixedTermAll
 
       yearBuilt: {
         translations: { en: 'Year Built', po: 'Ano de Construção', jpy: '' },
-        attributes: { top: '26.5%', left: '76.9%', font_size: '10', class_name: 'document-translation' }
+        attributes: { top: '26.5%', left: '76.9%', font_size: '10', class_name: 'document-translation' },
+        examples: { en: '2000', po: '2000'}
       },
 
       majorRenovation: {
         translations: { en: 'Major Renovation', po: 'Renovação Principal', jpy: '' },
-        attributes: { top: '32.1%', left: '75.6%', font_size: '10', class_name: 'document-translation' }
+        attributes: { top: '32.1%', left: '75.6%', font_size: '10', class_name: 'document-translation' },
+        examples: { en: '2010', po: '2010'}
       },
 
       completed: {

@@ -32,8 +32,8 @@ module FixedTermRentalContractBilingualAll
                   }
            },
           required: true,
-          translation_key: 'documentTitle',
-          category: 'document'
+          # translation_key: 'documentTitle',
+          # category: 'document'
         },
 
         name: {

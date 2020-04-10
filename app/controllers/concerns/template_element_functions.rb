@@ -14,6 +14,7 @@ module TemplateElementFunctions
       if base[each][:translation_key] && base[each][:category]
         p "!!!!! booking_controller TemplateElementFunctions, create object, each, base[each][:translation_key] base[each][:category]: " + each.to_s + ' ' + base[each][:translation_key].to_s + ' ' + base[each][:category].class.to_s
         base[each][:translation] = translation[base[each][:translation_key].to_sym][:translations]
+        base[each][:examples] = translation[base[each][:translation_key].to_sym][:examples]
 
         if base[each][:group]
           unless object[base[each][:category]]

@@ -37,8 +37,8 @@ module ImportantPointsExplanationBilingualAll
         }
       },
       required: true,
-      translation_key: 'documentTitle',
-      category: 'document'
+      # translation_key: 'documentTitle',
+      # category: 'document'
     },
 
       tenant_name: {
