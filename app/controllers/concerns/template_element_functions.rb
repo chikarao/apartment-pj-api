@@ -12,34 +12,42 @@ module TemplateElementFunctions
     base.keys.each do |each|
       # count += 1
       if base[each][:translation_key] && base[each][:category]
-        p "!!!!! booking_controller TemplateElementFunctions, create object, each, base[each][:translation_key] base[each][:category]: " + each.to_s + ' ' + base[each][:translation_key].to_s + ' ' + base[each][:category].class.to_s
         base[each][:translation] = translation[base[each][:translation_key].to_sym][:translations]
         base[each][:examples] = translation[base[each][:translation_key].to_sym][:examples]
+        if base[each][:translation_field]
+          # p "!!!!! booking_controller TemplateElementFunctions, create object, each, base[each][:translation_key] base[each][:category]: " + each.to_s + ' ' + base[each][:translation_key].to_s + ' ' + base[each][:category].class.to_s
+          # p "!!!!! booking_controller TemplateElementFunctions, create object, each, base[[each][:translation_fiel]d].to_sym : " + base[each[:translation_field]].to_s
+          base[each][:translation_sibling] = base[base[each][:translation_field].to_sym]
+        else
+          base[each][:translation_sibling] = nil
+        end
 
-        if base[each][:group]
-          unless object[base[each][:category]]
-            # base[each][:translation] = translation[base[each][:translation_key][:translations].to_sym]
-            object[base[each][:category]] = {}
-            object[base[each][:category]][base[each][:group]] = {}
-            object[base[each][:category]][base[each][:group]][each] = base[each]
-          else # else of unless object[base[each][:category]]
-            unless object[base[each][:category]][base[each][:group]]
+        unless base[each][:translation_object]
+          if base[each][:group]
+            unless object[base[each][:category]]
+              # base[each][:translation] = translation[base[each][:translation_key][:translations].to_sym]
+              object[base[each][:category]] = {}
               object[base[each][:category]][base[each][:group]] = {}
               object[base[each][:category]][base[each][:group]][each] = base[each]
-            else
-              object[base[each][:category]][base[each][:group]][each] = base[each]
-            end
-          end # end of unless object[base[each][:category]]
+            else # else of unless object[base[each][:category]]
+              unless object[base[each][:category]][base[each][:group]]
+                object[base[each][:category]][base[each][:group]] = {}
+                object[base[each][:category]][base[each][:group]][each] = base[each]
+              else
+                object[base[each][:category]][base[each][:group]][each] = base[each]
+              end
+            end # end of unless object[base[each][:category]]
 
-        else # else of if base[each][:group]
-          unless object[base[each][:category]]
-            object[base[each][:category]] = {}
-            object[base[each][:category]][each] = base[each]
-          else
-            # base[each][:translation] = translation[base[each][:translation_key][:translations].to_sym]
-            object[base[each][:category]][each] = base[each]
-          end # End of unless object[base[each][:category]]
-        end # End of if base[each][:group]
+          else # else of if base[each][:group]
+            unless object[base[each][:category]]
+              object[base[each][:category]] = {}
+              object[base[each][:category]][each] = base[each]
+            else
+              # base[each][:translation] = translation[base[each][:translation_key][:translations].to_sym]
+              object[base[each][:category]][each] = base[each]
+            end # End of unless object[base[each][:category]]
+          end # End of if base[each][:group]
+        end # End unless base[each][:translation_object]
 
       end # End of if base[each][:translation_key] && base[each][:category]
     end# End of each base.keys
