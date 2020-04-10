@@ -316,9 +316,39 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '10.7%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
     },
 
+    parkingIncluded: {
+      translations: { en: 'Parking Included', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    parkingSpaces: {
+      translations: { en: 'Parking Spaces', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    parkingNumber: {
+      translations: { en: 'Parking Space No.', po: '', jpy: '' },
+      attributes: nil
+    },
+
     bicycleParking: {
       translations: { en: 'Bicycle Parking', po: '', jpy: '' },
       attributes: { top: '14.3%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    bicycleParkingIncluded: {
+      translations: { en: 'Bicycle Parking Included', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    bicycleParkingSpaces: {
+      translations: { en: 'Bicycle Parking Spaces', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    bicycleParkingNumber: {
+      translations: { en: 'Bicycle Parking Space No.', po: '', jpy: '' },
+      attributes: nil
     },
 
     motocycleParking: {
@@ -326,14 +356,49 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '17.9%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
     },
 
+    motocycleParkingIncluded: {
+      translations: { en: 'Motorcycle Parking Included', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    motocycleParkingSpaces: {
+      translations: { en: 'Motorcycle Parking Included', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    motocycleParkingNumber: {
+      translations: { en: 'Motorcycle Parking Space No.', po: '', jpy: '' },
+      attributes: nil
+    },
+
     storage: {
       translations: { en: 'Storage', po: '', jpy: '' },
       attributes: { top: '21.2%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
     },
 
+    storageIncluded: {
+      translations: { en: 'Storage Included', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    storageSpaces: {
+      translations: { en: 'Storage Spaces', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    storageNumber: {
+      translations: { en: 'Storage Space No.', po: '', jpy: '' },
+      attributes: nil
+    },
+
     ownYard: {
       translations: { en: 'Own Yard', po: '', jpy: '' },
       attributes: { top: '24.8%', left: '30.9%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    otherFacility: {
+      translations: { en: 'Other Facilities', po: '', jpy: '' },
+      attributes: nil
     },
 
     vehicles: {
@@ -381,42 +446,42 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '38.7%', left: '14.2%', font_size: '10', class_name: 'document-translation' }
     },
 
-    year: {
+    yearFrom: {
       translations: { en: 'Year', po: '', jpy: '' },
       attributes: { top: '35.9%', left: '33%', font_size: '10', class_name: 'document-translation' }
     },
 
-    month: {
+    monthFrom: {
       translations: { en: 'Month', po: '', jpy: '' },
       attributes: { top: '35.9%', left: '44%', font_size: '10', class_name: 'document-translation' }
     },
 
-    day: {
+    dayFrom: {
       translations: { en: 'Day', po: '', jpy: '' },
       attributes: { top: '35.9%', left: '55.2%', font_size: '10', class_name: 'document-translation' }
     },
 
-    year1: {
+    yearTo: {
       translations: { en: 'Year', po: '', jpy: '' },
       attributes: { top: '38.7%', left: '33%', font_size: '10', class_name: 'document-translation' }
     },
 
-    month1: {
+    monthTo: {
       translations: { en: 'Month', po: '', jpy: '' },
       attributes: { top: '38.7%', left: '44%', font_size: '10', class_name: 'document-translation' }
     },
 
-    day1: {
+    dayTo: {
       translations: { en: 'Day', po: '', jpy: '' },
       attributes: { top: '38.7%', left: '55.2%', font_size: '10', class_name: 'document-translation' }
     },
 
-    years: {
+    yearsContract: {
       translations: { en: 'Year(s)', po: '', jpy: '' },
       attributes: { top: '37.4%', left: '76%', font_size: '10', class_name: 'document-translation' }
     },
 
-    months: {
+    monthsContract: {
       translations: { en: 'Month(s)', po: '', jpy: '' },
       attributes: { top: '37.4%', left: '83.5%', font_size: '10', class_name: 'document-translation' }
     },
@@ -426,17 +491,17 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '41.7%', left: '14.2%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeYear: {
+    noticeYearFrom: {
       translations: { en: 'Year', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '48.3%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeMonth: {
+    noticeMonthFrom: {
       translations: { en: 'Month', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '53.9%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeDay: {
+    noticeDayFrom: {
       translations: { en: 'Day', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '59.6%', font_size: '10', class_name: 'document-translation' }
     },
@@ -446,17 +511,17 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '41.7%', left: '64.6%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeYear1: {
+    noticeYearTo: {
       translations: { en: 'Year', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '70.5%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeMonth1: {
+    noticeMonthTo: {
       translations: { en: 'Month', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '76%', font_size: '10', class_name: 'document-translation' }
     },
 
-    noticeDay1: {
+    noticeDayTo: {
       translations: { en: 'Day', po: '', jpy: '' },
       attributes: { top: '41.7%', left: '81.7%', font_size: '10', class_name: 'document-translation' }
     },
@@ -496,7 +561,7 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '53.4%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
-    Fees: {
+    fees: {
       translations: { en: 'Fees', po: '', jpy: '' },
       attributes: { top: '57.9%', left: '14.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
@@ -521,6 +586,11 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '53.1%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
+    bankNameEnglish: {
+      translations: { en: 'Bank Name English', po: '', jpy: '' },
+      attributes: nil
+    },
+
     accountType: {
       translations: { en: 'Account Type: Ordinary・Current', po: '', jpy: '' },
       attributes: { top: '58.3%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
@@ -531,14 +601,29 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '61.6%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
+    swift: {
+      translations: { en: 'SWIFT', po: '', jpy: '' },
+      attributes: nil
+    },
+
     accountName: {
       translations: { en: 'Account Name', po: '', jpy: '' },
       attributes: { top: '70%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
     },
 
+    accountNameAlphabet: {
+      translations: { en: 'Account Name Alphabet', po: '', jpy: '' },
+      attributes: nil
+    },
+
     transferFeePaidBy: {
       translations: { en: 'Transfer Fee Paid By: Landlor・Tenant', po: '', jpy: '' },
       attributes: { top: '75%', left: '60.4%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    rentPaymentMethod: {
+      translations: { en: 'Rent Payment Method', po: '', jpy: '' },
+      attributes: nil
     },
 
     paidInPerson: {
@@ -569,6 +654,11 @@ module DocumentTranslationFixedTermAll
     others: {
       translations: { en: 'Others', po: '', jpy: '' },
       attributes: { top: '89.5%', left: '17%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    otherFees: {
+      translations: { en: 'Other Fees', po: '', jpy: '' },
+      attributes: nil
     },
   # },
   # 3 => {
@@ -630,6 +720,11 @@ module DocumentTranslationFixedTermAll
     registration: {
       translations: { en: 'Registration No.', po: '', jpy: '' },
       attributes: { top: '34%', left: '31.8%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    registrationNoFirst: {
+      translations: { en: 'Registration No. First Part', po: '', jpy: '' },
+      attributes: nil
     },
 
     ministersRegistration: {
@@ -828,17 +923,17 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '15.8%', left: '16.3%', font_size: '10', class_name: 'document-translation', width: '76.5%' }
     },
 
-    year2: {
+    year: {
       translations: { en: 'Year', po: '', jpy: '' },
       attributes: { top: '20.8%', left: '27.7%', font_size: '10', class_name: 'document-translation' }
     },
 
-    month2: {
+    month: {
       translations: { en: 'Month', po: '', jpy: '' },
       attributes: { top: '20.8%', left: '37.3%', font_size: '10', class_name: 'document-translation' }
     },
 
-    day2: {
+    day: {
       translations: { en: 'Day', po: '', jpy: '' },
       attributes: { top: '20.8%', left: '47.3%', font_size: '10', class_name: 'document-translation' }
     },
@@ -903,6 +998,16 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '60.5%', left: '14.5%', font_size: '10', class_name: 'document-translation' }
     },
 
+    brokerRegistrationJurisdiction: {
+      translations: { en: 'Broker Registration Jurisdiction', po: '', jpy: '' },
+      attributes: nil
+    },
+
+    brokerRegistrationGrantor: {
+      translations: { en: 'Broker Registration Grantor', po: '', jpy: '' },
+      attributes: nil
+    },
+
     agent: {
       translations: { en: 'Agent', po: '', jpy: '' },
       attributes: { top: '64%', left: '14.5%', font_size: '10', class_name: 'document-translation' }
@@ -911,6 +1016,11 @@ module DocumentTranslationFixedTermAll
     license: {
       translations: { en: 'License No.', po: '', jpy: '' },
       attributes: { top: '56%', left: '27%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    licenseNoFirst: {
+      translations: { en: 'License No. (first No.)', po: '', jpy: '' },
+      attributes: nil
     },
 
     governor: {
@@ -951,6 +1061,11 @@ module DocumentTranslationFixedTermAll
     licenseNumber: {
       translations: { en: 'License No.', po: '', jpy: '' },
       attributes: { top: '77.3%', left: '48.9%', font_size: '10', class_name: 'document-translation' }
+    },
+
+    brokerStaffRegJurisdiction: {
+      translations: { en: 'License No.', po: '', jpy: '' },
+      attributes: nil
     },
 
     governorBroker: {

@@ -267,7 +267,7 @@ module FixedTermRentalContractBilingualAll
             },
             className: 'form-control-document',
             component: 'DocumentChoices',
-            translation_key: 'floors',
+            translation_key: 'rooms',
             category: 'flat'
         },
 
@@ -650,8 +650,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'parkingIncluded',
+        category: 'flat'
       },
 
       parking_spaces: {
@@ -663,8 +663,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'parkingSpaces',
+        category: 'flat'
       },
 
       parking_space_number: {
@@ -676,8 +676,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'parkingNumber',
+        category: 'flat'
       },
 
       bicycle_parking_included: {
@@ -690,8 +690,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'bicycleParkingIncluded',
+        category: 'flat'
       },
 
       bicycle_parking_spaces: {
@@ -703,8 +703,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'bicycleParkingSpaces',
+        category: 'flat'
       },
 
       bicycle_parking_space_number: {
@@ -716,8 +716,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'bicycleParkingNumber',
+        category: 'flat'
       },
 
       motorcycle_parking_included: {
@@ -730,8 +730,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'motocycleParkingIncluded',
+        category: 'flat'
       },
 
       motorcycle_parking_spaces: {
@@ -743,8 +743,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'motocycleParkingSpaces',
+        category: 'flat'
       },
 
       motorcycle_parking_space_number: {
@@ -756,8 +756,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'motocycleParkingNumber',
+        category: 'flat'
       },
 
       storage_included: {
@@ -770,8 +770,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'storageIncluded',
+        category: 'flat'
       },
 
       storage_spaces: {
@@ -783,8 +783,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'storageSpaces',
+        category: 'flat'
       },
 
       storage_space_number: {
@@ -796,8 +796,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'storageNumber',
+        category: 'flat'
       },
 
       dedicated_yard: {
@@ -810,8 +810,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'ownYard',
+        category: 'flat'
       },
 
       other_facility: {
@@ -824,7 +824,7 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
+        translation_key: 'floorSpace',
         category: 'building'
       },
 
@@ -837,8 +837,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'otherFacility',
+        category: 'flat'
       },
 
       from_year: {
@@ -850,8 +850,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'yearFrom',
+        category: 'agreement',
+        group: 'fromDate'
       },
 
       from_month: {
@@ -863,8 +864,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'monthFrom',
+        category: 'agreement',
+        group: 'fromDate'
       },
 
       from_day: {
@@ -876,8 +878,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'dayFrom',
+        category: 'agreement',
+        group: 'fromDate'
       },
 
       to_year: {
@@ -889,8 +892,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'yearTo',
+        category: 'agreement',
+        group: 'toDate'
       },
 
       to_month: {
@@ -902,8 +906,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'monthTo',
+        category: 'agreement',
+        group: 'toDate'
       },
 
       to_day: {
@@ -915,8 +920,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'dayTo',
+        category: 'agreement',
+        group: 'toDate'
       },
 
       contract_length_years: {
@@ -928,8 +934,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'yearsContract',
+        category: 'agreement'
       },
 
       contract_length_months: {
@@ -941,8 +947,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'monthsContract',
+        category: 'agreement'
       },
 
       notice_from_year: {
@@ -954,8 +960,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeYearFrom',
+        category: 'agreement',
+        group: 'noticeFrom'
       },
 
       notice_from_month: {
@@ -967,8 +974,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeMonthFrom',
+        category: 'agreement',
+        group: 'noticeFrom'
       },
 
       notice_from_day: {
@@ -980,9 +988,11 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeDayFrom',
+        category: 'agreement',
+        group: 'noticeFrom'
       },
+
       notice_to_year: {
         name: 'notice_to_year',
         input_type: 'string',
@@ -992,8 +1002,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeYearTo',
+        category: 'agreement',
+        group: 'noticeTo'
       },
 
       notice_to_month: {
@@ -1005,8 +1016,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeMonthTo',
+        category: 'agreement',
+        group: 'noticeTo'
       },
 
       notice_to_day: {
@@ -1018,8 +1030,9 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'noticeDayTo',
+        category: 'agreement',
+        group: 'noticeTo'
       },
 
       final_rent: {
@@ -1044,8 +1057,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'rentAndOthers',
+        category: 'agreement'
       },
 
       payment_due_date: {
@@ -1069,8 +1082,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'rentDueDate',
+        category: 'agreement'
       },
 
       management_fees: {
@@ -1095,8 +1108,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'fees',
+        category: 'agreement'
       },
 
       fees_payment_due_date: {
@@ -1121,8 +1134,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'feesDueDate',
+        category: 'agreement'
       },
 
       bank_name: {
@@ -1147,8 +1160,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'bankName',
+        category: 'agreement'
       },
 
       bank_name_english: {
@@ -1173,8 +1186,8 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'bankNameEnglish',
+        category: 'agreement'
       },
 
       account_type: {
@@ -1187,8 +1200,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         # height: '23px',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'accountType',
+        category: 'agreement'
         # borderColor: 'blue'
       },
 
@@ -1201,8 +1214,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'accountNumber',
+        category: 'agreement'
       },
 
       swift: {
@@ -1214,8 +1227,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'swift',
+        category: 'agreement'
       },
 
       account_name: {
@@ -1227,8 +1240,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'accountName',
+        category: 'agreement'
       },
 
       account_name_english: {
@@ -1240,8 +1253,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'accountNameAlphabet',
+        category: 'agreement'
       },
 
       transfer_fee_paid_by: {
@@ -1254,8 +1267,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'transferFeePaidBy',
+        category: 'agreement'
         # borderColor: 'blue'
       },
 
@@ -1268,8 +1281,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'rentPaymentMethod',
+        category: 'agreement'
       },
 
       # rent_payment_method_translation: {
@@ -1295,8 +1308,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'rentDepositX',
+        category: 'agreement'
       },
 
       deposit_amount: {
@@ -1309,8 +1322,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'deposit',
+        category: 'agreement'
       },
 
       facilities_usage_fee: {
@@ -1322,8 +1335,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'facilityUsageFee',
+        category: 'agreement'
       },
 
       other_fees: {
@@ -1335,8 +1348,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'otherFees',
+        category: 'agreement'
         # required: true
       },
   # },
@@ -1356,8 +1369,8 @@ module FixedTermRentalContractBilingualAll
       # translation_record: 'flat_languages',
       # translation_column: 'owner_address',
       translation_field: 'owner_address_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'landlordAddress',
+      category: 'landlord'
     },
 
     owner_address_translation: {
@@ -1369,8 +1382,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'landlordAddress',
+      category: 'landlord',
       translation_object: true
     },
 
@@ -1386,8 +1399,8 @@ module FixedTermRentalContractBilingualAll
       # translation_record: 'flat_languages',
       # translation_column: 'owner_address',
       translation_field: 'owner_address_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'landordCompanyName',
+      category: 'landlord'
     },
 
     owner_company_translation: {
@@ -1399,8 +1412,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'landordCompanyName',
+      category: 'landlord',
       translation_object: true
     },
 
@@ -1416,8 +1429,8 @@ module FixedTermRentalContractBilingualAll
       # translation_record: 'flat_languages',
       # translation_column: 'owner_name',
       translation_field: 'owner_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'landlordName',
+      category: 'landlord'
     },
 
     owner_name_translation: {
@@ -1429,8 +1442,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'landlordName',
+      category: 'landlord',
       translation_object: true
     },
 
@@ -1443,8 +1456,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'landlordPhone',
+      category: 'landlord'
     },
 
     management_address: {
@@ -1457,8 +1470,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'management_address_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'managementAddress',
+      category: 'management'
     },
 
     management_address_translation: {
@@ -1470,8 +1483,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'managementAddress',
+      category: 'management',
       translation_object: true
     },
 
@@ -1485,8 +1498,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'managementCompany',
+      category: 'management'
     },
 
     management_company_translation: {
@@ -1498,8 +1511,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'managementCompany',
+      category: 'management',
       translation_object: true
     },
 
@@ -1513,8 +1526,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'managementName',
+      category: 'management'
     },
 
     management_name_translation: {
@@ -1526,8 +1539,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'managementName',
+      category: 'management',
       translation_object: true
     },
 
@@ -1540,8 +1553,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'managementPhone',
+      category: 'management'
     },
 
     management_registration_number_front: {
@@ -1553,8 +1566,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'registrationNoFirst',
+      category: 'management'
     },
     # management_registration_type: {
     #   name: 'management_registration_type',
@@ -1576,8 +1589,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'registration',
+      category: 'management'
     },
 
     # chnaged from building_owner_name address and phone;
@@ -1593,8 +1606,8 @@ module FixedTermRentalContractBilingualAll
       translation_record: 'flat_languages',
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ownerAddress',
+      category: 'owner'
     },
 
     flat_owner_address_translation: {
@@ -1606,8 +1619,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'ownerAddress',
+      category: 'owner',
       translation_object: true
     },
 
@@ -1623,8 +1636,8 @@ module FixedTermRentalContractBilingualAll
       translation_record: 'flat_languages',
       translation_column: 'owner_name',
       translation_field: 'flat_owner_company_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ownerCompany',
+      category: 'owner'
     },
 
     flat_owner_company_translation: {
@@ -1636,8 +1649,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'ownerCompany',
+      category: 'owner',
       translation_object: true
     },
 
@@ -1653,8 +1666,8 @@ module FixedTermRentalContractBilingualAll
       translation_record: 'flat_languages',
       translation_column: 'owner_contact_name',
       translation_field: 'flat_owner_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ownertName',
+      category: 'owner'
     },
 
     flat_owner_name_translation: {
@@ -1666,8 +1679,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'ownertName',
+      category: 'owner',
       translation_object: true
     },
 
@@ -1681,8 +1694,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       record_column: 'owner_phone',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ownerPhone',
+      category: 'owner'
     },
 
     tenant_name: {
@@ -1694,8 +1707,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameTenant',
+      category: 'tenant'
     },
 
     tenant_age: {
@@ -1707,8 +1720,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ageTenant',
+      category: 'tenant'
     },
 
     tenant_phone: {
@@ -1720,8 +1733,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'phoneTenant',
+      category: 'tenant'
     },
 
     co_tenant_name: {
@@ -1733,8 +1746,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameCoTenant',
+      category: 'tenant'
     },
 
     co_tenant_age: {
@@ -1746,8 +1759,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ageCoTenant',
+      category: 'tenant'
     },
 
     co_tenant_name_1: {
@@ -1759,8 +1772,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameCoTenant1',
+      category: 'tenant'
       # required: true
     },
 
@@ -1773,8 +1786,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ageCoTenant1',
+      category: 'tenant'
       # required: true
     },
 
@@ -1787,8 +1800,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameCoTenant2',
+      category: 'tenant'
     },
 
     co_tenant_age_2: {
@@ -1800,8 +1813,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ageCoTenant2',
+      category: 'tenant'
     },
 
     co_tenants: {
@@ -1813,8 +1826,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'cotenant',
+      category: 'tenant'
     },
 
     emergency_contact_address: {
@@ -1826,8 +1839,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'address',
+      category: 'tenant',
+      group: 'emergencyContact'
     },
 
   emergency_contact_name: {
@@ -1839,8 +1853,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'name',
+      category: 'tenant',
+      group: 'emergencyContact'
     },
 
     emergency_contact_phone: {
@@ -1852,8 +1867,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'phone',
+      category: 'tenant',
+      group: 'emergencyContact'
     },
 
     emergency_contact_relationship: {
@@ -1865,8 +1881,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'relationship',
+      category: 'tenant',
+      group: 'emergencyContact'
     },
 
     guarantor_address: {
@@ -1879,8 +1896,9 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'guarantor_address_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'addressGuarantee',
+      category: 'tenant',
+      group: 'guarantor'
     },
 
     guarantor_address_translation: {
@@ -1892,9 +1910,10 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
-      translation_object: true
+      translation_key: 'addressGuarantee',
+      category: 'tenant',
+      translation_object: true,
+      group: 'guarantor'
     },
 
     guarantor_name: {
@@ -1907,8 +1926,9 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'guarantor_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameGuarantee',
+      category: 'tenant',
+      group: 'guarantor'
     },
 
     guarantor_name_translation: {
@@ -1920,9 +1940,10 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
-      translation_object: true
+      translation_key: 'nameGuarantee',
+      category: 'tenant',
+      translation_object: true,
+      group: 'guarantor'
     },
 
     guarantor_phone: {
@@ -1934,8 +1955,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'phoneGuarantee',
+      category: 'tenant',
+      group: 'guarantor'
     },
 
     guarantor_type: {
@@ -1947,8 +1969,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'ministersRegistrationGuarantee',
+      category: 'tenant',
+      group: 'guarantor'
     },
 
     guarantor_registration: {
@@ -1960,8 +1983,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'registrationGuarantee',
+      category: 'tenant',
+      group: 'guarantor'
     },
   #
   #
@@ -1976,8 +2000,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'year',
+      category: 'agreement',
+      group: 'agreementDate'
     },
 
     contract_month: {
@@ -1989,8 +2014,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'month',
+      category: 'agreement',
+      group: 'agreementDate'
     },
 
     contract_day: {
@@ -2002,8 +2028,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'day',
+      category: 'agreement',
+      group: 'agreementDate'
     },
 
     owner_address_1: {
@@ -2072,8 +2099,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'addressTenant',
+      category: 'tenant'
       # translation_field: 'owner_address_translation'
     },
 
@@ -2098,8 +2125,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      # translation_key: 'floorSpace',
+      # category: 'building'
     },
 
     broker_registration_jurisdiction: {
@@ -2110,8 +2137,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'brokerRegistrationJurisdiction',
+      category: 'broker'
     },
 
     broker_registration_jurisdiction_translation: {
@@ -2122,8 +2149,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'brokerRegistrationJurisdiction',
+      category: 'broker',
       translation_object: true
     },
 
@@ -2140,8 +2167,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         height: '23px',
         component: 'DocumentChoices',
-        translation_key: 'floors',
-        category: 'building'
+        translation_key: 'brokerRegistrationGrantor',
+        category: 'broker'
         # borderColor: 'blue'
     },
 
@@ -2153,8 +2180,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'licenseNoFirst',
+      category: 'broker',
+      group: 'brokerLicenseNumber'
     },
 
     broker_registration_number: {
@@ -2165,8 +2193,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'license',
+      category: 'broker',
+      group: 'brokerLicenseNumber'
     },
 
     broker_address_hq: {
@@ -2178,8 +2207,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'broker_address_hq_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'brokerAddress',
+      category: 'broker'
     },
 
     broker_address_hq_translation: {
@@ -2190,8 +2219,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'brokerAddress',
+      category: 'broker',
       translation_object: true
     },
 
@@ -2204,8 +2233,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'broker_company_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'brokerCompanyName',
+      category: 'broker'
     },
 
     broker_company_name_translation: {
@@ -2216,8 +2245,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'brokerCompanyName',
+      category: 'broker',
       translation_object: true
     },
 
@@ -2230,8 +2259,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'broker_representative_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'brokerRepresentative',
+      category: 'broker'
     },
 
     broker_representative_name_translation: {
@@ -2242,8 +2271,8 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
+      translation_key: 'brokerRepresentative',
+      category: 'broker',
       translation_object: true
     },
 
@@ -2255,8 +2284,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'brokerStaffRegJurisdiction',
+      category: 'broker',
+      group: 'brokerStaff'
     },
 
     broker_staff_registration_jurisdiction_translation: {
@@ -2267,9 +2297,10 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
-      translation_object: true
+      translation_key: 'brokerStaffRegJurisdiction',
+      category: 'broker',
+      translation_object: true,
+      group: 'brokerStaff'
     },
 
     broker_staff_registration: {
@@ -2280,8 +2311,9 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'licenseNumber',
+      category: 'broker',
+      group: 'brokerStaff'
     },
 
     broker_staff_name: {
@@ -2293,8 +2325,9 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_field: 'broker_staff_name_translation',
-      translation_key: 'floors',
-      category: 'building'
+      translation_key: 'nameBroker',
+      category: 'broker',
+      group: 'brokerStaff'
     },
 
     broker_staff_name_translation: {
@@ -2305,14 +2338,14 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      translation_key: 'floors',
-      category: 'building',
-      translation_object: true
+      translation_key: 'nameBroker',
+      category: 'broker',
+      translation_object: true,
+      group: 'brokerStaff'
     },
   # }
       #
-
-  };
+  }
     # object = important_points_explanation
   #   return object
   # end

@@ -32,7 +32,8 @@ module TemplateElementFunctions
 
         else # else of if base[each][:group]
           unless object[base[each][:category]]
-            object[base[each][:category]] = { base[each][:category] => base[each] }
+            object[base[each][:category]] = {}
+            object[base[each][:category]][each] = base[each]
           else
             # base[each][:translation] = translation[base[each][:translation_key][:translations].to_sym]
             object[base[each][:category]][each] = base[each]
