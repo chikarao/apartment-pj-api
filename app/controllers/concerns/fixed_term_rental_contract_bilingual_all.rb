@@ -160,13 +160,13 @@ module FixedTermRentalContractBilingualAll
           input_type: 'string',
           choices: {
               0 => { params: { val: 'flat_in_building', top: '25%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: building[:building_type][0] },
+                    translation: flat[:flat_type][:choices][0] },
               1 => { params: { val: 'town_house', top: '28.7%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: building[:building_type][1] },
+                    translation: flat[:flat_type][:choices][1] },
               2 => { params: { val: 'single_family', top: '32.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: building[:building_type][2] },
+                    translation: flat[:flat_type][:choices][2] },
               3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: building[:building_type][3] }
+                    translation: flat[:flat_type][:choices][3] }
             },
             box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
             className: 'form-control-document',
@@ -348,7 +348,8 @@ module FixedTermRentalContractBilingualAll
           # attributes; keep just in case
           attributes: { names: ['bath_tub'], input_type: 'boolean' },
           translation_key: 'bathTub',
-          category: 'flat'
+          category: 'flat',
+          group: 'amenities'
         },
 
         shower: {
@@ -362,7 +363,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'shower',
-          category: 'flat'
+          category: 'flat',
+          group: 'amenities'
         },
 
         wash_basin: {
@@ -376,7 +378,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'washBasin',
-          category: 'flat'
+          category: 'flat',
+          group: 'amenities'
         },
 
         washer_dryer_area: {
@@ -405,7 +408,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'waterHeater',
-          category: 'flat'
+          category: 'flat',
+          group: 'amenities'
         },
 
         kitchen_grill: {
@@ -811,7 +815,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'ownYard',
-        category: 'flat'
+        category: 'flat',
+        group: 'amenities'
       },
 
       other_facility: {
@@ -824,8 +829,8 @@ module FixedTermRentalContractBilingualAll
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
-        translation_key: 'floorSpace',
-        category: 'building'
+        translation_key: 'otherFacility',
+        category: 'flat',
       },
 
       other_facility_name: {
@@ -1082,7 +1087,7 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'rentDueDate',
+        translation_key: 'rentDueDateEachMonth',
         category: 'agreement'
       },
 
@@ -1134,7 +1139,7 @@ module FixedTermRentalContractBilingualAll
             }
           }
         },
-        translation_key: 'feesDueDate',
+        translation_key: 'feesDueDateEachMonth',
         category: 'agreement'
       },
 

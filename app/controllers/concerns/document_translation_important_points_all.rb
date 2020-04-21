@@ -262,6 +262,11 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '68.1%', left: '11%', font_size: '10', class_name: 'document-translation' }
         },
 
+        waterScheduled: {
+          translations: { en: 'Water Scheduled', po: '', jp: '' },
+          attributes: nil
+        },
+
         waterNotes: {
           translations: { en: 'Water Notes', po: 'Notas da água', jp: '' },
           attributes: nil
@@ -446,6 +451,11 @@ module DocumentTranslationImportantPointsAll
           translations: { en: 'Summary of Results of Inspection of Building Conditions', po: '', jp: '' },
           attributes: { top: '92.4%', left: '10.1%', font_size: '10', class_name: 'document-translation' }
         },
+
+        inspectionSummaryTemplate: {
+          translations: { en: 'Summary of Building Inspection', po: '', jp: '' },
+          attributes: nil
+        },
       # },
       # 3 => {
         itemsRecordedInRegistry1: {
@@ -508,6 +518,11 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '52.1%', left: '11.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
+        inDisasterPreventionTemplate: {
+          translations: { en: 'Within disaster prevention zone?', po: '', jp: '' },
+          attributes: nil
+        },
+
         insideDisasterPrevention: {
           translations: { en: 'Inside residential disaster prevention zone', po: '', jp: '' },
           attributes: { top: '55.9%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -523,6 +538,11 @@ module DocumentTranslationImportantPointsAll
           attributes: { top: '61%', left: '11%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
         },
 
+        inLandslideWarningTemplate: {
+          translations: { en: 'Within landslide disaster warning zone?', po: '', jp: '' },
+          attributes: nil
+        },
+
         insideLandslideWarning: {
           translations: { en: 'Inside a landslide disaster warning zone', po: '', jp: '' },
           attributes: { top: '64.9%', left: '22.9%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
@@ -536,6 +556,11 @@ module DocumentTranslationImportantPointsAll
         inTsunamiWarning: {
           translations: { en: 'Is the building inside a tsunami warning zone?', po: '', jp: '' },
           attributes: { top: '71.6%', left: '11.7%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' }
+        },
+
+        inTsunamiWarningTemplate: {
+          translations: { en: 'Inside a tsunami warning zone?', po: '', jp: '' },
+          attributes: nil
         },
 
         insideTsunamiWarning: {
@@ -953,7 +978,7 @@ module DocumentTranslationImportantPointsAll
         },
 
         floorsUnderground: {
-          translations: { en: 'Floors', po: '', jp: '' },
+          translations: { en: 'Floors Underground', po: '', jp: '' },
           attributes: { top: '34.1%', left: '55%', font_size: '10', class_name: 'document-translation' }
         },
 
@@ -982,6 +1007,11 @@ module DocumentTranslationImportantPointsAll
           attributes: nil
         },
 
+        flatSubType: {
+          translations: { en: 'Sub-type of Property', po: '', jp: '' },
+          attributes: nil
+        },
+
         singleFamily: {
           translations: { en: 'Single Family', po: '', jp: '' },
           attributes: { top: '41%', left: '36.6%', font_size: '10', class_name: 'document-translation' }
@@ -1005,6 +1035,16 @@ module DocumentTranslationImportantPointsAll
         presenceOfDegradation: {
           translations: { en: 'Presence of Degradation', po: '', jp: '' },
           attributes: { top: '49.9%', left: '15.9%', font_size: '10', class_name: 'document-translation' }
+        },
+
+        presenceOfDegradationWooden: {
+          translations: { en: 'Degradation exists (Wooden)', po: '', jp: '' },
+          attributes: nil
+        },
+
+        presenceOfDegradationConcrete: {
+          translations: { en: 'Degradation exists (Concrete)', po: '', jp: '' },
+          attributes: nil
         },
 
         presenceOfAnyDegradation: {
@@ -1093,7 +1133,7 @@ module DocumentTranslationImportantPointsAll
         },
 
         floor: {
-          translations: { en: 'floor', po: '', jp: '' },
+          translations: { en: 'Floor', po: '', jp: '' },
           attributes: { top: '67.1%', left: '33.3%', font_size: '10', class_name: 'document-translation' }
         },
 

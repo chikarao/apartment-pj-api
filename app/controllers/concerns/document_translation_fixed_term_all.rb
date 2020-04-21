@@ -564,6 +564,11 @@ module DocumentTranslationFixedTermAll
       attributes: { top: '53.4%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
     },
 
+    rentDueDateEachMonth: {
+      translations: { en: 'Rent Due Date Each Month', po: '', jpy: '' },
+      attributes: nil
+    },
+
     fees: {
       translations: { en: 'Fees', po: '', jpy: '' },
       attributes: { top: '57.9%', left: '14.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
@@ -577,6 +582,11 @@ module DocumentTranslationFixedTermAll
     feesDueDate: {
       translations: { en: 'Current Month Fees Due Date Each Month', po: '', jpy: '' },
       attributes: { top: '70%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' }
+    },
+
+    feesDueDateEachMonth: {
+      translations: { en: 'Fees Due Date Each Month', po: '', jpy: '' },
+      attributes: nil
     },
 
     accountOrInPerson: {
