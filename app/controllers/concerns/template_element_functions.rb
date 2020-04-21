@@ -19,9 +19,10 @@ module TemplateElementFunctions
         # if base[each][:translation_field]
         # If each has translation sibling, in translation_field put sibling in EACH
         # IMPORTATNT: After running code, base[each][:translation_sibling] becomes a Hash so, test if already Hash
-        if base[each][:translation_sibling] && base[each][:translation_sibling].class != Hash
+        if base[each][:translation_field]
+        # if base[each][:translation_sibling]
           p "!!!!! template_element_functions, each, base[each]: " + each.to_s + ' ' + base[each].to_s
-          base[each][:translation_sibling] = base[base[each][:translation_sibling].to_sym]
+          base[each][:translation_sibling] = base[base[each][:translation_field].to_sym]
           # base[each][:translation_sibling] = base[base[each][:translation_sibling]]
         else
           base[each][:translation_sibling] = nil

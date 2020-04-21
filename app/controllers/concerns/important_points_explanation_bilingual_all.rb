@@ -102,7 +102,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'companyName',
       category: 'broker',
-      translation_sibling: 'broker_company_name_translation'
+      translation_field: 'broker_company_name_translation'
     },
 
     broker_company_name_translation: {
@@ -129,7 +129,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'nameOfRepresentative',
       category: 'broker',
-      translation_sibling: 'broker_representative_name_translation'
+      translation_field: 'broker_representative_name_translation'
     },
 
     broker_representative_name_translation: {
@@ -155,7 +155,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'mainOffice',
       category: 'broker',
-      translation_sibling: 'broker_address_hq_translation'
+      translation_field: 'broker_address_hq_translation'
     },
 
     broker_address_hq_translation: {
@@ -206,7 +206,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameAgent',
       category: 'broker',
       group: 'brokerStaff',
-      translation_sibling: 'broker_staff_name_translation'
+      translation_field: 'broker_staff_name_translation'
     },
 
     broker_staff_name_translation: {
@@ -247,7 +247,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'officeAddress',
       category: 'broker',
       group: 'brokerStaff',
-      translation_sibling: 'broker_staff_address_translation'
+      translation_field: 'broker_staff_address_translation'
     },
 
     broker_staff_address_translation: {
@@ -312,7 +312,7 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'address_translation',
       translation_key: 'addressBuilding',
       category: 'building',
-      translation_sibling: 'address_translation'
+      translation_field: 'address_translation'
     },
 
     address_translation: {
@@ -342,8 +342,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'name_translation',
       translation_key: 'nameBuilding',
-      category: 'building',
-      translation_sibling: 'name_translation'
+      category: 'building'
+      # translation_sibling: 'name_translation'
     },
 
     name_translation: {
@@ -464,7 +464,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordName',
       category: 'landlord',
-      translation_sibling: 'owner_name_translation'
+      translation_field: 'owner_name_translation'
     },
 
     owner_name_translation: {
@@ -490,7 +490,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordAddress',
       category: 'landlord',
-      translation_sibling: 'owner_address_translation'
+      translation_field: 'owner_address_translation'
     },
 
     owner_address_translation: {
@@ -521,8 +521,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'owner_contact_name',
       translation_field: 'flat_owner_name_translation',
       translation_key: 'name',
-      category: 'owner',
-      translation_sibling: 'flat_owner_name_translation'
+      category: 'owner'
+      # translation_sibling: 'flat_owner_name_translation'
     },
 
     flat_owner_name_translation: {
@@ -552,8 +552,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
       translation_key: 'address',
-      category: 'owner',
-      translation_sibling: 'flat_owner_address_translation'
+      category: 'owner'
+      # translation_sibling: 'flat_owner_address_translation'
     },
 
     flat_owner_address_translation: {
@@ -593,8 +593,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'ownership_rights',
       translation_field: 'ownership_rights_translation',
       translation_key: 'ownershipRights',
-      category: 'owner',
-      translation_sibling: 'ownership_rights_translation'
+      category: 'owner'
+      # translation_sibling: 'ownership_rights_translation'
     },
 
     ownership_rights_translation: {
@@ -624,8 +624,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'other_rights',
       translation_field: 'other_rights_translation',
       translation_key: 'otherOwnershipRights',
-      category: 'owner',
-      translation_sibling: 'other_rights_translation'
+      category: 'owner'
+      # translation_sibling: 'other_rights_translation'
     },
 
     other_rights_translation: {
@@ -657,8 +657,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'legal_restrictions_translation',
       translation_key: 'mainLegal',
-      category: 'building',
-      translation_sibling: 'legal_restrictions_translation'
+      category: 'building'
+      # translation_sibling: 'legal_restrictions_translation'
     },
 
     legal_restrictions_translation: {
@@ -690,8 +690,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'legal_restrictions_summary_translation',
       translation_key: 'summaryOfRestrictions',
-      category: 'building',
-      translation_sibling: 'legal_restrictions_summary_translation'
+      category: 'building'
+      # translation_sibling: 'legal_restrictions_summary_translation'
     },
 
     legal_restrictions_summary_translation: {
@@ -800,7 +800,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 40,
       translation_key: 'waterNotes',
       category: 'building',
-      translation_sibling: 'water_notes_translation'
+      translation_field: 'water_notes_translation'
 
     },
 
@@ -832,8 +832,8 @@ module ImportantPointsExplanationBilingualAll
       # # # translation field is the field in the document that takes the translation
       # translation_field: 'electricity_translation',
       translation_key: 'electricity',
-      category: 'building',
-      translation_sibling: 'electricity_translation'
+      category: 'building'
+      # translation_sibling: 'electricity_translation'
     },
 
     electricity_translation: {
@@ -899,7 +899,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 40,
       translation_key: 'electricityScheduled',
       category: 'building',
-      translation_sibling: 'electricity_scheduled_translation'
+      translation_field: 'electricity_scheduled_translation'
     },
 
     electricity_scheduled_translation: {
@@ -927,7 +927,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 40,
       translation_key: 'electricityNotes',
       category: 'building',
-      translation_sibling: 'electricity_notes_translation'
+      translation_field: 'electricity_notes_translation'
     },
 
     electricity_notes_translation: {
@@ -1036,7 +1036,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 20,
       translation_key: 'gasNotes',
       category: 'building',
-      translation_sibling: 'gas_notes_translation'
+      translation_field: 'gas_notes_translation'
     },
 
     gas_notes_translation: {
@@ -1118,8 +1118,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'sewage_translation',
       language_independent: true,
       translation_key: 'sewage',
-      category: 'building',
-      translation_sibling: 'sewage_translation'
+      category: 'building'
+      # translation_sibling: 'sewage_translation'
     },
 
     sewage_translation: {
@@ -1207,7 +1207,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 20,
       translation_key: 'sewageScheduled',
       category: 'building',
-      translation_sibling: 'sewage_scheduled_translation'
+      translation_field: 'sewage_scheduled_translation'
       # language_independent: true
     },
 
@@ -1246,7 +1246,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 20,
       translation_key: 'sewageNotes',
       category: 'building',
-      translation_sibling: 'sewage_notes_translation'
+      translation_field: 'sewage_notes_translation'
     },
 
     sewage_notes_translation: {
@@ -1295,8 +1295,8 @@ module ImportantPointsExplanationBilingualAll
       # # translation field is the field in the document that takes the translation
       translation_field: 'building_inspection_summary_translation',
       translation_key: 'inspectionSummaryTemplate',
-      category: 'building',
-      translation_sibling: 'building_inspection_summary_translation'
+      category: 'building'
+      # translation_sibling: 'building_inspection_summary_translation'
     },
 
     building_inspection_summary_translation: {
@@ -1371,7 +1371,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'kitchen',
-      translation_sibling: 'kitchen_format_translation'
+      translation_field: 'kitchen_format_translation'
     },
 
     kitchen_format_translation: {
@@ -1403,7 +1403,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'kitchen',
-      translation_sibling: 'kitchen_other_translation'
+      translation_field: 'kitchen_other_translation'
     },
 
     kitchen_other_translation: {
@@ -1477,7 +1477,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'toilet',
-      translation_sibling: 'toilet_format_translation'
+      translation_field: 'toilet_format_translation'
     },
 
     toilet_format_translation: {
@@ -1509,7 +1509,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'toilet',
-      translation_sibling: 'toilet_other_translation'
+      translation_field: 'toilet_other_translation'
     },
 
     toilet_other_translation: {
@@ -1583,7 +1583,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'bathTub',
-      translation_sibling: 'bath_tub_format_translation'
+      translation_field: 'bath_tub_format_translation'
     },
 
     bath_tub_format_translation: {
@@ -1615,7 +1615,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'bathTub',
-      translation_sibling: 'bath_tub_other_translation'
+      translation_field: 'bath_tub_other_translation'
     },
 
     bath_tub_other_translation: {
@@ -1689,7 +1689,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'hotWater',
-      translation_sibling: 'hot_water_format_translation'
+      translation_field: 'hot_water_format_translation'
     },
 
     hot_water_format_translation: {
@@ -1721,7 +1721,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'hotWater',
-      translation_sibling: 'hot_water_other_translation'
+      translation_field: 'hot_water_other_translation'
     },
 
     hot_water_other_translation: {
@@ -1779,7 +1779,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'kitchenGrill',
-      translation_sibling: 'kitchen_grill_format_translation'
+      translation_field: 'kitchen_grill_format_translation'
     },
 
     kitchen_grill_format_translation: {
@@ -1811,7 +1811,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'kitchenGrill',
-      translation_sibling: 'kitchen_grill_other_translation'
+      translation_field: 'kitchen_grill_other_translation'
     },
 
     kitchen_grill_other_translation: {
@@ -1869,7 +1869,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'format',
       category: 'flat',
       group: 'ac',
-      translation_sibling: 'ac_format_translation'
+      translation_field: 'ac_format_translation'
     },
 
     ac_format_translation: {
@@ -1901,7 +1901,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'other',
       category: 'flat',
       group: 'ac',
-      translation_sibling: 'ac_other_translation'
+      translation_field: 'ac_other_translation'
     },
 
     ac_other_translation: {
@@ -2207,8 +2207,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'asbestos_survey_contents_translation',
       translation_key: 'asbestosSurveyContents',
       category: 'building',
-      group: 'asbestos',
-      translation_sibling: 'asbestos_survey_contents_translation'
+      group: 'asbestos'
+      # translation_sibling: 'asbestos_survey_contents_translation'
     },
 
     asbestos_survey_contents_translation: {
@@ -2259,8 +2259,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'earthquake_study_contents_translation',
       translation_key: 'earthquakeStudyContents',
       category: 'building',
-      group: 'earthquake',
-      translation_sibling: 'earthquake_study_contents_translation'
+      group: 'earthquake'
+      # translation_sibling: 'earthquake_study_contents_translation'
     },
 
     earthquake_study_contents_translation: {
@@ -2306,7 +2306,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nonRentChargesExplanation',
       category: 'agreement',
       group: 'otherPayments',
-      translation_sibling: 'other_payments1_explanation_translation',
+      translation_field: 'other_payments1_explanation_translation',
       extraHeightTemplate: true
     },
 
@@ -2465,8 +2465,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 600,
       translation_field: 'contract_break_terms_translation',
       translation_key: 'cancellation',
-      category: 'agreement',
-      translation_sibling: 'contract_break_terms_translation'
+      category: 'agreement'
+      # translation_sibling: 'contract_break_terms_translation'
     },
 
     contract_break_terms_translation: {
@@ -2496,7 +2496,7 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'warranties_translation',
       translation_key: 'damageCompensation',
       category: 'agreement',
-      translation_sibling: 'warranties_translation',
+      # translation_sibling: 'warranties_translation',
       extraHeightTemplate: true
     },
 
@@ -2542,7 +2542,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 60,
       translation_key: 'financialInstitution',
       category: 'agreement',
-      translation_sibling: 'escrow_agent_deposit_translation',
+      translation_field: 'escrow_agent_deposit_translation',
       extraHeightTemplate: true
     },
 
@@ -2704,8 +2704,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_field: 'contract_renewal_terms_translation',
       translation_key: 'termsOfRenewal',
-      category: 'agreement',
-      translation_sibling: 'contract_renewal_terms_translation'
+      category: 'agreement'
+      # translation_sibling: 'contract_renewal_terms_translation'
     },
 
     contract_renewal_terms_translation: {
@@ -2734,7 +2734,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'limitationsOnUse',
       category: 'agreement',
-      translation_sibling: 'limitations_use_translation'
+      translation_field: 'limitations_use_translation'
     },
 
     limitations_use_translation: {
@@ -2762,7 +2762,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'limitationsOnUseAndOthers',
       category: 'agreement',
-      translation_sibling: 'limitations_use_other_translation'
+      translation_field: 'limitations_use_other_translation'
     },
 
     limitations_use_other_translation: {
@@ -2790,7 +2790,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'limitationsOnUse',
       category: 'agreement',
-      translation_sibling: 'restrictions_use_translation'
+      translation_field: 'restrictions_use_translation'
     },
 
     restrictions_use_translation: {
@@ -2818,7 +2818,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'limitationsOnUseAndOthers',
       category: 'agreement',
-      translation_sibling: 'restrictions_use_other_translation'
+      translation_field: 'restrictions_use_other_translation'
     },
 
     restrictions_use_other_translation: {
@@ -2846,8 +2846,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 300,
       translation_field: 'deposit_return_terms_translation',
       translation_key: 'returnSecurityDeposit',
-      category: 'agreement',
-      translation_sibling: 'deposit_return_terms_translation'
+      category: 'agreement'
+      # translation_sibling: 'deposit_return_terms_translation'
     },
 
     deposit_return_terms_translation: {
@@ -2881,8 +2881,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'building_management_company_translation',
       translation_key: 'propertyManagement',
       category: 'building',
-      group: 'buildingManagement',
-      translation_sibling: 'building_management_company_translation'
+      group: 'buildingManagement'
+      # translation_sibling: 'building_management_company_translation'
     },
 
     building_management_company_translation: {
@@ -2931,8 +2931,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'building_management_address_translation',
       translation_key: 'addressAgent',
       category: 'building',
-      group: 'buildingManagement',
-      translation_sibling: 'building_management_address_translation'
+      group: 'buildingManagement'
+      # translation_sibling: 'building_management_address_translation'
     },
 
     building_management_address_translation: {
@@ -2966,7 +2966,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'bondOfficeAddress',
       category: 'broker',
       group: 'bond',
-      translation_sibling: 'bond_deposit_office_translation',
+      translation_field: 'bond_deposit_office_translation',
+      # translation_sibling: 'bond_deposit_office_translation',
       extraHeightTemplate: true
     },
 
@@ -2999,7 +3000,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'address',
       category: 'broker',
       group: 'bond',
-      translation_sibling: 'bond_deposit_office_address_translation'
+      translation_field: 'bond_deposit_office_address_translation'
     },
 
     bond_deposit_office_address_translation: {
@@ -3031,7 +3032,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'association',
       category: 'broker',
       group: 'guaranty',
-      translation_sibling: 'guaranty_association_name_translation',
+      translation_field: 'guaranty_association_name_translation',
       extraHeightTemplate: true
     },
 
@@ -3064,7 +3065,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'address',
       category: 'broker',
       group: 'guaranty',
-      translation_sibling: 'guaranty_association_address_translation'
+      translation_field: 'guaranty_association_address_translation'
     },
 
     guaranty_association_address_translation: {
@@ -3096,7 +3097,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'address',
       category: 'broker',
       group: 'guaranty',
-      translation_sibling: 'guaranty_association_office_address_translation'
+      translation_field: 'guaranty_association_office_address_translation'
     },
 
     guaranty_association_office_address_translation: {
@@ -3863,7 +3864,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameInspector',
       category: 'inspection',
       group: 'inspector',
-      translation_sibling: 'inspector_name_translation'
+      translation_field: 'inspector_name_translation'
     },
 
     inspector_name_translation: {
@@ -3898,7 +3899,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameOfAgency',
       category: 'inspection',
       group: 'inspector',
-      translation_sibling: 'inspector_trainer_translation',
+      # translation_field: 'inspector_trainer_translation',
       extraHeightTemplate: true
     },
 
@@ -4001,7 +4002,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'mainOffice',
       category: 'inspection',
       group: 'architect',
-      translation_sibling: 'architect_registration_jurisdiction_translation'
+      translation_field: 'architect_registration_jurisdiction_translation'
       # translation_record: 'inspections',
       # # # name is the column in model building language
       # translation_column: 'architect_office_registration_jurisdiction',
@@ -4040,8 +4041,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'architect_office_name_translation',
       translation_key: 'architectOfficeName',
       category: 'inspection',
-      group: 'architect',
-      translation_sibling: 'architect_office_name_translation'
+      group: 'architect'
+      # translation_sibling: 'architect_office_name_translation'
     },
 
     architect_office_name_translation: {
@@ -4071,7 +4072,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'architectOfficeRegistrationJurisdiction',
       category: 'inspection',
       group: 'architect',
-      translation_sibling: 'architect_office_registration_jurisdiction_translation'
+      translation_field: 'architect_office_registration_jurisdiction_translation'
       # translation_record: 'inspections',
       # # # name is the column in model building language
       # translation_column: 'architect_office_registration_jurisdiction',
