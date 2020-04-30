@@ -11,8 +11,10 @@ require 'prawn'
 class Api::V1::BookingsController < ApplicationController
   include DocumentTranslationImportantPoints
   include DocumentTranslationImportantPointsByPage
+  include DocumentTranslationImportantPointsAll
   include DocumentTranslationFixedTerm
   include DocumentTranslationFixedTermByPage
+  include DocumentTranslationFixedTermAll
   include FixedTermRentalContractBilingualAll
   include ImportantPointsExplanationBilingualAll
   include CreatePdf
@@ -386,13 +388,20 @@ class Api::V1::BookingsController < ApplicationController
   def fetch_translation
     # gets translation objects from concerns/document_translation_fixed_term.rb
     fixed_term = DocumentTranslationFixedTermByPage::OBJECT
+    fixed_term_all = DocumentTranslationFixedTermAll::OBJECT
     # fixed_term = DocumentTranslationFixedTerm::OBJECT
     # fixed_term = fixed_term_rental_contract_translation
     # gets translation objects from concerns/document_translation_important_points.rb
     important_points = DocumentTranslationImportantPointsByPage::OBJECT
+    important_points_all = DocumentTranslationImportantPointsAll::OBJECT
     # important_points = important_points_explanation_translation
 
-    translation = { fixed_term_rental_contract_bilingual: fixed_term, important_points_explanation_bilingual: important_points }
+    translation = {
+      fixed_term_rental_contract_bilingual: fixed_term,
+      important_points_explanation_bilingual: important_points,
+      fixed_term_rental_contract_bilingual_all: fixed_term_all,
+      important_points_explanation_bilingual_all: important_points_all
+    }
 
     unless !translation
       json_response "Fetched traslation succesfully", true, {translation: translation.to_json}, :ok

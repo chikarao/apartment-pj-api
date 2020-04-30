@@ -430,12 +430,12 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        0 => { value: 'RC', height: '1.6%', width: '5.5%', en: 'RC (Reinforced Concrete)', jp: 'RC (鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
-        1 => { value: 'SRC', height: '1.6%', width: '5.5%', en: 'SRC (Steel Reinforced Concrete)', jp: 'SRC (鉄骨鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
-        2 => { value: 'CFT', height: '1.6%', width: '5.5%', en: 'CFT (Concrete Filled Steel Tube)', jp: 'CFT (コンクリート充填鋼管)', type: 'button', className: 'form-rectangle' },
-        3 => { value: 'S', height: '1.6%', width: '5.5%', en: 'S (Steel Frame)', jp: 'S (軽量鉄骨造)', type: 'button', className: 'form-rectangle' },
-        4 => { value: 'Aluminum', height: '1.6%', width: '5.5%', en: 'AL (Alminium)', jp: 'AL (アルミ)', type: 'button', className: 'form-rectangle' },
-        5 => { value: 'Wooden', height: '1.6%', width: '5.5%', en: 'W (Wooden)', jp: 'W (木造)', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'RC', height: '2.0%', width: '10%', en: 'RC (Reinforced Concrete)', jp: 'RC (鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'SRC', height: '2.0%', width: '10%', en: 'SRC (Steel Reinforced Concrete)', jp: 'SRC (鉄骨鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'CFT', height: '2.0%', width: '10%', en: 'CFT (Concrete Filled Steel Tube)', jp: 'CFT (コンクリート充填鋼管)', type: 'button', className: 'form-rectangle' },
+        3 => { value: 'S', height: '2.0%', width: '10%', en: 'S (Steel Frame)', jp: 'S (軽量鉄骨造)', type: 'button', className: 'form-rectangle' },
+        4 => { value: 'Aluminum', height: '2.0%', width: '10%', en: 'AL (Alminium)', jp: 'AL (アルミ)', type: 'button', className: 'form-rectangle' },
+        5 => { value: 'Wooden', height: '2.0%', width: '10%', en: 'W (Wooden)', jp: 'W (木造)', type: 'button', className: 'form-rectangle' },
         # 5 => { value: 'Other', en: 'Other', jp: 'その他', type: 'button', className: 'form-rectangle' },
         # 4 => { value: '', type: 'string', component: 'input', className: 'form-rectangle form-input' }
       },

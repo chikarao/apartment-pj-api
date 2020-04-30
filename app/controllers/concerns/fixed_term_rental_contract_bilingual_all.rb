@@ -65,7 +65,6 @@ module FixedTermRentalContractBilingualAll
             translation_column: 'name',
             # translation field is the field in the document that takes the translation
             translation_field: 'name_translation',
-
             # translation_object_key: 'name',
             # translation_key for getting object from DocumentTranslationFixedTermAll
             translation_key: 'buildingName',
@@ -159,13 +158,13 @@ module FixedTermRentalContractBilingualAll
           name: 'flat_type',
           input_type: 'string',
           choices: {
-              0 => { params: { val: 'flat_in_building', top: '25%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+              0 => { params: { val: 'flat_in_building', top: '25%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
                     translation: flat[:flat_type][:choices][0] },
-              1 => { params: { val: 'town_house', top: '28.7%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+              1 => { params: { val: 'town_house', top: '28.7%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
                     translation: flat[:flat_type][:choices][1] },
-              2 => { params: { val: 'single_family', top: '32.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+              2 => { params: { val: 'single_family', top: '32.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
                     translation: flat[:flat_type][:choices][2] },
-              3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+              3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
                     translation: flat[:flat_type][:choices][3] }
             },
             box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
@@ -196,7 +195,8 @@ module FixedTermRentalContractBilingualAll
           # hybrid_field if there are multipe types of fields eg button and input
           hybrid_field: true,
           translation_key: 'construction',
-          category: 'building'
+          category: 'building',
+          # group: 'construction'
         },
 
         floors: {

@@ -311,8 +311,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'address_translation',
       translation_key: 'addressBuilding',
-      category: 'building',
-      translation_field: 'address_translation'
+      category: 'building'
+      # translation_field: 'address_translation'
     },
 
     address_translation: {
@@ -3863,8 +3863,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'inspector_name_translation',
       translation_key: 'nameInspector',
       category: 'inspection',
-      group: 'inspector',
-      translation_field: 'inspector_name_translation'
+      group: 'inspector'
+      # translation_field: 'inspector_name_translation'
     },
 
     inspector_name_translation: {
