@@ -65,6 +65,7 @@ module FixedTermRentalContractBilingualAll
             translation_column: 'name',
             # translation field is the field in the document that takes the translation
             translation_field: 'name_translation',
+
             # translation_object_key: 'name',
             # translation_key for getting object from DocumentTranslationFixedTermAll
             translation_key: 'buildingName',
@@ -340,8 +341,8 @@ module FixedTermRentalContractBilingualAll
           name: 'bath_tub',
           input_type: 'boolean',
           choices: {
-            0 => { valName: 'Y', params: { val: true, top: '50.9%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '50.9%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '50.9%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '50.9%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -357,8 +358,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '53.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '53.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '53.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '53.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -372,8 +373,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '56.7%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '56.7%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '56.7%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '56.7%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -387,8 +388,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '59.4%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '59.4%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '59.4%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '59.4%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -402,8 +403,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '62.3%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '62.3%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '62.3%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '62.3%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -417,8 +418,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '65.1%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '65.1%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '65.1%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '65.1%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -432,8 +433,8 @@ module FixedTermRentalContractBilingualAll
           input_type: 'boolean',
           choices: {
             # add 1.5% to top
-            0 => { valName: 'Y', params: { val: true, top: '67.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-            1 => { valName: 'N', params: { val: false, top: '67.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+            0 => { valName: 'y', params: { val: true, top: '67.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+            1 => { valName: 'n', params: { val: false, top: '67.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -447,8 +448,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '50.8%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '50.8%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '50.8%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '50.8%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -462,8 +463,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '53.7%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '53.7%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '53.7%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '53.7%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -477,8 +478,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '56.6%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '56.6%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '56.6%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '56.6%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -492,8 +493,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '59.3%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '59.3%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '59.3%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '59.3%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -507,8 +508,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '62.2%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '62.2%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '62.2%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '62.2%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -522,8 +523,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '65%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '65%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '65%', left: '82.5%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '65%', left: '86.3%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -537,8 +538,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '70.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '70.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '70.8%', left: '53.45%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '70.8%', left: '57.15%', width: '2.7%', class_name: 'document-circle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -590,11 +591,11 @@ module FixedTermRentalContractBilingualAll
         name: 'gas',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Gas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+          0 => { params: { val: 'publicGas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:gas][:choices][0]},
-          1 => { params: { val: 'Propane Gas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' },
+          1 => { params: { val: 'propaneGas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:gas][:choices][1]},
-          2 => { params: { val: 'None', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' },
+          2 => { params: { val: 'none', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:gas][:choices][2]}
         },
         className: 'form-control-document',
@@ -609,11 +610,11 @@ module FixedTermRentalContractBilingualAll
         name: 'water',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Water', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' },
+          0 => { params: { val: 'publicWater', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:water][:choices][0] },
-          1 => { params: { val: 'Tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+          1 => { params: { val: 'tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:water][:choices][1] },
-          2 => { params: { val: 'Well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' },
+          2 => { params: { val: 'well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:water][:choices][2] },
         },
         className: 'form-control-document',
@@ -628,11 +629,11 @@ module FixedTermRentalContractBilingualAll
         name: 'sewage',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'Public Sewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' },
+          0 => { params: { val: 'publicSewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:sewage][:choices][0]},
-          1 => { params: { val: 'Septic Tank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+          1 => { params: { val: 'septicTank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:sewage][:choices][1]},
-          2 => { params: { val: 'None', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' },
+          2 => { params: { val: 'none', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' },
                 translation: building[:sewage][:choices][2]},
         },
         className: 'form-control-document',
@@ -649,8 +650,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -689,8 +690,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '12.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '12.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '12.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '12.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -729,8 +730,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '16%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '16%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '16%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '16%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -769,8 +770,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '19.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '19.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '19.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '19.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -809,8 +810,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '22.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '22.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '22.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '22.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -824,8 +825,8 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'Y', params: { val: true, top: '25.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'N', params: { val: false, top: '25.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          0 => { valName: 'y', params: { val: true, top: '25.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
+          1 => { valName: 'n', params: { val: false, top: '25.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
         },
         className: 'form-control-document',
         component: 'DocumentChoices',

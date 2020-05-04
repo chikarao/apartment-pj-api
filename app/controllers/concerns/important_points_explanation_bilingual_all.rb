@@ -948,9 +948,9 @@ module ImportantPointsExplanationBilingualAll
       name: 'gas',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'Public Gas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        0 => { params: { val: 'publicGas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:cityGas][:translations]},
-        1 => { params: { val: 'Propane Gas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        1 => { params: { val: 'propaneGas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:propaneGas][:translations]},
         # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
@@ -1008,9 +1008,9 @@ module ImportantPointsExplanationBilingualAll
       name: 'gas_scheduled',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'Public Gas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        0 => { params: { val: 'publicGas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:cityGas][:translations] },
-        1 => { params: { val: 'Propane Gas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        1 => { params: { val: 'propaneGas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:propaneGas][:translations] },
         # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
@@ -1267,9 +1267,9 @@ module ImportantPointsExplanationBilingualAll
       name: 'building_inspection_conducted',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '83.9%', left: '58.1%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+        0 => { valName: 'y', params: { val: true, top: '83.9%', left: '58.1%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
               translation: translation[:yes][:translations] },
-        1 => { valName: 'N', params: { val: false, top: '83.9%', left: '78.9%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+        1 => { valName: 'n', params: { val: false, top: '83.9%', left: '78.9%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
               translation: translation[:no][:translations] }
       },
       className: 'form-control-document',
@@ -1319,7 +1319,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'kitchen',
       input_type: 'string',
       choices: {
-            0 => { valName: 'Y', params: {
+            0 => { valName: 'y', params: {
               val: true,
               top: '16.8%',
               left: '28.6%',
@@ -1334,7 +1334,7 @@ module ImportantPointsExplanationBilingualAll
               showLocalLanguage: true,
               combineLanguages: true
             },
-            1 => { valName: 'N', params: {
+            1 => { valName: 'n', params: {
               val: false,
               top: '16.8%',
               left: '28.6%',
@@ -1426,7 +1426,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'toilet',
       input_type: 'string',
       choices: {
-             0 => { valName: 'Y', params: {
+             0 => { valName: 'y', params: {
                val: true,
                top: '20.9%',
                left: '28.6%',
@@ -1440,7 +1440,7 @@ module ImportantPointsExplanationBilingualAll
                showLocalLanguage: true,
                combineLanguages: true
              },
-            1 => { valName: 'N', params: {
+            1 => { valName: 'n', params: {
               val: false,
               top: '20.9%',
               left: '28.6%',
@@ -1532,7 +1532,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'bath_tub',
       input_type: 'string',
       choices: {
-             0 => { valName: 'Y', params: {
+             0 => { valName: 'y', params: {
                val: true,
                top: '25%',
                left: '28.6%',
@@ -1546,7 +1546,7 @@ module ImportantPointsExplanationBilingualAll
                showLocalLanguage: true,
                combineLanguages: true
              },
-            1 => { valName: 'N', params: {
+            1 => { valName: 'n', params: {
                val: false,
                top: '25%',
                left: '28.6%',
@@ -1638,7 +1638,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'hot_water',
       input_type: 'string',
       choices: {
-             0 => { valName: 'Y', params: {
+             0 => { valName: 'y', params: {
                val: true,
                top: '29.1%',
                left: '28.6%',
@@ -1652,7 +1652,7 @@ module ImportantPointsExplanationBilingualAll
                showLocalLanguage: true,
                combineLanguages: true
              },
-            1 => { valName: 'N', params: {
+            1 => { valName: 'n', params: {
               val: false,
               top: '29.1%',
               left: '28.6%',
@@ -1744,13 +1744,13 @@ module ImportantPointsExplanationBilingualAll
       name: 'kitchen_grill',
       input_type: 'string',
       choices: {
-             0 => { valName: 'Y', params: { val: true, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+             0 => { valName: 'y', params: { val: true, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
              # selectChoices: Amenities.kitchen_grill.choices,
              selectChoices: amenities[:kitchen_grill][:choices],
              showLocalLanguage: true,
              combineLanguages: true
            },
-            1 => { valName: 'N', params: { val: false, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+            1 => { valName: 'n', params: { val: false, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
             # selectChoices: Amenities.kitchen_grill.choices,
             selectChoices: amenities[:kitchen_grill][:choices],
             showLocalLanguage: true,
@@ -1834,13 +1834,13 @@ module ImportantPointsExplanationBilingualAll
       name: 'ac',
       input_type: 'string',
       choices: {
-             0 => { valName: 'Y', params: { val: true, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+             0 => { valName: 'y', params: { val: true, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
              # selectChoices: Amenities.ac.choices,
              selectChoices: amenities[:ac][:choices],
              showLocalLanguage: true,
              combineLanguages: true
            },
-            1 => { valName: 'N', params: { val: false, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+            1 => { valName: 'n', params: { val: false, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
             # selectChoices: Amenities.ac.choices,
             selectChoices: amenities[:ac][:choices],
             showLocalLanguage: true,
@@ -1956,8 +1956,8 @@ module ImportantPointsExplanationBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '41.4%', left: '28%', width: '11.1%', height: '1.8%', margin: '0', class_name: 'document-rectangle', input_type: 'string' } },
       },
       # choices: {
-      #        0 => { valName: 'Y', params: { val: true, top: '71.65%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } },
-      #       1 => { valName: 'N', params: { val: false, top: '71.65%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } }
+      #        0 => { valName: 'y', params: { val: true, top: '71.65%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } },
+      #       1 => { valName: 'n', params: { val: false, top: '71.65%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } }
       #      },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2061,8 +2061,8 @@ module ImportantPointsExplanationBilingualAll
         0 => { params: { val: 'inputFieldValue', top: '45.5%', left: '28%', width: '11.1%', height: '1.8%', margin: '0', class_name: 'document-rectangle', input_type: 'string' } },
       },
       # choices: {
-      #        0 => { valName: 'Y', params: { val: true, top: '44.6%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } },
-      #       1 => { valName: 'N', params: { val: false, top: '44.6%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } }
+      #        0 => { valName: 'y', params: { val: true, top: '44.6%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } },
+      #       1 => { valName: 'n', params: { val: false, top: '44.6%', left: '29.3%', width: '7%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' } }
       #      },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2134,8 +2134,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'inside_disaster_prevention',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '54.2%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
-        1 => { valName: 'N', params: { val: false, top: '54.2%', left: '62.7%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '54.2%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
+        1 => { valName: 'n', params: { val: false, top: '54.2%', left: '62.7%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2149,8 +2149,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'inside_disaster_warning',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '63%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
-        1 => { valName: 'N', params: { val: false, top: '63%', left: '62.5%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '63%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
+        1 => { valName: 'n', params: { val: false, top: '63%', left: '62.5%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2164,8 +2164,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'inside_tsunami_warning',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '73.9%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
-       1 => { valName: 'N', params: { val: false, top: '73.9%', left: '63%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '73.9%', left: '21%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } },
+       1 => { valName: 'n', params: { val: false, top: '73.9%', left: '63%', width: '18.5%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2179,8 +2179,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'asbestos_record',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '84%', left: '58%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-       1 => { valName: 'N', params: { val: false, top: '84%', left: '79%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '84%', left: '58%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+       1 => { valName: 'n', params: { val: false, top: '84%', left: '79%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2231,8 +2231,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'earthquake_study_performed',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '9.5%', left: '58.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-       1 => { valName: 'N', params: { val: false, top: '9.5%', left: '79%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '9.5%', left: '58.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+       1 => { valName: 'n', params: { val: false, top: '9.5%', left: '79%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2518,8 +2518,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'escrow_for_deposit',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, top: '46.8%', left: '48.1%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' } },
-        1 => { valName: 'N', params: { val: false, top: '46.8%', left: '65.6%', width: '14%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, top: '46.8%', left: '48.1%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' } },
+        1 => { valName: 'n', params: { val: false, top: '46.8%', left: '65.6%', width: '14%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -3452,8 +3452,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'degradation_exists_wooden',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, enclosed_text: 'X', top: '47.4%', left: '77.9%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
-        1 => { valName: 'N', params: { val: false, enclosed_text: 'X', top: '47.4%', left: '85.3%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, enclosed_text: 'X', top: '47.4%', left: '77.9%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
+        1 => { valName: 'n', params: { val: false, enclosed_text: 'X', top: '47.4%', left: '85.3%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -4384,8 +4384,8 @@ module ImportantPointsExplanationBilingualAll
       name: 'degradation_exists_concrete',
       input_type: 'boolean',
       choices: {
-        0 => { valName: 'Y', params: { val: true, enclosed_text: 'X', top: '50%', left: '77.1%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
-        1 => { valName: 'N', params: { val: false, enclosed_text: 'X', top: '50%', left: '84.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } }
+        0 => { valName: 'y', params: { val: true, enclosed_text: 'X', top: '50%', left: '77.1%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } },
+        1 => { valName: 'n', params: { val: false, enclosed_text: 'X', top: '50%', left: '84.7%', width: '2%', class_name: 'document-rectangle', input_type: 'button' } }
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
