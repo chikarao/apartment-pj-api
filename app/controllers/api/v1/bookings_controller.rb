@@ -90,6 +90,7 @@ class Api::V1::BookingsController < ApplicationController
       end
     end
 
+    # IMPORTANT: get_template_object changes the objects, base so FixedTermRentalContractBilingualAll objects have translation in them
     base = FixedTermRentalContractBilingualAll::OBJECT
     translation = DocumentTranslationFixedTermAll::OBJECT
     template_mapping_object_fixed = get_template_object(translation, base)
@@ -98,8 +99,8 @@ class Api::V1::BookingsController < ApplicationController
     translation = DocumentTranslationImportantPointsAll::OBJECT
     template_mapping_object_important_points = get_template_object(translation, base)
 
-    p "!!!!! booking_controller create object, template_mapping_object_fixed: " + template_mapping_object_fixed.to_s
-    p "!!!!! booking_controller create object, template_mapping_object_important_points: " + template_mapping_object_important_points.to_s
+    # p "!!!!! booking_controller create object, template_mapping_object_fixed: " + template_mapping_object_fixed.to_s
+    # p "!!!!! booking_controller create object, template_mapping_object_important_points: " + template_mapping_object_important_points.to_s
 
     # NOTE: agreement_serializer has a custom serializer for document_fields which also
     # includes document_field_choices since Rails defualt is to return one later of associations
