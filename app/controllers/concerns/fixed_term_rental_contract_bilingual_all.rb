@@ -17,19 +17,19 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           borderColor: 'lightgray',
           choices: {
-              0 => {
-                  params: {
-                      val: 'documentAttributes',
-                      top: '2%',
-                      left: '37%',
-                      width: '30%',
-                      # change from input componnet use document-rectange
-                      class_name: 'document-rectangle',
-                      # !!! height works only with px
-                      # height: '23px',
-                      input_type: 'string',
-                    }
-                  }
+            :documentAttributes => {
+              params: {
+                  val: 'documentAttributes',
+                  top: '2%',
+                  left: '37%',
+                  width: '30%',
+                  # change from input componnet use document-rectange
+                  class_name: 'document-rectangle',
+                  # !!! height works only with px
+                  # height: '23px',
+                  input_type: 'string',
+                }
+              }
            },
           required: true,
           # translation_key: 'documentTitle',
@@ -43,20 +43,20 @@ module FixedTermRentalContractBilingualAll
             component: 'DocumentChoices',
             borderColor: 'lightgray',
             choices: {
-                0 => {
-                    params: {
-                        val: 'inputFieldValue',
-                        top: '16.5%',
-                        left: '30%',
-                        width: '59.5%',
-                        # change from input componnet use document-rectange
-                        class_name: 'document-rectangle',
-                        # !!! height works only with px
-                        # height: '23px',
-                        input_type: 'string',
-                      }
+              :inputFieldValue => {
+                  params: {
+                      val: 'inputFieldValue',
+                      top: '16.5%',
+                      left: '30%',
+                      width: '59.5%',
+                      # change from input componnet use document-rectange
+                      class_name: 'document-rectangle',
+                      # !!! height works only with px
+                      # height: '23px',
+                      input_type: 'string',
                     }
-                  },
+                  }
+                },
             required: true,
             # when there is a translation available for key, use below
             # translation record is the array of building languages associated with flat.building
@@ -80,20 +80,20 @@ module FixedTermRentalContractBilingualAll
               component: 'DocumentChoices',
               borderColor: 'lightgray',
               choices: {
-                  0 => {
-                      params: {
-                          val: 'inputFieldValue',
-                          top: '18.5%',
-                          left: '30%',
-                          width: '59.5%',
-                          # change from input componnet use document-rectange
-                          class_name: 'document-rectangle',
-                          # !!! height works only with px
-                          # height: '23px',
-                          input_type: 'string',
-                        }
+                  :inputFieldValue => {
+                    params: {
+                        val: 'inputFieldValue',
+                        top: '18.5%',
+                        left: '30%',
+                        width: '59.5%',
+                        # change from input componnet use document-rectange
+                        class_name: 'document-rectangle',
+                        # !!! height works only with px
+                        # height: '23px',
+                        input_type: 'string',
                       }
-                    },
+                    }
+                  },
               required: true,
               translation_key: 'buildingName',
               # template_element_object divided into category and group
@@ -108,18 +108,18 @@ module FixedTermRentalContractBilingualAll
               component: 'DocumentChoices',
               borderColor: 'lightgray',
               choices: {
-                  0 => {
-                      params: {
-                          val: 'inputFieldValue',
-                          top: '20.9%',
-                          left: '30%',
-                          width: '59.5%',
-                          # height: '23px',
-                          class_name: 'document-rectangle',
-                          input_type: 'string',
-                        }
-                      }
-                    },
+                :inputFieldValue => {
+                  params: {
+                      val: 'inputFieldValue',
+                      top: '20.9%',
+                      left: '30%',
+                      width: '59.5%',
+                      # height: '23px',
+                      class_name: 'document-rectangle',
+                      input_type: 'string',
+                    }
+                  }
+                },
               # required: true
               translation_record: 'flat_languages',
               # name is the column in model building language
@@ -137,18 +137,18 @@ module FixedTermRentalContractBilingualAll
               component: 'DocumentChoices',
               borderColor: 'lightgray',
               choices: {
-                  0 => {
-                      params: {
-                          val: 'inputFieldValue',
-                          top: '23%',
-                          left: '30%',
-                          width: '59.5%',
-                          # height: '23px',
-                          class_name: 'document-rectangle',
-                          input_type: 'string',
-                        }
-                      }
-                    },
+                :inputFieldValue => {
+                  params: {
+                      val: 'inputFieldValue',
+                      top: '23%',
+                      left: '30%',
+                      width: '59.5%',
+                      # height: '23px',
+                      class_name: 'document-rectangle',
+                      input_type: 'string',
+                    }
+                  }
+                },
               # required: true
               translation_key: 'address',
               category: 'flat',
@@ -159,21 +159,21 @@ module FixedTermRentalContractBilingualAll
           name: 'flat_type',
           input_type: 'string',
           choices: {
-              0 => { params: { val: 'flatInBuilding', top: '25%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: flat[:flat_type][:choices][0] },
-              1 => { params: { val: 'townHouse', top: '28.7%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: flat[:flat_type][:choices][1] },
-              2 => { params: { val: 'singleFamily', top: '32.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: flat[:flat_type][:choices][2] },
-              3 => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
-                    translation: flat[:flat_type][:choices][3] }
-            },
-            box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
-            className: 'form-control-document',
-            height: '23px',
-            component: 'DocumentChoices',
-            translation_key: 'buildingType',
-            category: 'flat'
+            :flatInBuilding => { params: { val: 'flatInBuilding', top: '25%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:flat_type][:choices][:flatInBuilding] },
+            :townHouse => { params: { val: 'townHouse', top: '28.7%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:flat_type][:choices][:townHouse] },
+            :singleFamily => { params: { val: 'singleFamily', top: '32.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:flat_type][:choices][:singleFamily] },
+            :others => { params: { val: 'others', top: '36.3%', left: '31.6%', width: '10%', height: '1.6%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:flat_type][:choices][:others] }
+          },
+          box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
+          className: 'form-control-document',
+          height: '23px',
+          component: 'DocumentChoices',
+          translation_key: 'buildingType',
+          category: 'flat'
         },
 
 
@@ -181,9 +181,9 @@ module FixedTermRentalContractBilingualAll
           name: 'construction',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'wooden', top: '25%', left: '55.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
+            :wooden => { params: { val: 'wooden', top: '25%', left: '55.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' },
                   nonTemplate: true },
-            1 => { params: { val: 'inputFieldValue', top: '30.3%', left: '57.6%', width: '10%', height: '1.8%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '30.3%', left: '57.6%', width: '10%', height: '1.8%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' },
                   selectChoices: building[:construction][:choices],
             # selectChoices: Building.construction.choices
             }
@@ -204,7 +204,7 @@ module FixedTermRentalContractBilingualAll
           name: 'floors',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'inputFieldValue', top: '32%', left: '63%', width: '4%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '32%', left: '63%', width: '4%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -216,7 +216,7 @@ module FixedTermRentalContractBilingualAll
           name: 'year_built',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'inputFieldValue', top: '29.1%', left: '81%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '29.1%', left: '81%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -228,7 +228,7 @@ module FixedTermRentalContractBilingualAll
           name: 'units',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'inputFieldValue', top: '35.5%', left: '63.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '35.5%', left: '63.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -240,7 +240,7 @@ module FixedTermRentalContractBilingualAll
           name: 'last_renovation_year',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'inputFieldValue', top: '33.3%', left: '77.1%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '33.3%', left: '77.1%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -252,7 +252,7 @@ module FixedTermRentalContractBilingualAll
           name: 'unit',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'inputFieldValue', top: '39.6%', left: '35%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+            :inputFieldValue => { params: { val: 'inputFieldValue', top: '39.6%', left: '35%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
           },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -264,7 +264,7 @@ module FixedTermRentalContractBilingualAll
           name: 'rooms',
           input_type: 'string',
           choices: {
-              0 => { params: { val: 'inputFieldValue', top: '39.6%', left: '59%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+              :inputFieldValue => { params: { val: 'inputFieldValue', top: '39.6%', left: '59%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
             className: 'form-control-document',
             component: 'DocumentChoices',
@@ -276,25 +276,25 @@ module FixedTermRentalContractBilingualAll
             name: 'layout',
             input_type: 'string',
             choices: {
-                0 => { params: { val: 'ldk', top: '39.6%', left: '64.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-                1 => { params: { val: 'dk', top: '39.6%', left: '69.4%', width: '4%', class_name: 'document-rectangle', input_type: 'button' } },
-                2 => { params: { val: 'k', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
-                3 => { params: { val: 'oneRoom', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
-              },
-              box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
-              className: 'form-control-document',
-              height: '23px',
-              component: 'DocumentChoices',
-              translation_key: 'layout',
-              category: 'flat'
-              # borderColor: 'blue'
+              :ldk => { params: { val: 'ldk', top: '39.6%', left: '64.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+              :dk => { params: { val: 'dk', top: '39.6%', left: '69.4%', width: '4%', class_name: 'document-rectangle', input_type: 'button' } },
+              :k => { params: { val: 'k', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
+              :oneRoom => { params: { val: 'oneRoom', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
             },
+            box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
+            className: 'form-control-document',
+            height: '23px',
+            component: 'DocumentChoices',
+            translation_key: 'layout',
+            category: 'flat'
+            # borderColor: 'blue'
+          },
 
         size: {
           name: 'size',
           input_type: 'string',
           choices: {
-              0 => { params: { val: 'inputFieldValue', top: '42.7%', left: '46%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+              :inputFieldValue => { params: { val: 'inputFieldValue', top: '42.7%', left: '46%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
             className: 'form-control-document',
             component: 'DocumentChoices',
@@ -306,7 +306,7 @@ module FixedTermRentalContractBilingualAll
           name: 'balcony_size',
           input_type: 'string',
           choices: {
-              0 => { params: { val: 'inputFieldValue', top: '42.5%', left: '79.7%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
+              :inputFieldValue => { params: { val: 'inputFieldValue', top: '42.5%', left: '79.7%', width: '5%', class_name: 'document-rectangle', input_type: 'string', text_align: 'right' } },
             },
           className: 'form-control-document',
           component: 'DocumentChoices',
@@ -319,14 +319,14 @@ module FixedTermRentalContractBilingualAll
           name: 'toilet',
           input_type: 'string',
           choices: {
-            0 => { params: { val: 'dedicatedFlushingToilet', top: '45.5%', left: '58.4%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
-                  translation: flat[:toilet][:choices][0] },
-            1 => { params: { val: 'dedicatedNon-flushingToilet', top: '45.5%', left: '63.7%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
-                  translation: flat[:toilet][:choices][1] },
-            2 => { params: { val: 'sharedFlushingToilet', top: '45.5%', left: '77%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
-                  translation: flat[:toilet][:choices][2] },
-            3 => { params: { val: 'sharedNon-flushingToilet', top: '45.5%', left: '82%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
-                  translation: flat[:toilet][:choices][3] }
+            :dedicatedFlushingToilet => { params: { val: 'dedicatedFlushingToilet', top: '45.5%', left: '58.4%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][:dedicatedFlushingToilet] },
+            :dedicatedNonFlushingToilet => { params: { val: 'dedicatedNonFlushingToilet', top: '45.5%', left: '63.7%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][:dedicatedNonFlushingToilet] },
+            :sharedFlushingToilet => { params: { val: 'sharedFlushingToilet', top: '45.5%', left: '77%', width: '5%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][:sharedFlushingToilet] },
+            :sharedNonFlushingToilet => { params: { val: 'sharedNonFlushingToilet', top: '45.5%', left: '82%', width: '7%', class_name: 'document-rectangle', input_type: 'button' },
+                  translation: flat[:toilet][:choices][:sharedNonFlushingToilet] }
           },
           className: 'form-control-document',
           height: '23px',
@@ -553,7 +553,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '73%', left: '36.4%', width: '13%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '73%', left: '36.4%', width: '13%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -566,7 +566,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '73%', left: '62.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '73%', left: '62.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -579,7 +579,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '75.9%', left: '53%', width: '7%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '75.9%', left: '53%', width: '7%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -591,12 +591,12 @@ module FixedTermRentalContractBilingualAll
         name: 'gas',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'publicGas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:gas][:choices][0]},
-          1 => { params: { val: 'propaneGas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:gas][:choices][1]},
-          2 => { params: { val: 'none', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:gas][:choices][2]}
+          :publicGas => { params: { val: 'publicGas', top: '79.6%', left: '50.5%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                          translation: building[:gas][:choices][:publicGas]},
+          :propaneGas => { params: { val: 'propaneGas', top: '79.6%', left: '59.6%', width: '12%', class_name: 'document-rectangle', input_type: 'button' },
+                          translation: building[:gas][:choices][:propaneGas]},
+          :none => { params: { val: 'none', top: '79.6%', left: '72.7%', width: '4%', class_name: 'document-rectangle', input_type: 'button' },
+                          translation: building[:gas][:choices][:none]}
         },
         className: 'form-control-document',
         height: '23px',
@@ -610,12 +610,12 @@ module FixedTermRentalContractBilingualAll
         name: 'water',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'publicWater', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:water][:choices][0] },
-          1 => { params: { val: 'tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:water][:choices][1] },
-          2 => { params: { val: 'well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:water][:choices][2] },
+          :publicWater => { params: { val: 'publicWater', top: '83.6%', left: '47.5%', width: '15.5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][:publicWater] },
+          :tank => { params: { val: 'tank', top: '83.6%', left: '63.9%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][:waterTank] },
+          :well => { params: { val: 'well', top: '83.6%', left: '71.5%', width: '6.6%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:water][:choices][:well] },
         },
         className: 'form-control-document',
         height: '23px',
@@ -629,12 +629,12 @@ module FixedTermRentalContractBilingualAll
         name: 'sewage',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'publicSewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:sewage][:choices][0]},
-          1 => { params: { val: 'septicTank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:sewage][:choices][1]},
-          2 => { params: { val: 'none', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' },
-                translation: building[:sewage][:choices][2]},
+          :publicSewer => { params: { val: 'publicSewer', top: '87.6%', left: '50%', width: '10.5%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][:publicSewer]},
+          :septicTank => { params: { val: 'septicTank', top: '87.6%', left: '61%', width: '6.7%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][:septicTank]},
+          :none => { params: { val: 'none', top: '87.6%', left: '69.5%', width: '3%', class_name: 'document-rectangle', input_type: 'button' },
+                translation: building[:sewage][:choices][:none]},
         },
         className: 'form-control-document',
         height: '23px',
@@ -664,7 +664,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '9%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '9%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -677,7 +677,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '9%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '9%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -704,7 +704,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '12.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '12.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -717,7 +717,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '12.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '12.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -744,7 +744,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '16%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '16%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -757,7 +757,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '16%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '16%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -784,7 +784,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '19.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.5%', left: '61.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -797,7 +797,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '19.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.5%', left: '79.1%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -839,7 +839,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '25.9%', left: '30%', width: '11.4%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '25.9%', left: '30%', width: '11.4%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -852,7 +852,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '34.5%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -866,7 +866,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '34.5%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -880,7 +880,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '34.5%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '34.5%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -894,7 +894,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '37.3%', left: '27%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -908,7 +908,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '37.3%', left: '40%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -922,7 +922,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '37.3%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '37.3%', left: '51.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -936,7 +936,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '36%', left: '72.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '36%', left: '72.6%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -949,7 +949,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '36%', left: '80.3%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '36%', left: '80.3%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -962,7 +962,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '42.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '42.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -976,7 +976,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '50%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '50%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -990,7 +990,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '55.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '55.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1004,7 +1004,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '64.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '64.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1018,7 +1018,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '72%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '72%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1032,7 +1032,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '40.3%', left: '77.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.3%', left: '77.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1050,7 +1050,7 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '52.4%',
@@ -1075,7 +1075,7 @@ module FixedTermRentalContractBilingualAll
         # input_type: 'string',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '52.1%',
@@ -1101,7 +1101,7 @@ module FixedTermRentalContractBilingualAll
         # component: 'input',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '78.6%',
@@ -1127,7 +1127,7 @@ module FixedTermRentalContractBilingualAll
         # input_type: 'string',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '68.3%',
@@ -1153,7 +1153,7 @@ module FixedTermRentalContractBilingualAll
         # component: 'input',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '51.4%',
@@ -1179,7 +1179,7 @@ module FixedTermRentalContractBilingualAll
         # component: 'input',
         borderColor: 'lightgray',
         choices: {
-          0 => {
+          :inputFieldValue => {
             params: {
               val: 'inputFieldValue',
               top: '54.5%',
@@ -1200,8 +1200,8 @@ module FixedTermRentalContractBilingualAll
         name: 'account_type',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'ordinary', top: '56.5%', left: '64.6%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'current', top: '56.5%', left: '70.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+          :ordinary => { params: { val: 'ordinary', top: '56.5%', left: '64.6%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+          :current => { params: { val: 'current', top: '56.5%', left: '70.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
         },
         className: 'form-control-document',
         # height: '23px',
@@ -1216,7 +1216,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '59.7%', left: '69.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '59.7%', left: '69.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1229,7 +1229,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '64.7%', left: '59.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '64.7%', left: '59.5%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1242,7 +1242,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '68.2%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '68.2%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1255,7 +1255,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '71.4%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '71.4%', left: '59.8%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1267,8 +1267,8 @@ module FixedTermRentalContractBilingualAll
         name: 'transfer_fee_paid_by',
         input_type: 'string',
         choices: {
-          0 => { params: { val: 'owner', top: '73.4%', left: '75.6%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'tenant', top: '73.4%', left: '81.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+          :owner => { params: { val: 'owner', top: '73.4%', left: '75.6%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+          :tenant => { params: { val: 'tenant', top: '73.4%', left: '81.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
         },
         className: 'form-control-document',
         height: '23px',
@@ -1283,7 +1283,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1296,7 +1296,7 @@ module FixedTermRentalContractBilingualAll
       #   input_type: 'string',
       #   choices: {
       #     # add 1.5% to top
-      #     0 => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' } },
+      #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' } },
       #   },
       #   className: 'form-control-document',
       #   component: 'DocumentChoices'
@@ -1310,7 +1310,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '82%', left: '27.5%', width: '3.5%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '82%', left: '27.5%', width: '3.5%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1324,7 +1324,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '82%', left: '53.8%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '82%', left: '53.8%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1337,7 +1337,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '85.8%', left: '29.8%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '85.8%', left: '29.8%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1350,7 +1350,7 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          0 => { params: { val: 'inputFieldValue', top: '88.8%', left: '29.8%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '88.8%', left: '29.8%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -1368,7 +1368,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '9.4%', left: '37.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '9.4%', left: '37.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1384,7 +1384,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '11.2%', left: '37.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '11.2%', left: '37.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1398,7 +1398,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '13.3%', left: '37.8%', width: '24.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '13.3%', left: '37.8%', width: '24.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1414,7 +1414,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '15.1%', left: '37.8%', width: '24.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '15.1%', left: '37.8%', width: '24.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1428,7 +1428,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '17.1%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '17.1%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1444,7 +1444,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '19.2%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.2%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1458,7 +1458,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '13.2%', left: '70%', width: '19.4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '13.2%', left: '70%', width: '19.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1471,7 +1471,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '21.1%', left: '39.5%', width: '50%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '21.1%', left: '39.5%', width: '50%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1485,7 +1485,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '23%', left: '39.5%', width: '50%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '23%', left: '39.5%', width: '50%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1499,7 +1499,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '24.85%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '24.85%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1513,7 +1513,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '26.67%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '26.67%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1527,7 +1527,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '28.5%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '28.5%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1541,7 +1541,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '30.7%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '30.7%', left: '40.5%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1555,7 +1555,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '24.9%', left: '70%', width: '19.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '24.9%', left: '70%', width: '19.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1568,7 +1568,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '32.6%', left: '67.7%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '32.6%', left: '67.7%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1580,7 +1580,7 @@ module FixedTermRentalContractBilingualAll
     #   input_type: 'string',
     #   choices: {
     #     # add 1.5% to top
-    #     0 => { params: { val: 'inputFieldValue', top: '32.6%', left: '67.7%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '32.6%', left: '67.7%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
     #   },
     #   className: 'form-control-document',
     #   component: 'DocumentChoices'
@@ -1591,7 +1591,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '32.6%', left: '75.2%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '32.6%', left: '75.2%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1605,7 +1605,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '39.1%', left: '37.5%', width: '51.8%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '39.1%', left: '37.5%', width: '51.8%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1621,7 +1621,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '40.8%', left: '37.5%', width: '51.8%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '40.8%', left: '37.5%', width: '51.8%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1635,7 +1635,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '42.7%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '42.7%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1651,7 +1651,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '44.7%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '44.7%', left: '37%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1665,7 +1665,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '46.6%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '46.6%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1681,7 +1681,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '48.3%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '48.3%', left: '40.5%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1695,7 +1695,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '42.8%', left: '69.7%', width: '19.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '42.8%', left: '69.7%', width: '19.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1709,7 +1709,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '56.6%', left: '29%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '56.6%', left: '29%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1722,7 +1722,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '59.3%', left: '32%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '59.3%', left: '32%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1735,7 +1735,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '64.6%', left: '23.3%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '64.6%', left: '23.3%', width: '15.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1748,7 +1748,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '55.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '55.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1761,7 +1761,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '55.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '55.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1774,7 +1774,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '58.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '58.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1788,7 +1788,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '58.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '58.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1802,7 +1802,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '61.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '61.6%', left: '53%', width: '23%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1815,7 +1815,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '61.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '61.6%', left: '82.6%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1828,7 +1828,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '64.7%', left: '83%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '64.7%', left: '83%', width: '4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1841,7 +1841,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '67.6%', left: '38.5%', width: '51%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '67.6%', left: '38.5%', width: '51%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1855,7 +1855,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '31.1%', width: '14.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '71.95%', left: '31.1%', width: '14.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1869,7 +1869,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '49.8%', width: '17%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '71.95%', left: '49.8%', width: '17%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1883,7 +1883,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '71.95%', left: '70%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '71.95%', left: '70%', width: '19%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1897,7 +1897,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '77.3%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.3%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1912,7 +1912,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '79.4%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '79.4%', left: '39.1%', width: '50.4%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1927,7 +1927,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '82%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '82%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1942,7 +1942,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '84.5%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '84.5%', left: '40.2%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1957,7 +1957,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '81.9%', left: '69.7%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '81.9%', left: '69.7%', width: '20%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1971,7 +1971,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '66.6%', width: '2.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '87.4%', left: '66.6%', width: '2.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -1985,7 +1985,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '87.4%', left: '72.5%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '87.4%', left: '72.5%', width: '11.2%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2002,7 +2002,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '22.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.1%', left: '22.5%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2016,7 +2016,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '34.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.1%', left: '34.2%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2030,7 +2030,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '19.1%', left: '43.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '19.1%', left: '43.5%', width: '3%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2044,7 +2044,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '23.1%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '23.1%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2056,7 +2056,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '25.2%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '25.2%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2067,7 +2067,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '27.5%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '27.5%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2079,7 +2079,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '29.8%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '29.8%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2090,7 +2090,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '32.4%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '32.4%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2101,7 +2101,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '36.6%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '36.6%', left: '32.8%', width: '51.5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2115,7 +2115,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '41.3%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '41.3%', left: '32.8%', width: '30%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2127,7 +2127,7 @@ module FixedTermRentalContractBilingualAll
       input_type: 'string',
       choices: {
         # add 1.5% to top
-        0 => { params: { val: 'inputFieldValue', top: '45.6%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '45.6%', left: '34.8%', width: '21%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2139,7 +2139,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_registration_jurisdiction',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '37%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '54.2%', left: '37%', width: '9%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2151,7 +2151,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_registration_jurisdiction_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '56.2%', left: '36%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '56.2%', left: '36%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2164,25 +2164,25 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_registration_grantor',
       input_type: 'string',
       choices: {
-          0 => { params: { val: 'governor', top: '54.2%', left: '47.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { params: { val: 'minister', top: '54.2%', left: '52.9%', width: '12%', class_name: 'document-rectangle', input_type: 'button' } },
-          # 2 => { params: { val: 'K', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
-          # 3 => { params: { val: 'One Room', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
-        },
-        box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
-        className: 'form-control-document',
-        height: '23px',
-        component: 'DocumentChoices',
-        translation_key: 'brokerRegistrationGrantor',
-        category: 'broker'
-        # borderColor: 'blue'
+        :governor => { params: { val: 'governor', top: '54.2%', left: '47.2%', width: '5%', class_name: 'document-rectangle', input_type: 'button' } },
+        :minister => { params: { val: 'minister', top: '54.2%', left: '52.9%', width: '12%', class_name: 'document-rectangle', input_type: 'button' } },
+        # 2 => { params: { val: 'K', top: '39.6%', left: '73.4%', width: '3%', class_name: 'document-rectangle', input_type: 'button' } },
+        # 3 => { params: { val: 'One Room', top: '39.6%', left: '76.5%', width: '10%', class_name: 'document-rectangle', input_type: 'button' } }
+      },
+      box: { style: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } },
+      className: 'form-control-document',
+      height: '23px',
+      component: 'DocumentChoices',
+      translation_key: 'brokerRegistrationGrantor',
+      category: 'broker'
+      # borderColor: 'blue'
     },
 
     broker_registration_front_number: {
       name: 'broker_registration_front_number',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '67%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '54.2%', left: '67%', width: '5%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2195,7 +2195,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_registration_number',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '54.2%', left: '78.3%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '54.2%', left: '78.3%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2208,7 +2208,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_address_hq',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '62.6%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '62.6%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2221,7 +2221,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_address_hq_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '64.3%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '64.3%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2234,7 +2234,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_company_name',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '66.6%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '66.6%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2247,7 +2247,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_company_name_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '68.7%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '68.7%', left: '38.8%', width: '55%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2260,7 +2260,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_representative_name',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '70.9%', left: '38.8%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '70.9%', left: '38.8%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2273,7 +2273,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_representative_name_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '72.9%', left: '38.8%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '72.9%', left: '38.8%', width: '25%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2286,7 +2286,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_staff_registration_jurisdiction',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '75.4%', left: '58.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '75.4%', left: '58.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2299,7 +2299,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_staff_registration_jurisdiction_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '77.4%', left: '58%', width: '11%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.4%', left: '58%', width: '11%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2313,7 +2313,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_staff_registration',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '75.4%', left: '78.5%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '75.4%', left: '78.5%', width: '12%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2326,7 +2326,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_staff_name',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '79.8%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '79.8%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
@@ -2340,7 +2340,7 @@ module FixedTermRentalContractBilingualAll
       name: 'broker_staff_name_translation',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'inputFieldValue', top: '82.2%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '82.2%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
       },
       className: 'form-control-document',
       component: 'DocumentChoices',

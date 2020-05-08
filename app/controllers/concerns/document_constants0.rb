@@ -4,8 +4,8 @@ module DocumentConstants
   # def important_points_explanation_translation
     # include ImportantPointsExplanationTranslation
     AmenitiesChoices = {
-      0 => { value: 1, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
-      1 => { value: 0, en: 'No', jp: '無し', type: 'boolean', className: 'form-rectangle' }
+      0 => { value: true, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
+      1 => { value: false, en: 'No', jp: '無し', type: 'boolean', className: 'form-rectangle' }
     };
 
     AMENITIES =
@@ -304,9 +304,9 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :en => { value: 'en', en: '🇬🇧 English', jp: '🇬🇧 English', type: 'button', className: 'form-rectangle' },
-        :jp => { value: 'jp', en: '🇯🇵 Japanese', jp: '🇯🇵 日本語', type: 'button', className: 'form-rectangle' },
-        :po => { value: 'po', en: '🇵🇹 Portuguese', jp: '🇵🇹 Português', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'en', en: '🇬🇧 English', jp: '🇬🇧 English', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'jp', en: '🇯🇵 Japanese', jp: '🇯🇵 日本語', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'po', en: '🇵🇹 Portuguese', jp: '🇵🇹 Português', type: 'button', className: 'form-rectangle' },
         # 2 => { value: 'Wooden Structure', en: 'Wooden Structure', jp: '木造', type: 'button', className: 'form-rectangle' },
         # 2 => { value: '', type: 'string', component: 'input', className: 'form-rectangle form-input' }
       },
@@ -430,12 +430,12 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :rc => { value: 'rc', height: '2.0%', width: '10%', en: 'RC (Reinforced Concrete)', jp: 'RC (鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
-        :src => { value: 'src', height: '2.0%', width: '10%', en: 'SRC (Steel Reinforced Concrete)', jp: 'SRC (鉄骨鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
-        :cft => { value: 'cft', height: '2.0%', width: '10%', en: 'CFT (Concrete Filled Steel Tube)', jp: 'CFT (コンクリート充填鋼管)', type: 'button', className: 'form-rectangle' },
-        :s => { value: 's', height: '2.0%', width: '10%', en: 'S (Steel Frame)', jp: 'S (軽量鉄骨造)', type: 'button', className: 'form-rectangle' },
-        :aluminum => { value: 'aluminum', height: '2.0%', width: '10%', en: 'AL (Alminium)', jp: 'AL (アルミ)', type: 'button', className: 'form-rectangle' },
-        :wooden => { value: 'wooden', height: '2.0%', width: '10%', en: 'W (Wooden)', jp: 'W (木造)', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'rc', height: '2.0%', width: '10%', en: 'RC (Reinforced Concrete)', jp: 'RC (鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'src', height: '2.0%', width: '10%', en: 'SRC (Steel Reinforced Concrete)', jp: 'SRC (鉄骨鉄筋コンクリート)', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'cft', height: '2.0%', width: '10%', en: 'CFT (Concrete Filled Steel Tube)', jp: 'CFT (コンクリート充填鋼管)', type: 'button', className: 'form-rectangle' },
+        3 => { value: 's', height: '2.0%', width: '10%', en: 'S (Steel Frame)', jp: 'S (軽量鉄骨造)', type: 'button', className: 'form-rectangle' },
+        4 => { value: 'aluminum', height: '2.0%', width: '10%', en: 'AL (Alminium)', jp: 'AL (アルミ)', type: 'button', className: 'form-rectangle' },
+        5 => { value: 'wooden', height: '2.0%', width: '10%', en: 'W (Wooden)', jp: 'W (木造)', type: 'button', className: 'form-rectangle' },
         # 5 => { value: 'Other', en: 'Other', jp: 'その他', type: 'button', className: 'form-rectangle' },
         # 4 => { value: '', type: 'string', component: 'input', className: 'form-rectangle form-input' }
       },
@@ -448,10 +448,10 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :flatInBuilding => { value: 'flatInBuilding', en: 'Multi Family', jp: '共同建', type: 'button', className: 'form-rectangle' },
-        :townHouse => { value: 'townHouse', en: 'Townhouse', jp: '長屋建', type: 'button', className: 'form-rectangle' },
-        :singleFamily => { value: 'singleFamily', en: 'Single Family', jp: '一戸建', type: 'button', className: 'form-rectangle' },
-        :other => { value: 'other', en: 'Other', jp: 'その他', type: 'button', className: 'form-rectangle' }
+        0 => { value: 'flatInBuilding', en: 'Multi Family', jp: '共同建', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'townHouse', en: 'Townhouse', jp: '長屋建', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'singleFamily', en: 'Single Family', jp: '一戸建', type: 'button', className: 'form-rectangle' },
+        3 => { value: 'other', en: 'Other', jp: 'その他', type: 'button', className: 'form-rectangle' }
       },
       language_independent: true,
     },
@@ -520,9 +520,9 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :publicSewer => { value: 'publicSewer', en: 'Public Sewer', jp: '公共下水道', type: 'button', className: 'form-rectangle' },
-        :septicTank => { value: 'septicTank', en: 'Septic Tank', jp: '浄化槽', type: 'button', className: 'form-rectangle' },
-        :none => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
+        0 => { value: 'publicSewer', en: 'Public Sewer', jp: '公共下水道', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'septicTank', en: 'Septic Tank', jp: '浄化槽', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
       },
       language_independent: true,
     },
@@ -534,11 +534,11 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :publicWater => { value: 'publicWater', en: 'Public Water', jp: '水道本管より直結', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'publicWater', en: 'Public Water', jp: '水道本管より直結', type: 'button', className: 'form-rectangle' },
         # 1 => { value: 'Private Water', en: 'Private Water', jp: '市営水道', type: 'button', className: 'form-rectangle' },
-        :waterTank => { value: 'waterTank', en: 'Water Tank', jp: '受水槽', type: 'button', className: 'form-rectangle' },
-        :well => { value: 'well', en: 'Well', jp: '井戸', type: 'button', className: 'form-rectangle' },
-        :none => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
+        1 => { value: 'waterTank', en: 'Water Tank', jp: '受水槽', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'well', en: 'Well', jp: '井戸', type: 'button', className: 'form-rectangle' },
+        3 => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
       },
       language_independent: true,
     },
@@ -550,9 +550,9 @@ module DocumentConstants
       component: 'FormChoices',
       type: 'string',
       choices: {
-        :publicGas => { value: 'publicGas', en: 'Public Gas', jp: '都市ガス', type: 'button', className: 'form-rectangle' },
-        :propaneGas => { value: 'propaneGas', en: 'Propane Gas', jp: 'プロパンガス', type: 'button', className: 'form-rectangle' },
-        :none => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
+        0 => { value: 'publicGas', en: 'Public Gas', jp: '都市ガス', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'propaneGas', en: 'Propane Gas', jp: 'プロパンガス', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'none', en: 'None', jp: '無し', type: 'button', component: 'button', className: 'form-rectangle' }
       },
       language_independent: true,
     },
@@ -721,13 +721,13 @@ module DocumentConstants
       type: 'string',
       choices: {
         # toilet notes
-        :dedicatedFlushingToilet => { value: 'dedicatedFlushingToilet', en: 'Dedicated Flushing Toilet', jp: '専用　水洗', type: 'button', className: 'form-rectangle' },
-        :dedicatedNonFlushingToilet => { value: 'dedicatedNonFlushingToilet', en: 'Dedicated Non-flushing Toilet', jp: '専用　非水洗', type: 'button', className: 'form-rectangle' },
-        :sharedFlushingToilet => { value: 'sharedFlushingToilet', en: 'Shared Flushing Toilet', jp: '共用　水洗', type: 'button', className: 'form-rectangle' },
-        :sharedNonFlushingToilet => { value: 'sharedNonFlushingToilet', en: 'Shared Non-flushing Toilet', jp: '共用　非水洗', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'dedicatedFlushingToilet', en: 'Dedicated Flushing Toilet', jp: '専用　水洗', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'dedicatedNon-flushingToilet', en: 'Dedicated Non-flushing Toilet', jp: '専用　非水洗', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'sharedFlushingToilet', en: 'Shared Flushing Toilet', jp: '共用　水洗', type: 'button', className: 'form-rectangle' },
+        3 => { value: 'sharedNon-flushingToilet', en: 'Shared Non-flushing Toilet', jp: '共用　非水洗', type: 'button', className: 'form-rectangle' },
         # booleans for use in toilet
-        0 => { value: true, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
-        1 => { value: false, en: 'None', jp: '無し', type: 'boolean', className: 'form-rectangle' }
+        4 => { value: true, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
+        5 => { value: false, en: 'None', jp: '無し', type: 'boolean', className: 'form-rectangle' }
         # 2 => { value: 'Wooden Structure', en: 'Wooden Structure', jp: '木造', type: 'button', className: 'form-rectangle' },
         # 2 => { value: '', type: 'string', component: 'input', className: 'form-rectangle form-input' }
       },
@@ -741,10 +741,10 @@ module DocumentConstants
       type: 'string',
       choices: {
         # toilet notes
-        :flatInBuilding => { value: 'flatInBuilding', en: 'Flat in Building', jp: '共同住宅', type: 'button', className: 'form-rectangle' },
-        :singleFamily => { value: 'singleFamily', en: 'House', jp: '一戸建て', type: 'button', className: 'form-rectangle' },
-        :townHouse => { value: 'townHouse', en: 'Town House', jp: '長屋建', type: 'button', className: 'form-rectangle' },
-        :others => { value: 'others', en: 'Others', jp: 'その他', type: 'button', className: 'form-rectangle' },
+        0 => { value: 'flatInBuilding', en: 'Flat in Building', jp: '共同住宅', type: 'button', className: 'form-rectangle' },
+        1 => { value: 'singleFamily', en: 'House', jp: '一戸建て', type: 'button', className: 'form-rectangle' },
+        2 => { value: 'townHouse', en: 'Town House', jp: '長屋建', type: 'button', className: 'form-rectangle' },
+        3 => { value: 'others', en: 'Others', jp: 'その他', type: 'button', className: 'form-rectangle' },
         # # booleans for use in toilet
         # 4 => { value: true, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
         # 5 => { value: false, en: 'None', jp: '無し', type: 'boolean', className: 'form-rectangle' }
