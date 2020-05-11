@@ -85,9 +85,11 @@ class Api::V1::AgreementsController < ApplicationController
     if params["deleted_document_field_id_array"].length > 0
       params["deleted_document_field_id_array"].each do |each|
         document_field = DocumentField.find_by(id: each)
-        unless document_field.destroy
-          json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
-          break
+        if document_field
+          unless document_field.destroy
+            json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
+            break
+          end
         end
       end #end of deleted each
     end #end of deleted lengh > 0
@@ -95,12 +97,14 @@ class Api::V1::AgreementsController < ApplicationController
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
     # and document_field_choice serializer that returns document_field_choices
     # Rails default depth of child ssociations is one, so use custom to get another layer
+    agreements = Agreement.where(booking_id: params[:booking_id])
     document_fields = agreement.document_fields
-    agreement_serializer = parse_json agreement
+    # agreement_serializer = parse_json agreement
+    agreement_serializer = parse_json agreements
     document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
     # if none of the above each loops do not break, send successful json response
-    json_response "Saved template agreement fields successfully", true, {agreement: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
+    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
   end
 
   def update_agreement_fields
@@ -263,6 +267,7 @@ class Api::V1::AgreementsController < ApplicationController
       :component,
       :display_text,
       :template_file_name,
+      :list_parameters,
       # _attributes required for nested attributes (see agreement model)
       document_field_choices_attributes: [
         :id,

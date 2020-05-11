@@ -43,12 +43,12 @@ class AgreementSerializer < ActiveModel::Serializer
             # get all attributes of each document_field_choices in a new object hash
             custom_each = each.attributes
             # select_choices nil if there are no select_choices
-            # else put thim in a mapped hash object inside document_field_choices object 
+            # else put thim in a mapped hash object inside document_field_choices object
             custom_each["select_choices"] = nil
             if !each.select_choices.empty?
               custom_each["select_choices"] = {}
-              each.select_choices.each_with_index do |eachSelect, i|
-                custom_each["select_choices"][i] = eachSelect
+              each.select_choices.each_with_index do |each_select, i|
+                custom_each["select_choices"][i] = each_select
               end
             end
             # obj[i] = each

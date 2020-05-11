@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200511013400) do
+ActiveRecord::Schema.define(version: 20200511050532) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(version: 20200511013400) do
     t.string "input_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "list_parameters"
     t.index ["document_field_id"], name: "index_document_field_choices_on_document_field_id"
   end
 
@@ -428,6 +429,7 @@ ActiveRecord::Schema.define(version: 20200511013400) do
     t.string "font_family"
     t.string "component"
     t.string "font_weight"
+    t.string "list_parameters"
     t.index ["agreement_id"], name: "index_document_fields_on_agreement_id"
   end
 
