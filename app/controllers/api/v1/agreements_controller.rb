@@ -263,6 +263,7 @@ class Api::V1::AgreementsController < ApplicationController
       :component,
       :display_text,
       :template_file_name,
+      # _attributes required for nested attributes (see agreement model)
       document_field_choices_attributes: [
         :id,
         :document_field_id,
@@ -287,11 +288,18 @@ class Api::V1::AgreementsController < ApplicationController
         :font_color,
         :font_weight,
         :font_family,
-        :input_type
-      ]
-    ]
+        :input_type,
+        # _attributes required for nested attributes (see document_field_choice model)
+        select_choices_attributes: [
+          :id,
+          :document_field_choice_id,
+          :value,
+          :val
+        ] # end of select_choices_attributes
+      ] # end of document_field_choices_attributes
+    ] # end of params permit
   )
-  end
+end # end of def document_field_params
 
   # def document_field_choice_params
   #   params.permit(document_field_choice: [

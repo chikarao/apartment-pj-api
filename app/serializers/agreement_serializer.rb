@@ -34,15 +34,28 @@ class AgreementSerializer < ActiveModel::Serializer
     if object.document_fields
       object.document_fields.each do |eachDF|
         custom_document_field = eachDF.attributes
-        # p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
+        p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
         obj = nil
         if !eachDF.document_field_choices.empty?
+          # if there are document_field_choices put them in a mapped hash object { 0 => object, 1 => object }
           obj = {}
           eachDF.document_field_choices.each_with_index do |each,  i|
-            obj[i] = each
+            # get all attributes of each document_field_choices in a new object hash
+            custom_each = each.attributes
+            # select_choices nil if there are no select_choices
+            # else put thim in a mapped hash object inside document_field_choices object 
+            custom_each["select_choices"] = nil
+            if !each.select_choices.empty?
+              custom_each["select_choices"] = {}
+              each.select_choices.each_with_index do |eachSelect, i|
+                custom_each["select_choices"][i] = eachSelect
+              end
+            end
+            # obj[i] = each
+            obj[i] = custom_each
           end # end of each
           custom_document_field["document_field_choices"] = obj
-        else
+        else # else of if !eachDF.document_field_choices.empty?
           custom_document_field["document_field_choices"] = nil
         end # end of if document_field_choices empty
         array.push(custom_document_field)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200331070043) do
+ActiveRecord::Schema.define(version: 20200511013400) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -748,6 +748,15 @@ ActiveRecord::Schema.define(version: 20200331070043) do
     t.index ["booking_id"], name: "index_reviews_on_booking_id"
     t.index ["flat_id"], name: "index_reviews_on_flat_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "select_choices", force: :cascade do |t|
+    t.string "value"
+    t.string "val"
+    t.integer "document_field_choice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_field_choice_id"], name: "index_select_choices_on_document_field_choice_id"
   end
 
   create_table "staffs", force: :cascade do |t|

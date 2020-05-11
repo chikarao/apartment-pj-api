@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: MyString
+  val: MyString
+  document_field_choice: one
+
+two:
+  value: MyString
+  val: MyString
+  document_field_choice: two
