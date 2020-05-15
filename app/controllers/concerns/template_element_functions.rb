@@ -21,7 +21,7 @@ module TemplateElementFunctions
         # IMPORTATNT: After running code, base[each][:translation_sibling] becomes a Hash so, test if already Hash
         if base[each][:translation_field]
         # if base[each][:translation_sibling]
-          p "!!!!! template_element_functions, each, base[each]: " + each.to_s + ' ' + base[each].to_s
+          # p "!!!!! template_element_functions, each, base[each]: " + each.to_s + ' ' + base[each].to_s
           base[each][:translation_sibling] = base[base[each][:translation_field].to_sym]
           # base[each][:translation_sibling] = base[base[each][:translation_sibling]]
         else

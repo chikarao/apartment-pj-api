@@ -1,12 +1,14 @@
 #!!!! IMORTANT: Need to get constants: Building, Amenities etc for selectChoices
+# IMPORTANT: flat_owner is different from owner. flat_owner is the actual owner of the flat, not the landlord (termed owner here)who can be other than the actual owner
 module FixedTermRentalContractBilingualAll
   # CONSTANT for fetch_translation and save and create agreement in booking
   # def important_points_explanation_translation
-    # include ImportantPointsExplanationTranslation
-    include DocumentConstants
-    building = DocumentConstants::BUILDING
-    amenities = DocumentConstants::AMENITIES
-    flat = DocumentConstants::FLAT_FOR_DOCUMENTS
+  # include ImportantPointsExplanationTranslation
+  include DocumentConstants
+  building = DocumentConstants::BUILDING
+  amenities = DocumentConstants::AMENITIES
+  flat = DocumentConstants::FLAT_FOR_DOCUMENTS
+  rent_payment = DocumentConstants::RENT_PAYMENT
 
     OBJECT =
     {
@@ -65,12 +67,13 @@ module FixedTermRentalContractBilingualAll
             translation_column: 'name',
             # translation field is the field in the document that takes the translation
             translation_field: 'name_translation',
-
             # translation_object_key: 'name',
             # translation_key for getting object from DocumentTranslationFixedTermAll
             translation_key: 'buildingName',
             # template_element_object divided into category and group
-            category: 'building'
+            category: 'building',
+            # initialvalues_method_key is for using in get_initialvalues_object_fixed_term_contract_template.js
+            initialvalues_method_key: 'building'
           },
 
           name_translation: {
@@ -98,7 +101,9 @@ module FixedTermRentalContractBilingualAll
               translation_key: 'buildingName',
               # template_element_object divided into category and group
               category: 'building',
-              translation_object: true
+              # translation_object for use in template create box grouping and in get_initialvalues_object_fixed_term_contract_template.js
+              translation_object: true,
+              initialvalues_method_key: 'building'
             },
 
           address: {
@@ -127,7 +132,8 @@ module FixedTermRentalContractBilingualAll
               # translation field is the field in the document that takes the translation
               translation_field: 'address_translation',
               translation_key: 'address',
-              category: 'flat'
+              category: 'flat',
+              initialvalues_method_key: 'address'
             },
 
           address_translation: {
@@ -152,8 +158,9 @@ module FixedTermRentalContractBilingualAll
               # required: true
               translation_key: 'address',
               category: 'flat',
-              translation_object: true
-            },
+              translation_object: true,
+              initialvalues_method_key: 'address'
+          },
 
         flat_type: {
           name: 'flat_type',
@@ -173,7 +180,8 @@ module FixedTermRentalContractBilingualAll
           height: '23px',
           component: 'DocumentChoices',
           translation_key: 'buildingType',
-          category: 'flat'
+          category: 'flat',
+          initialvalues_method_key: 'flat'
         },
 
 
@@ -197,6 +205,8 @@ module FixedTermRentalContractBilingualAll
           hybrid_field: true,
           translation_key: 'construction',
           category: 'building',
+          initialvalues_method_key: 'building',
+          language_independent: true
           # group: 'construction'
         },
 
@@ -209,7 +219,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'stories',
-          category: 'building'
+          category: 'building',
+          initialvalues_method_key: 'building'
         },
 
         year_built: {
@@ -221,7 +232,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'yearBuilt',
-          category: 'building'
+          category: 'building',
+          initialvalues_method_key: 'building'
         },
 
         units: {
@@ -233,7 +245,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'numberOfUnits',
-          category: 'building'
+          category: 'building',
+          initialvalues_method_key: 'building'
         },
 
         last_renovation_year: {
@@ -245,7 +258,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'majorRenovation',
-          category: 'flat'
+          category: 'flat',
+          initialvalues_method_key: 'building'
         },
 
         unit: {
@@ -257,7 +271,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'unit',
-          category: 'flat'
+          category: 'flat',
+          initialvalues_method_key: 'flat'
         },
 
         rooms: {
@@ -269,7 +284,8 @@ module FixedTermRentalContractBilingualAll
             className: 'form-control-document',
             component: 'DocumentChoices',
             translation_key: 'rooms',
-            category: 'flat'
+            category: 'flat',
+            initialvalues_method_key: 'flat'
         },
 
         layout: {
@@ -286,7 +302,8 @@ module FixedTermRentalContractBilingualAll
             height: '23px',
             component: 'DocumentChoices',
             translation_key: 'layout',
-            category: 'flat'
+            category: 'flat',
+            initialvalues_method_key: 'flat'
             # borderColor: 'blue'
           },
 
@@ -299,7 +316,8 @@ module FixedTermRentalContractBilingualAll
             className: 'form-control-document',
             component: 'DocumentChoices',
             translation_key: 'floorSpace',
-            category: 'flat'
+            category: 'flat',
+            initialvalues_method_key: 'flat'
         },
 
         balcony_size: {
@@ -311,7 +329,8 @@ module FixedTermRentalContractBilingualAll
           className: 'form-control-document',
           component: 'DocumentChoices',
           translation_key: 'balcony',
-          category: 'flat'
+          category: 'flat',
+          initialvalues_method_key: 'flat'
         },
 
 
@@ -333,7 +352,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           # borderColor: 'blue'
           translation_key: 'toilet',
-          category: 'flat'
+          category: 'flat',
+          initialvalues_method_key: 'flat'
         },
 
         # !!!!!!bath is assuming if there is a shower, there is a bathingroom
@@ -350,7 +370,8 @@ module FixedTermRentalContractBilingualAll
           attributes: { names: ['bath_tub'], input_type: 'boolean' },
           translation_key: 'bathTub',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         shower: {
@@ -365,7 +386,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'shower',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         wash_basin: {
@@ -380,7 +402,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'washBasin',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         washer_dryer_area: {
@@ -395,7 +418,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'washerArea',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         hot_water: {
@@ -410,7 +434,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'waterHeater',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         kitchen_grill: {
@@ -425,7 +450,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'kitchenStove',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
         },
 
         parcel_delivery_box: {
@@ -440,7 +466,8 @@ module FixedTermRentalContractBilingualAll
           component: 'DocumentChoices',
           translation_key: 'parcelBox',
           category: 'flat',
-          group: 'amenities'
+          group: 'amenities',
+          initialvalues_method_key: 'amenities'
       },
 
       ac: {
@@ -455,7 +482,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'ac',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       lighting_fixed: {
@@ -470,7 +498,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'fixedLighting',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       auto_lock: {
@@ -485,7 +514,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'autoLock',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
       # cable_tv includes digital
       cable_tv: {
@@ -500,7 +530,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'digitalTv',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       internet_ready: {
@@ -515,7 +546,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'internetReady',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       mail_box: {
@@ -530,7 +562,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'mailBox',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       lock_key: {
@@ -545,7 +578,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'lock_key',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'amenities'
       },
 
       key_number: {
@@ -558,7 +592,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'key',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       keys: {
@@ -571,7 +606,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'sets',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       power_usage_amount: {
@@ -584,7 +620,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'electricCapacity',
-        category: 'building'
+        category: 'building',
+        initialvalues_method_key: 'building'
       },
 
       gas: {
@@ -602,7 +639,8 @@ module FixedTermRentalContractBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         translation_key: 'gas',
-        category: 'building'
+        category: 'building',
+        initialvalues_method_key: 'building'
         # borderColor: 'blue'
       },
 
@@ -622,7 +660,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         # borderColor: 'blue'
         category: 'building',
-        translation_key: 'water'
+        translation_key: 'water',
+        initialvalues_method_key: 'building'
       },
 
       sewage: {
@@ -641,7 +680,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         # borderColor: 'blue',
         translation_key: 'sewage',
-        category: 'building'
+        category: 'building',
+        initialvalues_method_key: 'building'
       },
   # }, # end of 1
   # 2: {
@@ -656,7 +696,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'parkingIncluded',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       parking_spaces: {
@@ -669,7 +710,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'parkingSpaces',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       parking_space_number: {
@@ -682,7 +724,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'parkingNumber',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       bicycle_parking_included: {
@@ -696,7 +739,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingIncluded',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       bicycle_parking_spaces: {
@@ -709,7 +753,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingSpaces',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       bicycle_parking_space_number: {
@@ -722,7 +767,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingNumber',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       motorcycle_parking_included: {
@@ -736,7 +782,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingIncluded',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       motorcycle_parking_spaces: {
@@ -749,7 +796,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingSpaces',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       motorcycle_parking_space_number: {
@@ -762,7 +810,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingNumber',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       storage_included: {
@@ -776,7 +825,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'storageIncluded',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       storage_spaces: {
@@ -789,7 +839,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'storageSpaces',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       storage_space_number: {
@@ -802,7 +853,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'storageNumber',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       dedicated_yard: {
@@ -817,7 +869,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'ownYard',
         category: 'flat',
-        group: 'amenities'
+        group: 'amenities',
+        initialvalues_method_key: 'flat'
       },
 
       other_facility: {
@@ -832,6 +885,7 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'otherFacility',
         category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       other_facility_name: {
@@ -844,7 +898,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'otherFacility',
-        category: 'flat'
+        category: 'flat',
+        initialvalues_method_key: 'flat'
       },
 
       from_year: {
@@ -858,7 +913,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'yearFrom',
         category: 'agreement',
-        group: 'fromDate'
+        group: 'fromDate',
+        initialvalues_method_key: 'booking'
       },
 
       from_month: {
@@ -872,7 +928,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'monthFrom',
         category: 'agreement',
-        group: 'fromDate'
+        group: 'fromDate',
+        initialvalues_method_key: 'booking'
       },
 
       from_day: {
@@ -886,7 +943,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'dayFrom',
         category: 'agreement',
-        group: 'fromDate'
+        group: 'fromDate',
+        initialvalues_method_key: 'booking'
       },
 
       to_year: {
@@ -900,7 +958,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'yearTo',
         category: 'agreement',
-        group: 'toDate'
+        group: 'toDate',
+        initialvalues_method_key: 'booking'
       },
 
       to_month: {
@@ -914,7 +973,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'monthTo',
         category: 'agreement',
-        group: 'toDate'
+        group: 'toDate',
+        initialvalues_method_key: 'booking'
       },
 
       to_day: {
@@ -928,7 +988,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'dayTo',
         category: 'agreement',
-        group: 'toDate'
+        group: 'toDate',
+        initialvalues_method_key: 'booking'
       },
 
       contract_length_years: {
@@ -941,7 +1002,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'yearsContract',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       contract_length_months: {
@@ -954,7 +1016,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'monthsContract',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       notice_from_year: {
@@ -968,7 +1031,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeYearFrom',
         category: 'agreement',
-        group: 'noticeFrom'
+        group: 'noticeFrom',
+        initialvalues_method_key: 'booking'
       },
 
       notice_from_month: {
@@ -982,7 +1046,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeMonthFrom',
         category: 'agreement',
-        group: 'noticeFrom'
+        group: 'noticeFrom',
+        initialvalues_method_key: 'booking'
       },
 
       notice_from_day: {
@@ -996,7 +1061,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeDayFrom',
         category: 'agreement',
-        group: 'noticeFrom'
+        group: 'noticeFrom',
+        initialvalues_method_key: 'booking'
       },
 
       notice_to_year: {
@@ -1010,7 +1076,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeYearTo',
         category: 'agreement',
-        group: 'noticeTo'
+        group: 'noticeTo',
+        initialvalues_method_key: 'booking'
       },
 
       notice_to_month: {
@@ -1024,7 +1091,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeMonthTo',
         category: 'agreement',
-        group: 'noticeTo'
+        group: 'noticeTo',
+        initialvalues_method_key: 'booking'
       },
 
       notice_to_day: {
@@ -1038,7 +1106,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'noticeDayTo',
         category: 'agreement',
-        group: 'noticeTo'
+        group: 'noticeTo',
+        initialvalues_method_key: 'booking'
       },
 
       final_rent: {
@@ -1064,7 +1133,8 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'rentAndOthers',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       payment_due_date: {
@@ -1089,7 +1159,8 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'rentDueDateEachMonth',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'flat'
       },
 
       management_fees: {
@@ -1115,7 +1186,8 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'fees',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'flat'
       },
 
       fees_payment_due_date: {
@@ -1141,7 +1213,10 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'feesDueDateEachMonth',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'flat',
+        actual_record_key: 'payment_due_date',
+        language_independent: true
       },
 
       bank_name: {
@@ -1167,7 +1242,8 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'bankName',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       bank_name_english: {
@@ -1193,7 +1269,8 @@ module FixedTermRentalContractBilingualAll
           }
         },
         translation_key: 'bankNameEnglish',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       account_type: {
@@ -1207,7 +1284,8 @@ module FixedTermRentalContractBilingualAll
         # height: '23px',
         component: 'DocumentChoices',
         translation_key: 'accountType',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
         # borderColor: 'blue'
       },
 
@@ -1221,7 +1299,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'accountNumber',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       swift: {
@@ -1234,7 +1313,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'swift',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       account_name: {
@@ -1247,7 +1327,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'accountName',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       account_name_english: {
@@ -1260,7 +1341,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'accountNameAlphabet',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'bankAccount'
       },
 
       transfer_fee_paid_by: {
@@ -1274,7 +1356,8 @@ module FixedTermRentalContractBilingualAll
         height: '23px',
         component: 'DocumentChoices',
         translation_key: 'transferFeePaidBy',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'flat'
         # borderColor: 'blue'
       },
 
@@ -1283,12 +1366,16 @@ module FixedTermRentalContractBilingualAll
         input_type: 'string',
         choices: {
           # add 1.5% to top
-          :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' } },
+          :inputFieldValue => { params: { val: 'inputFieldValue', top: '77.2%', left: '67.5%', width: '22%', class_name: 'document-rectangle', input_type: 'string' },
+                                selectChoices: rent_payment[:rent_payment_method][:choices]
+                              },
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'rentPaymentMethod',
-        category: 'agreement'
+        category: 'agreement',
+        group: 'rent_payment_method',
+        initialvalues_method_key: 'flat'
       },
 
       # rent_payment_method_translation: {
@@ -1315,7 +1402,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'rentDepositX',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       deposit_amount: {
@@ -1329,7 +1417,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'deposit',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       facilities_usage_fee: {
@@ -1342,7 +1431,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'facilityUsageFee',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
       },
 
       other_fees: {
@@ -1355,7 +1445,8 @@ module FixedTermRentalContractBilingualAll
         className: 'form-control-document',
         component: 'DocumentChoices',
         translation_key: 'otherFees',
-        category: 'agreement'
+        category: 'agreement',
+        initialvalues_method_key: 'booking'
         # required: true
       },
   # },
@@ -1372,11 +1463,13 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      # translation_record: 'flat_languages',
-      # translation_column: 'owner_address',
+      translation_record: 'flat_languages',
+      translation_column: 'owner_address',
       translation_field: 'owner_address_translation',
       translation_key: 'landlordAddress',
-      category: 'landlord'
+      category: 'landlord',
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_address'
     },
 
     owner_address_translation: {
@@ -1390,7 +1483,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordAddress',
       category: 'landlord',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_address'
     },
 
     owner_company: {
@@ -1402,11 +1497,13 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      # translation_record: 'flat_languages',
-      # translation_column: 'owner_address',
-      translation_field: 'owner_address_translation',
+      translation_record: 'flat_languages',
+      translation_column: 'owner_name',
+      translation_field: 'owner_company_translation',
       translation_key: 'landordCompanyName',
-      category: 'landlord'
+      category: 'landlord',
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_name'
     },
 
     owner_company_translation: {
@@ -1420,7 +1517,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landordCompanyName',
       category: 'landlord',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_name'
     },
 
     owner_name: {
@@ -1432,11 +1531,13 @@ module FixedTermRentalContractBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
-      # translation_record: 'flat_languages',
-      # translation_column: 'owner_name',
+      translation_record: 'flat_languages',
+      translation_column: 'owner_name',
       translation_field: 'owner_name_translation',
       translation_key: 'landlordName',
-      category: 'landlord'
+      category: 'landlord',
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_contact_name'
     },
 
     owner_name_translation: {
@@ -1450,7 +1551,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordName',
       category: 'landlord',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'owner',
+      # actual_record_key: 'owner_contact_name'
     },
 
     owner_phone: {
@@ -1463,7 +1566,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'landlordPhone',
-      category: 'landlord'
+      category: 'landlord',
+      initialvalues_method_key: 'owner'
     },
 
     management_address: {
@@ -1477,7 +1581,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'management_address_translation',
       translation_key: 'managementAddress',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
 
     management_address_translation: {
@@ -1491,7 +1596,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'managementAddress',
       category: 'management',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     management_company: {
@@ -1505,7 +1611,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
       translation_key: 'managementCompany',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
 
     management_company_translation: {
@@ -1519,7 +1626,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'managementCompany',
       category: 'management',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     management_name: {
@@ -1533,7 +1641,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'management_name_translation',
       translation_key: 'managementName',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
 
     management_name_translation: {
@@ -1547,7 +1656,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'managementName',
       category: 'management',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     management_phone: {
@@ -1560,7 +1670,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'managementPhone',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
 
     management_registration_number_front: {
@@ -1573,7 +1684,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'registrationNoFirst',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
     # management_registration_type: {
     #   name: 'management_registration_type',
@@ -1596,10 +1708,12 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'registration',
-      category: 'management'
+      category: 'management',
+      initialvalues_method_key: 'management'
     },
 
     # chnaged from building_owner_name address and phone;
+    # IMPORTANT: flat_owner is the owner of the flat, not the landlord who can be other than the actual owner
     flat_owner_address: {
       name: 'flat_owner_address',
       input_type: 'string',
@@ -1613,7 +1727,9 @@ module FixedTermRentalContractBilingualAll
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
       translation_key: 'ownerAddress',
-      category: 'owner'
+      category: 'flat_owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_address'
     },
 
     flat_owner_address_translation: {
@@ -1627,7 +1743,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'ownerAddress',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_address'
     },
 
     flat_owner_company: {
@@ -1643,7 +1761,9 @@ module FixedTermRentalContractBilingualAll
       translation_column: 'owner_name',
       translation_field: 'flat_owner_company_translation',
       translation_key: 'ownerCompany',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_name'
     },
 
     flat_owner_company_translation: {
@@ -1657,7 +1777,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'ownerCompany',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_name'
     },
 
     flat_owner_name: {
@@ -1673,7 +1795,9 @@ module FixedTermRentalContractBilingualAll
       translation_column: 'owner_contact_name',
       translation_field: 'flat_owner_name_translation',
       translation_key: 'ownertName',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_contact_name'
     },
 
     flat_owner_name_translation: {
@@ -1687,7 +1811,9 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'ownertName',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_contact_name'
     },
 
     flat_owner_phone: {
@@ -1701,7 +1827,10 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       record_column: 'owner_phone',
       translation_key: 'ownerPhone',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_phone',
+      language_independent: true
     },
 
     tenant_name: {
@@ -1714,7 +1843,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'nameTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     tenant_age: {
@@ -1727,7 +1857,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'ageTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     tenant_phone: {
@@ -1740,7 +1871,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'phoneTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     co_tenant_name: {
@@ -1753,7 +1885,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'nameCoTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     co_tenant_age: {
@@ -1766,7 +1899,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'ageCoTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     co_tenant_name_1: {
@@ -1779,7 +1913,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'nameCoTenant1',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
       # required: true
     },
 
@@ -1793,7 +1928,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'ageCoTenant1',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
       # required: true
     },
 
@@ -1807,7 +1943,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'nameCoTenant2',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     co_tenant_age_2: {
@@ -1820,7 +1957,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'ageCoTenant2',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     co_tenants: {
@@ -1833,7 +1971,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'cotenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
     },
 
     emergency_contact_address: {
@@ -1847,7 +1986,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'address',
       category: 'tenant',
-      group: 'emergencyContact'
+      group: 'emergencyContact',
+      initialvalues_method_key: 'tenant'
     },
 
   emergency_contact_name: {
@@ -1861,7 +2001,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'name',
       category: 'tenant',
-      group: 'emergencyContact'
+      group: 'emergencyContact',
+      initialvalues_method_key: 'tenant'
     },
 
     emergency_contact_phone: {
@@ -1875,7 +2016,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'phone',
       category: 'tenant',
-      group: 'emergencyContact'
+      group: 'emergencyContact',
+      initialvalues_method_key: 'tenant'
     },
 
     emergency_contact_relationship: {
@@ -1889,7 +2031,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'relationship',
       category: 'tenant',
-      group: 'emergencyContact'
+      group: 'emergencyContact',
+      initialvalues_method_key: 'tenant'
     },
 
     guarantor_address: {
@@ -1904,7 +2047,8 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'guarantor_address_translation',
       translation_key: 'addressGuarantee',
       category: 'tenant',
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_address_translation: {
@@ -1919,7 +2063,8 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'addressGuarantee',
       category: 'tenant',
       translation_object: true,
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_name: {
@@ -1934,7 +2079,8 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'guarantor_name_translation',
       translation_key: 'nameGuarantee',
       category: 'tenant',
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_name_translation: {
@@ -1949,7 +2095,8 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'nameGuarantee',
       category: 'tenant',
       translation_object: true,
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_phone: {
@@ -1963,7 +2110,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'phoneGuarantee',
       category: 'tenant',
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_type: {
@@ -1977,7 +2125,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'ministersRegistrationGuarantee',
       category: 'tenant',
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
 
     guarantor_registration: {
@@ -1991,7 +2140,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'registrationGuarantee',
       category: 'tenant',
-      group: 'guarantor'
+      group: 'guarantor',
+      initialvalues_method_key: 'guarantor'
     },
   #
   #
@@ -2008,7 +2158,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'year',
       category: 'agreement',
-      group: 'agreementDate'
+      group: 'agreementDate',
+      initialvalues_method_key: 'agreement'
     },
 
     contract_month: {
@@ -2022,7 +2173,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'month',
       category: 'agreement',
-      group: 'agreementDate'
+      group: 'agreementDate',
+      initialvalues_method_key: 'booking'
     },
 
     contract_day: {
@@ -2036,7 +2188,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'day',
       category: 'agreement',
-      group: 'agreementDate'
+      group: 'agreementDate',
+      initialvalues_method_key: 'booking'
     },
 
     owner_address_1: {
@@ -2106,7 +2259,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'addressTenant',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'tenant'
       # translation_field: 'owner_address_translation'
     },
 
@@ -2144,7 +2298,8 @@ module FixedTermRentalContractBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'brokerRegistrationJurisdiction',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_registration_jurisdiction_translation: {
@@ -2157,7 +2312,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'brokerRegistrationJurisdiction',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_registration_grantor: {
@@ -2174,7 +2330,8 @@ module FixedTermRentalContractBilingualAll
       height: '23px',
       component: 'DocumentChoices',
       translation_key: 'brokerRegistrationGrantor',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
       # borderColor: 'blue'
     },
 
@@ -2188,7 +2345,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'licenseNoFirst',
       category: 'broker',
-      group: 'brokerLicenseNumber'
+      group: 'brokerLicenseNumber',
+      initialvalues_method_key: 'management'
     },
 
     broker_registration_number: {
@@ -2201,7 +2359,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'license',
       category: 'broker',
-      group: 'brokerLicenseNumber'
+      group: 'brokerLicenseNumber',
+      initialvalues_method_key: 'management'
     },
 
     broker_address_hq: {
@@ -2214,7 +2373,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'broker_address_hq_translation',
       translation_key: 'brokerAddress',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_address_hq_translation: {
@@ -2227,7 +2387,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'brokerAddress',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_company_name: {
@@ -2240,7 +2401,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'broker_company_name_translation',
       translation_key: 'brokerCompanyName',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_company_name_translation: {
@@ -2253,7 +2415,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'brokerCompanyName',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_representative_name: {
@@ -2266,7 +2429,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_field: 'broker_representative_name_translation',
       translation_key: 'brokerRepresentative',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_representative_name_translation: {
@@ -2279,7 +2443,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'brokerRepresentative',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_registration_jurisdiction: {
@@ -2292,7 +2457,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'brokerStaffRegJurisdiction',
       category: 'broker',
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_registration_jurisdiction_translation: {
@@ -2306,7 +2472,8 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'brokerStaffRegJurisdiction',
       category: 'broker',
       translation_object: true,
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_registration: {
@@ -2319,7 +2486,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'licenseNumber',
       category: 'broker',
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_name: {
@@ -2333,7 +2501,8 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'broker_staff_name_translation',
       translation_key: 'nameBroker',
       category: 'broker',
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_name_translation: {
@@ -2347,7 +2516,43 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'nameBroker',
       category: 'broker',
       translation_object: true,
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
+    },
+    # !!!!!!! amenities_list and translation just for development take out later
+    amenities_list: {
+      name: 'amenities_list',
+      input_type: 'text',
+      choices: {
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+      },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_field: 'amenities_list_translation',
+      translation_key: 'amenities',
+      # category: 'broker',
+      # group: 'brokerStaff'
+      # agreement_id just to mimic a template element
+      agreement_id: 5,
+      list_parameters: "fixed_term_rental_contract_bilingual,base,amenities,true,bath_tub,shower,ac,auto_lock"
+    },
+
+    # !!!!!!! amenities_list and translation just for development take out later
+    amenities_list_translation: {
+      name: 'amenities_list_translation',
+      input_type: 'text',
+      choices: {
+        :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+      },
+      className: 'form-control-document',
+      component: 'DocumentChoices',
+      translation_key: 'amenities',
+      # category: 'broker',
+      translation_object: true,
+      # group: 'brokerStaff'
+      # agreement_id just to mimic a template element
+      agreement_id: 5,
+      list_parameters: "fixed_term_rental_contract_bilingual,translation,amenities,true,bath_tub,shower,ac,auto_lock"
     },
   # }
       #

@@ -1095,6 +1095,11 @@ module DocumentTranslationFixedTermAll
       translations: { en: 'Seal', po: '', jp: '' },
       attributes: { top: '82.4%', left: '87%', font_size: '10', class_name: 'document-translation' }
     },
+
+    amenities: {
+      translations: { en: 'Amenities', po: '', jp: '設備' },
+      attributes: nil
+    },
   # }
 }
     # object = fixed_term_rental
