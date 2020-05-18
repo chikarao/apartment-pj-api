@@ -3,6 +3,11 @@ module DocumentConstants
   # CONSTANT for fetch_translation and save and create agreement in booking
   # def important_points_explanation_translation
     # include ImportantPointsExplanationTranslation
+    INCLUDED_CHOICES = {
+      0 => { value: false, en: 'Not included', jp: '込まれない', type: 'boolean', className: 'form-rectangle' },
+      1 => { value: true, en: 'Included', jp: '込み', type: 'boolean', className: 'form-rectangle' }
+    };
+
     AmenitiesChoices = {
       0 => { value: 1, en: 'Yes', jp: '有り', type: 'boolean', className: 'form-rectangle' },
       1 => { value: 0, en: 'No', jp: '無し', type: 'boolean', className: 'form-rectangle' }
@@ -770,7 +775,7 @@ module DocumentConstants
         :inputFieldValue => { value: '', en: 'Enter other...', jp: 'その他...', type: 'string', component: 'input', className: 'form-rectangle form-input' }
       }
     },
-    
+
     transfer_fee_paid_by: {
       name: 'transfer_fee_paid_by',
       en: 'Transfer Fee Paid By',

@@ -9,6 +9,7 @@ module FixedTermRentalContractBilingualAll
   amenities = DocumentConstants::AMENITIES
   flat = DocumentConstants::FLAT_FOR_DOCUMENTS
   rent_payment = DocumentConstants::RENT_PAYMENT
+  facility_included = DocumentConstants::INCLUDED_CHOICES
 
     OBJECT =
     {
@@ -690,8 +691,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -733,8 +736,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '12.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '12.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '12.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '12.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -776,8 +781,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '16%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '16%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '16%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '16%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -819,8 +826,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '19.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '19.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '19.5%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '19.5%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -862,8 +871,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '22.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '22.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '22.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '22.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
@@ -878,8 +889,10 @@ module FixedTermRentalContractBilingualAll
         input_type: 'boolean',
         choices: {
           # add 1.5% to top
-          0 => { valName: 'y', params: { val: true, top: '25.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' } },
-          1 => { valName: 'n', params: { val: false, top: '25.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' } }
+          true => { valName: 'y', params: { val: true, top: '25.9%', left: '45%', width: '4.3%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[1]},
+          false => { valName: 'n', params: { val: false, top: '25.9%', left: '50.7%', width: '8%', class_name: 'document-rectangle', input_type: 'button' },
+                                        translation: facility_included[0]}
         },
         className: 'form-control-document',
         component: 'DocumentChoices',
