@@ -17,7 +17,8 @@ class BookingSerializer < ActiveModel::Serializer
   :paid,
   :flat,
   :user,
-  :facilities,
+  # :facilities,
+  :facility_bookings,
   :tenants,
   :contracts,
   :agreements
@@ -33,6 +34,20 @@ class BookingSerializer < ActiveModel::Serializer
   has_many :tenants
   has_many :contracts
   has_many :agreements
+
+  def facility_bookings
+    array = []
+    custom_facility_booking = {}
+    if !object.facility_bookings.empty?
+      object.facility_bookings.each do |each|
+        # p '!!!!!!!!!!!!!!!!booking_serializer each: ' + each.to_s
+        custom_facility_booking = each.attributes
+        custom_facility_booking['facility'] = each.facility
+        array.push(custom_facility_booking)
+      end
+    end
+    return array
+  end
 
   # def flat
   #   FlatSerializer.new(object.flat, root: false)

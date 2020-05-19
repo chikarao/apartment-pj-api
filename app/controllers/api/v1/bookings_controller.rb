@@ -19,6 +19,7 @@ class Api::V1::BookingsController < ApplicationController
   include ImportantPointsExplanationBilingualAll
   include CreatePdf
   include TemplateElementFunctions
+  include DocumentConstants
   # before_action :ensure_params_exist, only: :create
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :update, :destroy]
@@ -110,6 +111,9 @@ class Api::V1::BookingsController < ApplicationController
 
     fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
     important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
+    document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
+                           facility: DocumentConstants::FACILITY
+                         }
 
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
@@ -128,7 +132,8 @@ class Api::V1::BookingsController < ApplicationController
       fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
-      template_mapping_object_important_points: template_mapping_object_important_points.to_json
+      template_mapping_object_important_points: template_mapping_object_important_points.to_json,
+      document_constants: document_constants.to_json
       }, :ok
   end
 

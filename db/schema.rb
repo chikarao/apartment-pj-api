@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200511050532) do
+ActiveRecord::Schema.define(version: 20200519064119) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -392,6 +392,7 @@ ActiveRecord::Schema.define(version: 20200511050532) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "list_parameters"
+    t.boolean "translation", default: false
     t.index ["document_field_id"], name: "index_document_field_choices_on_document_field_id"
   end
 
@@ -467,6 +468,25 @@ ActiveRecord::Schema.define(version: 20200511050532) do
     t.boolean "on_building_grounds", default: true
     t.index ["booking_id"], name: "index_facilities_on_booking_id"
     t.index ["flat_id"], name: "index_facilities_on_flat_id"
+  end
+
+  create_table "facility_bookings", force: :cascade do |t|
+    t.integer "booking_id"
+    t.integer "facility_id"
+    t.integer "user_id"
+    t.float "price_per_month"
+    t.date "date_start"
+    t.date "date_end"
+    t.float "discount"
+    t.float "facility_deposit"
+    t.float "facility_key_money"
+    t.float "facility_management_fees"
+    t.float "facility_broker_fees"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_facility_bookings_on_booking_id"
+    t.index ["facility_id"], name: "index_facility_bookings_on_facility_id"
+    t.index ["user_id"], name: "index_facility_bookings_on_user_id"
   end
 
   create_table "flat_languages", force: :cascade do |t|

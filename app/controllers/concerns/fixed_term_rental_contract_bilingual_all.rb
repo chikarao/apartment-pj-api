@@ -700,7 +700,7 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'parkingIncluded',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'flat',
       },
 
       parking_spaces: {
@@ -714,7 +714,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'parkingSpaces',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'car_parking'
       },
 
       parking_space_number: {
@@ -728,7 +729,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'parkingNumber',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'car_parking'
       },
 
       bicycle_parking_included: {
@@ -745,7 +747,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingIncluded',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'bicycle_parking'
       },
 
       bicycle_parking_spaces: {
@@ -759,7 +762,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingSpaces',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'bicycle_parking'
       },
 
       bicycle_parking_space_number: {
@@ -773,7 +777,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'bicycleParkingNumber',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'bicycle_parking'
       },
 
       motorcycle_parking_included: {
@@ -790,7 +795,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingIncluded',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'motorcycle_parking'
       },
 
       motorcycle_parking_spaces: {
@@ -804,7 +810,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingSpaces',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'motorcycle_parking'
       },
 
       motorcycle_parking_space_number: {
@@ -818,7 +825,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'motocycleParkingNumber',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'motorcycle_parking'
       },
 
       storage_included: {
@@ -835,7 +843,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'storageIncluded',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'storage'
       },
 
       storage_spaces: {
@@ -849,7 +858,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'storageSpaces',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'storage'
       },
 
       storage_space_number: {
@@ -863,7 +873,8 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'storageNumber',
         category: 'flat',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'facility',
+        base_key: 'storage'
       },
 
       dedicated_yard: {
@@ -881,7 +892,8 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'ownYard',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'flat'
+        initialvalues_method_key: 'amenities',
+        # base_key: 'dedicated_yard'
       },
 
       other_facility: {
@@ -1445,7 +1457,7 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'facilityUsageFee',
         category: 'agreement',
-        initialvalues_method_key: 'booking'
+        initialvalues_method_key: 'facility'
       },
 
       other_fees: {

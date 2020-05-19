@@ -11,6 +11,7 @@ class Booking < ApplicationRecord
   has_many :contracts, dependent: :nullify
   has_many :contracted_users, through: :contracts, source: :user
   has_many :agreements, dependent: :destroy
+  has_many :facility_bookings, dependent: :destroy
 
   validates :date_start, presence: true
   validates :date_end, presence: true

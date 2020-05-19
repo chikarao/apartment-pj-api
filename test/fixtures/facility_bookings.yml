@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking: one
+  facility: one
+  user: one
+  price_per_month: 1.5
+  date_start: 2020-05-19
+  date_end: 2020-05-19
+  discount: 1.5
+  facility_deposit: 1.5
+  facility_key_money: 1.5
+  facility_management_fees: 1.5
+  facility_broker_fees: 1.5
+
+two:
+  booking: two
+  facility: two
+  user: two
+  price_per_month: 1.5
+  date_start: 2020-05-19
+  date_end: 2020-05-19
+  discount: 1.5
+  facility_deposit: 1.5
+  facility_key_money: 1.5
+  facility_management_fees: 1.5
+  facility_broker_fees: 1.5

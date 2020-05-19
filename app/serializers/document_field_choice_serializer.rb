@@ -24,7 +24,8 @@ class DocumentFieldChoiceSerializer < ActiveModel::Serializer
   :font_weight,
   :font_family,
   :input_type,
-  # select_choices returned in custom serializer in agreement serializer 
+  :translation,
+  # select_choices returned in custom serializer in agreement serializer
   # :select_choices,
   :created_at,
   :updated_at
