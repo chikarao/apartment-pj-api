@@ -943,6 +943,7 @@ users.each do |user|
           staff_base_record_id = staff[:base_record] ? nil : staff_base_record_id
           new_staff.base_record_id = staff_base_record_id
           new_staff.save
+          staff_base_record_id = contractor[:base_record] ? new_staff.id : nil
         end
       end
     end
@@ -1132,7 +1133,7 @@ flats.each do |flat|
       end
       contracts.each do |contract|
         new_contract = Contract.new(
-          work_type: contract[:rental_broker],
+          work_type: contract[:work_type],
           work_sub_type: contract[:work_sub_type],
           contract_price: contract[:contract_price],
           total_price: contract[:total_price],

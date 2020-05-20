@@ -372,7 +372,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'bathTub',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         shower: {
@@ -388,7 +388,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'shower',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         wash_basin: {
@@ -404,7 +404,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'washBasin',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         washer_dryer_area: {
@@ -420,7 +420,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'washerArea',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         hot_water: {
@@ -436,7 +436,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'waterHeater',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         kitchen_grill: {
@@ -452,7 +452,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'kitchenStove',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
         },
 
         parcel_delivery_box: {
@@ -468,7 +468,7 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'parcelBox',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenities'
+          initialvalues_method_key: 'amenity'
       },
 
       ac: {
@@ -484,7 +484,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'ac',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       lighting_fixed: {
@@ -500,7 +500,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'fixedLighting',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       auto_lock: {
@@ -516,7 +516,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'autoLock',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
       # cable_tv includes digital
       cable_tv: {
@@ -532,7 +532,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'digitalTv',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       internet_ready: {
@@ -548,7 +548,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'internetReady',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       mail_box: {
@@ -564,7 +564,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'mailBox',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       lock_key: {
@@ -580,7 +580,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'lock_key',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities'
+        initialvalues_method_key: 'amenity'
       },
 
       key_number: {
@@ -892,7 +892,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'ownYard',
         category: 'flat',
         group: 'amenities',
-        initialvalues_method_key: 'amenities',
+        initialvalues_method_key: 'amenity',
         # base_key: 'dedicated_yard'
       },
 
@@ -1493,7 +1493,8 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'owner_address_translation',
       translation_key: 'landlordAddress',
       category: 'landlord',
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
       # actual_record_key: 'owner_address'
     },
 
@@ -1509,7 +1510,8 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'landlordAddress',
       category: 'landlord',
       translation_object: true,
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
       # actual_record_key: 'owner_address'
     },
 
@@ -1527,7 +1529,8 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'owner_company_translation',
       translation_key: 'landordCompanyName',
       category: 'landlord',
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
       # actual_record_key: 'owner_name'
     },
 
@@ -1543,8 +1546,9 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'landordCompanyName',
       category: 'landlord',
       translation_object: true,
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
       # actual_record_key: 'owner_name'
+      record: 'user_owner',
     },
 
     owner_name: {
@@ -1561,8 +1565,9 @@ module FixedTermRentalContractBilingualAll
       translation_field: 'owner_name_translation',
       translation_key: 'landlordName',
       category: 'landlord',
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
       # actual_record_key: 'owner_contact_name'
+      record: 'user_owner',
     },
 
     owner_name_translation: {
@@ -1577,7 +1582,8 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'landlordName',
       category: 'landlord',
       translation_object: true,
-      initialvalues_method_key: 'owner',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
       # actual_record_key: 'owner_contact_name'
     },
 
@@ -1592,7 +1598,8 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordPhone',
       category: 'landlord',
-      initialvalues_method_key: 'owner'
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
     },
 
     management_address: {
@@ -1869,7 +1876,7 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'nameTenant',
       category: 'tenant',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     tenant_age: {
@@ -1883,7 +1890,7 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'ageTenant',
       category: 'tenant',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     tenant_phone: {
@@ -1897,7 +1904,7 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'phoneTenant',
       category: 'tenant',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     co_tenant_name: {
@@ -2012,7 +2019,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'address',
       category: 'tenant',
       group: 'emergencyContact',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
   emergency_contact_name: {
@@ -2027,7 +2034,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'name',
       category: 'tenant',
       group: 'emergencyContact',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     emergency_contact_phone: {
@@ -2042,7 +2049,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'phone',
       category: 'tenant',
       group: 'emergencyContact',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     emergency_contact_relationship: {
@@ -2057,7 +2064,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'relationship',
       category: 'tenant',
       group: 'emergencyContact',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
     },
 
     guarantor_address: {
@@ -2285,7 +2292,7 @@ module FixedTermRentalContractBilingualAll
       component: 'DocumentChoices',
       translation_key: 'addressTenant',
       category: 'tenant',
-      initialvalues_method_key: 'tenant'
+      initialvalues_method_key: 'profile'
       # translation_field: 'owner_address_translation'
     },
 

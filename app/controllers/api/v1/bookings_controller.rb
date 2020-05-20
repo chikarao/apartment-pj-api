@@ -112,7 +112,8 @@ class Api::V1::BookingsController < ApplicationController
     fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
     important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
     document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
-                           facility: DocumentConstants::FACILITY
+                           facility: DocumentConstants::FACILITY,
+                           tenants: DocumentConstants::TENANTS
                          }
 
     contract_serializer = parse_json contracts

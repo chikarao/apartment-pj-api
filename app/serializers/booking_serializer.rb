@@ -22,9 +22,6 @@ class BookingSerializer < ActiveModel::Serializer
   :tenants,
   :contracts,
   :agreements
-  # :total_reviews
-  # :average_rating_of_book,
-  # :content_rating_of_book, :recommend_rating_of_book,
 
   # do not need
   # belongs_to :flat, serializer: FlatSerializer
@@ -48,6 +45,9 @@ class BookingSerializer < ActiveModel::Serializer
     end
     return array
   end
+  # :total_reviews
+  # :average_rating_of_book,
+  # :content_rating_of_book, :recommend_rating_of_book,
 
   # def flat
   #   FlatSerializer.new(object.flat, root: false)

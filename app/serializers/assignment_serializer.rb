@@ -24,6 +24,9 @@ class AssignmentSerializer < ActiveModel::Serializer
   belongs_to :contract
   # has_many :flats
   # has_many :inspections
+  # def staff
+  #   StaffSerializer.new(object.staff, root: false)
+  # end
 
   # !!!!!!add building_type to replace type; does not show up in serialized results
 end
