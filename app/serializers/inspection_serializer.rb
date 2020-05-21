@@ -39,7 +39,7 @@ class InspectionSerializer < ActiveModel::Serializer
     :architect_office_registration_jurisdiction,
     :architect_registration_jurisdiction,
     :halls,
-    :degradations,
+    # :degradations,
     :created_at,
     :updated_at
   # has_many :flats

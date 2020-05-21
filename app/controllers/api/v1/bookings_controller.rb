@@ -113,8 +113,8 @@ class Api::V1::BookingsController < ApplicationController
     important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
     document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
                            facility: DocumentConstants::FACILITY,
-                           tenants: DocumentConstants::TENANTS
-                           # inspection: DocumentConstants::INSPECTION
+                           tenants: DocumentConstants::TENANTS,
+                           inspection: DocumentConstants::INSPECTION
                          }
 
     contract_serializer = parse_json contracts
