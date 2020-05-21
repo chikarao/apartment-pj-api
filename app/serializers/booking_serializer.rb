@@ -21,7 +21,8 @@ class BookingSerializer < ActiveModel::Serializer
   :facility_bookings,
   :tenants,
   :contracts,
-  :agreements
+  :agreements,
+  :agreements_mapped
 
   # do not need
   # belongs_to :flat, serializer: FlatSerializer
@@ -44,6 +45,18 @@ class BookingSerializer < ActiveModel::Serializer
       end
     end
     return array
+  end
+
+  # get mapped hash object of agreements; i.e. booking.agreements_mapped: { agreement_id: agreement }
+  def agreements_mapped
+    custom_agreement = {}
+    object_mapped = {}
+    if !object.agreements.empty?
+      object.agreements.each do |each|
+        object_mapped[each.id] = each
+      end
+    end
+    return object_mapped
   end
   # :total_reviews
   # :average_rating_of_book,

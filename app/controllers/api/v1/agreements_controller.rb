@@ -233,7 +233,8 @@ class Api::V1::AgreementsController < ApplicationController
       :language_code_1,
       :template_file_name,
       :document_code,
-      :document_pages
+      :document_pages,
+      :document_type
       # document_fields_attributes: [
     )
   end

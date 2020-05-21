@@ -38,9 +38,39 @@ class InspectionSerializer < ActiveModel::Serializer
     :inspection_language,
     :architect_office_registration_jurisdiction,
     :architect_registration_jurisdiction,
-    :halls
+    :halls,
+    :degradations,
+    :created_at,
+    :updated_at
   # has_many :flats
   belongs_to :building
+
+  # def degradations
+  #   return {
+  #     :foundation => object.foundation,
+  #     :floor_assembly => object.floor_assembly,
+  #     :floor => object.floor,
+  #     :pillars => object.pillars,
+  #     :exterior_walls => object.exterior_walls,
+  #     :balcony => object.balcony,
+  #     :interior_walls => object.interior_walls,
+  #     :ceilings => object.ceilings,
+  #     :roof_truss => object.roof_truss,
+  #     :termite_damage => object.termite_damage,
+  #     :corrosion => object.corrosion,
+  #     :reinforcement => object.reinforcement,
+  #     :concrete_compression => object.concrete_compression,
+  #     :exterior_walls_rain => object.exterior_walls_rain,
+  #     :eaves_rain => object.eaves_rain,
+  #     :balcony_rain => object.balcony_rain,
+  #     :interior_walls_rain => object.interior_walls_rain,
+  #     :ceilings_rain => object.ceilings_rain,
+  #     :roof_truss_rain => object.roof_truss_rain,
+  #     :roof => object.roof,
+  #     :exterior_walls_rain => object.exterior_walls_rain,
+  #     :halls => object.halls,
+  #   }
+  # end
 
   # !!!!!!add building_type to replace type; does not show up in serialized results
 end
