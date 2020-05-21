@@ -37,6 +37,7 @@ module FixedTermRentalContractBilingualAll
           required: true,
           # translation_key: 'documentTitle',
           # category: 'document'
+          initialvalues_method_key: 'document'
         },
 
         name: {
@@ -2191,7 +2192,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'year',
       category: 'agreement',
       group: 'agreementDate',
-      initialvalues_method_key: 'agreement'
+      initialvalues_method_key: 'document'
     },
 
     contract_month: {
@@ -2206,7 +2207,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'month',
       category: 'agreement',
       group: 'agreementDate',
-      initialvalues_method_key: 'booking'
+      initialvalues_method_key: 'document'
     },
 
     contract_day: {
@@ -2221,7 +2222,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'day',
       category: 'agreement',
       group: 'agreementDate',
-      initialvalues_method_key: 'booking'
+      initialvalues_method_key: 'document'
     },
 
     owner_address_1: {

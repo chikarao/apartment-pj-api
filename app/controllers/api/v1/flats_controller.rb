@@ -220,12 +220,13 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 1/16/2020 to Ya.i, Ya.g, Ta.i, Ya.g
     # changed yet again 1/17/2020 to pa.h, pa.g, ka.h, ka.g
     # changed yet again 1/24/2020 back to Ya.i, Ya.g, Ta.i, Ya.g
+    # changed yet again 5/21/2020 back to Ya.i, Ya.j, Ua.i, Ua.j
     north_south_first = 'Ya'
-    south_second = 'g'
-    north_second = 'i'
-    east_west_first = 'Ta'
-    west_second = 'g'
-    east_second = 'i'
+    south_second = 'i'
+    north_second = 'j'
+    east_west_first = 'Ua'
+    west_second = 'i'
+    east_second = 'j'
     # Sample bounds logs from Googlemap API for illustration
     # 1/24/20
     # north_second is the larger number of 37....
