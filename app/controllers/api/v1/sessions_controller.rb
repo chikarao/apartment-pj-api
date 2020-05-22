@@ -45,6 +45,7 @@ class Api::V1::SessionsController < Devise::SessionsController
     if result || set_get_online_offline_params[:action] = 'get'
       if $redis
         user_status_hash = get_user_status_by_user_id(@user.id)
+        p "***************** $redis, user_status_hash: " + $redis.to_s + ' ' + user_status_hash.to_s
         if !user_status_hash
           user_status_hash = set_last_user_activity({user_id: @user.id, logged_in: true, online: online, keep_online_status: false})
         end

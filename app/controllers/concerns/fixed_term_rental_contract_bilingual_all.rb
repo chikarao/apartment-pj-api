@@ -1495,7 +1495,7 @@ module FixedTermRentalContractBilingualAll
       translation_key: 'landlordAddress',
       category: 'landlord',
       initialvalues_method_key: 'profile',
-      record: 'user_owner',
+      record: 'user_owner'
       # actual_record_key: 'owner_address'
     },
 
@@ -1584,7 +1584,7 @@ module FixedTermRentalContractBilingualAll
       category: 'landlord',
       translation_object: true,
       initialvalues_method_key: 'profile',
-      record: 'user_owner',
+      record: 'user_owner'
       # actual_record_key: 'owner_contact_name'
     },
 
@@ -2553,40 +2553,40 @@ module FixedTermRentalContractBilingualAll
       initialvalues_method_key: 'management'
     },
     # !!!!!!! amenities_list and translation just for development take out later
-    amenities_list: {
-      name: 'amenities_list',
-      input_type: 'text',
-      choices: {
-        :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
-      },
-      className: 'form-control-document',
-      component: 'DocumentChoices',
-      translation_field: 'amenities_list_translation',
-      translation_key: 'amenities',
-      # category: 'broker',
-      # group: 'brokerStaff'
-      # agreement_id just to mimic a template element
-      agreement_id: 5,
-      list_parameters: "fixed_term_rental_contract_bilingual,base,amenities,true,bath_tub,shower,ac,auto_lock"
-    },
-
-    # !!!!!!! amenities_list and translation just for development take out later
-    amenities_list_translation: {
-      name: 'amenities_list_translation',
-      input_type: 'text',
-      choices: {
-        :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
-      },
-      className: 'form-control-document',
-      component: 'DocumentChoices',
-      translation_key: 'amenities',
-      # category: 'broker',
-      translation_object: true,
-      # group: 'brokerStaff'
-      # agreement_id just to mimic a template element
-      agreement_id: 5,
-      list_parameters: "fixed_term_rental_contract_bilingual,translation,amenities,true,bath_tub,shower,ac,auto_lock"
-    },
+    # amenities_list: {
+    #   name: 'amenities_list',
+    #   input_type: 'text',
+    #   choices: {
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+    #   },
+    #   className: 'form-control-document',
+    #   component: 'DocumentChoices',
+    #   translation_field: 'amenities_list_translation',
+    #   translation_key: 'amenities',
+    #   # category: 'broker',
+    #   # group: 'brokerStaff'
+    #   # agreement_id just to mimic a template element
+    #   agreement_id: 5,
+    #   list_parameters: "fixed_term_rental_contract_bilingual,base,amenities,true,bath_tub,shower,ac,auto_lock"
+    # },
+    #
+    # # !!!!!!! amenities_list and translation just for development take out later
+    # amenities_list_translation: {
+    #   name: 'amenities_list_translation',
+    #   input_type: 'text',
+    #   choices: {
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+    #   },
+    #   className: 'form-control-document',
+    #   component: 'DocumentChoices',
+    #   translation_key: 'amenities',
+    #   # category: 'broker',
+    #   translation_object: true,
+    #   # group: 'brokerStaff'
+    #   # agreement_id just to mimic a template element
+    #   agreement_id: 5,
+    #   list_parameters: "fixed_term_rental_contract_bilingual,translation,amenities,true,bath_tub,shower,ac,auto_lock"
+    # },
   # }
       #
   }

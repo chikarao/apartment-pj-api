@@ -39,6 +39,7 @@ module ImportantPointsExplanationBilingualAll
       required: true,
       # translation_key: 'documentTitle',
       # category: 'document'
+      initialvalues_method_key: 'document'
     },
 
     tenant_name: {
@@ -50,7 +51,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'name',
-      category: 'tenant'
+      category: 'tenant',
+      initialvalues_method_key: 'profile'
     },
 
     date_year: {
@@ -63,7 +65,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'year',
       category: 'document',
-      group: 'documentDate'
+      group: 'documentDate',
+      initialvalues_method_key: 'document'
     },
 
     date_month: {
@@ -76,7 +79,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'month',
       category: 'document',
-      group: 'documentDate'
+      group: 'documentDate',
+      initialvalues_method_key: 'document'
     },
 
     date_day: {
@@ -89,7 +93,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'day',
       category: 'document',
-      group: 'documentDate'
+      group: 'documentDate',
+      initialvalues_method_key: 'document'
     },
 
     broker_company_name: {
@@ -102,7 +107,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'companyName',
       category: 'broker',
-      translation_field: 'broker_company_name_translation'
+      translation_field: 'broker_company_name_translation',
+      initialvalues_method_key: 'management'
     },
 
     broker_company_name_translation: {
@@ -116,7 +122,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'companyName',
       category: 'broker',
       #translation_object means it is a translation for template_element_object
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_representative_name: {
@@ -129,7 +136,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'nameOfRepresentative',
       category: 'broker',
-      translation_field: 'broker_representative_name_translation'
+      translation_field: 'broker_representative_name_translation',
+      initialvalues_method_key: 'management'
     },
 
     broker_representative_name_translation: {
@@ -142,7 +150,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'nameOfRepresentative',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_address_hq: {
@@ -155,7 +164,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'mainOffice',
       category: 'broker',
-      translation_field: 'broker_address_hq_translation'
+      translation_field: 'broker_address_hq_translation',
+      initialvalues_method_key: 'management'
     },
 
     broker_address_hq_translation: {
@@ -168,7 +178,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'mainOffice',
       category: 'broker',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'management'
     },
 
     broker_registration_number: {
@@ -180,7 +191,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'licensedNumber',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_registration_date: {
@@ -192,7 +204,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'dateLicensed',
-      category: 'broker'
+      category: 'broker',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_name: {
@@ -206,7 +219,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameAgent',
       category: 'broker',
       group: 'brokerStaff',
-      translation_field: 'broker_staff_name_translation'
+      translation_field: 'broker_staff_name_translation',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_name_translation: {
@@ -220,7 +234,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameAgent',
       category: 'broker',
       translation_object: true,
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_registration: {
@@ -233,7 +248,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'registrationNumberAgent',
       category: 'broker',
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_address: {
@@ -247,7 +263,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'officeAddress',
       category: 'broker',
       group: 'brokerStaff',
-      translation_field: 'broker_staff_address_translation'
+      translation_field: 'broker_staff_address_translation',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_address_translation: {
@@ -261,7 +278,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'officeAddress',
       category: 'broker',
       translation_object: true,
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     broker_staff_phone: {
@@ -274,7 +292,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'phone',
       category: 'broker',
-      group: 'brokerStaff'
+      group: 'brokerStaff',
+      initialvalues_method_key: 'management'
     },
 
     contract_work_sub_type: {
@@ -294,7 +313,7 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'contractWorkSubType',
       category: 'broker',
-      # translationInChoices: true
+      initialvalues_method_key: 'management'
     },
 
     address: {
@@ -311,8 +330,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'address_translation',
       translation_key: 'addressBuilding',
-      category: 'building'
-      # translation_field: 'address_translation'
+      category: 'building',
+      initialvalues_method_key: 'building'
     },
 
     address_translation: {
@@ -325,7 +344,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'addressBuilding',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
     # name is building name
     name: {
@@ -342,8 +362,9 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'name_translation',
       translation_key: 'nameBuilding',
-      category: 'building'
+      category: 'building',
       # translation_sibling: 'name_translation'
+      initialvalues_method_key: 'building'
     },
 
     name_translation: {
@@ -356,7 +377,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'nameBuilding',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
 
     unit: {
@@ -368,7 +390,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'unit',
-      category: 'flat'
+      category: 'flat',
+      initialvalues_method_key: 'flat'
     },
 
     size: {
@@ -380,7 +403,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'floorArea',
-      category: 'flat'
+      category: 'flat',
+      initialvalues_method_key: 'flat'
     },
 
     floor_area_official: {
@@ -392,7 +416,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'floorAreaOnRecord',
-      category: 'flat'
+      category: 'flat',
+      initialvalues_method_key: 'flat'
     },
 
     construction: {
@@ -425,7 +450,8 @@ module ImportantPointsExplanationBilingualAll
       language_independent: true,
       translation_key: 'construction',
       category: 'building',
-      group: 'construction'
+      group: 'construction',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'construction_translation'
     },
 
@@ -451,7 +477,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'construction',
       category: 'building',
       translation_object: true,
-      group: 'construction'
+      group: 'construction',
+      initialvalues_method_key: 'building'
     },
 
     owner_name: {
@@ -464,7 +491,9 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordName',
       category: 'landlord',
-      translation_field: 'owner_name_translation'
+      translation_field: 'owner_name_translation',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
     },
 
     owner_name_translation: {
@@ -477,7 +506,9 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordName',
       category: 'landlord',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
     },
 
     owner_address: {
@@ -490,7 +521,9 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordAddress',
       category: 'landlord',
-      translation_field: 'owner_address_translation'
+      translation_field: 'owner_address_translation',
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
     },
 
     owner_address_translation: {
@@ -503,7 +536,9 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'landlordAddress',
       category: 'landlord',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'profile',
+      record: 'user_owner',
     },
   #
   # },
@@ -521,7 +556,9 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'owner_contact_name',
       translation_field: 'flat_owner_name_translation',
       translation_key: 'name',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_contact_name'
       # translation_sibling: 'flat_owner_name_translation'
     },
 
@@ -535,7 +572,9 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'name',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_contact_name'
     },
 
     # not using building owner; corresponds to flat owner_address
@@ -552,7 +591,9 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
       translation_key: 'address',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_address'
       # translation_sibling: 'flat_owner_address_translation'
     },
 
@@ -567,7 +608,9 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 50,
       translation_key: 'address',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat',
+      actual_record_key: 'owner_address'
     },
 
     # building_owner_address2 => {
@@ -593,7 +636,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'ownership_rights',
       translation_field: 'ownership_rights_translation',
       translation_key: 'ownershipRights',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat'
       # translation_sibling: 'ownership_rights_translation'
     },
 
@@ -608,7 +652,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 50,
       translation_key: 'ownershipRights',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat'
     },
 
     other_rights: {
@@ -624,7 +669,8 @@ module ImportantPointsExplanationBilingualAll
       translation_column: 'other_rights',
       translation_field: 'other_rights_translation',
       translation_key: 'otherOwnershipRights',
-      category: 'owner'
+      category: 'owner',
+      initialvalues_method_key: 'flat'
       # translation_sibling: 'other_rights_translation'
     },
 
@@ -639,7 +685,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 60,
       translation_key: 'otherOwnershipRights',
       category: 'owner',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'flat'
     },
 
     legal_restrictions: {
@@ -657,7 +704,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'legal_restrictions_translation',
       translation_key: 'mainLegal',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'legal_restrictions_translation'
     },
 
@@ -672,7 +720,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 70,
       translation_key: 'mainLegal',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
 
     legal_restrictions_summary: {
@@ -690,7 +739,8 @@ module ImportantPointsExplanationBilingualAll
       # translation field is the field in the document that takes the translation
       translation_field: 'legal_restrictions_summary_translation',
       translation_key: 'summaryOfRestrictions',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'legal_restrictions_summary_translation'
     },
 
@@ -705,7 +755,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 120,
       translation_key: 'summaryOfRestrictions',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
 
     water: {
@@ -725,7 +776,8 @@ module ImportantPointsExplanationBilingualAll
       # borderColor: 'blue'
       second_click_off: true,
       translation_key: 'water',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building',
     },
 
     water_year: {
@@ -832,7 +884,8 @@ module ImportantPointsExplanationBilingualAll
       # # # translation field is the field in the document that takes the translation
       # translation_field: 'electricity_translation',
       translation_key: 'electricity',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'electricity_translation'
     },
 
@@ -846,7 +899,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'electricity',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
 
     electricity_year: {
@@ -961,7 +1015,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       second_click_off: true,
       translation_key: 'gas',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # borderColor: 'blue',
     },
 
@@ -1118,7 +1173,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'sewage_translation',
       language_independent: true,
       translation_key: 'sewage',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'sewage_translation'
     },
 
@@ -1143,7 +1199,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'sewage',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'building'
     },
 
     sewage_year: {
@@ -1275,7 +1332,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'inspectionConducted',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -1295,7 +1353,9 @@ module ImportantPointsExplanationBilingualAll
       # # translation field is the field in the document that takes the translation
       translation_field: 'building_inspection_summary_translation',
       translation_key: 'inspectionSummaryTemplate',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'inspection',
+      actual_record_key: 'inspection_summary'
       # translation_sibling: 'building_inspection_summary_translation'
     },
 
@@ -1310,7 +1370,9 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'inspectionSummary',
       category: 'building',
-      translation_object: true
+      translation_object: true,
+      initialvalues_method_key: 'inspection',
+      actual_record_key: 'inspection_summary'
     },
   #
   # },
@@ -1353,9 +1415,10 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'kitchen',
       category: 'flat',
-      group: 'kitchen'
+      group: 'kitchen',
       # height: '23px',
       # mapToModel: Amenities,
+      initialvalues_method_key: 'amenity'
     },
 
     kitchen_format: {
@@ -1459,7 +1522,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'toilet',
       category: 'flat',
-      group: 'toilet'
+      group: 'toilet',
+      initialvalues_method_key: 'amenity'
       # height: '23px',
       # mapToModel: FlatForDocuments,!!!!!!!!!
     },
@@ -1565,7 +1629,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'bathtub',
       category: 'flat',
-      group: 'bathTub'
+      group: 'bathTub',
+      initialvalues_method_key: 'amenity'
       # height: '23px',
       # mapToModel: Amenities,
     },
@@ -1671,7 +1736,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'waterHeater',
       category: 'flat',
-      group: 'hotWater'
+      group: 'hotWater',
+      initialvalues_method_key: 'amenity'
       # height: '23px',
       # mapToModel: Amenities,
     },
@@ -1761,7 +1827,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'kitchenStove',
       category: 'flat',
-      group: 'kitchenGrill'
+      group: 'kitchenGrill',
+      initialvalues_method_key: 'amenity'
       # height: '23px',
       # mapToModel: Amenities,!!!!!!!!!!!!!!!!!
     },
@@ -1851,7 +1918,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'select',
       translation_key: 'ac',
       category: 'flat',
-      group: 'ac'
+      group: 'ac',
+      initialvalues_method_key: 'amenity'
       # height: '23px',
       # mapToModel: Amenities,
     },
@@ -2140,7 +2208,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'inDisasterPreventionTemplate',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -2155,7 +2224,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'inLandslideWarningTemplate',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -2170,7 +2240,8 @@ module ImportantPointsExplanationBilingualAll
       className: 'form-control-document',
       component: 'DocumentChoices',
       translation_key: 'inTsunamiWarningTemplate',
-      category: 'building'
+      category: 'building',
+      initialvalues_method_key: 'building'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -2186,7 +2257,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'asbestosRecordsOnRecord',
       category: 'building',
-      group: 'asbestos'
+      group: 'asbestos',
+      initialvalues_method_key: 'building'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -2207,7 +2279,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'asbestos_survey_contents_translation',
       translation_key: 'asbestosSurveyContents',
       category: 'building',
-      group: 'asbestos'
+      group: 'asbestos',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'asbestos_survey_contents_translation'
     },
 
@@ -2223,7 +2296,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'asbestosSurveyContents',
       category: 'building',
       translation_object: true,
-      group: 'asbestos'
+      group: 'asbestos',
+      initialvalues_method_key: 'building'
     },
   # },
   # 4: {
@@ -2238,7 +2312,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'earthQuakeStudyPerformed',
       category: 'building',
-      group: 'earthquake'
+      group: 'earthquake',
+      initialvalues_method_key: 'building'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -2259,7 +2334,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'earthquake_study_contents_translation',
       translation_key: 'earthquakeStudyContents',
       category: 'building',
-      group: 'earthquake'
+      group: 'earthquake',
+      initialvalues_method_key: 'building'
       # translation_sibling: 'earthquake_study_contents_translation'
     },
 
@@ -2275,7 +2351,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'earthquakeStudyContents',
       category: 'building',
       translation_object: true,
-      group: 'earthquake'
+      group: 'earthquake',
+      initialvalues_method_key: 'building'
     },
 
     other_payments1: {
@@ -3424,7 +3501,8 @@ module ImportantPointsExplanationBilingualAll
       height: '23px',
       component: 'DocumentChoices',
       translation_key: 'flatType',
-      category: 'flat'
+      category: 'flat',
+      initialvalues_method_key: 'flat'
     },
 
     # dependentKeys changes other fields to value (self is its own val); eg if below single_family clicked, field flat_sub_types turns to ''
@@ -3461,7 +3539,8 @@ module ImportantPointsExplanationBilingualAll
       summaryKey: true,
       inactive: true,
       translation_key: 'presenceOfDegradationWooden',
-      category: 'inspection'
+      category: 'inspection',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3480,7 +3559,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'foundation',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3499,7 +3579,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'baseAndFloorAssemble',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3518,7 +3599,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'floor',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3537,7 +3619,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'pillarsAndBeams',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3556,7 +3639,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'exteriorWallsAndEaves',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3575,7 +3659,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'balcony',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3594,7 +3679,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'interiorWalls',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3613,7 +3699,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'ceilings',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3632,7 +3719,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofTruss',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3651,7 +3739,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'termiteDamage',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3670,7 +3759,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'rotCorrosion',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3689,7 +3779,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'reinforcementArrangements',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3708,7 +3799,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'concreteCompression',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3727,7 +3819,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'exteriorWalls',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3746,7 +3839,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'eaves',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3765,7 +3859,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'balconyRain',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3784,7 +3879,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'interiorWallsRain',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3803,7 +3899,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'ceilingsRain',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3822,7 +3919,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofTrussRain',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3841,7 +3939,8 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofRain',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3863,7 +3962,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'inspector_name_translation',
       translation_key: 'nameInspector',
       category: 'inspection',
-      group: 'inspector'
+      group: 'inspector',
+      initialvalues_method_key: 'inspection'
       # translation_field: 'inspector_name_translation'
     },
 
@@ -3879,7 +3979,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameInspector',
       category: 'inspection',
       translation_object: true,
-      group: 'inspector'
+      group: 'inspector',
+      initialvalues_method_key: 'inspection'
     },
 
     inspector_trainer: {
@@ -3900,7 +4001,8 @@ module ImportantPointsExplanationBilingualAll
       category: 'inspection',
       group: 'inspector',
       # translation_field: 'inspector_trainer_translation',
-      extraHeightTemplate: true
+      extraHeightTemplate: true,
+      initialvalues_method_key: 'inspection'
     },
 
     inspector_trainer_translation: {
@@ -3915,7 +4017,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'nameOfAgency',
       category: 'inspection',
       translation_object: true,
-      group: 'inspector'
+      group: 'inspector',
+      initialvalues_method_key: 'inspection'
       # translation_record: 'inspections',
       # # # name is the column in model building language
       # translation_column: 'inspector_trainer',
@@ -3934,7 +4037,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'certificateNumber',
       category: 'inspection',
-      group: 'inspector'
+      group: 'inspector',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_qualification_type: {
@@ -3954,7 +4058,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'typeArchitectQualification',
       category: 'inspection',
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_type: {
@@ -3973,7 +4078,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       translation_key: 'typeArchitectRegistration',
       category: 'inspection',
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_registration_number: {
@@ -3987,7 +4093,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'architectRegistrationNumber',
       category: 'inspection',
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_registration_jurisdiction: {
@@ -4002,7 +4109,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'mainOffice',
       category: 'inspection',
       group: 'architect',
-      translation_field: 'architect_registration_jurisdiction_translation'
+      translation_field: 'architect_registration_jurisdiction_translation',
+      initialvalues_method_key: 'inspection'
       # translation_record: 'inspections',
       # # # name is the column in model building language
       # translation_column: 'architect_office_registration_jurisdiction',
@@ -4022,7 +4130,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'mainOffice',
       category: 'inspection',
       translation_object: true,
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_office_name: {
@@ -4041,7 +4150,8 @@ module ImportantPointsExplanationBilingualAll
       translation_field: 'architect_office_name_translation',
       translation_key: 'architectOfficeName',
       category: 'inspection',
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
       # translation_sibling: 'architect_office_name_translation'
     },
 
@@ -4057,7 +4167,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'architectOfficeName',
       category: 'inspection',
       translation_object: true,
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_office_registration_jurisdiction: {
@@ -4072,7 +4183,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'architectOfficeRegistrationJurisdiction',
       category: 'inspection',
       group: 'architect',
-      translation_field: 'architect_office_registration_jurisdiction_translation'
+      translation_field: 'architect_office_registration_jurisdiction_translation',
+      initialvalues_method_key: 'inspection'
       # translation_record: 'inspections',
       # # # name is the column in model building language
       # translation_column: 'architect_office_registration_jurisdiction',
@@ -4092,7 +4204,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'architectOfficeRegistrationJurisdiction',
       category: 'inspection',
       translation_object: true,
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
 
     architect_office_registration: {
@@ -4106,7 +4219,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 100,
       translation_key: 'officeRegistrationNumber',
       category: 'inspection',
-      group: 'architect'
+      group: 'architect',
+      initialvalues_method_key: 'inspection'
     },
   #
   # },
@@ -4393,7 +4507,8 @@ module ImportantPointsExplanationBilingualAll
       summaryKey: true,
       inactive: true,
       translation_key: 'presenceOfDegradationConcrete',
-      category: 'inspection'
+      category: 'inspection',
+      initialvalues_method_key: 'inspection'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
