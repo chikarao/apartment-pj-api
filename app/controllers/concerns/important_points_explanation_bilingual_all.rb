@@ -1,5 +1,6 @@
-#!!!! IMORTANT: Need to get constants: Building, Amenities etc for selectChoices
-# require Amenities::AMENITIES
+#!!!! IMORTANT: Need to get constants: building, amenities etc for selectChoices
+# For template elements, igore objects with keys that end of _1, _2; They are overlaps
+# in the static documents framework
 module ImportantPointsExplanationBilingualAll
   include DocumentConstants
   include DocumentTranslationImportantPointsAll
@@ -50,8 +51,12 @@ module ImportantPointsExplanationBilingualAll
       },
       className: 'form-control-document',
       component: 'DocumentChoices',
+      # Need to have translation_key and category to be included in the "all" object to be sent to frontend
+      # translation_key is for getting translation of the key from the translation all object in concerns/
       translation_key: 'name',
+      # Category for use in field choice box in frontend
       category: 'tenant',
+      # initialvalues_method_key for use in get_initialValues function in frontend
       initialvalues_method_key: 'profile'
     },
 
@@ -3560,7 +3565,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'foundation',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3580,7 +3586,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'baseAndFloorAssemble',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3600,7 +3607,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'floor',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3620,7 +3628,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'pillarsAndBeams',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3640,7 +3649,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'exteriorWallsAndEaves',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3660,7 +3670,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'balcony',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3680,7 +3691,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'interiorWalls',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3700,7 +3712,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'ceilings',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3720,7 +3733,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'roofTruss',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3740,7 +3754,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'termiteDamage',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3760,7 +3775,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'rotCorrosion',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3780,7 +3796,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'reinforcementArrangements',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3800,7 +3817,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'concreteCompression',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3820,7 +3838,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'exteriorWalls',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3840,7 +3859,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'eaves',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3860,7 +3880,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'balconyRain',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3880,7 +3901,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'interiorWallsRain',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3900,7 +3922,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'ceilingsRain',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3920,7 +3943,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'roofTrussRain',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -3940,7 +3964,8 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'roofRain',
       category: 'inspection',
       group: 'inspectedParts',
-      initialvalues_method_key: 'inspection'
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },
@@ -4622,7 +4647,9 @@ module ImportantPointsExplanationBilingualAll
       wooden: false,
       translation_key: 'halls',
       category: 'inspection',
-      group: 'inspectedParts'
+      group: 'inspectedParts',
+      initialvalues_method_key: 'inspection',
+      button_on_field_choice_nav: 'list'
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
     },

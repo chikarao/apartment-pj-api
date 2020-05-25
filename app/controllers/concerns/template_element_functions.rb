@@ -1,6 +1,6 @@
 module TemplateElementFunctions
 
-  def get_template_object(translation, base)
+  def get_template_mapping_object(translation, base)
     # Function to get hash object like { flat: { address: object },
     # document: { date: { year: object, month: object, day: object }}}
     # from ImportantPointsExplanationBilingualAll and FixedTermRentalContractBilingualAll
@@ -27,7 +27,7 @@ module TemplateElementFunctions
         else
           base[each][:translation_sibling] = nil
         end
-        # Below puts each in catetory and group
+        # Below puts each in category and group
         unless base[each][:translation_object]
           if base[each][:group]
             unless object[base[each][:category]]
@@ -59,6 +59,6 @@ module TemplateElementFunctions
     end# End of each base.keys
     # p "!!!!! booking_controller TemplateElementFunctions, count: " + count.to_s
     return object
-  end # End of function get_template_object
+  end # End of function get_template_mapping_object
 
 end # End of module
