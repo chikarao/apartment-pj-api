@@ -2567,7 +2567,7 @@ module FixedTermRentalContractBilingualAll
     #   # group: 'brokerStaff'
     #   # agreement_id just to mimic a template element
     #   agreement_id: 5,
-    #   list_parameters: "fixed_term_rental_contract_bilingual,base,amenities,true,bath_tub,shower,ac,auto_lock"
+    #   list_parameters: "fixed_term_rental_contract_bilingual,base,flat,amenities,true,bath_tub,shower,ac,auto_lock"
     # },
     #
     # # !!!!!!! amenities_list and translation just for development take out later
@@ -2585,8 +2585,8 @@ module FixedTermRentalContractBilingualAll
     #   # group: 'brokerStaff'
     #   # agreement_id just to mimic a template element
     #   agreement_id: 5,
-    #   list_parameters: "fixed_term_rental_contract_bilingual,translation,amenities,true,bath_tub,shower,ac,auto_lock"
-    # },
+    #   list_parameters: "fixed_term_rental_contract_bilingual,translation,flat,amenities,true,bath_tub,shower,ac,auto_lock"
+    # }
   # }
       #
   }

@@ -94,8 +94,11 @@ class Api::V1::BookingsController < ApplicationController
     # IMPORTANT: get_template_mapping_object changes the objects, base so FixedTermRentalContractBilingualAll objects have translation in them
     base = FixedTermRentalContractBilingualAll::OBJECT
     translation = DocumentTranslationFixedTermAll::OBJECT
-    # get_template_mapping_object from concerns/template_element_functions
     template_mapping_object_fixed = get_template_mapping_object(translation, base)
+
+    translation_1 = DocumentTranslationImportantPointsAll::OBJECT
+    # get_template_mapping_object from concerns/template_element_functions
+    template_translation_object_all = get_template_translation_object(translation, translation_1)
 
     base = ImportantPointsExplanationBilingualAll::OBJECT
     translation = DocumentTranslationImportantPointsAll::OBJECT
@@ -136,7 +139,8 @@ class Api::V1::BookingsController < ApplicationController
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
-      document_constants: document_constants.to_json
+      document_constants: document_constants.to_json,
+      template_translation_object: template_translation_object_all.to_json
       }, :ok
   end
 

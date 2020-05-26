@@ -858,7 +858,6 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'waterNotes',
       category: 'building',
       translation_field: 'water_notes_translation'
-
     },
 
     water_notes_translation: {
@@ -3269,7 +3268,8 @@ module ImportantPointsExplanationBilingualAll
       # component: 'input',
       component: 'DocumentChoices',
       translation_key: 'datePrepared',
-      category: 'document'
+      category: 'document',
+      initialvalues_method_key: 'document'
       # charLimit: 50,
     },
 
@@ -3564,7 +3564,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'foundation',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3585,7 +3585,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'baseAndFloorAssemble',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3606,7 +3606,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'floor',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3627,7 +3627,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'pillarsAndBeams',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3648,7 +3648,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'exteriorWallsAndEaves',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3669,7 +3669,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'balcony',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3690,7 +3690,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'interiorWalls',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3711,7 +3711,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'ceilings',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3732,7 +3732,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofTruss',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3753,7 +3753,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'termiteDamage',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3774,7 +3774,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'rotCorrosion',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3795,7 +3795,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'reinforcementArrangements',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3816,7 +3816,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'concreteCompression',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3837,7 +3837,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'exteriorWalls',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3858,7 +3858,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'eaves',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3879,7 +3879,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'balconyRain',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3900,7 +3900,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'interiorWallsRain',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3921,7 +3921,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'ceilingsRain',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3942,7 +3942,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofTrussRain',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -3963,7 +3963,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: true,
       translation_key: 'roofRain',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -4647,7 +4647,7 @@ module ImportantPointsExplanationBilingualAll
       wooden: false,
       translation_key: 'halls',
       category: 'inspection',
-      group: 'inspectedParts',
+      group: 'degradations',
       initialvalues_method_key: 'inspection',
       button_on_field_choice_nav: 'list'
       # attributes; keep just in case
@@ -5049,6 +5049,39 @@ module ImportantPointsExplanationBilingualAll
       # translation_key: 'mainOffice',
       # category: 'broker'
     },
+    # Degradations just for development purposes; Take out later
+    # degradations_list: {
+    #   name: 'degradations_list',
+    #   input_type: 'text',
+    #   choices: {
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+    #   },
+    #   className: 'form-control-document',
+    #   component: 'DocumentChoices',
+    #   translation_field: 'degradations_list_translation',
+    #   translation_key: 'degradations',
+    #   # category: 'inspection',
+    #   # agreement_id just to mimic a template element
+    #   agreement_id: 8,
+    #   list_parameters: "important_points_explanation_bilingual,base,inspection,degradations,true,foundation,ceilings,roof"
+    # },
+    #
+    # # !!!!!!! Degradations and translation just for development take out later
+    # degradations_list_translation: {
+    #   name: 'degradations_list_translation',
+    #   input_type: 'text',
+    #   choices: {
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '0%', left: '0%', width: '20%', class_name: 'document-rectangle', input_type: 'text' } },
+    #   },
+    #   className: 'form-control-document',
+    #   component: 'DocumentChoices',
+    #   translation_key: 'degradations',
+    #   translation_object: true,
+    #   # category: 'inspection',
+    #   # agreement_id just to mimic a template element
+    #   agreement_id: 8,
+    #   list_parameters: "important_points_explanation_bilingual,translation,inspection,degradations,true,foundation,ceilings,roof"
+    # },
 # },
   };
     # object = important_points_explanation
