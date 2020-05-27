@@ -65,68 +65,68 @@ module TemplateElementFunctions
     return object
   end # End of function get_template_mapping_object
 
-  def get_template_translation_object(object_i, object_f)
-    # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, for object_i: " + object_i.to_s
-    # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, object_f: " + object_f.to_s
-    # count_i = 0
-    # count_f = 0
-    # count_overlap = 0
-    # count_all = 0
-    # array = []
-    returned_object = {}
-    overlap_object = {}
-
-    add_to_object = ->(object, each) {
-      if returned_object[object[each][:category]]
-        if object[each][:group]
-          if returned_object[object[each][:category]][object[each][:group]]
-            returned_object[object[each][:category]][object[each][:group]] = object[each]
-          else
-            returned_object[object[each][:category]][object[each][:group]] = { each => object[each] }
-          end
-        else
-          returned_object[object[each][:category]][each] = object[each]
-        end
-      else # else of   if returned_object[object[each][:category]]
-        returned_object[object[each][:category]] = { each => object[each] }
-      end # end of returned_object[object_i[each][:category]]
-    }
-
-    object_i.keys.each do |each|
-      if object_f[each]
-        overlap_object[each] = nil
-        # count_overlap += 1
-      end
-      # def add_to_object(each)
-      # end # end of add_to_object
-
-      if object_i[each][:category]
-        # count_i += 1
-        # count_all += 1
-        add_to_object.call(object_i, each)
-      end
-    end
-
-    object_f.keys.each do |each|
-      if !overlap_object[each] && object_f[each][:category]
-      # if !overlap_object[each] && object_f[each][:category]
-        # count_f += 1
-        # count_all += 1
-        add_to_object.call(object_f, each)
-      end
-    end
-    #   if object_f[each]
-    #     count_overlap += 1
-    #     array.push(each)
-    #   end
-    # end # end of each
-    #
-    # object_f.keys.each do |each|
-    #   count_f += 1
-    # end # end of each
-    # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, count_i, count_f, count_overlap, count_all: " + count_i.to_s + ' ' + count_f.to_s + ' ' + count_overlap.to_s + ' ' + count_all.to_s
-    # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, returned_object: " + returned_object.to_s
-    return returned_object
-  end
+  # def get_template_translation_object(object_i, object_f)
+  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, for object_i: " + object_i.to_s
+  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, object_f: " + object_f.to_s
+  #   # count_i = 0
+  #   # count_f = 0
+  #   # count_overlap = 0
+  #   # count_all = 0
+  #   # array = []
+  #   returned_object = {}
+  #   overlap_object = {}
+  #
+  #   add_to_object = ->(object, each) {
+  #     if returned_object[object[each][:category]]
+  #       if object[each][:group]
+  #         if returned_object[object[each][:category]][object[each][:group]]
+  #           returned_object[object[each][:category]][object[each][:group]] = object[each]
+  #         else
+  #           returned_object[object[each][:category]][object[each][:group]] = { each => object[each] }
+  #         end
+  #       else
+  #         returned_object[object[each][:category]][each] = object[each]
+  #       end
+  #     else # else of   if returned_object[object[each][:category]]
+  #       returned_object[object[each][:category]] = { each => object[each] }
+  #     end # end of returned_object[object_i[each][:category]]
+  #   }
+  #
+  #   object_i.keys.each do |each|
+  #     if object_f[each]
+  #       overlap_object[each] = nil
+  #       # count_overlap += 1
+  #     end
+  #     # def add_to_object(each)
+  #     # end # end of add_to_object
+  #
+  #     if object_i[each][:category]
+  #       # count_i += 1
+  #       # count_all += 1
+  #       add_to_object.call(object_i, each)
+  #     end
+  #   end
+  #
+  #   object_f.keys.each do |each|
+  #     if !overlap_object[each] && object_f[each][:category]
+  #     # if !overlap_object[each] && object_f[each][:category]
+  #       # count_f += 1
+  #       # count_all += 1
+  #       add_to_object.call(object_f, each)
+  #     end
+  #   end
+  #   #   if object_f[each]
+  #   #     count_overlap += 1
+  #   #     array.push(each)
+  #   #   end
+  #   # end # end of each
+  #   #
+  #   # object_f.keys.each do |each|
+  #   #   count_f += 1
+  #   # end # end of each
+  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, count_i, count_f, count_overlap, count_all: " + count_i.to_s + ' ' + count_f.to_s + ' ' + count_overlap.to_s + ' ' + count_all.to_s
+  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, returned_object: " + returned_object.to_s
+  #   return returned_object
+  # end
 
 end # End of module

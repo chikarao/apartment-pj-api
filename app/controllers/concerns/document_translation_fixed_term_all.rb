@@ -833,7 +833,7 @@ module DocumentTranslationFixedTermAll
       category: 'landlord'
     },
 
-    landordCompanyName: {
+    landlordCompanyName: {
       translations: { en: 'Company', po: '', jp: '' },
       attributes: { top: '15.2%', left: '31.8%', font_size: '10', class_name: 'document-translation' },
       category: 'landlord'
@@ -899,10 +899,10 @@ module DocumentTranslationFixedTermAll
       category: 'management'
     },
 
-    ifOwnerLandordDifferent: {
+    ifOwnerLandlordDifferent: {
       translations: { en: 'Fill-in below if owner is different from landlord', po: '', jp: '' },
       attributes: { top: '37.2%', left: '17.4%', font_size: '10', class_name: 'document-translation' },
-      category: 'landord'
+      category: 'landlord'
     },
 
     propertyOwner: {
@@ -1146,7 +1146,7 @@ module DocumentTranslationFixedTermAll
       category: 'landlord'
     },
 
-    addressLandord: {
+    addressLandlord: {
       translations: { en: 'Address', po: '', jp: '' },
       attributes: { top: '25.5%', left: '26.7%', font_size: '10', class_name: 'document-translation' },
       category: 'landlord'

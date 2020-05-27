@@ -327,7 +327,7 @@ module DocumentTranslationImportantPointsAll
         publicWater: {
           translations: { en: 'Public', po: '', jp: '' },
           attributes: { top: '68.1%', left: '19%', font_size: '10', class_name: 'document-translation' },
-          category: 'utilitiesutilities'
+          category: 'utilities'
         },
 
         tank: {
