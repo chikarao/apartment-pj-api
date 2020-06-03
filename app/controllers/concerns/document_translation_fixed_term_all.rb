@@ -5,38 +5,38 @@ module DocumentTranslationFixedTermAll
     OBJECT = {
       # 1 => {
       documentTitle: {
-        translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '' },
+        translations: { en: 'Fixed Term Rental Contract', po: 'Contrato de Locação a Prazo Fixo', jp: '定期賃貸住宅契約書' },
         attributes: { top: '10.5%', left: '27.5%', font_size: '12', width: '45%', text_align: 'center', height: '1.5%', class_name: 'document-translation', font_weight: 'bold' },
         category: 'document'
       },
 
       heading: {
-        translations: { en: 'Heading', po: 'Topo', jp: '' },
+        translations: { en: 'Heading', po: 'Topo', jp: '頭書類' },
         attributes: { top: '12.8%', left: '17%', font_size: '10', class_name: 'document-translation', font_weight: 'bold' },
         category: 'document'
       },
 
       rentalInformation: {
-        translations: { en: 'Rental Information', po: 'Informação de Aluguel', jp: '' },
+        translations: { en: 'Rental Information', po: 'Informação de Aluguel', jp: '賃貸借の目的' },
         attributes: { top: '14.5%', left: '32.5%', font_size: '10', class_name: 'document-translation' },
         category: 'agreement'
       },
 
       buildingName: {
-        translations: { en: 'Name', po: 'Nome', jp: 'ビル名' },
+        translations: { en: 'Name', po: 'Nome', jp: '名称' },
         examples: { en: 'The Building Name', p: 'O nome do Edifício'},
         attributes: { top: '18.8%', left: '22.5%', font_size: '10', class_name: 'document-translation' },
         category: 'building'
       },
 
       buildingAddress: {
-        translations: { en: 'Address', po: 'Endereço', jp: '' },
+        translations: { en: 'Address', po: 'Endereço', jp: '所在地' },
         attributes: { top: '23.3%', left: '22%', font_size: '10', class_name: 'document-translation' },
         category: 'building'
       },
 
       buildingInformation: {
-        translations: { en: 'Building Information', po: 'Informação de construção', jp: '' },
+        translations: { en: 'Building Information', po: 'Informação de construção', jp: '建物の名称・所在地等' },
         attributes: { top: '34%', left: '16.5%', font_size: '10', width: '23%', height: '1.5%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' },
         category: 'building'
       },

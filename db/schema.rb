@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200519064119) do
+ActiveRecord::Schema.define(version: 20200603083009) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -396,6 +396,15 @@ ActiveRecord::Schema.define(version: 20200519064119) do
     t.index ["document_field_id"], name: "index_document_field_choices_on_document_field_id"
   end
 
+  create_table "document_field_translations", force: :cascade do |t|
+    t.integer "document_field_id"
+    t.string "language_code"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_field_id"], name: "index_document_field_translations_on_document_field_id"
+  end
+
   create_table "document_fields", force: :cascade do |t|
     t.integer "agreement_id"
     t.string "val"
@@ -431,6 +440,7 @@ ActiveRecord::Schema.define(version: 20200519064119) do
     t.string "component"
     t.string "font_weight"
     t.string "list_parameters"
+    t.boolean "translation_element", default: false
     t.index ["agreement_id"], name: "index_document_fields_on_agreement_id"
   end
 

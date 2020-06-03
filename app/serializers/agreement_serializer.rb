@@ -36,6 +36,8 @@ class AgreementSerializer < ActiveModel::Serializer
         custom_document_field = eachDF.attributes
         p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
         obj = nil
+
+        # document_field_choices section
         if !eachDF.document_field_choices.empty?
           # if there are document_field_choices put them in a mapped hash object { 0 => object, 1 => object }
           obj = {}
@@ -58,8 +60,20 @@ class AgreementSerializer < ActiveModel::Serializer
         else # else of if !eachDF.document_field_choices.empty?
           custom_document_field["document_field_choices"] = nil
         end # end of if document_field_choices empty
+
+        # document_field_translations section
+        if !eachDF.document_field_translations.empty?
+          custom_document_field["document_field_translations"] = {}
+          eachDF.document_field_choices.each do |each|
+            custom_each_translation = each.attributes
+            custom_document_field["document_field_translations"][each.language_code] = custom_each_translation
+          end # end of eachDF.document_field_choices.each do |each|
+        else # else of if !eachDF.document_field_translations.empty?
+          custom_document_field["document_field_translations"] = nil
+        end # end of   if !eachDF.document_field_translations.empty?
+
         array.push(custom_document_field)
-      end # end of each
+      end # end of object.document_fields.each do |eachDF|
     end # end of if object.document_fields
     return array
   end # end of function

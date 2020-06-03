@@ -59,7 +59,7 @@ class Api::V1::AgreementsController < ApplicationController
     agreement = Agreement.find_by(id: params[:agreement_id])
     document_field_params["document_field"].each do |each|
       # If id includes character 'a' it is a new field, so create new
-      if each["id"].is_a?(String) && each["id"].include?('a')
+      if each["id"].is_a?(String) && (each["id"].include?('a') || each["id"].include?('b'))
         # IMPORTANT: .new enables nested document_field_choices to be created
         # See document_field model for accepts_nested_attributes_for method
         # document_field params needs to be document_fields_attributes for nesting to work
@@ -101,10 +101,10 @@ class Api::V1::AgreementsController < ApplicationController
     document_fields = agreement.document_fields
     # agreement_serializer = parse_json agreement
     agreement_serializer = parse_json agreements
-    document_field_serializer = parse_json document_fields
+    # document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
     # if none of the above each loops do not break, send successful json response
-    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
+    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, booking: booking_serializer}, :ok
   end
 
   def update_agreement_fields
@@ -269,6 +269,11 @@ class Api::V1::AgreementsController < ApplicationController
       :display_text,
       :template_file_name,
       :list_parameters,
+      document_field_translations_attributes: [
+        :id,
+        :language_code,
+        :value
+      ],
       # _attributes required for nested attributes (see agreement model)
       document_field_choices_attributes: [
         :id,

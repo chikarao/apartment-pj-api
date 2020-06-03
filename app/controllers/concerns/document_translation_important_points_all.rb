@@ -1065,8 +1065,7 @@ module DocumentTranslationImportantPointsAll
 
         building1: {
           translations: { en: 'Building', po: '', jp: '' },
-          attributes: { top: '31.2%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' },
-          category: 'document'
+          attributes: { top: '31.2%', left: '11.1%', font_size: '10', width: '20%', height: '1.6%', class_name: 'document-translation', rotate: '90', transform_origin: 'top left' }
         },
 
         address2: {
@@ -1129,8 +1128,7 @@ module DocumentTranslationImportantPointsAll
 
         others1: {
           translations: { en: 'Others', po: '', jp: '' },
-          attributes: { top: '30.5%', left: '60.1%', font_size: '10', class_name: 'document-translation' },
-          category: 'document'
+          attributes: { top: '30.5%', left: '60.1%', font_size: '10', class_name: 'document-translation' }
         },
 
         floors: {

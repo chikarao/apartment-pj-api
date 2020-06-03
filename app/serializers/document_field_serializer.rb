@@ -32,6 +32,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   :list_parameters,
   # document_field_choices return in custom serializer in agreement serializer
   :document_field_choices,
+  :document_field_translations,
   :created_at,
   :updated_at
   # has_many :flats
