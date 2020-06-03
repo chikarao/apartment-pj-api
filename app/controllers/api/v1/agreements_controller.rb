@@ -269,6 +269,7 @@ class Api::V1::AgreementsController < ApplicationController
       :display_text,
       :template_file_name,
       :list_parameters,
+      :translation_element,
       document_field_translations_attributes: [
         :id,
         :language_code,
