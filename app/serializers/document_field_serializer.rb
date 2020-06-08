@@ -33,6 +33,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   # document_field_choices return in custom serializer in agreement serializer
   :document_field_choices,
   :document_field_translations,
+  :translation_element,
   :created_at,
   :updated_at
   # has_many :flats
@@ -59,7 +60,24 @@ class DocumentFieldSerializer < ActiveModel::Serializer
         end
         obj[i] = custom_each
       end
-    end
+    end # end of if !object.document_field_choices.empty?
+    return obj
+  end # End of function
+
+  def document_field_translations
+    # Return hash object of document_field_translations mapped; Nil if no document_field_translations
+    obj = nil
+    # Object is a DocumentField instance
+    if !object.document_field_translations.empty?
+      obj = {}
+      p "In document_field_serializer in def: " + object.to_s
+      # object is a DocumentField instance
+      object.document_field_translations.each do |each|
+        custom_each = each.attributes
+        # put them in a hash like { en: each, jp: each }
+        obj[each.language_code] = custom_each
+      end
+    end # end of if !object.document_field_translations.empty?
     return obj
   end # End of function
 

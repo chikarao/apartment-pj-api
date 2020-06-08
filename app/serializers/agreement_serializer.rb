@@ -64,7 +64,7 @@ class AgreementSerializer < ActiveModel::Serializer
         # document_field_translations section
         if !eachDF.document_field_translations.empty?
           custom_document_field["document_field_translations"] = {}
-          eachDF.document_field_choices.each do |each|
+          eachDF.document_field_translations.each do |each|
             custom_each_translation = each.attributes
             custom_document_field["document_field_translations"][each.language_code] = custom_each_translation
           end # end of eachDF.document_field_choices.each do |each|
@@ -75,6 +75,7 @@ class AgreementSerializer < ActiveModel::Serializer
         array.push(custom_document_field)
       end # end of object.document_fields.each do |eachDF|
     end # end of if object.document_fields
+
     return array
   end # end of function
 

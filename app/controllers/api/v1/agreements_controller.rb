@@ -93,6 +93,19 @@ class Api::V1::AgreementsController < ApplicationController
         end
       end #end of deleted each
     end #end of deleted lengh > 0
+    # If there are hash objects with document_field_id and document_field_translation ids
+    if params["deleted_document_field_translations_array"].length > 0
+      params["deleted_document_field_translations_array"].each do |each|
+        # each is a hash object with { document_field_id: 1, document_field_translation_id: 1}
+        document_field_translation = DocumentFieldTranslation.find_by(id: each.to_i)
+        if document_field_translation
+          unless document_field_translation.destroy
+            json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
+            break
+          end
+        end
+      end #end of deleted each
+    end #end of deleted lengh > 0
 
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
     # and document_field_choice serializer that returns document_field_choices
@@ -101,10 +114,10 @@ class Api::V1::AgreementsController < ApplicationController
     document_fields = agreement.document_fields
     # agreement_serializer = parse_json agreement
     agreement_serializer = parse_json agreements
-    # document_field_serializer = parse_json document_fields
+    document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
     # if none of the above each loops do not break, send successful json response
-    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, booking: booking_serializer}, :ok
+    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
   end
 
   def update_agreement_fields
