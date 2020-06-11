@@ -431,7 +431,7 @@ module ImportantPointsExplanationBilingualAll
       # baseLanguageField indicates this field corresponds to
       # base language of the document in constants/documents.js
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '83.2%',
           left: '29%',
@@ -464,7 +464,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'construction_translation',
       input_type: 'string',
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '85.2%',
           left: '29%',
@@ -1155,7 +1155,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'sewage',
       input_type: 'string',
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '75.8%',
           left: '17.3%',
@@ -1186,7 +1186,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'sewage_translation',
       input_type: 'string',
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '77.2%',
           left: '17.3%',
@@ -1250,7 +1250,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'sewage_scheduled',
       input_type: 'string',
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '75.8%',
           left: '53.5%',

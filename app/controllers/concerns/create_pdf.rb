@@ -2,11 +2,11 @@ module CreatePdf
   require 'prawn'
   # require DocumentTranslation
   # field_objects and contract_name call in booking#create_contract or agreement#update
-  # also called in agreement#update_agreement_fields
+  # also called in agreement#update_agreement_fields, agreement#save_template_agreement_fields
   # field_objects can come from params or DocumentField.where(agreement_id = agreement.id)
   # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf
   # save_and_create comes from params
-  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main)
+  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main, agreement, template)
     # CombinePDF is for combine_pdf gem
     # get base agreement file from local directory (not used now)
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
@@ -43,7 +43,7 @@ module CreatePdf
     # p "!!!!!!Cloudinary download contract_name: " + contract_name.to_s
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "apartmentpj_constant_assets")
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
-    contract_name_with_folder = "apartmentpj-constant-assets/" + contract_name + ".pdf"
+    contract_name_with_folder = template ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
     # p "!!!!!!contract_name_with_folder: " + contract_name_with_folder.to_s
     download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
     # p "!!!!!!Cloudinary download: " + download.to_s

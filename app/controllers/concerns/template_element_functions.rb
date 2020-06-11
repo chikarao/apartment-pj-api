@@ -1,4 +1,5 @@
 module TemplateElementFunctions
+  include ContractTranslationMapObject
 
   def get_template_mapping_object(translation, base)
     # Function to get hash object like { flat: { address: object },
@@ -65,68 +66,96 @@ module TemplateElementFunctions
     return object
   end # End of function get_template_mapping_object
 
-  # def get_template_translation_object(object_i, object_f)
-  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, for object_i: " + object_i.to_s
-  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, object_f: " + object_f.to_s
-  #   # count_i = 0
-  #   # count_f = 0
-  #   # count_overlap = 0
-  #   # count_all = 0
-  #   # array = []
-  #   returned_object = {}
-  #   overlap_object = {}
-  #
-  #   add_to_object = ->(object, each) {
-  #     if returned_object[object[each][:category]]
-  #       if object[each][:group]
-  #         if returned_object[object[each][:category]][object[each][:group]]
-  #           returned_object[object[each][:category]][object[each][:group]] = object[each]
-  #         else
-  #           returned_object[object[each][:category]][object[each][:group]] = { each => object[each] }
-  #         end
-  #       else
-  #         returned_object[object[each][:category]][each] = object[each]
-  #       end
-  #     else # else of   if returned_object[object[each][:category]]
-  #       returned_object[object[each][:category]] = { each => object[each] }
-  #     end # end of returned_object[object_i[each][:category]]
-  #   }
-  #
-  #   object_i.keys.each do |each|
-  #     if object_f[each]
-  #       overlap_object[each] = nil
-  #       # count_overlap += 1
-  #     end
-  #     # def add_to_object(each)
-  #     # end # end of add_to_object
-  #
-  #     if object_i[each][:category]
-  #       # count_i += 1
-  #       # count_all += 1
-  #       add_to_object.call(object_i, each)
-  #     end
-  #   end
-  #
-  #   object_f.keys.each do |each|
-  #     if !overlap_object[each] && object_f[each][:category]
-  #     # if !overlap_object[each] && object_f[each][:category]
-  #       # count_f += 1
-  #       # count_all += 1
-  #       add_to_object.call(object_f, each)
-  #     end
-  #   end
-  #   #   if object_f[each]
-  #   #     count_overlap += 1
-  #   #     array.push(each)
-  #   #   end
-  #   # end # end of each
-  #   #
-  #   # object_f.keys.each do |each|
-  #   #   count_f += 1
-  #   # end # end of each
-  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, count_i, count_f, count_overlap, count_all: " + count_i.to_s + ' ' + count_f.to_s + ' ' + count_overlap.to_s + ' ' + count_all.to_s
-  #   # p "!!!!! booking_controller TemplateElementFunctions, get_template_translation_object, returned_object: " + returned_object.to_s
-  #   return returned_object
-  # end
+  def get_simplified_template_field_object(document_fields, agreement, document_language_code)
+    # Function returns array with document_fields that have attributes according to
+    # to choice chosen; Called in agreement controller
+    returned_object = {}
+    document_fields_hash = {}
+    document_translation_fields_hash = {}
+    all_object = ContractTranslationMapObject::OBJECT[agreement[:template_file_name]]
+    base_language = agreement[:language_code]
+    translation_language = document_language_code
+
+    put_into_hash = lambda do |field|
+      if !field[:translation_element]
+        if document_fields_hash[field[:page]]
+          document_fields_hash[field[:page]].push(field)
+        else
+          document_fields_hash[field[:page]] = [field]
+        end
+      else
+        if document_translation_fields_hash[field[:page]]
+          document_translation_fields_hash[field[:page]].push(field)
+        else
+          document_translation_fields_hash[field[:page]] = [field]
+        end
+      end
+    end
+
+#     l = lambda do |a, b|        # 複数行ブロックならlambdaとdo〜endブロックで
+#   tmp = a * 7
+#   tmp * b / 50
+# end
+
+    document_fields.each do |each_field|
+      p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field.name, document_fields, document_fields.count: " + each_field.name.to_s + ' ' + document_fields.to_s + ' ' + document_fields.count.to_s + ' ' + each_field.to_s
+      if each_field.document_field_choices.length > 0
+        simplified_document_field = {}
+        each_field.document_field_choices.each do |each_choice|
+          if each_choice.select_choices.length > 0
+            each_choice.select_choices.each do |each_select|
+              if each_select[:value] == each_field[:value]
+                # select_true_or_false = all_object[each_field[:name].to_sym][:choices][0] || all_object[each_field[:name].to_sym][:choices][true]
+                select_true_or_false = each_field.name == 'construction'
+                p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_select.value, each_field[:name], all_object: " + each_select.value.to_s + ' ' + each_field[:name] + ' ' + all_object[each_field[:name].to_sym].to_s
+                simplified_document_field = {
+                  name: each_field[:name],
+                  val: each_choice[:val],
+                  top: each_choice[:top],
+                  left: each_choice[:left],
+                  width: each_choice[:width],
+                  height: each_choice[:height],
+                  text_align: each_choice[:text_align],
+                  font_size: each_choice[:font_size],
+                  class_name: each_choice[:class_name],
+                  input_type: each_choice[:input_type],
+                  page: each_field[:page],
+                  # value: each_field[:translation] && !select_true_or_false ? all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][translation_language] : all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][base_language]
+                  value: !each_field[:translation] && select_true_or_false ? all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][translation_language.to_sym] : ''
+                }
+                put_into_hash.call(simplified_document_field)
+              end
+            end
+          else # else of if each_choice.select_choices
+            if each_choice[:val] == each_field[:value]
+              simplified_document_field = {
+                name: each_field[:name],
+                val: each_choice[:val],
+                top: each_choice[:top],
+                left: each_choice[:left],
+                width: each_choice[:width],
+                height: each_choice[:height],
+                font_size: each_choice[:font_size],
+                text_align: each_choice[:text_align],
+                class_name: each_choice[:class_name],
+                input_type: each_choice[:input_type],
+                page: each_field[:page]
+              }
+              p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field[:name], simplified_document_field: " + each_field[:name].to_s + ' ' + simplified_document_field.to_s
+              put_into_hash.call(simplified_document_field)
+            end
+          end # end of if each_choice.select_choices
+          # simplified_document_field = { val: 'inputFieldValue', top: '10.2%', left: '13.3%', width: '29.5%', height: '1.6%', text_align: 'right', class_name: 'document-rectangle', input_type: 'string' } },
+        end # end of   document_fields.document_field_choices.each do |each_choice|
+      else # else of if document_fields.document_field_choices
+        # if each_field does NOT have document_field_choices push into returned_object
+        put_into_hash.call(each_field)
+      end # end of if document_fields.document_field_choices
+
+    end # end of document_fields.each do |each_field|
+    returned_object =  { document_fields: document_fields_hash , translation: document_translation_fields_hash }
+    p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, returned_object: " + returned_object.to_s
+    return returned_object
+  end
 
 end # End of module

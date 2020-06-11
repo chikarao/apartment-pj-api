@@ -19,6 +19,7 @@ class AgreementSerializer < ActiveModel::Serializer
   :document_inserts,
   :document_pages,
   :document_type,
+  :document_pdf_publicid,
   :created_at,
   :updated_at
   # has_many :flats
@@ -34,7 +35,7 @@ class AgreementSerializer < ActiveModel::Serializer
     if object.document_fields
       object.document_fields.each do |eachDF|
         custom_document_field = eachDF.attributes
-        p "In document_field_serializer in def　custom_document_field: " + custom_document_field.to_s
+        # p "In agreement_serializer in def　custom_document_field: " + custom_document_field.to_s
         obj = nil
 
         # document_field_choices section
@@ -66,6 +67,7 @@ class AgreementSerializer < ActiveModel::Serializer
           custom_document_field["document_field_translations"] = {}
           eachDF.document_field_translations.each do |each|
             custom_each_translation = each.attributes
+            # map hash to language_code
             custom_document_field["document_field_translations"][each.language_code] = custom_each_translation
           end # end of eachDF.document_field_choices.each do |each|
         else # else of if !eachDF.document_field_translations.empty?

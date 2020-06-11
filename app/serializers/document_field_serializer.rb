@@ -30,10 +30,13 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   :page,
   :input_type,
   :list_parameters,
+  :transform,
+  :transform_origin,
   # document_field_choices return in custom serializer in agreement serializer
   :document_field_choices,
   :document_field_translations,
   :translation_element,
+  :translation,
   :created_at,
   :updated_at
   # has_many :flats
@@ -48,7 +51,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
     # Object is a DocumentField instance
     if !object.document_field_choices.empty?
       obj = {}
-      p "In document_field_serializer in def: " + object.to_s
+      # p "In document_field_serializer in def: " + object.to_s
       # object is a DocumentField instance
       object.document_field_choices.each_with_index do |each,  i|
         custom_each = each.attributes
@@ -70,7 +73,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
     # Object is a DocumentField instance
     if !object.document_field_translations.empty?
       obj = {}
-      p "In document_field_serializer in def: " + object.to_s
+      # p "In document_field_serializer in def: " + object.to_s
       # object is a DocumentField instance
       object.document_field_translations.each do |each|
         custom_each = each.attributes

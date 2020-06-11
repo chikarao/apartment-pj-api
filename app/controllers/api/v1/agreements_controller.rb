@@ -3,6 +3,7 @@ class Api::V1::AgreementsController < ApplicationController
   # include DocumentTranslationFixedTerm
   include ContractTranslationMapObject
   include CreatePdf
+  include TemplateElementFunctions
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
   before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields]
@@ -106,6 +107,16 @@ class Api::V1::AgreementsController < ApplicationController
         end
       end #end of deleted each
     end #end of deleted lengh > 0
+    p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, paramsparams[:save_and_create]: " + params.to_s + params[:save_and_create].to_s
+
+    if params[:save_and_create]
+      document_fields = DocumentField.where(agreement_id: agreement.id)
+      # need to get document fields simplified so that they have one object (no document field choices)
+      simplified_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
+      document_language_code = params[:document_language_code]
+      # translation = DocumentField.where(agreement_id: agreement.id, translation_element: true)
+    end
+
 
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
     # and document_field_choice serializer that returns document_field_choices
@@ -161,7 +172,7 @@ class Api::V1::AgreementsController < ApplicationController
         document_insert_main = nil;
       end
       # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s
-      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main)
+      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, false)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
       # p "cloudinary_result, cloudinary_result.class: " + cloudinary_result.to_s + " " + cloudinary_result.class.to_s
       unless !agreement.document_publicid
@@ -234,6 +245,7 @@ class Api::V1::AgreementsController < ApplicationController
       :booking_id,
       :flat_id,
       :document_publicid,
+      :document_pdf_publicid,
       :document_name,
       :tenant_signed,
       :owner_signed,
@@ -282,7 +294,12 @@ class Api::V1::AgreementsController < ApplicationController
       :display_text,
       :template_file_name,
       :list_parameters,
+      # translation_element is translation field has document_field_translations
       :translation_element,
+      # translation is for a regular element that is a translation (e.g. select that is a translation)
+      :translation,
+      :transform,
+      :transform_origin,
       document_field_translations_attributes: [
         :id,
         :language_code,

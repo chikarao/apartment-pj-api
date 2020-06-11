@@ -163,7 +163,7 @@ class Api::V1::BookingsController < ApplicationController
     # gets translation objects from concerns/document_translation_important_points.rb
     # important_points = important_points_explanation_translation
     # call module in create_pdf in concerns/create_pdf
-    create_pdf(params[:document_field], contract_name, save_and_create, translation, document_language_code)
+    create_pdf(params[:document_field], contract_name, save_and_create, translation, document_language_code, nil, false)
 
     # # CombinePDF is for combine_pdf gem
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
