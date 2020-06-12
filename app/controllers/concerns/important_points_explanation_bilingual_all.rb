@@ -1396,7 +1396,7 @@ module ImportantPointsExplanationBilingualAll
               input_type: 'string' },
               #
               # selectChoices: amenities.kitchen.choices,
-              selectChoices: amenities[:kitchen][:choices],
+              translation: amenities[:kitchen][:choices][0],
               showLocalLanguage: true,
               combineLanguages: true
             },
@@ -1409,7 +1409,7 @@ module ImportantPointsExplanationBilingualAll
               margin: '0px',
               class_name: 'document-rectangle',
               input_type: 'string' },
-              selectChoices: amenities[:kitchen][:choices],
+              translation: amenities[:kitchen][:choices][1],
               # selectChoices: Amenities.kitchen.choices,
               showLocalLanguage: true,
               combineLanguages: true
@@ -1503,7 +1503,7 @@ module ImportantPointsExplanationBilingualAll
                class_name: 'document-rectangle',
                input_type: 'string' },
                #
-               selectChoices: flat_for_documents[:toilet][:choices],
+               translation: flat_for_documents[:toilet][:choices][0],
                showLocalLanguage: true,
                combineLanguages: true
              },
@@ -1517,7 +1517,7 @@ module ImportantPointsExplanationBilingualAll
               class_name: 'document-rectangle',
               input_type: 'string' },
               #
-              selectChoices: flat_for_documents[:toilet][:choices],
+              translation: flat_for_documents[:toilet][:choices][1],
               showLocalLanguage: true,
               combineLanguages: true
             }
@@ -1610,7 +1610,7 @@ module ImportantPointsExplanationBilingualAll
                class_name: 'document-rectangle',
                input_type: 'string' },
                # selectChoices: Amenities.bath_tub.choices,
-               selectChoices: amenities[:bath_tub][:choices],
+               translation: amenities[:bath_tub][:choices][0],
                showLocalLanguage: true,
                combineLanguages: true
              },
@@ -1624,7 +1624,7 @@ module ImportantPointsExplanationBilingualAll
                class_name: 'document-rectangle',
                input_type: 'string' },
                #selectChoices: Amenities.bath_tub.choices,
-               selectChoices: amenities[:bath_tub][:choices],
+               translation: amenities[:bath_tub][:choices][1],
                showLocalLanguage: true,
                combineLanguages: true
              }
@@ -1717,7 +1717,7 @@ module ImportantPointsExplanationBilingualAll
                class_name: 'document-rectangle',
                input_type: 'string' },
                # selectChoices: Amenities.hot_water.choices,
-               selectChoices: amenities[:hot_water][:choices],
+               translation: amenities[:hot_water][:choices][0],
                showLocalLanguage: true,
                combineLanguages: true
              },
@@ -1731,7 +1731,7 @@ module ImportantPointsExplanationBilingualAll
               class_name: 'document-rectangle',
               input_type: 'string' },
               # selectChoices: Amenities.hot_water.choices,
-              selectChoices: amenities[:hot_water][:choices],
+              translation: amenities[:hot_water][:choices][1],
               showLocalLanguage: true,
               combineLanguages: true
             }
@@ -1816,13 +1816,13 @@ module ImportantPointsExplanationBilingualAll
       choices: {
              0 => { valName: 'y', params: { val: true, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
              # selectChoices: Amenities.kitchen_grill.choices,
-             selectChoices: amenities[:kitchen_grill][:choices],
+             translation: amenities[:kitchen_grill][:choices][0],
              showLocalLanguage: true,
              combineLanguages: true
            },
             1 => { valName: 'n', params: { val: false, top: '33.2%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
             # selectChoices: Amenities.kitchen_grill.choices,
-            selectChoices: amenities[:kitchen_grill][:choices],
+            translation: amenities[:kitchen_grill][:choices][1],
             showLocalLanguage: true,
             combineLanguages: true
           }
@@ -1907,13 +1907,13 @@ module ImportantPointsExplanationBilingualAll
       choices: {
              0 => { valName: 'y', params: { val: true, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
              # selectChoices: Amenities.ac.choices,
-             selectChoices: amenities[:ac][:choices],
+             translation: amenities[:ac][:choices][0],
              showLocalLanguage: true,
              combineLanguages: true
            },
             1 => { valName: 'n', params: { val: false, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
             # selectChoices: Amenities.ac.choices,
-            selectChoices: amenities[:ac][:choices],
+            translation: amenities[:ac][:choices][1],
             showLocalLanguage: true,
             combineLanguages: true
           }

@@ -1,5 +1,6 @@
 module TemplateElementFunctions
   include ContractTranslationMapObject
+  include DocumentConstants
 
   def get_template_mapping_object(translation, base)
     # Function to get hash object like { flat: { address: object },
@@ -66,6 +67,7 @@ module TemplateElementFunctions
     return object
   end # End of function get_template_mapping_object
 
+
   def get_simplified_template_field_object(document_fields, agreement, document_language_code)
     # Function returns array with document_fields that have attributes according to
     # to choice chosen; Called in agreement controller
@@ -76,7 +78,7 @@ module TemplateElementFunctions
     base_language = agreement[:language_code]
     translation_language = document_language_code
 
-    put_into_hash = lambda do |field|
+    add_to_page_mapped_hash = lambda do |field|
       if !field[:translation_element]
         if document_fields_hash[field[:page]]
           document_fields_hash[field[:page]].push(field)
@@ -92,22 +94,46 @@ module TemplateElementFunctions
       end
     end
 
-#     l = lambda do |a, b|        # 複数行ブロックならlambdaとdo〜endブロックで
-#   tmp = a * 7
-#   tmp * b / 50
-# end
-
     document_fields.each do |each_field|
-      p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field.name, document_fields, document_fields.count: " + each_field.name.to_s + ' ' + document_fields.to_s + ' ' + document_fields.count.to_s + ' ' + each_field.to_s
+      # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field.name, document_fields, document_fields.count: " + each_field.name.to_s + ' ' + document_fields.to_s + ' ' + document_fields.count.to_s + ' ' + each_field.to_s
+      # If each_field has any choices, test length as none is empty array)
       if each_field.document_field_choices.length > 0
         simplified_document_field = {}
         each_field.document_field_choices.each do |each_choice|
           if each_choice.select_choices.length > 0
             each_choice.select_choices.each do |each_select|
-              if each_select[:value] == each_field[:value]
-                # select_true_or_false = all_object[each_field[:name].to_sym][:choices][0] || all_object[each_field[:name].to_sym][:choices][true]
-                select_true_or_false = each_field.name == 'construction'
-                p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_select.value, each_field[:name], all_object: " + each_select.value.to_s + ' ' + each_field[:name] + ' ' + all_object[each_field[:name].to_sym].to_s
+              select_true_or_false = false
+              select_amenities = false
+              select_value_path = {}
+              if each_select[:value] === each_field[:value]
+                # Set conditions for setting path to select field value (actual text that is rendered)
+                # when requiring bool true, convert 't' or 'f' to boolean
+                # all booleans are stored as 't' or 'f' in database
+                select_value_in_bool = each_select[:value] === 't'
+                # Find out if all_object object is a treu false object by seeing if there is true in choices hash
+                select_true_or_false = !all_object[each_field.name.to_sym][:choices][true].nil?
+                # if all.object[each_field.name][choices] has the select value (not selectChoices)
+                select_with_value_in_choice = !all_object[each_field.name.to_sym][:choices][each_select[:value].to_sym].nil?
+                # amenities have a particular true false choice; important points all have same 0, 1 select
+                select_amenities_and_choices_0_1 = all_object[each_field[:name].to_sym][:category] === 'amenities' || (all_object[each_field.name.to_sym][:choices][0] && all_object[each_field.name.to_sym][:choices][0][translation])
+                # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_select.value, each_field[:name], select_true_or_false: " + each_select.value.to_s + ' ' + each_field[:name].to_s + ' ' + select_true_or_false.to_s
+                # set path to getting values so below just use language code to get the text value
+                select_value_path = all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym] if (!select_true_or_false && !select_amenities_and_choices_0_1 && !select_with_value_in_choice)
+                # select_value_path = all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym] if (!select_true_or_false && !select_amenities_and_choices_0_1)
+                select_value_path = all_object[each_field[:name].to_sym][:choices][select_value_in_bool][:translation] if (select_true_or_false)
+                select_value_path = all_object[each_field[:name].to_sym][:choices][each_select[:value].to_sym][:translation] if (select_with_value_in_choice)
+                # get text value for amenities
+                if (select_amenities_and_choices_0_1)
+                  bool_value = 0
+                  bool_value = 0 if (each_field[:value] === 't')
+                  bool_value = 1 if (each_field[:value] === 'f')
+                  if all_object[each_field[:name].to_sym][:category] === 'amenities'
+                    select_value_path = DocumentConstants::AmenitiesChoices[bool_value]
+                  else
+                    select_value_path = all_object[each_field.name.to_sym][:choices][bool_value][translation]
+                  end
+                end
+                # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_select.value, each_field[:name], all_object: " + each_select.value.to_s + ' ' + each_field[:name] + ' ' + all_object[each_field[:name].to_sym].to_s
                 simplified_document_field = {
                   name: each_field[:name],
                   val: each_choice[:val],
@@ -120,14 +146,14 @@ module TemplateElementFunctions
                   class_name: each_choice[:class_name],
                   input_type: each_choice[:input_type],
                   page: each_field[:page],
-                  # value: each_field[:translation] && !select_true_or_false ? all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][translation_language] : all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][base_language]
-                  value: !each_field[:translation] && select_true_or_false ? all_object[each_field[:name].to_sym][:choices][:inputFieldValue][:selectChoices][each_select[:value].to_sym][translation_language.to_sym] : ''
+                  # if not a translation field (a select field that renders the translation language), get the base_language
+                  value: !each_field[:translation] ? select_value_path[base_language.to_sym] : select_value_path[translation_language.to_sym]
                 }
-                put_into_hash.call(simplified_document_field)
+                add_to_page_mapped_hash.call(simplified_document_field)
               end
             end
           else # else of if each_choice.select_choices
-            if each_choice[:val] == each_field[:value]
+            if each_choice[:val] === each_field[:value]
               simplified_document_field = {
                 name: each_field[:name],
                 val: each_choice[:val],
@@ -141,15 +167,15 @@ module TemplateElementFunctions
                 input_type: each_choice[:input_type],
                 page: each_field[:page]
               }
-              p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field[:name], simplified_document_field: " + each_field[:name].to_s + ' ' + simplified_document_field.to_s
-              put_into_hash.call(simplified_document_field)
+              # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field[:name], simplified_document_field: " + each_field[:name].to_s + ' ' + simplified_document_field.to_s
+              add_to_page_mapped_hash.call(simplified_document_field)
             end
           end # end of if each_choice.select_choices
           # simplified_document_field = { val: 'inputFieldValue', top: '10.2%', left: '13.3%', width: '29.5%', height: '1.6%', text_align: 'right', class_name: 'document-rectangle', input_type: 'string' } },
         end # end of   document_fields.document_field_choices.each do |each_choice|
       else # else of if document_fields.document_field_choices
         # if each_field does NOT have document_field_choices push into returned_object
-        put_into_hash.call(each_field)
+        add_to_page_mapped_hash.call(each_field)
       end # end of if document_fields.document_field_choices
 
     end # end of document_fields.each do |each_field|
