@@ -107,14 +107,18 @@ class Api::V1::AgreementsController < ApplicationController
         end
       end #end of deleted each
     end #end of deleted lengh > 0
-    p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, paramsparams[:save_and_create]: " + params.to_s + params[:save_and_create].to_s
+    # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, paramsparams[:save_and_create]: " + params.to_s + params[:save_and_create].to_s
 
     if params[:save_and_create]
       document_fields = DocumentField.where(agreement_id: agreement.id)
       # need to get document fields simplified so that they have one object (no document field choices)
-      simplified_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
+      # simplified_document_fields is a hash with document_fields and translation
+      template_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
       document_language_code = params[:document_language_code]
       # translation = DocumentField.where(agreement_id: agreement.id, translation_element: true)
+      # cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, template_document_fields)
+      cloudinary_result = create_pdf([], nil, params[:save_and_create], {}, document_language_code, nil, agreement, template_document_fields)
+      p "!!!!! agreement_controller after get_simplified_template_field_object, cloudinary_result: " + cloudinary_result.to_s
     end
 
 
@@ -172,7 +176,7 @@ class Api::V1::AgreementsController < ApplicationController
         document_insert_main = nil;
       end
       # p "!!!!! contract_name, translation, fixed_term_rental_contract_translation " + contract_name.to_s + " " + translation.to_s + " " + fixed_term_rental_contract_translation.to_s
-      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, false)
+      cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, nil)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
       # p "cloudinary_result, cloudinary_result.class: " + cloudinary_result.to_s + " " + cloudinary_result.class.to_s
       unless !agreement.document_publicid

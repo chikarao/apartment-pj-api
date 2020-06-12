@@ -74,9 +74,20 @@ module TemplateElementFunctions
     returned_object = {}
     document_fields_hash = {}
     document_translation_fields_hash = {}
-    all_object = ContractTranslationMapObject::OBJECT[agreement[:template_file_name]]
+    all_object = ContractTranslationMapObject::OBJECT[agreement[:template_file_name]][:all_object]
+    translations_object = ContractTranslationMapObject::OBJECT[agreement[:template_file_name]][:translations]
     base_language = agreement[:language_code]
     translation_language = document_language_code
+
+    get_translations_hash = lambda do |field|
+      return_hash = {}
+      field.document_field_translations.each do |each|
+        return_hash[each.language_code] = each.value
+      end
+      # if return hash does not have translation_language, fill in with standard
+      return_hash[translation_language] = translations_object[field.name.to_sym][:translations][translation_language] if !return_hash[translation_language]
+      return return_hash
+    end
 
     add_to_page_mapped_hash = lambda do |field|
       if !field[:translation_element]
@@ -86,10 +97,27 @@ module TemplateElementFunctions
           document_fields_hash[field[:page]] = [field]
         end
       else
+        new_field = { :attributes => {
+                        :width => field.width,
+                        :top => field.top,
+                        :left => field.left,
+                        :font_size => field.font_size,
+                        :class_name => field.class_name,
+                        :font_size => field.font_size,
+                        :font_weight => field.font_weight,
+                        :rotate => field.transform,
+                        :transform_origin => field.transform_origin,
+                        :text_align => field.text_align,
+                        :height => field.height
+                      },
+                      :translations => field.document_field_translations.length > 0 ? get_translations_hash(field) : translations_object[field.name.to_sym][:translations]
+                    }
+        # patch for rotate as DB keeps .transform degrees (e.g. '90')
+        # new_field[:rotate] = field.transform if field.transform
         if document_translation_fields_hash[field[:page]]
-          document_translation_fields_hash[field[:page]].push(field)
+          document_translation_fields_hash[field[:page]][field.name.to_sym] = new_field
         else
-          document_translation_fields_hash[field[:page]] = [field]
+          document_translation_fields_hash[field[:page]] = { field.name.to_sym => new_field }
         end
       end
     end
@@ -128,6 +156,7 @@ module TemplateElementFunctions
                   bool_value = 0 if (each_field[:value] === 't')
                   bool_value = 1 if (each_field[:value] === 'f')
                   if all_object[each_field[:name].to_sym][:category] === 'amenities'
+                    # the amenities hash objects do not have translations on them so use hash straight from document constants
                     select_value_path = DocumentConstants::AmenitiesChoices[bool_value]
                   else
                     select_value_path = all_object[each_field.name.to_sym][:choices][bool_value][translation]

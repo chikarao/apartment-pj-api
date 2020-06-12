@@ -6,7 +6,7 @@ module CreatePdf
   # field_objects can come from params or DocumentField.where(agreement_id = agreement.id)
   # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf
   # save_and_create comes from params
-  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main, agreement, template)
+  def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main, agreement, template_document_fields)
     # CombinePDF is for combine_pdf gem
     # get base agreement file from local directory (not used now)
     # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
@@ -43,7 +43,7 @@ module CreatePdf
     # p "!!!!!!Cloudinary download contract_name: " + contract_name.to_s
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "apartmentpj_constant_assets")
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
-    contract_name_with_folder = template ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
+    contract_name_with_folder = template_document_fields ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
     # p "!!!!!!contract_name_with_folder: " + contract_name_with_folder.to_s
     download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
     # p "!!!!!!Cloudinary download: " + download.to_s
@@ -96,17 +96,30 @@ module CreatePdf
                       }
     # get array of pages in document field attributes
     document_pages_array = []
+    document_page_mapped_hash = {}
     # Push page number in array if not already in array.
     # Iterate through field_objects passed in function call parameter
     field_objects.each do |each|
       # document_field_params[:document_field].each do |each|
-        if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
-          document_pages_array.push(each["page"].to_i)
-        end
+      if (!(document_pages_array.include? each["page"].to_i) && each["page"].to_i )
+        document_pages_array.push(each["page"].to_i)
+      end
+
+      if document_page_mapped_hash[each["page"].to_i]
+        document_page_mapped_hash[each["page"].to_i].push(each)
+      else
+        document_page_mapped_hash[each["page"].to_i] = [each]
+      end
         # p "!!!!!! document_pages_array: " + document_pages_array.to_s
     end
     # p 'in booking_controller, create_contract, eachField, document_pages_array: ' + document_pages_array.to_s
-
+    if template_document_fields
+      document_page_mapped_hash = template_document_fields[:document_fields]
+      document_pages_array = document_page_mapped_hash.keys
+      translation_fields_mapped = template_document_fields[:translation]
+    else
+      translation_fields_mapped = translation
+    end
     #!!!!!! START RENDER OF PDF
     # for each page in params, go through params onces
     # if input field, rectangle, circle, draw each
@@ -115,9 +128,10 @@ module CreatePdf
     (document_pages_max).times do
       # p "!!!!!!!!!!!!!!!!!!!!!!document_pages_max, document_pages_array.include?(page), document_pages_array, page" +" " + document_pages_max.to_s + " "+ document_pages_array.include?(page).to_s + " " + document_pages_array.to_s + " " + (page).to_s
       if document_pages_array.include?(page)
-        field_objects.each do |eachField|
+        # field_objects.each do |eachField|
+        document_page_mapped_hash[page].each do |eachField|
           # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s
-        # p "!!!!!! params[:document_field].each, eachField: " + eachField.to_s
+        # p "!!!!!! create_pdf, eachField, eachField[input_type], eachField[val], ' ' + eachField[page]: " + eachField.to_s + ' ' + eachField["input_type"].to_s + ' ' + eachField["val"].to_s + ' ' + eachField["page"].to_s
         # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
         # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
@@ -125,7 +139,7 @@ module CreatePdf
         # draw input fields
 
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
-          if (eachField["input_type"] == "string" || eachField["input_type"] == "text" || eachField["input_type"] == "date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["class_name"] != "document-rectangle wrap-textarea" && eachField["page"].to_i == (page)
+          if (eachField["input_type"] == "string" || eachField["input_type"] == "text" || eachField["input_type"] == "date") && (eachField["val"] == nil || eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["class_name"] != "document-rectangle wrap-textarea" && eachField["page"].to_i == (page)
             x = eachField["left"].to_f / 100 + adjustment_x_text_align
             y = eachField["top"].to_f / 100 + adjustment_input_y
             hor_points = hor_total_inches * x * points_per_inch
@@ -179,7 +193,7 @@ module CreatePdf
           end
           # end of string inputfield
           # draw rectagles for buttons WITHOUT enclosed text such as an "X"
-          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle" || eachField["class_name"] === "document-rectangle-template-button")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
             rectangle_x = eachField["left"].to_f / 100 + adjustment_x / 3;
             rectangle_y = eachField["top"].to_f / 100;
             rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
@@ -205,7 +219,7 @@ module CreatePdf
             end
           end
 
-          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (page)
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle" || eachField["class_name"] == "document-circle-template") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (page)
             circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
             circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
             circle_hor_points = hor_total_inches * circle_x * points_per_inch
@@ -217,8 +231,10 @@ module CreatePdf
         end
         # translations on agreement; translation comes from concerns/document_translation_fixed_term.rb
         # inside document
-        if !translation.empty?
-          translation[page].keys.each do |each_key|
+        if !translation_fields_mapped.empty?
+        # if !translation.empty?
+          translation_fields_mapped[page].keys.each do |each_key|
+          # translation_fields_mapped[page].keys.each do |each_key|
             # adjustment_x = 0.01
             adjustment_x_translation = 0
             # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
@@ -227,55 +243,59 @@ module CreatePdf
             adjustment_y_translation = 0.01
             adjustment_y_translation_rotate = 0
             adjustment_y_translation_align = 0
-            if !translation[page][each_key][:attributes][:width]
-              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
+            # IMPORTANT!!!! template translation have width !!!!!!!!!
+            if translation_fields_mapped[page][each_key][:attributes][:width]
+            # if !translation_fields_mapped[page][each_key][:attributes][:width]
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
               hor_points = hor_total_inches * x * points_per_inch
               ver_points = ver_total_inches * (1 - y) * points_per_inch
               # convert document_language_code to symbol to access hash
-              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+              text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
               # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+              p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
               pdf.font("IPAEX_GOTHIC") do
                 pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
               end
             end
             # Rotating text
-            if translation[page][each_key][:attributes][:rotate]
-              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate
+            if translation_fields_mapped[page][each_key][:attributes][:rotate]
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate
               hor_points = hor_total_inches * x * points_per_inch
               ver_points = ver_total_inches * (1 - y) * points_per_inch
-              x_width = translation[page][each_key][:attributes][:width].to_f / 100
+              x_width = translation_fields_mapped[page][each_key][:attributes][:width].to_f / 100
               hor_points_width = hor_total_inches * x_width * points_per_inch
-              y_height = translation[page][each_key][:attributes][:height].to_f / 100
+              y_height = translation_fields_mapped[page][each_key][:attributes][:height].to_f / 100
               # !!! NOTE ver_points_height is not (1 - y_height)
               ver_points_height = ver_total_inches * y_height * points_per_inch
               # convert document_language_code to symbol to access hash
-              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
+              text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
               pdf.font("IPAEX_GOTHIC") do
-                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
               end
             end
 
-            if translation[page][each_key][:attributes][:text_align]
-              x = translation[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-              y = translation[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_align
+            if translation_fields_mapped[page][each_key][:attributes][:text_align]
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_align
               hor_points = hor_total_inches * x * points_per_inch
               ver_points = ver_total_inches * (1 - y) * points_per_inch
-              x_width = translation[page][each_key][:attributes][:width].to_f / 100
+              x_width = translation_fields_mapped[page][each_key][:attributes][:width].to_f / 100
               hor_points_width = hor_total_inches * x_width * points_per_inch
-              y_height = translation[page][each_key][:attributes][:height].to_f / 100
+              y_height = translation_fields_mapped[page][each_key][:attributes][:height].to_f / 100
               # !!! NOTE ver_points_height is not (1 - y_height)
               ver_points_height = ver_total_inches * y_height * points_per_inch
               # convert document_language_code to symbol to access hash
-              text_to_display = translation[page][each_key][:translations][document_language_code.to_sym]
-              font_size = translation[page][each_key][:attributes][:font_size].to_f - 2
+              text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
+              font_size = translation_fields_mapped[page][each_key][:attributes][:font_size].to_f - 2
+              p "!!!!!! create_pdf, in translation text align translation_fields_mapped[page][each_key], hor_points, ver_points: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s
               pdf.font("IPAEX_GOTHIC") do
-                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align => translation[page][each_key][:attributes][:text_align].to_sym, :size => font_size
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign =>  :top, :align => translation_fields_mapped[page][each_key][:attributes][:text_align].to_sym, :size => font_size
               end
             end
           end
-          # end translation[page].each
+          # end translation_fields_mapped[page].each
         end
       else
         # p "Writing skipped page" + page.to_s
