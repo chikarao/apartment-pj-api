@@ -69,8 +69,11 @@ module TemplateElementFunctions
 
 
   def get_simplified_template_field_object(document_fields, agreement, document_language_code)
-    # Function returns array with document_fields that have attributes according to
-    # to choice chosen; Called in agreement controller
+    # Function returns page-mapped hash with arrays with document_fields that have attributes according to
+    # to choice chosen by user; Called in agreement controller
+    # Whereas document_field has many document_field_choices and document_field_translations,
+    # craete_pdf function takes document_fields that are flat with no children objects;
+    # so need to feed it decument_fields with top, left, input_type, width, height for inputs and buttons (chosen by user) with no children objects  
     returned_object = {}
     document_fields_hash = {}
     document_translation_fields_hash = {}

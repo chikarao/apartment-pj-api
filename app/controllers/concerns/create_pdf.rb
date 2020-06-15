@@ -399,7 +399,7 @@ module CreatePdf
     # keep
     # result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
     result = Cloudinary::Uploader.upload(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"), :width => 792, :height => 1122)
-    p 'in create_pdf, result: ' + result.to_s
+    p 'in create_pdf, save_and_create result: ' + save_and_create.to_s + ' ' + result.to_s
     if insert
       File.delete(path_final)
       File.delete(path_insert)

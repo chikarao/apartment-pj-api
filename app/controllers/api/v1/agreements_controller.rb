@@ -111,16 +111,28 @@ class Api::V1::AgreementsController < ApplicationController
 
     if params[:save_and_create]
       document_fields = DocumentField.where(agreement_id: agreement.id)
-      # need to get document fields simplified so that they have one object (no document field choices)
-      # simplified_document_fields is a hash with document_fields and translation
+      # Need to get document fields simplified so that they have one object and no children objects (no document_field_choices nor document_field_translations)
+      # template_document_fields is a hash with mapped objects document_fields and translation
       template_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
       document_language_code = params[:document_language_code]
-      # translation = DocumentField.where(agreement_id: agreement.id, translation_element: true)
+      # create_pdf called for static elements:
       # cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, template_document_fields)
       cloudinary_result = create_pdf([], nil, params[:save_and_create], {}, document_language_code, nil, agreement, template_document_fields)
-      p "!!!!! agreement_controller after get_simplified_template_field_object, cloudinary_result: " + cloudinary_result.to_s
-    end
+      # p "!!!!! agreement_controller after get_simplified_template_field_object, cloudinary_result: " + cloudinary_result.to_s
+      # Destroy existing pdf if it exists
+      unless !agreement.document_publicid
+        result = Cloudinary::Uploader.destroy(agreement.document_pdf_publicid);
+      end
+      # Assign new pdf publicid
+      # (Note: document_pdf_publicid is different from document_publicid which is for the background of the agreement)
+      agreement.document_pdf_publicid = cloudinary_result["public_id"]
+      agreement.document_pages = cloudinary_result["pages"]
 
+      unless agreement.save
+        json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
+        # break
+      end
+    end
 
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
     # and document_field_choice serializer that returns document_field_choices
@@ -179,11 +191,11 @@ class Api::V1::AgreementsController < ApplicationController
       cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, nil)
       # p "after cloudinary create, cloudinary_result[public_id]: " + cloudinary_result["public_id"].to_s
       # p "cloudinary_result, cloudinary_result.class: " + cloudinary_result.to_s + " " + cloudinary_result.class.to_s
-      unless !agreement.document_publicid
-        result = Cloudinary::Uploader.destroy(agreement.document_publicid);
+      unless !agreement.document_pdf_publicid
+        result = Cloudinary::Uploader.destroy(agreement.document_pdf_publicid);
         # p "after cloudinary destroy result, params[:save_and_create]: " + result.to_s + params[:save_and_create].to_s
       end
-      agreement.document_publicid = cloudinary_result["public_id"]
+      agreement.document_pdf_publicid = cloudinary_result["public_id"]
       agreement.document_pages = cloudinary_result["pages"]
 
       unless agreement.save
