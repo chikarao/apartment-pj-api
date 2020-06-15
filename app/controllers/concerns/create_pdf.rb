@@ -193,7 +193,7 @@ module CreatePdf
           end
           # end of string inputfield
           # draw rectagles for buttons WITHOUT enclosed text such as an "X"
-          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle" || eachField["class_name"] === "document-rectangle-template-button")  && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
+          if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle" || eachField["class_name"] === "document-rectangle-template-button") && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
             rectangle_x = eachField["left"].to_f / 100 + adjustment_x / 3;
             rectangle_y = eachField["top"].to_f / 100;
             rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
@@ -220,6 +220,7 @@ module CreatePdf
           end
 
           if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle" || eachField["class_name"] == "document-circle-template") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (page)
+            p "!!!!!!!!!!!! In create_pdf, button, document-circle-template: " + eachField.to_s
             circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
             circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
             circle_hor_points = hor_total_inches * circle_x * points_per_inch

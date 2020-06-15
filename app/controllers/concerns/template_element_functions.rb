@@ -79,6 +79,7 @@ module TemplateElementFunctions
     base_language = agreement[:language_code]
     translation_language = document_language_code
 
+    # Use multi line lambda to keep scope global and use variables (hashes) from outside
     get_translations_hash = lambda do |field|
       return_hash = {}
       field.document_field_translations.each do |each|
@@ -89,14 +90,17 @@ module TemplateElementFunctions
       return return_hash
     end
 
+    # Use multi line lambda to keep scope global and use variables (hashes) from outside
     add_to_page_mapped_hash = lambda do |field|
       if !field[:translation_element]
-        if document_fields_hash[field[:page]]
-          document_fields_hash[field[:page]].push(field)
+        # page key is a string since sent from below in simplified_document_field
+        if document_fields_hash[field["page"]]
+          document_fields_hash[field["page"]].push(field)
         else
-          document_fields_hash[field[:page]] = [field]
+          document_fields_hash[field["page"]] = [field]
         end
       else
+        # The keys in object for translaiton_elements must be symbols as translations all object have symbol keys
         new_field = { :attributes => {
                         :width => field.width,
                         :top => field.top,
@@ -114,10 +118,10 @@ module TemplateElementFunctions
                     }
         # patch for rotate as DB keeps .transform degrees (e.g. '90')
         # new_field[:rotate] = field.transform if field.transform
-        if document_translation_fields_hash[field[:page]]
-          document_translation_fields_hash[field[:page]][field.name.to_sym] = new_field
+        if document_translation_fields_hash[field["page"]]
+          document_translation_fields_hash[field["page"]][field.name.to_sym] = new_field
         else
-          document_translation_fields_hash[field[:page]] = { field.name.to_sym => new_field }
+          document_translation_fields_hash[field["page"]] = { field.name.to_sym => new_field }
         end
       end
     end
@@ -136,7 +140,7 @@ module TemplateElementFunctions
               if each_select[:value] === each_field[:value]
                 # Set conditions for setting path to select field value (actual text that is rendered)
                 # when requiring bool true, convert 't' or 'f' to boolean
-                # all booleans are stored as 't' or 'f' in database
+                # IMPORTANT: All booleans are stored as 't' or 'f' in database
                 select_value_in_bool = each_select[:value] === 't'
                 # Find out if all_object object is a treu false object by seeing if there is true in choices hash
                 select_true_or_false = !all_object[each_field.name.to_sym][:choices][true].nil?
@@ -164,19 +168,21 @@ module TemplateElementFunctions
                 end
                 # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_select.value, each_field[:name], all_object: " + each_select.value.to_s + ' ' + each_field[:name] + ' ' + all_object[each_field[:name].to_sym].to_s
                 simplified_document_field = {
-                  name: each_field[:name],
-                  val: each_choice[:val],
-                  top: each_choice[:top],
-                  left: each_choice[:left],
-                  width: each_choice[:width],
-                  height: each_choice[:height],
-                  text_align: each_choice[:text_align],
-                  font_size: each_choice[:font_size],
-                  class_name: each_choice[:class_name],
-                  input_type: each_choice[:input_type],
-                  page: each_field[:page],
+                  # The keys must be strings (not symbols), same as reading keys from an activeRecord object
+                  "name" => each_field[:name],
+                  "val" => each_choice[:val],
+                  "top" => each_choice[:top],
+                  "left" => each_choice[:left],
+                  "width" => each_choice[:width],
+                  "height" => each_choice[:height],
+                  "text_align" => each_choice[:text_align],
+                  "font_size" => each_choice[:font_size],
+                  "class_name" => each_choice[:class_name],
+                  "input_type" => 'string',
+                  # input_type: each_choice[:input_type],
+                  "page" => each_field[:page],
                   # if not a translation field (a select field that renders the translation language), get the base_language
-                  value: !each_field[:translation] ? select_value_path[base_language.to_sym] : select_value_path[translation_language.to_sym]
+                  "value" => !each_field[:translation] ? select_value_path[base_language.to_sym] : select_value_path[translation_language.to_sym]
                 }
                 add_to_page_mapped_hash.call(simplified_document_field)
               end
@@ -184,17 +190,20 @@ module TemplateElementFunctions
           else # else of if each_choice.select_choices
             if each_choice[:val] === each_field[:value]
               simplified_document_field = {
-                name: each_field[:name],
-                val: each_choice[:val],
-                top: each_choice[:top],
-                left: each_choice[:left],
-                width: each_choice[:width],
-                height: each_choice[:height],
-                font_size: each_choice[:font_size],
-                text_align: each_choice[:text_align],
-                class_name: each_choice[:class_name],
-                input_type: each_choice[:input_type],
-                page: each_field[:page]
+                # The keys must be strings (not symbols), same as reading keys from an activeRecord object
+                "name" => each_field[:name],
+                "val" => each_choice[:val],
+                "value" => each_field[:value],
+                "top" => each_choice[:top],
+                "left" => each_choice[:left],
+                "width" => each_choice[:width],
+                "height" => each_choice[:height],
+                "enclosed_text" => each_choice[:enclosed_text],
+                "font_size" => each_choice[:font_size],
+                "text_align" => each_choice[:text_align],
+                "class_name" => each_choice[:class_name],
+                "input_type" => each_choice[:input_type],
+                "page" => each_field[:page]
               }
               # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field[:name], simplified_document_field: " + each_field[:name].to_s + ' ' + simplified_document_field.to_s
               add_to_page_mapped_hash.call(simplified_document_field)
