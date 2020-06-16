@@ -4,6 +4,7 @@ class Api::V1::AgreementsController < ApplicationController
   include ContractTranslationMapObject
   include CreatePdf
   include TemplateElementFunctions
+  include Progress
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
   before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields]
@@ -54,6 +55,7 @@ class Api::V1::AgreementsController < ApplicationController
   # end
 
   def save_template_agreement_fields
+    send_progress_percentage({user_id: @user.id, percentage: 10, time: Time.now, message: 'Received request'}) if params[:save_and_create]
     # This endpoint creates new fields and updates existing template fields
     # p "save_template_agreement_fields, document_field_params, document_field_choice_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_choice_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
     booking = Booking.find_by(id: params[:booking_id])
@@ -110,28 +112,35 @@ class Api::V1::AgreementsController < ApplicationController
     # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, paramsparams[:save_and_create]: " + params.to_s + params[:save_and_create].to_s
 
     if params[:save_and_create]
+      send_progress_percentage({user_id: @user.id, percentage: 20, time: Time.now, message: 'Updated fields'})
       document_fields = DocumentField.where(agreement_id: agreement.id)
+      # document_fields = agreement.document_fields
       # Need to get document fields simplified so that they have one object and no children objects (no document_field_choices nor document_field_translations)
       # template_document_fields is a hash with mapped objects document_fields and translation
       template_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
+      send_progress_percentage({user_id: @user.id, percentage: 30, time: Time.now, message: 'Set up PDF inputs'})
       document_language_code = params[:document_language_code]
       # create_pdf called for static elements:
       # cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, template_document_fields)
       cloudinary_result = create_pdf([], nil, params[:save_and_create], {}, document_language_code, nil, agreement, template_document_fields)
+      send_progress_percentage({user_id: @user.id, percentage: 70, time: Time.now, message: 'Created PDF'})
       # p "!!!!! agreement_controller after get_simplified_template_field_object, cloudinary_result: " + cloudinary_result.to_s
       # Destroy existing pdf if it exists
       unless !agreement.document_publicid
+        send_progress_percentage({user_id: @user.id, percentage: 70, time: Time.now, message: 'Deleting old PDF'})
         result = Cloudinary::Uploader.destroy(agreement.document_pdf_publicid);
       end
       # Assign new pdf publicid
       # (Note: document_pdf_publicid is different from document_publicid which is for the background of the agreement)
       agreement.document_pdf_publicid = cloudinary_result["public_id"]
       agreement.document_pages = cloudinary_result["pages"]
+      send_progress_percentage({user_id: @user.id, percentage: 80, time: Time.now, message: 'Saving records'})
 
       unless agreement.save
         json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
         # break
       end
+      send_progress_percentage({user_id: @user.id, percentage: 100, time: Time.now, message: 'Returning'})
     end
 
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
