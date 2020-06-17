@@ -1,9 +1,9 @@
 module Progress
-
+  # called in agreements#save_template_agreement_fields in save_and_create
   def send_progress_percentage(p)
-    p '****** send_progress_percentage, user_id, percentage: ' + p[:user_id].to_s + ' ' + p[:percentage].to_s
-
+    # p '****** send_progress_percentage, user_id, percentage: ' + p[:user_id].to_s + ' ' + p[:percentage].to_s
      if p[:user_id]
+       # ProgressCreationEventBroadcastJob in jobs/
        ProgressCreationEventBroadcastJob.perform_now({:notification => "progress", :progress_percentage => p[:percentage], :message => p[:message], :time => p[:time]}, "messaging_room_#{p[:user_id]}")
      end
   end

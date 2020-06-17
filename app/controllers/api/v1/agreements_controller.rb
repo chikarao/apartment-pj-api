@@ -55,6 +55,7 @@ class Api::V1::AgreementsController < ApplicationController
   # end
 
   def save_template_agreement_fields
+    #send_progress_percentage in concerns/progress.rb
     send_progress_percentage({user_id: @user.id, percentage: 10, time: Time.now, message: 'Received request'}) if params[:save_and_create]
     # This endpoint creates new fields and updates existing template fields
     # p "save_template_agreement_fields, document_field_params, document_field_choice_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_choice_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
@@ -118,7 +119,7 @@ class Api::V1::AgreementsController < ApplicationController
       # Need to get document fields simplified so that they have one object and no children objects (no document_field_choices nor document_field_translations)
       # template_document_fields is a hash with mapped objects document_fields and translation
       template_document_fields = get_simplified_template_field_object(document_fields, agreement, params[:document_language_code])
-      send_progress_percentage({user_id: @user.id, percentage: 30, time: Time.now, message: 'Set up PDF inputs'})
+      send_progress_percentage({user_id: @user.id, percentage: 30, time: Time.now, message: 'Preparing for PDF creation'})
       document_language_code = params[:document_language_code]
       # create_pdf called for static elements:
       # cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, template_document_fields)
@@ -140,7 +141,6 @@ class Api::V1::AgreementsController < ApplicationController
         json_response "Update agreement but create PDF failed", false, {}, :unprocessable_entity
         # break
       end
-      send_progress_percentage({user_id: @user.id, percentage: 100, time: Time.now, message: 'Returning'})
     end
 
     # IMPORTANT: agreement serializer and document_field_serializer have a custom document_field
@@ -152,6 +152,7 @@ class Api::V1::AgreementsController < ApplicationController
     agreement_serializer = parse_json agreements
     document_field_serializer = parse_json document_fields
     booking_serializer = parse_json booking
+    send_progress_percentage({user_id: @user.id, percentage: 100, time: Time.now, message: 'Returning'}) if params[:save_and_create]
     # if none of the above each loops do not break, send successful json response
     json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
   end

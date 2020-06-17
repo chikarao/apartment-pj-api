@@ -84,6 +84,12 @@ module CreatePdf
     # bigger y farther down; bigger x farther right
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
+    additional_adjustment_circle_x_template = 0
+    additional_adjustment_circle_y_template = 0
+
+    additional_adjustment_circle_x_template = 0.1 if save_and_create
+    additional_adjustment_circle_y_template = 0.01 if save_and_create
+
 
     # path for external font ttf
     ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
@@ -220,13 +226,32 @@ module CreatePdf
           end
 
           if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-circle" || eachField["class_name"] == "document-circle-template") && !(eachField["enclosed_text"]) && eachField["page"].to_i == (page)
-            p "!!!!!!!!!!!! In create_pdf, button, document-circle-template: " + eachField.to_s
-            circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
-            circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
-            circle_hor_points = hor_total_inches * circle_x * points_per_inch
-            circle_ver_points = ver_total_inches * circle_y * points_per_inch
-            if eachField["value"] == eachField["val"]
-              pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+            # If document_fields are template_document_fields do below, otherwise, do static document
+            if template_document_fields
+              # Get the radius in fraction
+              radius_x = (eachField["width"].to_f / 100) / 2
+              radius_y = (eachField["height"].to_f / 100) / 2
+              # Get the left and top in fraction and add radius since Prawn sets left and top as the center of the circle
+              circle_x = (eachField["left"].to_f / 100) + radius_x
+              circle_y = (1 - ((eachField["top"].to_f / 100) + radius_y))
+              # Get horizontal and vertical points (center of circle)
+              circle_hor_points = hor_total_inches * circle_x * points_per_inch
+              circle_ver_points = ver_total_inches * circle_y * points_per_inch
+              # Get size of circle in radius points 
+              circle_size_points = hor_total_inches * radius_x * points_per_inch
+              # p "!!!!!!!!!!!! In create_pdf, button, document-circle-template, eachField, radius_x, radius_y, circle_x, circle_y: " + eachField.to_s + ' ' + radius_x.to_s + ' ' + radius_y.to_s + ' ' + circle_x.to_s + ' ' + circle_y.to_s
+              if eachField["value"] == eachField["val"]
+                # pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+                pdf.stroke_circle [circle_hor_points, circle_ver_points], circle_size_points
+              end
+            else
+              circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
+              circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
+              circle_hor_points = hor_total_inches * circle_x * points_per_inch
+              circle_ver_points = ver_total_inches * circle_y * points_per_inch
+              if eachField["value"] == eachField["val"]
+                pdf.stroke_circle [circle_hor_points, circle_ver_points], 6
+              end
             end
           end
         end
