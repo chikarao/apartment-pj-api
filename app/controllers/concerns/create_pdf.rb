@@ -142,8 +142,7 @@ module CreatePdf
 
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
           if (eachField["input_type"] == "string" || eachField["input_type"] == "text" || eachField["input_type"] == "date") && (eachField["val"] == nil || eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["class_name"] != "document-rectangle wrap-textarea" && eachField["page"].to_i == (page)
-            p "!!!!!!!!!!!! In create_pdf, input string, first, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
-
+            # p "!!!!!!!!!!!! In create_pdf, input string, first, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
             x = eachField["left"].to_f / 100 + adjustment_x_text_align
             y = eachField["top"].to_f / 100 + adjustment_input_y
             x = eachField["left"].to_f / 100 + adjustment_x_text_align + 0.001 if template_document_fields
@@ -169,7 +168,7 @@ module CreatePdf
 
           # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
           if (eachField["input_type"] == "text" || eachField["input_type"] == "string") && eachField["class_name"] == "document-rectangle wrap-textarea" && eachField["val"] == "inputFieldValue" && eachField["page"].to_i == (page)
-            p "!!!!!!!!!!!! In create_pdf, input string, second, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
+            # p "!!!!!!!!!!!! In create_pdf, input string, second, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
             x = eachField["left"].to_f / 100 + adjustment_x
             y = eachField["top"].to_f / 100 + adjustment_y_text_align
             hor_points = hor_total_inches * x * points_per_inch
@@ -197,7 +196,7 @@ module CreatePdf
           # end of string inputfield
           # For aligned text
           if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && eachField["text_align"] && eachField["page"].to_i == (page)
-            p "!!!!!!!!!!!! In create_pdf, input string, third, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
+            # p "!!!!!!!!!!!! In create_pdf, input string, third, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
             x = eachField["left"].to_f / 100 + adjustment_x
             y = eachField["top"].to_f / 100 + adjustment_y_text_align
             hor_points = hor_total_inches * x * points_per_inch
@@ -299,8 +298,33 @@ module CreatePdf
             adjustment_y_translation_rotate = 0
             adjustment_y_translation_align = 0
             # IMPORTANT!!!! template translation have width !!!!!!!!!
-            if translation_fields_mapped[page][each_key][:attributes][:width]
-            # if !translation_fields_mapped[page][each_key][:attributes][:width]
+            # if translation_fields_mapped[page][each_key][:attributes][:width]
+            p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  translation_fields_mapped[page][each_key]: " +  translation_fields_mapped[page][each_key].to_s
+
+            if translation_fields_mapped[page][each_key][:attributes][:width] && !translation_fields_mapped[page][each_key][:attributes][:rotate]
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation + 0.001 if template_document_fields
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation + 0.001 if template_document_fields
+              hor_points = hor_total_inches * x * points_per_inch
+              ver_points = ver_total_inches * (1 - y) * points_per_inch
+              # convert document_language_code to symbol to access hash
+              text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
+              # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
+              # p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
+              if template_document_fields
+                font_size_in_points = translation_fields_mapped[page][each_key][:attributes][:font_size].to_f * points_per_pixel
+                pdf.font("IPAEX_GOTHIC") do
+                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points
+                end
+              else
+                pdf.font("IPAEX_GOTHIC") do
+                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
+                end
+              end
+            end
+
+            if !translation_fields_mapped[page][each_key][:attributes][:width]
               x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
               y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
               hor_points = hor_total_inches * x * points_per_inch
