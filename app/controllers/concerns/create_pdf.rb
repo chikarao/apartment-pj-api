@@ -70,6 +70,8 @@ module CreatePdf
     ver_total_inches = 11.69
     # Prawn gem points per inch
     points_per_inch = 72
+    # font_inches_per_point = 0.0138889
+    points_per_pixel = 0.75
     # !!!!!!adjustment for margin on frontend and padding of input fields
     # same horizontal x adjument for input and circle
     adjustment_x = 0.01
@@ -84,12 +86,6 @@ module CreatePdf
     # bigger y farther down; bigger x farther right
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
-    additional_adjustment_circle_x_template = 0
-    additional_adjustment_circle_y_template = 0
-
-    additional_adjustment_circle_x_template = 0.1 if save_and_create
-    additional_adjustment_circle_y_template = 0.01 if save_and_create
-
 
     # path for external font ttf
     ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
@@ -146,19 +142,34 @@ module CreatePdf
 
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
           if (eachField["input_type"] == "string" || eachField["input_type"] == "text" || eachField["input_type"] == "date") && (eachField["val"] == nil || eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["class_name"] != "document-rectangle wrap-textarea" && eachField["page"].to_i == (page)
+            p "!!!!!!!!!!!! In create_pdf, input string, first, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
+
             x = eachField["left"].to_f / 100 + adjustment_x_text_align
             y = eachField["top"].to_f / 100 + adjustment_input_y
+            x = eachField["left"].to_f / 100 + adjustment_x_text_align + 0.001 if template_document_fields
+            y = eachField["top"].to_f / 100 + adjustment_input_y - 0.001 if template_document_fields
+            # x = eachField["left"].to_f / 100 if template_document_fields
+            # y = (eachField["top"].to_f / 100) + ((eachField["height"].to_f / 100) / 2) if template_document_fields
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
             # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10, :overflow => :shrink_to_fit
+            if template_document_fields
+              font_size_in_points = eachField["font_size"].to_f * points_per_pixel
+              pdf.font("IPAEX_GOTHIC") do
+                # pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => eachField["font_size"].to_f, :overflow => :shrink_to_fit
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points, :overflow => :shrink_to_fit
+              end
+            else
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10, :overflow => :shrink_to_fit
+              end
             end
           end
 
           # pdf.draw_text params[:address][:value], :at => [address_hor_points, address_ver_points], :size => 10
           if (eachField["input_type"] == "text" || eachField["input_type"] == "string") && eachField["class_name"] == "document-rectangle wrap-textarea" && eachField["val"] == "inputFieldValue" && eachField["page"].to_i == (page)
+            p "!!!!!!!!!!!! In create_pdf, input string, second, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
             x = eachField["left"].to_f / 100 + adjustment_x
             y = eachField["top"].to_f / 100 + adjustment_y_text_align
             hor_points = hor_total_inches * x * points_per_inch
@@ -171,14 +182,22 @@ module CreatePdf
             text_to_display = eachField["display_text"] ? eachField["display_text"] : value
             # text_to_display = eachField["value"]
             # text_to_display = "HERE"
-            pdf.font("IPAEX_GOTHIC") do
-              pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
-              # pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
+            if template_document_fields
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => eachField["font_size"].to_f, :overflow => :shrink_to_fit, :minimum_font_size => 8
+                # pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
+              end
+            else
+              pdf.font("IPAEX_GOTHIC") do
+                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
+                # pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :valign => :top, :size => 10, :overflow => :shrink_to_fit, :minimum_font_size => 8
+              end
             end
           end
           # end of string inputfield
           # For aligned text
           if (eachField["input_type"] == "string" || eachField["input_type"] =="text" || eachField["input_type"] =="date") && (eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && eachField["text_align"] && eachField["page"].to_i == (page)
+            p "!!!!!!!!!!!! In create_pdf, input string, third, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
             x = eachField["left"].to_f / 100 + adjustment_x
             y = eachField["top"].to_f / 100 + adjustment_y_text_align
             hor_points = hor_total_inches * x * points_per_inch
@@ -200,14 +219,23 @@ module CreatePdf
           # end of string inputfield
           # draw rectagles for buttons WITHOUT enclosed text such as an "X"
           if (eachField["input_type"] == "button") && (eachField["class_name"] == "document-rectangle" || eachField["class_name"] === "document-rectangle-template-button") && !(eachField["enclosed_text"]) && (eachField["page"].to_i == (page))
-            rectangle_x = eachField["left"].to_f / 100 + adjustment_x / 3;
+            rectangle_x = eachField["left"].to_f / 100 + adjustment_x / 3
+            rectangle_x = eachField["left"].to_f / 100 if template_document_fields
             rectangle_y = eachField["top"].to_f / 100;
             rectangle_hor_points = hor_total_inches * rectangle_x * points_per_inch
             rectangle_ver_points = ver_total_inches * (1 - rectangle_y) * points_per_inch
-            rectagle_width_points = hor_total_inches * eachField["width"].to_f / 100 * points_per_inch
+            rectagle_width_points = hor_total_inches * (eachField["width"].to_f / 100) * points_per_inch
+            rectagle_height_points = ver_total_inches * (eachField["height"].to_f / 100) * points_per_inch
             if eachField["value"] == eachField["val"]
-              pdf.stroke do
-                 pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+              if template_document_fields
+                pdf.stroke do
+                  # provie top, left, width, height, and border radius
+                  pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, rectagle_height_points, 3
+                end
+              else
+                pdf.stroke do
+                  pdf.rounded_rectangle [rectangle_hor_points, rectangle_ver_points], rectagle_width_points, 12, 5
+                end
               end
             end
           end
@@ -237,7 +265,7 @@ module CreatePdf
               # Get horizontal and vertical points (center of circle)
               circle_hor_points = hor_total_inches * circle_x * points_per_inch
               circle_ver_points = ver_total_inches * circle_y * points_per_inch
-              # Get size of circle in radius points 
+              # Get size of circle in radius points
               circle_size_points = hor_total_inches * radius_x * points_per_inch
               # p "!!!!!!!!!!!! In create_pdf, button, document-circle-template, eachField, radius_x, radius_y, circle_x, circle_y: " + eachField.to_s + ' ' + radius_x.to_s + ' ' + radius_y.to_s + ' ' + circle_x.to_s + ' ' + circle_y.to_s
               if eachField["value"] == eachField["val"]
@@ -245,6 +273,7 @@ module CreatePdf
                 pdf.stroke_circle [circle_hor_points, circle_ver_points], circle_size_points
               end
             else
+              # Logic for static
               circle_x = eachField["left"].to_f / 100 + adjustment_x + additional_adjustment_circle_x
               circle_y = (1 - eachField["top"].to_f / 100) + adjustment_y - additional_adjustment_circle_y
               circle_hor_points = hor_total_inches * circle_x * points_per_inch
@@ -279,7 +308,7 @@ module CreatePdf
               # convert document_language_code to symbol to access hash
               text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
               # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
-              p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
+              # p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
               pdf.font("IPAEX_GOTHIC") do
                 pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
               end

@@ -73,7 +73,7 @@ module TemplateElementFunctions
     # to choice chosen by user; Called in agreement controller
     # Whereas document_field has many document_field_choices and document_field_translations,
     # craete_pdf function takes document_fields that are flat with no children objects;
-    # so need to feed it decument_fields with top, left, input_type, width, height for inputs and buttons (chosen by user) with no children objects  
+    # so need to feed it decument_fields with top, left, input_type, width, height for inputs and buttons (chosen by user) with no children objects
     returned_object = {}
     document_fields_hash = {}
     document_translation_fields_hash = {}
@@ -187,6 +187,7 @@ module TemplateElementFunctions
                   # if not a translation field (a select field that renders the translation language), get the base_language
                   "value" => !each_field[:translation] ? select_value_path[base_language.to_sym] : select_value_path[translation_language.to_sym]
                 }
+                # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field.name, each_choice.font_size: " + each_field[:name].to_s + ' ' + each_choice[:font_size].to_s
                 add_to_page_mapped_hash.call(simplified_document_field)
               end
             end
