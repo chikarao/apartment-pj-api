@@ -1,33 +1,47 @@
 module CreatePdf
   require 'prawn'
   # require DocumentTranslation
-  # field_objects and contract_name call in booking#create_contract or agreement#update
+  # IMPORTANT: field_objects and contract_name call in booking#create_contract or agreement#update
   # also called in agreement#update_agreement_fields, agreement#save_template_agreement_fields
   # field_objects can come from params or DocumentField.where(agreement_id = agreement.id)
-  # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf
+  # contract_name from params; corresponds to file name in assets/pdf/xxx.pdf; Not used for templates
   # save_and_create comes from params
+  ########################################
+  # IMPORTANT: FLOW OF OPERATIONS
+  # 1. Get PDF and insert downloaded from Cloudinary and assign to pdf_base (agreement.document_publicid) and pdf_insert (document_insert.publicid), respective
+  # both files are saved locally to /public/system/temp_files/pdf_files
+  # 2. Create and write each field on each specified page on pdf saved in temp_files as pdf_merge
+  # 3. Write pdf_merge (pages with no fields skipped) onto pdf_base
+  # 4. If there is an insert, create pdf_final and save in temp_files
+  # Write pdf_merge and pdf_insert on each specified to pdf_final and upload to Cloudinary
+  # 5. If there is no insert, save pdf_base as pdf_combined for upload to Cloudinary
+  # 6. Get result from Cloudinary and return it, publicid will be saved as agreement.document_pdf_publicid
+  ########################################
+
   def create_pdf(field_objects, contract_name, save_and_create, translation, document_language_code, document_insert_main, agreement, template_document_fields)
     # CombinePDF is for combine_pdf gem
-    # get base agreement file from local directory (not used now)
-    # pdf_base = CombinePDF.load(Rails.root.join("app/assets/pdf/#{contract_name}.pdf"))
-    # get base agreement file with only base language on it from Cloudinary
-    # contract name comes from object stored on the front end in constants/documents
+    # get base agreement file from local directory (not applicable in template environment)
+    # get base agreement file with only base language on it from Cloudinary (not applicable in template environment)
+    # contract name comes from object stored on the front end in constants/documents (not applicable in template environment)
+
+    # Insert enables user to insert a pdf within a pdf
     # insert is placeholder flag for indicating there is an inserted agreement for fixed term agreement
     insert = document_insert_main
     # Perform below only if insert is true
     if insert
       # placeholder for insert public_Id for cloudinary
-      # pdf_insert_public_id = "pdf_insert_test"
       pdf_insert_public_id = document_insert_main.publicid
+      # get number of pages for insert in cloudinary
       pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
-      # p "pdf_insert_resource[pages]: " + pdf_insert_resource["pages"].to_s
+      p "!!!!!!!create_pdf, pdf_insert_resource " + pdf_insert_resource.to_s
       pdf_insert_pages = pdf_insert_resource["pages"].to_i
+      pdf_insert_dimensions_array = [pdf_insert_resource["width"], pdf_insert_resource["height"]]
+      # Download the pdf from Cloudinary
       pdf_insert_download = Cloudinary::Downloader.download(pdf_insert_public_id, :flags => :attachment)
-      # p "pdf_insert_download: " + pdf_insert_download.to_s
-      # Define path to insert pdf
+      # Define path to insert pdf in local temp directory
       path_insert = Rails.root.join("public/system/temp_files/pdf_files/pdf_insert.pdf")
       # convert encoding from Cloudinary's ASCII-8BIT encoding to UTF-8 encoding
-      # p "download " + download.to_s
+      # Code used before to write and save file
       # p "download encoding " + download.encoding.to_s
       # download.force_encoding('utf-8')
       # p "download encoding after encoding " + download.encoding.to_s
@@ -36,18 +50,22 @@ module CreatePdf
       pdf_insert = File.new(path_insert, "wb")
       pdf_insert.write(pdf_insert_download)
       pdf_insert.close
+      # CombinePDF to prep pdf_insert to combine with other pdfs
       pdf_insert = CombinePDF.load(path_insert)
     end
     # END of if insert
-    # p "!!!!!!insert: " + insert.to_s
-    # p "!!!!!!Cloudinary download contract_name: " + contract_name.to_s
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment, :folder => "apartmentpj_constant_assets")
     # download = Cloudinary::Downloader.download(contract_name, :flags => :attachment)
+    # !!!!!IMPORTANT: If working on template, use agreement document_publicid to get file from Cloudinary; Otherwise file from use constant-assets folder
     contract_name_with_folder = template_document_fields ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
-    # p "!!!!!!contract_name_with_folder: " + contract_name_with_folder.to_s
+    contract_name = template_document_fields ? agreement.document_publicid : contract_name
+    pdf_resource = Cloudinary::Api.resource(contract_name)
+    # get dimensions of document
+    contract_dimensions_array = [pdf_resource["width"], pdf_resource["height"]]
+    p "!!!!!!!create_pdf, pdf_resource " + pdf_resource.to_s
+    # get file from Cloudiary
     download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
-    # p "!!!!!!Cloudinary download: " + download.to_s
-    # p "!!!!!!translation: " + translation.to_s
+    # p "!!!!!!!create_pdf, download " + download.to_s
     # Define path to base pdf
     path_base = Rails.root.join("public/system/temp_files/pdf_files/pdf_base.pdf")
     pdf_base = File.new(path_base, "wb")
@@ -55,15 +73,11 @@ module CreatePdf
     pdf_base.write(download)
     pdf_base.close
     pdf_base = CombinePDF.load(path_base)
-    # p "field_objects " + field_objects.to_s
-    # p "contract_name " + contract_name.to_s
-    # p "save_and_create " + save_and_create.to_s
-    # p "translation " + translation.to_s
-    # p "document_language_code " + document_language_code.to_s
     # Letter size 612 x 792
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [612, 792])
     # A4 size 595 x 841
-    pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
+    # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
+    pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => contract_dimensions_array)
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
     # A4 dimensions in inches
     hor_total_inches = 8.27
@@ -387,12 +401,12 @@ module CreatePdf
       page += 1
     end
     # end of document times do
+    # At this point, pdf has fields rendered on their respective pages (pages with no fields skipped)
 
     # pdf.stroke_axis()
-
     path_merge = Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf")
+    # Save pdf with fields rendered as pdf_merge (number of pages same as pdf_base (agreement.document_publicid))
     pdf.render_file(path_merge)
-
     # keep
     # File.delete("public/system/temp_files/pdf_files/example.pdf")
     pdf_merge = CombinePDF.load(Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf"))
@@ -404,6 +418,9 @@ module CreatePdf
     # .pages is an array of pages
     # p "!!!! Before PDF Merge document_pages_array: " + document_pages_array.to_s
     # document_pages_array.each_with_index do |eachPage, i|
+
+    # Write pdf_merge to pdf_base (agreement.document_publicid)
+    # pages on PDFs start with zero so -1 to get index
     document_pages_array.each_with_index do |eachPage, i|
       # p "!!!! PDF Merge each_with_index: " + eachPage.to_s
       # pdf_base.pages[i]<< pdf_merge.pages[i]
@@ -412,7 +429,9 @@ module CreatePdf
     # PERFORM only if insert is true and there is an inserted agreement
     if insert
       # create pdf_f with specified # pages to take content from pdf_base
-      pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
+      # pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
+      pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_insert_dimensions_array)
+      # -1 to start page one less time than total pages
       (document_pages_array.length + pdf_insert_pages - 1).times do
         pdf_f.start_new_page
       end
@@ -424,7 +443,7 @@ module CreatePdf
       # p "!!!! pdf_final.pages: " + pdf_final.pages.to_s
 
       # page number of the last page in document pages array
-      last_page = document_pages_array.last
+      last_page = document_pages_array.sort.last
       count = 0
       # assign last page of inserted, combined file
       pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
@@ -461,6 +480,7 @@ module CreatePdf
       pdf_final.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
     end
     # END of if insert
+    # If there is no insert save pdf_base as pdf_combined, why not do else ?
     unless insert
       # save pdf base as pdf_combined unless insert is true and there is an inserted agreement in place of the standard agreement
       pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))

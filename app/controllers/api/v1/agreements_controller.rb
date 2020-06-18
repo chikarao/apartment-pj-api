@@ -115,6 +115,7 @@ class Api::V1::AgreementsController < ApplicationController
     if params[:save_and_create]
       send_progress_percentage({user_id: @user.id, percentage: 20, time: Time.now, message: 'Updated fields'})
       document_fields = DocumentField.where(agreement_id: agreement.id)
+      document_insert = DocumentInsert.where(agreement_id: agreement.id)
       # document_fields = agreement.document_fields
       # Need to get document fields simplified so that they have one object and no children objects (no document_field_choices nor document_field_translations)
       # template_document_fields is a hash with mapped objects document_fields and translation
@@ -123,7 +124,7 @@ class Api::V1::AgreementsController < ApplicationController
       document_language_code = params[:document_language_code]
       # create_pdf called for static elements:
       # cloudinary_result = create_pdf(document_fields, contract_name, params[:save_and_create], translation, document_language_code, document_insert_main, agreement, template_document_fields)
-      cloudinary_result = create_pdf([], nil, params[:save_and_create], {}, document_language_code, nil, agreement, template_document_fields)
+      cloudinary_result = create_pdf([], nil, params[:save_and_create], {}, document_language_code, document_insert[0], agreement, template_document_fields)
       send_progress_percentage({user_id: @user.id, percentage: 70, time: Time.now, message: 'Created PDF'})
       # p "!!!!! agreement_controller after get_simplified_template_field_object, cloudinary_result: " + cloudinary_result.to_s
       # Destroy existing pdf if it exists
