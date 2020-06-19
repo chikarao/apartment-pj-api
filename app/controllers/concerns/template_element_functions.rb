@@ -127,7 +127,7 @@ module TemplateElementFunctions
           document_translation_fields_hash[field["page"]] = { field.name.to_sym => new_field }
         end
       end
-    end
+    end # end of lambda
 
     document_fields.each do |each_field|
       # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, each_field.name, document_fields, document_fields.count: " + each_field.name.to_s + ' ' + document_fields.to_s + ' ' + document_fields.count.to_s + ' ' + each_field.to_s

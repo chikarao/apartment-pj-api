@@ -115,7 +115,7 @@ class Api::V1::AgreementsController < ApplicationController
     if params[:save_and_create]
       send_progress_percentage({user_id: @user.id, percentage: 20, time: Time.now, message: 'Updated fields'})
       document_fields = DocumentField.where(agreement_id: agreement.id)
-      document_insert = DocumentInsert.where(agreement_id: agreement.id)
+      document_insert = params[:use_main_document_insert] ? DocumentInsert.where(agreement_id: agreement.id) : []
       # document_fields = agreement.document_fields
       # Need to get document fields simplified so that they have one object and no children objects (no document_field_choices nor document_field_translations)
       # template_document_fields is a hash with mapped objects document_fields and translation

@@ -34,7 +34,7 @@ module CreatePdf
       # get number of pages for insert in cloudinary
       pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
       p "!!!!!!!create_pdf, pdf_insert_resource " + pdf_insert_resource.to_s
-      pdf_insert_pages = pdf_insert_resource["pages"].to_i
+      pdf_insert_pages = pdf_insert_resource["pages"]
       pdf_insert_dimensions_array = [pdf_insert_resource["width"], pdf_insert_resource["height"]]
       # Download the pdf from Cloudinary
       pdf_insert_download = Cloudinary::Downloader.download(pdf_insert_public_id, :flags => :attachment)
@@ -59,9 +59,10 @@ module CreatePdf
     # !!!!!IMPORTANT: If working on template, use agreement document_publicid to get file from Cloudinary; Otherwise file from use constant-assets folder
     contract_name_with_folder = template_document_fields ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
     contract_name = template_document_fields ? agreement.document_publicid : contract_name
-    pdf_resource = Cloudinary::Api.resource(contract_name)
+    pdf_resource = Cloudinary::Api.resource(contract_name, :pages => true)
     # get dimensions of document
-    contract_dimensions_array = [pdf_resource["width"], pdf_resource["height"]]
+    pdf_base_dimensions_array = [pdf_resource["width"], pdf_resource["height"]]
+    pdf_base_pages = pdf_resource["pages"]
     p "!!!!!!!create_pdf, pdf_resource " + pdf_resource.to_s
     # get file from Cloudiary
     download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
@@ -77,7 +78,7 @@ module CreatePdf
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [612, 792])
     # A4 size 595 x 841
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
-    pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => contract_dimensions_array)
+    pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_base_dimensions_array)
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
     # A4 dimensions in inches
     hor_total_inches = 8.27
@@ -399,10 +400,8 @@ module CreatePdf
       # end if document_pages_array includes page
       pdf.start_new_page
       page += 1
-    end
-    # end of document times do
+    end # end of document times do
     # At this point, pdf has fields rendered on their respective pages (pages with no fields skipped)
-
     # pdf.stroke_axis()
     path_merge = Rails.root.join("public/system/temp_files/pdf_files/pdf_merge.pdf")
     # Save pdf with fields rendered as pdf_merge (number of pages same as pdf_base (agreement.document_publicid))
@@ -425,66 +424,99 @@ module CreatePdf
       # p "!!!! PDF Merge each_with_index: " + eachPage.to_s
       # pdf_base.pages[i]<< pdf_merge.pages[i]
       pdf_base.pages[(eachPage - 1)] << pdf_merge.pages[(eachPage - 1)]
-    end
+    end # end of document_pages_array.each_with_index do |eachPage, i|
     # PERFORM only if insert is true and there is an inserted agreement
     if insert
       # create pdf_f with specified # pages to take content from pdf_base
       # pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
       pdf_f = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_insert_dimensions_array)
       # -1 to start page one less time than total pages
-      (document_pages_array.length + pdf_insert_pages - 1).times do
+      # (document_pages_array.length + pdf_insert_pages - 1).times do
+      pdf_insert_pages_array = []
+      # p "!!!!!!!create_pdf, in if insert pdf_insert_pages: " + pdf_insert_pages.to_s
+      # p "!!!!!!!create_pdf, in if insert pdf_base_pages: " + pdf_base_pages.to_s
+      # p "!!!!!!!create_pdf, in if insert pdf_base.pages: " + pdf_base.pages.to_s
+      # Get total number of pdf_final pages before creating pdf_f
+      pdf_final_pages = pdf_base_pages + pdf_insert_pages
+      (pdf_final_pages - 1).times do
         pdf_f.start_new_page
       end
-
+      # Save pdf_f as pdf_final in local temp_files
       path_final = Rails.root.join("public/system/temp_files/pdf_files/pdf_final.pdf")
       pdf_f.render_file(path_final)
       # p "!!!! pdf_f: " + pdf_f.to_s
       pdf_final = CombinePDF.load(path_final)
       # p "!!!! pdf_final.pages: " + pdf_final.pages.to_s
+      # transpose_base_to_final = lambda do |field|
+      # end
 
-      # page number of the last page in document pages array
-      last_page = document_pages_array.sort.last
-      count = 0
-      # assign last page of inserted, combined file
-      pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
-      # iterate through each page in array
-      document_pages_array.each do |eachPage|
-        # unless eachPage is the last page
-        unless eachPage == last_page
-          # transpose the index of each page in array
-          pdf_final.pages[(eachPage - 1)] << pdf_base.pages[(eachPage - 1)]
-        else
-          # if last page, transpose the last page
-          pdf_final.pages[pdf_final_last_page_index] << pdf_base.pages[(eachPage - 1)]
+      if insert["insert_after_page"]
+        # template logic
+        count_insert = 0
+        count_base = 0
+        pdf_final_pages.times do |i|
+          # i and pdf page are both indexes starting with 0; page does not start with zero non-zero integer
+          if ((i + 1) > insert["insert_after_page"]) && ((i + 1) <= insert["insert_after_page"] + pdf_insert_pages)
+            # Transpose pdf_insert pages if i + 1 is within insert_after_page and insert_after_page + pdr_insert_pages
+            pdf_final.pages[i] << pdf_insert.pages[count_insert]
+            # Keep count of insert pages transposed; transposed in consecutive order
+            count_insert += 1
+          # elsif document_pages_array.include?(adjusted_base_page)
+          else
+            # p "!!!!!!!create_pdf, in if else insert_after_page, adjusted_base_page, count_base, insert_after_page, pdf_base_pages, pdf_insert_pages: " + count_base.to_s + ' ' + insert["insert_after_page"].to_s + ' ' + pdf_base_pages.to_s + ' ' + pdf_insert_pages.to_s
+            pdf_final.pages[i] << pdf_base.pages[count_base]
+            # Keep count of base pages; Transpose pages in order after skipping to transpose insert pages
+            count_base += 1
+          end
+        end # END of pdf_final_pages.times do |i|
+
+      else # if no insert_after_page, insert before last page (static documents has signature page last)
+        # page number of the last page in document pages array
+        last_page = pdf_base_pages
+        # last_page = document_pages_array.sort.last
+        count = 0
+        # assign last page of inserted, combined file
+        # pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
+        pdf_final_last_page_index = pdf_base_pages + pdf_insert_pages - 1
+        # iterate through each page in array
+        document_pages_array.each do |eachPage|
+          # unless eachPage is the last page
+          if eachPage == last_page
+            # if last page, transpose the last page
+            pdf_final.pages[pdf_final_last_page_index] << pdf_base.pages[(eachPage - 1)]
+          else
+            # transpose the index of each page in array
+            pdf_final.pages[(eachPage - 1)] << pdf_base.pages[(eachPage - 1)]
+          end
+          count += 1
         end
-        count += 1
-      end
 
-      count = 0
-      count_insert = 0
-      # Iterate for number of pages in the combined document and agreement
-      (document_pages_array.length + pdf_insert_pages).times do
-        # if the count is not in the document array AND NOT the last page of the document
-        if !document_pages_array.include?((count + 1)) && (count != pdf_final_last_page_index)
-          # Transpose the insert into the blank pages of pdf final with the needed pages in pdf_base
-          pdf_final.pages[count] << pdf_insert.pages[count_insert]
-          # increment count_insert to get ready for the next page to transpose
-          count_insert += 1
-        end
-        # increment count to go to to the next page of the combined document
-        count += 1
-      end
-
+        count = 0
+        count_insert = 0
+        # Iterate for number of pages in the combined document and agreement
+        (document_pages_array.length + pdf_insert_pages).times do
+          # if the count is not in the document array AND NOT the last page of the document
+          if !document_pages_array.include?((count + 1)) && (count != pdf_final_last_page_index)
+            # Transpose the insert into the blank pages of pdf final with the needed pages in pdf_base
+            pdf_final.pages[count] << pdf_insert.pages[count_insert]
+            # increment count_insert to get ready for the next page to transpose
+            count_insert += 1
+          end
+          # increment count to go to to the next page of the combined document
+          count += 1
+        end # END of (document_pages_array.length + pdf_insert_pages).times do
+      end # END of if !insert["insert_after_page"]
 
       # save pdf final as combined.pdf
       pdf_final.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
-    end
-    # END of if insert
-    # If there is no insert save pdf_base as pdf_combined, why not do else ?
-    unless insert
+
+    else # ELSE of if insert
       # save pdf base as pdf_combined unless insert is true and there is an inserted agreement in place of the standard agreement
       pdf_base.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
-    end
+    end # END of if insert
+    # If there is no insert save pdf_base as pdf_combined, why not do else ?
+    # unless insert
+    # end # END of unless insert
     # KEEP
     # path = Rails.root.join("public/system/temp_files/pdf_files", pdf)
     # path_combined = Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf")
