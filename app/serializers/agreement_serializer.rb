@@ -20,6 +20,9 @@ class AgreementSerializer < ActiveModel::Serializer
   :document_pages,
   :document_type,
   :document_pdf_publicid,
+  :document_pdf_pages,
+  :document_page_size,
+  :document_pdf_page_size,
   :created_at,
   :updated_at
   # has_many :flats

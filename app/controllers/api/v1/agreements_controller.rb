@@ -135,7 +135,7 @@ class Api::V1::AgreementsController < ApplicationController
       # Assign new pdf publicid
       # (Note: document_pdf_publicid is different from document_publicid which is for the background of the agreement)
       agreement.document_pdf_publicid = cloudinary_result["public_id"]
-      agreement.document_pages = cloudinary_result["pages"]
+      agreement.document_pdf_pages = cloudinary_result["pages"]
       send_progress_percentage({user_id: @user.id, percentage: 80, time: Time.now, message: 'Saving records'})
 
       unless agreement.save
@@ -286,7 +286,10 @@ class Api::V1::AgreementsController < ApplicationController
       :template_file_name,
       :document_code,
       :document_pages,
-      :document_type
+      :document_type,
+      :document_pdf_pages,
+      :document_page_size,
+      :document_pdf_page_size
       # document_fields_attributes: [
     )
   end

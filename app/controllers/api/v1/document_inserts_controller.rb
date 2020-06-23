@@ -126,7 +126,8 @@ class Api::V1::DocumentInsertsController < ApplicationController
       :pages,
       :from_page,
       :to_page,
-      :insert_name
+      :insert_name,
+      :page_size
     )
   end
 

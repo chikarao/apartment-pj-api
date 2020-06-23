@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200611042452) do
+ActiveRecord::Schema.define(version: 20200623010659) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 20200611042452) do
     t.integer "document_pages"
     t.string "document_type"
     t.string "document_pdf_publicid"
+    t.integer "document_pdf_pages"
+    t.string "document_page_size"
+    t.string "document_pdf_page_size"
     t.index ["booking_id"], name: "index_agreements_on_booking_id"
     t.index ["flat_id"], name: "index_agreements_on_flat_id"
   end
@@ -460,6 +463,7 @@ ActiveRecord::Schema.define(version: 20200611042452) do
     t.string "insert_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "page_size"
     t.index ["agreement_id"], name: "index_document_inserts_on_agreement_id"
   end
 

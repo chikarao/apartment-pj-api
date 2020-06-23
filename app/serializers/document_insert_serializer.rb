@@ -10,6 +10,7 @@ class DocumentInsertSerializer < ActiveModel::Serializer
   :to_page,
   :insert_name,
   :insert_fields,
+  :page_size,
   :created_at,
   :updated_at
 

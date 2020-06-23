@@ -74,9 +74,9 @@ module CreatePdf
     pdf_base.write(download)
     pdf_base.close
     pdf_base = CombinePDF.load(path_base)
-    # Letter size 612 x 792
+    # Letter size 612 x 792 in pixels
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [612, 792])
-    # A4 size 595 x 841
+    # A4 size 595 x 841 in pixels 72 ppi 
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
     pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_base_dimensions_array)
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
