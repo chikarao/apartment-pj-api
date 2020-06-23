@@ -32,10 +32,13 @@ module CreatePdf
       # placeholder for insert public_Id for cloudinary
       pdf_insert_public_id = document_insert_main.publicid
       # get number of pages for insert in cloudinary
-      pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
-      p "!!!!!!!create_pdf, pdf_insert_resource " + pdf_insert_resource.to_s
-      pdf_insert_pages = pdf_insert_resource["pages"]
-      pdf_insert_dimensions_array = [pdf_insert_resource["width"], pdf_insert_resource["height"]]
+      # pdf_insert_resource = Cloudinary::Api.resource(pdf_insert_public_id, :pages => true)
+      # p "!!!!!!!create_pdf, pdf_insert_resource " + pdf_insert_resource.to_s
+      # pdf_insert_pages = pdf_insert_resource["pages"]
+      pdf_insert_pages = document_insert_main["pages"]
+      pdf_insert_split_size_array = document_insert_main["page_size"].split(",")
+      # pdf_insert_dimensions_array = [pdf_insert_resource["width"], pdf_insert_resource["height"]]
+      pdf_insert_dimensions_array = [pdf_insert_split_size_array[0].to_i, pdf_insert_split_size_array[1].to_i]
       # Download the pdf from Cloudinary
       pdf_insert_download = Cloudinary::Downloader.download(pdf_insert_public_id, :flags => :attachment)
       # Define path to insert pdf in local temp directory
@@ -59,11 +62,14 @@ module CreatePdf
     # !!!!!IMPORTANT: If working on template, use agreement document_publicid to get file from Cloudinary; Otherwise file from use constant-assets folder
     contract_name_with_folder = template_document_fields ? agreement.document_publicid + ".pdf" : "apartmentpj-constant-assets/" + contract_name + ".pdf"
     contract_name = template_document_fields ? agreement.document_publicid : contract_name
-    pdf_resource = Cloudinary::Api.resource(contract_name, :pages => true)
+    # pdf_resource = Cloudinary::Api.resource(contract_name, :pages => true)
     # get dimensions of document
-    pdf_base_dimensions_array = [pdf_resource["width"], pdf_resource["height"]]
-    pdf_base_pages = pdf_resource["pages"]
-    p "!!!!!!!create_pdf, pdf_resource " + pdf_resource.to_s
+    # pdf_base_dimensions_array = [pdf_resource["width"], pdf_resource["height"]]
+    pdf_split_size_array = agreement["document_page_size"].split(",")
+    pdf_base_dimensions_array = [pdf_split_size_array[0].to_i, pdf_split_size_array[1].to_i]
+    # pdf_base_pages = pdf_resource["pages"]
+    pdf_base_pages = agreement["document_pages"]
+    # p "!!!!!!!create_pdf, pdf_resource " + pdf_resource.to_s
     # get file from Cloudiary
     download = Cloudinary::Downloader.download(contract_name_with_folder, :flags => :attachment)
     # p "!!!!!!!create_pdf, download " + download.to_s
@@ -76,7 +82,7 @@ module CreatePdf
     pdf_base = CombinePDF.load(path_base)
     # Letter size 612 x 792 in pixels
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [612, 792])
-    # A4 size 595 x 841 in pixels 72 ppi 
+    # A4 size 595 x 841 in pixels 72 ppi
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => [595, 841])
     pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_base_dimensions_array)
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
