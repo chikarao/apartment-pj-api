@@ -11,6 +11,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   :height,
   :width,
   :font_style,
+  :font_family,
   :font_size,
   :font_color,
   :font_weight,

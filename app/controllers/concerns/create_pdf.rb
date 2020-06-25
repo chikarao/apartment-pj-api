@@ -87,10 +87,13 @@ module CreatePdf
     pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => pdf_base_dimensions_array)
     # pdf = Prawn::Document.new(:margin => [0, 0, 0, 0], :page_size => "A4")
     # A4 dimensions in inches
-    hor_total_inches = 8.27
-    ver_total_inches = 11.69
-    # Prawn gem points per inch
     points_per_inch = 72
+    # 595 / 8.27 = 71.946795646916566
+    hor_total_inches = pdf_split_size_array[0].to_i / 71.946795646916566
+    ver_total_inches = pdf_split_size_array[1].to_i / 71.946795646916566
+    # hor_total_inches = 8.27
+    # ver_total_inches = 11.69
+    # Prawn gem points per inch
     # font_inches_per_point = 0.0138889
     points_per_pixel = 0.75
     # !!!!!!adjustment for margin on frontend and padding of input fields
@@ -117,6 +120,34 @@ module CreatePdf
                         :bold_italic => ipaex_gothic_path,
                         :normal      => ipaex_gothic_path
                       }
+    # Prawn built-in fonts: in github prawn/lib/prawn/font/afm.rb
+          # Courier Helvetica Times-Roman Symbol ZapfDingbats
+          # Courier-Bold Courier-Oblique Courier-BoldOblique
+          # Times-Bold Times-Italic Times-BoldItalic
+          # Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique
+    # map front end font families to backend available fonts
+    # Must get ttf files for all to get UTF-8 characters for all
+    # For instance courier does not have Japanese fonts
+    font_mapping_object = {
+      "MSゴシック" => "IPAEX_GOTHIC",
+      "ＭＳ Ｐ明朝" => "IPAEX_GOTHIC",
+      "arial" => "IPAEX_GOTHIC",
+      "times new roman" => "Times-Roman",
+      "times" => "Times-Roman",
+      "helvetica" => "Helvetica",
+      "courier" => "Courier"
+    }
+    # Method for getting style that can be handled by Prawn
+    get_font_and_style = lambda do |field|
+      return_hash = {}
+      style = :normal
+      style = :bold if field["font_weight"] == 'bold' && field["font_style"] != 'italic'
+      style = :bold_italic if field["font_weight"] == 'bold' && field["font_style"] == 'italic'
+      style = :italic if field["font_weight"] != 'bold' && field["font_style"] == 'italic'
+
+      return {font: font_mapping_object[field["font_family"]], style: style}
+    end
+    # font stles [:bold, :bold_italic, :italic, :normal].
     # get array of pages in document field attributes
     document_pages_array = []
     document_page_mapped_hash = {}
@@ -158,7 +189,6 @@ module CreatePdf
         # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
         # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
         # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
-        # p 'in booking_controller, create_contract, params[eachField]["name"] params[eachField]["input_type"] params[eachField]["val"]: ' + params[eachField]["name"].to_s + " " +  params[eachField]["input_type"].to_s + " " + params[eachField]["val"].to_s
         # draw input fields
 
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
@@ -173,16 +203,20 @@ module CreatePdf
             hor_points = hor_total_inches * x * points_per_inch
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
+            font_and_style = get_font_and_style.call(eachField)
+            p 'in create_pdf eachField.name, eachField.font_family font_and_style: ' + eachField["name"].to_s + ' ' + eachField["font_family"].to_s + ' ' + font_and_style.to_s
             # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
             if template_document_fields
               font_size_in_points = eachField["font_size"].to_f * points_per_pixel
-              pdf.font("IPAEX_GOTHIC") do
+              # pdf.font("IPAEX_GOTHIC") do
+              pdf.font(font_and_style[:font]) do
                 # pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => eachField["font_size"].to_f, :overflow => :shrink_to_fit
-                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points, :overflow => :shrink_to_fit
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points, :overflow => :shrink_to_fit, :style => font_and_style[:style]
               end
             else
-              pdf.font("IPAEX_GOTHIC") do
-                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10, :overflow => :shrink_to_fit
+              # pdf.font("IPAEX_GOTHIC") do
+              pdf.font(font_and_style[:font]) do
+                pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 10, :overflow => :shrink_to_fit, :style => font_and_style[:style]
               end
             end
           end
