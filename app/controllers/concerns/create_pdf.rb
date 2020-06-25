@@ -111,7 +111,7 @@ module CreatePdf
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
 
-    # path for external font ttf
+    # path for external font ttf; Any new fonts added put into this directory
     ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
     # define custom font in assets/fonts/ipaexg
     pdf.font_families["IPAEX_GOTHIC"] = {
@@ -144,6 +144,7 @@ module CreatePdf
       style = :bold if field["font_weight"] == 'bold' && field["font_style"] != 'italic'
       style = :bold_italic if field["font_weight"] == 'bold' && field["font_style"] == 'italic'
       style = :italic if field["font_weight"] != 'bold' && field["font_style"] == 'italic'
+      p 'in create_pdf get_font_and_style lambda field: ' + field.to_s
 
       return {font: font_mapping_object[field["font_family"]], style: style}
     end
@@ -367,14 +368,23 @@ module CreatePdf
               text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
               # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
               # p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
+              font_and_style = get_font_and_style.call({
+                "font_family" => translation_fields_mapped[page][each_key][:attributes][:font_family],
+                "font_weight" => translation_fields_mapped[page][each_key][:attributes][:font_weight],
+                "font_style" => translation_fields_mapped[page][each_key][:attributes][:font_style]
+                })
+              p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  font_and_style: " +  font_and_style.to_s
+
               if template_document_fields
                 font_size_in_points = translation_fields_mapped[page][each_key][:attributes][:font_size].to_f * points_per_pixel
-                pdf.font("IPAEX_GOTHIC") do
-                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points
+                # pdf.font("IPAEX_GOTHIC") do
+                pdf.font(font_and_style[:font]) do
+                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points, :style => font_and_style[:style]
                 end
               else
-                pdf.font("IPAEX_GOTHIC") do
-                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8
+                # pdf.font("IPAEX_GOTHIC") do
+                pdf.font(font_and_style[:font]) do
+                  pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => 8, :style => font_and_style[:style]
                 end
               end
             end
