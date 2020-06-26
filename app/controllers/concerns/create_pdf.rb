@@ -110,7 +110,8 @@ module CreatePdf
     # bigger y farther down; bigger x farther right
     additional_adjustment_circle_x = 0.01
     additional_adjustment_circle_y = 0.025
-
+    # !!!!!!!!!!!!!!  FONTS !!!!!!!!!!!!!!!
+    # Prawn has limted built-in fonts so need to assign ttf files hash in pdf
     # path for external font ttf; Any new fonts added put into this directory
     ipaex_gothic_path = Rails.root.join("app/assets/fonts/ipaexg.ttf")
     # define custom font in assets/fonts/ipaexg
@@ -125,7 +126,7 @@ module CreatePdf
           # Courier-Bold Courier-Oblique Courier-BoldOblique
           # Times-Bold Times-Italic Times-BoldItalic
           # Helvetica-Bold Helvetica-Oblique Helvetica-BoldOblique
-    # map front end font families to backend available fonts
+    # map front end font families to backend available fonts, as Prawn font names do not fit with css fint names
     # Must get ttf files for all to get UTF-8 characters for all
     # For instance courier does not have Japanese fonts
     font_mapping_object = {
@@ -144,8 +145,7 @@ module CreatePdf
       style = :bold if field["font_weight"] == 'bold' && field["font_style"] != 'italic'
       style = :bold_italic if field["font_weight"] == 'bold' && field["font_style"] == 'italic'
       style = :italic if field["font_weight"] != 'bold' && field["font_style"] == 'italic'
-      p 'in create_pdf get_font_and_style lambda field: ' + field.to_s
-
+      # p 'in create_pdf get_font_and_style lambda field: ' + field.to_s
       return {font: font_mapping_object[field["font_family"]], style: style}
     end
     # font stles [:bold, :bold_italic, :italic, :normal].
@@ -175,7 +175,7 @@ module CreatePdf
     else
       translation_fields_mapped = translation
     end
-    #!!!!!! START RENDER OF PDF
+    #!!!!!! START RENDER OF FIELDS ON PDF
     # for each page in params, go through params onces
     # if input field, rectangle, circle, draw each
     document_pages_max = document_pages_array.max
@@ -185,13 +185,7 @@ module CreatePdf
       if document_pages_array.include?(page)
         # field_objects.each do |eachField|
         document_page_mapped_hash[page].each do |eachField|
-          # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s
-        # p "!!!!!! create_pdf, eachField, eachField[input_type], eachField[val], ' ' + eachField[page]: " + eachField.to_s + ' ' + eachField["input_type"].to_s + ' ' + eachField["val"].to_s + ' ' + eachField["page"].to_s
-        # p 'in booking_controller, create_contract, eachField,  eachField["page"], i: ' + params[eachField].to_s + " " + params[eachField]["page"].to_s + " " + i.to_s
-        # p 'in booking_controller, create_contract, params[eachField]: ' + params[eachField].to_s
-        # p 'in booking_controller, create_contract, params[eachField]["name"] eachField["input_type"] == "string" (eachField["val"] == "inputFieldValue"): ' + params[eachField]["name"].to_s + " " +  (params[eachField]["input_type"] == "string").to_s + " " + (params[eachField]["val"] == "inputFieldValue").to_s
         # draw input fields
-
         # p "!!!!!!!!!!!!!!!!!!!!!! Writing page" + page.to_s + " Inside if input_type == string..."
           if (eachField["input_type"] == "string" || eachField["input_type"] == "text" || eachField["input_type"] == "date") && (eachField["val"] == nil || eachField["val"] == "inputFieldValue" || eachField["val"] == "true" || eachField["val"] == "false" || eachField["val"] == "t" || eachField["val"] == "f" ) && !eachField["text_align"] && eachField["class_name"] != "document-rectangle wrap-textarea" && eachField["page"].to_i == (page)
             # p "!!!!!!!!!!!! In create_pdf, input string, first, eachField.name, eachField.font_size: " + eachField["name"].to_s + ' ' + eachField["font_size"].to_f.to_s
@@ -205,7 +199,7 @@ module CreatePdf
             ver_points = ver_total_inches * (1 - y) * points_per_inch
             text_to_display = eachField["display_text"] ? eachField["display_text"] : eachField["value"]
             font_and_style = get_font_and_style.call(eachField)
-            p 'in create_pdf eachField.name, eachField.font_family font_and_style: ' + eachField["name"].to_s + ' ' + eachField["font_family"].to_s + ' ' + font_and_style.to_s
+            # p 'in create_pdf eachField.name, eachField.font_family font_and_style: ' + eachField["name"].to_s + ' ' + eachField["font_family"].to_s + ' ' + font_and_style.to_s
             # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
             if template_document_fields
               font_size_in_points = eachField["font_size"].to_f * points_per_pixel
@@ -355,7 +349,13 @@ module CreatePdf
             adjustment_y_translation_align = 0
             # IMPORTANT!!!! template translation have width !!!!!!!!!
             # if translation_fields_mapped[page][each_key][:attributes][:width]
-            p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  translation_fields_mapped[page][each_key]: " +  translation_fields_mapped[page][each_key].to_s
+            # p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  translation_fields_mapped[page][each_key]: " +  translation_fields_mapped[page][each_key].to_s
+            font_and_style = get_font_and_style.call({
+              "font_family" => translation_fields_mapped[page][each_key][:attributes][:font_family],
+              "font_weight" => translation_fields_mapped[page][each_key][:attributes][:font_weight],
+              "font_style" => translation_fields_mapped[page][each_key][:attributes][:font_style]
+              })
+              font_size_in_points = translation_fields_mapped[page][each_key][:attributes][:font_size].to_f * points_per_pixel
 
             if translation_fields_mapped[page][each_key][:attributes][:width] && !translation_fields_mapped[page][each_key][:attributes][:rotate]
               x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
@@ -368,15 +368,9 @@ module CreatePdf
               text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
               # draw_input(hor_points, ver_points, params[eachField["value"]], pdf, ipaex_gothic_path)
               # p "!!!!!! create_pdf, in translation no width translation_fields_mapped[page][each_key], hor_points, ver_points, translation_fields_mapped[page][each_key][:attributes][:width]: " + translation_fields_mapped[page][each_key].to_s + ' ' + hor_points.to_s + ' ' + hor_points.to_s + ' ' + translation_fields_mapped[page][each_key][:attributes][:width].to_s
-              font_and_style = get_font_and_style.call({
-                "font_family" => translation_fields_mapped[page][each_key][:attributes][:font_family],
-                "font_weight" => translation_fields_mapped[page][each_key][:attributes][:font_weight],
-                "font_style" => translation_fields_mapped[page][each_key][:attributes][:font_style]
-                })
-              p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  font_and_style: " +  font_and_style.to_s
+              # p "!!!!!!!!!!!! In create_pdf,translation_fields_mapped[page].keys.each do,  font_and_style: " +  font_and_style.to_s
 
               if template_document_fields
-                font_size_in_points = translation_fields_mapped[page][each_key][:attributes][:font_size].to_f * points_per_pixel
                 # pdf.font("IPAEX_GOTHIC") do
                 pdf.font(font_and_style[:font]) do
                   pdf.draw_text text_to_display, :at => [hor_points, ver_points], :size => font_size_in_points, :style => font_and_style[:style]
@@ -415,8 +409,15 @@ module CreatePdf
               ver_points_height = ver_total_inches * y_height * points_per_inch
               # convert document_language_code to symbol to access hash
               text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
-              pdf.font("IPAEX_GOTHIC") do
-                pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8
+              if template_document_fields
+                # pdf.font("IPAEX_GOTHIC") do
+                pdf.font(font_and_style[:font]) do
+                  pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => font_size_in_points, :style => font_and_style[:style]
+                end
+              else
+                pdf.font("IPAEX_GOTHIC") do
+                  pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => 8, :style => font_and_style[:style]
+                end
               end
             end
 
@@ -500,18 +501,19 @@ module CreatePdf
       # transpose_base_to_final = lambda do |field|
       # end
 
-      if insert["insert_after_page"]
+      insert_pages = lambda do |insert_after_page|
         # template logic
         count_insert = 0
         count_base = 0
         pdf_final_pages.times do |i|
           # i and pdf page are both indexes starting with 0; page does not start with zero non-zero integer
-          if ((i + 1) > insert["insert_after_page"]) && ((i + 1) <= insert["insert_after_page"] + pdf_insert_pages)
+          # if ((i + 1) > insert["insert_after_page"]) && ((i + 1) <= insert["insert_after_page"] + pdf_insert_pages)
+          if ((i + 1) > insert_after_page) && ((i + 1) <= insert_after_page + pdf_insert_pages)
             # Transpose pdf_insert pages if i + 1 is within insert_after_page and insert_after_page + pdr_insert_pages
             pdf_final.pages[i] << pdf_insert.pages[count_insert]
             # Keep count of insert pages transposed; transposed in consecutive order
             count_insert += 1
-          # elsif document_pages_array.include?(adjusted_base_page)
+            # elsif document_pages_array.include?(adjusted_base_page)
           else
             # p "!!!!!!!create_pdf, in if else insert_after_page, adjusted_base_page, count_base, insert_after_page, pdf_base_pages, pdf_insert_pages: " + count_base.to_s + ' ' + insert["insert_after_page"].to_s + ' ' + pdf_base_pages.to_s + ' ' + pdf_insert_pages.to_s
             pdf_final.pages[i] << pdf_base.pages[count_base]
@@ -520,42 +522,53 @@ module CreatePdf
           end
         end # END of pdf_final_pages.times do |i|
 
-      else # if no insert_after_page, insert before last page (static documents has signature page last)
-        # page number of the last page in document pages array
-        last_page = pdf_base_pages
-        # last_page = document_pages_array.sort.last
-        count = 0
-        # assign last page of inserted, combined file
-        # pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
-        pdf_final_last_page_index = pdf_base_pages + pdf_insert_pages - 1
-        # iterate through each page in array
-        document_pages_array.each do |eachPage|
-          # unless eachPage is the last page
-          if eachPage == last_page
-            # if last page, transpose the last page
-            pdf_final.pages[pdf_final_last_page_index] << pdf_base.pages[(eachPage - 1)]
-          else
-            # transpose the index of each page in array
-            pdf_final.pages[(eachPage - 1)] << pdf_base.pages[(eachPage - 1)]
-          end
-          count += 1
-        end
+      end
 
-        count = 0
-        count_insert = 0
-        # Iterate for number of pages in the combined document and agreement
-        (document_pages_array.length + pdf_insert_pages).times do
-          # if the count is not in the document array AND NOT the last page of the document
-          if !document_pages_array.include?((count + 1)) && (count != pdf_final_last_page_index)
-            # Transpose the insert into the blank pages of pdf final with the needed pages in pdf_base
-            pdf_final.pages[count] << pdf_insert.pages[count_insert]
-            # increment count_insert to get ready for the next page to transpose
-            count_insert += 1
-          end
-          # increment count to go to to the next page of the combined document
-          count += 1
-        end # END of (document_pages_array.length + pdf_insert_pages).times do
-      end # END of if !insert["insert_after_page"]
+      # If template document, user params for insert_after_page; Else on static documents use next to last page
+      if insert["insert_after_page"]
+        insert_pages.call(insert["insert_after_page"])
+        # insert_after_page = template_document_fields ? insert["insert_after_page"] : pdf_base_pages - 1
+      else
+        insert_after_page_static = pdf_base_pages - 1
+        insert_pages.call(insert_after_page_static)
+      end
+
+      # else # if no insert_after_page, insert before last page (static documents has signature page last)
+      #   # page number of the last page in document pages array
+      #   last_page = pdf_base_pages
+      #   # last_page = document_pages_array.sort.last
+      #   count = 0
+      #   # assign last page of inserted, combined file
+      #   # pdf_final_last_page_index = document_pages_array.length + pdf_insert_pages - 1
+      #   pdf_final_last_page_index = pdf_base_pages + pdf_insert_pages - 1
+      #   # iterate through each page in array
+      #   document_pages_array.each do |eachPage|
+      #     # unless eachPage is the last page
+      #     if eachPage == last_page
+      #       # if last page, transpose the last page
+      #       pdf_final.pages[pdf_final_last_page_index] << pdf_base.pages[(eachPage - 1)]
+      #     else
+      #       # transpose the index of each page in array
+      #       pdf_final.pages[(eachPage - 1)] << pdf_base.pages[(eachPage - 1)]
+      #     end
+      #     count += 1
+      #   end
+      #
+      #   count = 0
+      #   count_insert = 0
+      #   # Iterate for number of pages in the combined document and agreement
+      #   (document_pages_array.length + pdf_insert_pages).times do
+      #     # if the count is not in the document array AND NOT the last page of the document
+      #     if !document_pages_array.include?((count + 1)) && (count != pdf_final_last_page_index)
+      #       # Transpose the insert into the blank pages of pdf final with the needed pages in pdf_base
+      #       pdf_final.pages[count] << pdf_insert.pages[count_insert]
+      #       # increment count_insert to get ready for the next page to transpose
+      #       count_insert += 1
+      #     end
+      #     # increment count to go to to the next page of the combined document
+      #     count += 1
+      #   end # END of (document_pages_array.length + pdf_insert_pages).times do
+      # end # END of if !insert["insert_after_page"]
 
       # save pdf final as combined.pdf
       pdf_final.save(Rails.root.join("public/system/temp_files/pdf_files/pdf_combined.pdf"))
