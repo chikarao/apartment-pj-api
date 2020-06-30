@@ -221,12 +221,13 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 1/17/2020 to pa.h, pa.g, ka.h, ka.g
     # changed yet again 1/24/2020 back to Ya.i, Ya.g, Ta.i, Ya.g
     # changed yet again 5/21/2020 back to Ya.i, Ya.j, Ua.i, Ua.j
-    north_south_first = 'Ya'
-    south_second = 'i'
-    north_second = 'j'
+    # changed yet again 6/30/2020 back to Za.i, Za.j, Ua.i, Ua.j
+    north_south_first = 'Za'
+    south_second = 'i' # 37.73223256302308
+    north_second = 'j' # larger positive in SF, California 37.835340869420385
     east_west_first = 'Ua'
-    west_second = 'i'
-    east_second = 'j'
+    west_second = 'i' # larger negative -122.50212027587891
+    east_second = 'j' # -122.25149466552
     # Sample bounds logs from Googlemap API for illustration
     # 1/24/20
     # north_second is the larger number of 37....

@@ -97,7 +97,7 @@ module CreatePdf
     # font_inches_per_point = 0.0138889
     points_per_pixel = 0.75
     # !!!!!!adjustment for margin on frontend and padding of input fields
-    # same horizontal x adjument for input and circle
+    # same horizontal x adjustment for input and circle
     adjustment_x = 0.01
     # accounts for top 0, left: 0 at upper left; points 0, 0 in PDF is left bottom
     # vertical y adjustment for circle
@@ -360,7 +360,7 @@ module CreatePdf
             if translation_fields_mapped[page][each_key][:attributes][:width] && !translation_fields_mapped[page][each_key][:attributes][:rotate]
               x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
               y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation
-              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation + 0.001 if template_document_fields
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation + 0.006 if template_document_fields
               y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation + 0.001 if template_document_fields
               hor_points = hor_total_inches * x * points_per_inch
               ver_points = ver_total_inches * (1 - y) * points_per_inch
@@ -398,8 +398,23 @@ module CreatePdf
             end
             # Rotating text
             if translation_fields_mapped[page][each_key][:attributes][:rotate]
-              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation
-              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate
+              adjustment = 0.005
+              rotate = translation_fields_mapped[page][each_key][:attributes][:rotate].to_i
+              rotate_map_hash = {
+                # 0 => { x_adj: 0, y_adj: -adjustment },
+                0 => { x_adj: adjustment + 0.001, y_adj: 0.003 },
+                90 => { x_adj: (-adjustment - 0.001), y_adj: adjustment },
+                180 => { x_adj: (-adjustment - 0.005), y_adj: -adjustment },
+                270 => { x_adj: adjustment, y_adj: (-adjustment - 0.002) },
+              }
+              local_adjustment_x = rotate_map_hash[rotate][:x_adj]
+              local_adjustment_y = rotate_map_hash[rotate][:y_adj]
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation + local_adjustment_x
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate + local_adjustment_y
+              x = translation_fields_mapped[page][each_key][:attributes][:left].to_f / 100 + adjustment_x_translation if !template_document_fields
+              y = translation_fields_mapped[page][each_key][:attributes][:top].to_f / 100 + adjustment_y_translation_rotate if !template_document_fields
+              p "create_pdf rotate, local_adjustment_x, local_adjustment_y, x, y: " + rotate.to_s + ' ' + local_adjustment_x.to_s + ' ' + local_adjustment_y.to_s + ' ' + x.to_s + ' ' + y.to_s
+
               hor_points = hor_total_inches * x * points_per_inch
               ver_points = ver_total_inches * (1 - y) * points_per_inch
               x_width = translation_fields_mapped[page][each_key][:attributes][:width].to_f / 100
@@ -409,10 +424,11 @@ module CreatePdf
               ver_points_height = ver_total_inches * y_height * points_per_inch
               # convert document_language_code to symbol to access hash
               text_to_display = translation_fields_mapped[page][each_key][:translations][document_language_code.to_sym]
+
               if template_document_fields
                 # pdf.font("IPAEX_GOTHIC") do
                 pdf.font(font_and_style[:font]) do
-                  pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => font_size_in_points, :style => font_and_style[:style]
+                  pdf.text_box text_to_display, :at => [hor_points, ver_points], :width => hor_points_width, :height => ver_points_height, :rotate => 360 - translation_fields_mapped[page][each_key][:attributes][:rotate].to_i, :rotate_around => :upper_left, :size => font_size_in_points, :style => font_and_style[:style]
                 end
               else
                 pdf.font("IPAEX_GOTHIC") do
