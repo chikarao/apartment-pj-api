@@ -1,6 +1,10 @@
 require 'json'
+require 'uri'
+require 'net/http'
 # UserStatus in concerns/user_status for creating and upding redis hash
 include UserStatus
+
+# https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 
 class Api::V1::FlatsController < ApplicationController
   before_action :load_flat, only: [:show, :update, :destroy]
@@ -127,8 +131,8 @@ class Api::V1::FlatsController < ApplicationController
         # user_last_activity = $redis.hgetall(user_key)
         # user = User.first
         # set_function = set_last_user_activity(user)
-        p "*************redis all keys: " + all.to_s
-        p "*************redis user_key: " + user_key.to_s
+        # p "*************redis all keys: " + all.to_s
+        # p "*************redis user_key: " + user_key.to_s
         # p "*************redis user_last_activity: " + user_last_activity.to_s
         # p "*************cached flats class name to string: " + cached_flats.to_s
         # p "*************cached flats class name as is: " + cached_flats
@@ -181,24 +185,71 @@ class Api::V1::FlatsController < ApplicationController
   def new
   end
 
+  # def create
+  #   flat = Flat.new flat_params
+  #   flat.user_id = @user.id
+  #   flat.created_at = DateTime.now
+  #   # only if have parent
+  #   # flat.book_id = params[:book_id]
+  #   if flat.save
+  #     # p "flats_controller, amenity_params" + amenity_params.to_s
+  #     amenity = Amenity.new amenity_params
+  #     amenity.flat_id = flat.id
+  #     # p "flats_controller, amenities after new" + amenity.flat_id.to_s
+  #     if amenity.save
+  #       flat_serializer = parse_json flat
+  #       amenity_serializer = parse_json amenity
+  #       json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
+  #     else
+  #       flat.destroy
+  #       json_response "Create flat failed because amenity failed to be created", false, {}, :unprocessable_entity
+  #     end
+  #   else
+  #     json_response "Create flat failed", false, {}, :unprocessable_entity
+  #   end
+  # end
+
   def create
-    flat = Flat.new flat_params
-    flat.user_id = @user.id
-    flat.created_at = DateTime.now
-    # only if have parent
-    # flat.book_id = params[:book_id]
-    if flat.save
-      # p "flats_controller, amenity_params" + amenity_params.to_s
-      amenity = Amenity.new amenity_params
-      amenity.flat_id = flat.id
-      # p "flats_controller, amenities after new" + amenity.flat_id.to_s
-      if amenity.save
-        flat_serializer = parse_json flat
-        amenity_serializer = parse_json amenity
-        json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
+    api_key = ENV["GOOGLE_MAP_API_KEY"]
+    # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
+    city = flat_params[:city]
+    state = flat_params[:state]
+    zip = flat_params[:zip]
+    country = flat_params[:country]
+    address_string = "#{flat_params[:address1]},+#{flat_params[:city]},+#{flat_params[:state]},+#{flat_params[:zip]},+#{flat_params[:country]}}"
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{address_string}&key=#{api_key}"
+    # url = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=#{secret_key}")
+    url = URI.parse(URI.escape(url))
+    response = Net::HTTP.get(url)
+
+    parsedResponse = response["results"].empty? ? null : JSON.parse(response)
+
+    if parsedResponse
+      p "in flats, create, flat_params, parsedResponse: " + flat_params.to_s + ' ' + parsedResponse.to_s
+      p "in flats, create, flat_params geometry: " + parsedResponse["results"][0]["geometry"].to_s
+      p "in flats, create, flat_params geometry location: " + parsedResponse["results"][0]["geometry"]["location"].to_s
+      flat = Flat.new flat_params
+      flat.user_id = @user.id
+      flat.created_at = DateTime.now
+      flat.lat = parsedResponse["results"][0]["geometry"]["location"]["lat"]
+      flat.lng = parsedResponse["results"][0]["geometry"]["location"]["lng"]
+      # only if have parent
+      # flat.book_id = params[:book_id]
+      if flat.save
+        # p "flats_controller, amenity_params" + amenity_params.to_s
+        amenity = Amenity.new amenity_params
+        amenity.flat_id = flat.id
+        # p "flats_controller, amenities after new" + amenity.flat_id.to_s
+        if amenity.save
+          flat_serializer = parse_json flat
+          amenity_serializer = parse_json amenity
+          json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
+        else
+          flat.destroy
+          json_response "Create flat failed because amenity failed to be created", false, {}, :unprocessable_entity
+        end
       else
-        flat.destroy
-        json_response "Create flat failed because amenity failed to be created", false, {}, :unprocessable_entity
+        json_response "Create flat failed", false, {}, :unprocessable_entity
       end
     else
       json_response "Create flat failed", false, {}, :unprocessable_entity

@@ -9,6 +9,8 @@ class Api::V1::Images::ImagesController < ApplicationController
     # data = image_params
     # p 'in images/images_controller, upload, data' + data.to_s
     unless params[:file].blank?
+      p "in images, upload, params[:file]: " + params[:file].to_s
+
       uploaded_io = params[:file]
       uploaded_flat_id = params[:flatId]
       path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
@@ -20,6 +22,7 @@ class Api::V1::Images::ImagesController < ApplicationController
 
       image = File.open(path)
       result = Cloudinary::Uploader.upload(image, options = {})
+      p "in images, upload, result: " + result.to_s
       # result = Cloudinary::Uploader.upload(image, options = {})
 
       # p 'in images/images_controller, upload, image: ' + image.to_s
