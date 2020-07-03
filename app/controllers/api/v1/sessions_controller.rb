@@ -1,5 +1,6 @@
 # UserStatus in concerns/user_status for creating and upding redis hash
 include UserStatus
+include AppLanguages
 
 class Api::V1::SessionsController < Devise::SessionsController
   before_action :sign_in_params, only: :create
@@ -59,6 +60,12 @@ class Api::V1::SessionsController < Devise::SessionsController
       # p "***************** in set_get_online_offline, in result NOT OK, result: " + result.to_s
       json_response "Set/got user key Unsuccessful", false, {}, :failure
     end
+  end
+
+  def get_app_base_objects
+    app_languages = AppLanguages::OBJECT
+
+    json_response "Set/got user key successfully", true, {app_languages: app_languages.to_json}, :ok
   end
 
   def log_out

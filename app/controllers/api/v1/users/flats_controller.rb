@@ -1,5 +1,4 @@
 class Api::V1::Users::FlatsController < ApplicationController
-  #
   #This is for Logined User
   before_action :valid_token, only: [:index]
   before_action :authenticate_with_token, only: [:index]
@@ -7,10 +6,11 @@ class Api::V1::Users::FlatsController < ApplicationController
   def index
     # p 'in users, FlatsController @user.id' + @user.id.to_s
     @flats = Flat.where(user_id: @user.id).includes(:bookings, :images, :places)
-    p @flats
+    app_languages = AppLanguages::OBJECT
+    # p @flats
     if @flats
       flats_serializer = parse_json @flats
-      json_response "Indexed user's flats successfully", true, {flats: flats_serializer}, :ok
+      json_response "Indexed user's flats successfully", true, {flats: flats_serializer, app_languages: app_languages.to_json}, :ok
     else
       json_response "Cannot find flat for user", false, {}, :not_found
     end

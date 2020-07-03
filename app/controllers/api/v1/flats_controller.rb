@@ -225,9 +225,9 @@ class Api::V1::FlatsController < ApplicationController
     parsedResponse = response["results"].empty? ? null : JSON.parse(response)
 
     if parsedResponse
-      p "in flats, create, flat_params, parsedResponse: " + flat_params.to_s + ' ' + parsedResponse.to_s
-      p "in flats, create, flat_params geometry: " + parsedResponse["results"][0]["geometry"].to_s
-      p "in flats, create, flat_params geometry location: " + parsedResponse["results"][0]["geometry"]["location"].to_s
+      # p "in flats, create, flat_params, parsedResponse: " + flat_params.to_s + ' ' + parsedResponse.to_s
+      # p "in flats, create, flat_params geometry: " + parsedResponse["results"][0]["geometry"].to_s
+      # p "in flats, create, flat_params geometry location: " + parsedResponse["results"][0]["geometry"]["location"].to_s
       flat = Flat.new flat_params
       flat.user_id = @user.id
       flat.created_at = DateTime.now
