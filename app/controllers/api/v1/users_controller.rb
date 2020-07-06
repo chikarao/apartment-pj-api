@@ -24,6 +24,7 @@ class Api::V1::UsersController < ApplicationController
     result_upload = nil
     # Set upload succefull flat true at beginning; if result is not received, turn false, so able to handle no image file uplaod
     upload_successful = true
+    path = nil
     if !params[:file].blank?
       uploaded_io = params[:file]
       uploaded_flat_id = params[:flatId]
@@ -56,14 +57,16 @@ class Api::V1::UsersController < ApplicationController
     # set params for updating user record
     # image value becomes result public_id if result is returned successfully
     update_params = {image: result_upload["public_id"]} if result_upload
-    # If there is no result upload for any reason, image valu is what user sends or blank 
+    # If there is no result upload for any reason, image valu is what user sends or blank
     update_params = {image: user_params[:image] || "blank_profile_picture_4"} if !result_upload
 
     if upload_successful && @user.update(update_params)
       user_serializer = parse_json @user
       json_response "Updated user image succesfully", true, {user: user_serializer}, :ok
+      File.delete(path) if path
     else
       json_response "Update user image failed", false, {}, :unprocessable_entity
+      File.delete(path) if path
     end
   end
 

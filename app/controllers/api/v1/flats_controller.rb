@@ -273,12 +273,15 @@ class Api::V1::FlatsController < ApplicationController
             result = Cloudinary::Uploader.upload(image, options = {})
             # If cloudinary returns a result hash, create and persist image instance
             if result
+              # delete file so does not remin in templ directory
+              File.delete(path) if path
               image_instance = Image.new(publicid: result["public_id"], flat_id: flat.id)
               unless image_instance.save
                 flat.destroy
                 json_response "Create flat failed because image failed to be created", false, {}, :unprocessable_entity
               end
             else
+              File.delete(path) if path
               flat.destroy
               json_response "Create flat failed because image failed to be uploaded", false, {}, :unprocessable_entity
             end # end of if result

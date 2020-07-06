@@ -19,9 +19,31 @@ class Api::V1::DocumentInsertsController < ApplicationController
   def create
     document_insert = DocumentInsert.new document_insert_params
     document_insert.created_at = DateTime.now
+    # create recieves a multipart/form-data object which rails wraps with dispatchaction object
+    if !params[:file].blank?
+      uploaded_io = params[:file]
+      path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+      # open file for writing in binary
+      File.open(path, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+
+      image = File.open(path)
+      result = Cloudinary::Uploader.upload(image, options = {})
+      if result
+        document_insert.publicid = result["public_id"]
+        document_insert.pages = result["pages"]
+        width = result["width"]
+        height = result["height"]
+        document_insert.page_size = "#{width},#{height}"
+      else
+        json_response "Create document insert failed because the pdf upload failed.", false, {}, :unprocessable_entity
+        File.delete(path) if path
+      end
+    end
     # only if have parent
     # document_insert.book_id = params[:book_id]
-    if document_insert.save
+    if result && document_insert.save
       agreement = Agreement.find_by(id: document_insert_params[:agreement_id])
       document_inserts_array = get_document_inserts_all(agreement)
 
@@ -29,8 +51,10 @@ class Api::V1::DocumentInsertsController < ApplicationController
       booking_serializer = parse_json booking
       agreement_serializer = parse_json agreement
       json_response "Created document_insert succesfully", true, {agreement: agreement_serializer, booking: booking_serializer, document_inserts_all: document_inserts_array}, :ok
+      File.delete(path) if path
     else
       json_response "Create document_insert failed", false, {}, :unprocessable_entity
+      File.delete(path) if path
     end
   end
 

@@ -25,11 +25,34 @@ class Api::V1::AgreementsController < ApplicationController
   def create
     agreement = Agreement.new agreement_params
     agreement.created_at = DateTime.now
+    
+    # create recieves a multipart/form-data object which rails wraps with dispatchaction object
+    if !params[:file].blank?
+      uploaded_io = params[:file]
+      path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+      # open file for writing in binary
+      File.open(path, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+
+      image = File.open(path)
+      result = Cloudinary::Uploader.upload(image, options = {})
+      if result
+        agreement.document_publicid = result["public_id"]
+        agreement.document_pages = result["pages"]
+        width = result["width"]
+        height = result["height"]
+        agreement.document_page_size = "#{width},#{height}"
+      else
+        json_response "Create agreement failed because the pdf upload failed.", false, {}, :unprocessable_entity
+        File.delete(path) if path
+      end
+    end
     # just_document_keys_array = create_document_keys_array(params)
     # only if have parent
     # agreement.book_id = params[:book_id]
     # p "document_field_params.document_field.count: " + document_field_params["document_field"].count.to_s
-    if agreement.save
+    if result && agreement.save
       document_field_params["document_field"].each do |each|
         document_field_instance = DocumentField.new(each)
         document_field_instance.agreement_id = agreement.id
@@ -46,8 +69,10 @@ class Api::V1::AgreementsController < ApplicationController
       booking_serializer = parse_json booking
       agreement_serializer = parse_json agreement
       json_response "Created agreement succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+      File.delete(path) if path
     else
       json_response "Create agreement failed", false, {}, :unprocessable_entity
+      File.delete(path) if path
     end
   end
 

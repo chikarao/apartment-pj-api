@@ -46,6 +46,7 @@ class Api::V1::Images::ImagesController < ApplicationController
       image_file_id_array.push(split_params[1]) if split_params[0] == 'file'
     end # end of each
     # if there are any ids in the array, go through and create images
+    # path = nil
     if image_file_id_array.length > 0
       image_file_id_array.each do |each_image_id|
         uploaded_io = params["file-#{each_image_id}"]
@@ -60,17 +61,21 @@ class Api::V1::Images::ImagesController < ApplicationController
         # If cloudinary returns a result hash, create and persist image instance
         if result
           image = Image.new(publicid: result["public_id"], flat_id: params["flat_id"])
+          # delete file so does not remain in temp directory
+          File.delete(path) if path
           unless image.save
             json_response "Create image failed because image failed to be created", false, {}, :unprocessable_entity
           end
         else
           json_response "Create image failed because image failed to be uploaded", false, {}, :unprocessable_entity
+          File.delete(path) if path
         end # end of if result
       end # end of each image_file_id_array
     end #end of image_file_id_array.length > 0
    flat = Flat.find_by(id: params["flat_id"])
    flat_serializer = parse_json flat
    json_response "Uploaded and created image(s) succesfully", true, {flat: flat_serializer}, :ok
+   # File.delete(path) if path
   end
 
   def destroy
