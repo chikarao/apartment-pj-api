@@ -38,6 +38,41 @@ class Api::V1::Images::ImagesController < ApplicationController
    # end of unless
   end
 
+  def upload_for_flat
+    # p 'You are in upload_for_flat images'
+    image_file_id_array = []
+    params.each do |each_params|
+      split_params = each_params.split('-')
+      image_file_id_array.push(split_params[1]) if split_params[0] == 'file'
+    end # end of each
+    # if there are any ids in the array, go through and create images
+    if image_file_id_array.length > 0
+      image_file_id_array.each do |each_image_id|
+        uploaded_io = params["file-#{each_image_id}"]
+        path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+        # open file for writing in binary
+        File.open(path, 'wb') do |file|
+          file.write(uploaded_io.read)
+        end
+
+        image = File.open(path)
+        result = Cloudinary::Uploader.upload(image, options = {})
+        # If cloudinary returns a result hash, create and persist image instance
+        if result
+          image = Image.new(publicid: result["public_id"], flat_id: params["flat_id"])
+          unless image.save
+            json_response "Create image failed because image failed to be created", false, {}, :unprocessable_entity
+          end
+        else
+          json_response "Create image failed because image failed to be uploaded", false, {}, :unprocessable_entity
+        end # end of if result
+      end # end of each image_file_id_array
+    end #end of image_file_id_array.length > 0
+   flat = Flat.find_by(id: params["flat_id"])
+   flat_serializer = parse_json flat
+   json_response "Uploaded and created image(s) succesfully", true, {flat: flat_serializer}, :ok
+  end
+
   def destroy
     # flat_image-1526697489-0
     image_to_destroy = image_params[:publicid]

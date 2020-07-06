@@ -21,27 +21,45 @@ class Api::V1::UsersController < ApplicationController
     # if params image is not the blank pic and user image is not blank destroy pic
     # SO the case of removing own pic for another own pic
     # MAKE SURE TO CHANGE blank_profile_picture_4 in registrations controller
-    if user_params[:image] != "blank_profile_picture_4"
+    result_upload = nil
+    # Set upload succefull flat true at beginning; if result is not received, turn false, so able to handle no image file uplaod
+    upload_successful = true
+    if !params[:file].blank?
+      uploaded_io = params[:file]
+      uploaded_flat_id = params[:flatId]
+      path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+      # file_array = []
+      # open file for writing in binary
+      File.open(path, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+
+      image = File.open(path)
+      result_upload = Cloudinary::Uploader.upload(image, options = {})
+      upload_successful = false if !result_upload
+      # if the new image is not a blank, remove image from cloudinary
       if @user.image != "blank_profile_picture_4"
         result = Cloudinary::Uploader.destroy(@user.image)
-        p "in if user_params[:image], does not equals blank_profile_picture_3: " + user_params[:image].to_s
+        # p "in if user_params[:image], does not equals blank_profile_picture_4: " + user_params[:image].to_s
       end
     end
+
     # if params image IS the blank pic and current user image is not the blank picture
     # SO the case of removing own pic for blank pic
     if user_params[:image] == "blank_profile_picture_4"
+      # if the new image is not a blank, remove image from cloudinary
       if @user.image != "blank_profile_picture_4"
         result = Cloudinary::Uploader.destroy(@user.image)
-        p "in second if, does not equals blank_profile_picture_3: " + user_params[:image].to_s
+        # p "in second if, does not equals blank_profile_picture_4: " + user_params[:image].to_s
       end
     end
+    # set params for updating user record
+    # image value becomes result public_id if result is returned successfully
+    update_params = {image: result_upload["public_id"]} if result_upload
+    # If there is no result upload for any reason, image valu is what user sends or blank 
+    update_params = {image: user_params[:image] || "blank_profile_picture_4"} if !result_upload
 
-    p "user_params[:image]: " + user_params[:image].to_s
-    # if result
-    # p "cloudiary result: " + result.to_s
-    # end
-
-    if @user.update user_params
+    if upload_successful && @user.update(update_params)
       user_serializer = parse_json @user
       json_response "Updated user image succesfully", true, {user: user_serializer}, :ok
     else
