@@ -210,6 +210,13 @@ class Api::V1::FlatsController < ApplicationController
   # end
 
   def create
+    # create end point performs 3 actions:
+    # 1) geocode from address using gmaps;
+    # 2) image creation using cloudinary;
+    # 3) flat, amenity and images creations
+    # if all three go without errors, return success else if any fail, return error
+
+    # Get geocode lat lng from google maps api
     api_key = ENV["GOOGLE_MAP_API_KEY"]
     # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
     city = flat_params[:city]
@@ -218,42 +225,75 @@ class Api::V1::FlatsController < ApplicationController
     country = flat_params[:country]
     address_string = "#{flat_params[:address1]},+#{flat_params[:city]},+#{flat_params[:state]},+#{flat_params[:zip]},+#{flat_params[:country]}}"
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{address_string}&key=#{api_key}"
-    # url = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=#{secret_key}")
     url = URI.parse(URI.escape(url))
     response = Net::HTTP.get(url)
 
     parsedResponse = response["results"].empty? ? null : JSON.parse(response)
-
+    # if gmaps api sends back a result, create a flat
     if parsedResponse
-      # p "in flats, create, flat_params, parsedResponse: " + flat_params.to_s + ' ' + parsedResponse.to_s
-      # p "in flats, create, flat_params geometry: " + parsedResponse["results"][0]["geometry"].to_s
-      # p "in flats, create, flat_params geometry location: " + parsedResponse["results"][0]["geometry"]["location"].to_s
+      # p "in flats, create, params: " + params
+      p "in flats, create, params, parsedResponse: " + params.to_s + ' ' + parsedResponse.to_s
+      p "in flats, create, flat_params, amenity_params: " + flat_params.to_s + amenity_params.to_s
+
       flat = Flat.new flat_params
       flat.user_id = @user.id
       flat.created_at = DateTime.now
       flat.lat = parsedResponse["results"][0]["geometry"]["location"]["lat"]
       flat.lng = parsedResponse["results"][0]["geometry"]["location"]["lng"]
-      # only if have parent
-      # flat.book_id = params[:book_id]
       if flat.save
-        # p "flats_controller, amenity_params" + amenity_params.to_s
+        # if flat is saved create an amenity instance
         amenity = Amenity.new amenity_params
         amenity.flat_id = flat.id
-        # p "flats_controller, amenities after new" + amenity.flat_id.to_s
-        if amenity.save
-          flat_serializer = parse_json flat
-          amenity_serializer = parse_json amenity
-          json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
-        else
+        # if amenity is not save, return error
+        unless amenity.save
           flat.destroy
           json_response "Create flat failed because amenity failed to be created", false, {}, :unprocessable_entity
         end
-      else
-        json_response "Create flat failed", false, {}, :unprocessable_entity
-      end
-    else
-      json_response "Create flat failed", false, {}, :unprocessable_entity
-    end
+        # if flat and amenity is saved successfully, create and persist images
+        # Logic for images
+        image_file_id_array = []
+        # image data is send in a multipart/form data that is wrapped by ApplicationController to
+        # produce an actiondispatch object; access the files using params
+        # the params keys for images are named 'file-0' and can be multiple so push the ids (integers) into array to iterate
+        params.each do |each_params|
+          split_params = each_params.split('-')
+          image_file_id_array.push(split_params[1]) if split_params[0] == 'file'
+        end # end of each
+        # if there are any ids in the array, go through and create images
+        if image_file_id_array.length > 0
+          image_file_id_array.each do |each_image_id|
+            uploaded_io = params["file-#{each_image_id}"]
+            path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+            # open file for writing in binary
+            File.open(path, 'wb') do |file|
+              file.write(uploaded_io.read)
+            end
+
+            image = File.open(path)
+            result = Cloudinary::Uploader.upload(image, options = {})
+            # If cloudinary returns a result hash, create and persist image instance
+            if result
+              image_instance = Image.new(publicid: result["public_id"], flat_id: flat.id)
+              unless image_instance.save
+                flat.destroy
+                json_response "Create flat failed because image failed to be created", false, {}, :unprocessable_entity
+              end
+            else
+              flat.destroy
+              json_response "Create flat failed because image failed to be uploaded", false, {}, :unprocessable_entity
+            end # end of if result
+          end # end of each image_file_id_array
+          flat_serializer = parse_json flat
+          amenity_serializer = parse_json amenity
+          json_response "Created flat succesfully", true, {flat: flat_serializer}, :ok
+        end #end of image_file_id_array.length > 0
+
+      else # else for flat.save
+        json_response "Create flat failed; could not save flat", false, {}, :unprocessable_entity
+      end # end for flat.save
+    else # if parsedResponse
+      json_response "Create flat failed; could not get geocode coordinates from address; please check address", false, {}, :unprocessable_entity
+    end # if parsedResponse
   end
 
   def edit
