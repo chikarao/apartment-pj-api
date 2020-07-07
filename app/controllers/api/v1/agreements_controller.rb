@@ -25,7 +25,7 @@ class Api::V1::AgreementsController < ApplicationController
   def create
     agreement = Agreement.new agreement_params
     agreement.created_at = DateTime.now
-    
+
     # create recieves a multipart/form-data object which rails wraps with dispatchaction object
     if !params[:file].blank?
       uploaded_io = params[:file]
@@ -258,10 +258,25 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def update
+    result = {}
     image_to_destroy = @agreement.document_publicid
-    if @agreement.update agreement_params
+    if !params[:file].blank?
+      result = upload_image(params[:file])
+      if result
+        @agreement.document_publicid = result["public_id"]
+        @agreement.document_pages = result["pages"]
+        width = result["width"]
+        height = result["height"]
+        @agreement.document_page_size = "#{width},#{height}"
+      else
+        json_response "Edit agreement failed because the pdf upload failed.", false, {}, :unprocessable_entity
+        # File.delete(path) if path
+      end
+    end
+
+    if result && @agreement.update(agreement_params)
       booking = Booking.find_by(id: agreement_params[:booking_id])
-      if agreement_params[:document_publicid]
+      if @agreement.document_publicid != image_to_destroy
         result = Cloudinary::Uploader.destroy(image_to_destroy);
       end
       booking_serializer = parse_json booking
@@ -276,11 +291,19 @@ class Api::V1::AgreementsController < ApplicationController
 
   def destroy
     booking = Booking.find_by(id: @agreement.booking_id)
-    image_to_destroy = @agreement.document_publicid
+    image_to_destroy_array = [@agreement.document_publicid]
+    if @agreement.document_inserts.length > 0
+      @agreement.document_inserts.each do |each|
+        image_to_destroy_array.push(each.publicid)
+      end
+    end
+
     if @agreement.destroy
       # check if image_to_destroy = null in case no pdf create yet
-      unless !image_to_destroy
-        result = Cloudinary::Uploader.destroy(image_to_destroy);
+      unless !image_to_destroy_array[0]
+        image_to_destroy_array.each do |each_publicid|
+          result = Cloudinary::Uploader.destroy(each_publicid);
+        end
       end
       booking_serializer = parse_json booking
       # agreement_serializer = parse_json @agreement
@@ -445,27 +468,18 @@ end # end of def document_field_params
     end
   end
 
-  # def create_document_keys_array(paramsObject)
-  #   exceptionArray = ["flat_id", "contract_name", "booking_id"]
-  #   # select returns only those matching criteion; map returns nil if no match
-  #   # return array of keys from params (just document keys)
-  #   objectReturned = paramsObject.keys.select {|key| key if !exceptionArray.include?(key) }
-  #   return objectReturned
-  # end
-end
+  def upload_image(params_file)
+    uploaded_io = params_file
+    path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+    # open file for writing in binary
+    File.open(path, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
 
-# def document_params
-#   params.permit(document: [
-#     :id,
-#     :name,
-#     :agreement_id,
-#     choice: [
-#       :id,
-#       :document_id,
-#       :text
-#     ]
-#   ]
-# end
-#
-# {"id"=>2, "agreement_name"=>"test4", "document"=>[{"id"=>1, "name"=>"test1", "agreement_id"=>2, "choice"=>[{"id"=>1, "document_id"=>1, "text"=>"abc"}, {"id"=>2, "document_id"=>1, "text"=>"def"}, {"id"=>3, "document_id"=>1, "text"=>"ghi"}]}]}
-#
+    image = File.open(path)
+    result = Cloudinary::Uploader.upload(image, options = {})
+    File.delete(path) if path
+
+    return result
+  end
+end

@@ -63,17 +63,31 @@ class Api::V1::DocumentInsertsController < ApplicationController
 
   def update
     original_publicid = @document_insert.publicid
-    agreement = Agreement.find_by(id: @document_insert.agreement_id)
+    # agreement = Agreement.find_by(id: @document_insert.agreement_id)
+    result = true
+    if !params[:file].blank?
+      result = upload_image(params[:file])
+      if result
+        @document_insert.publicid = result["public_id"]
+        @document_insert.pages = result["pages"]
+        width = result["width"]
+        height = result["height"]
+        @document_insert.page_size = "#{width},#{height}"
+      else
+        json_response "Edit document insert failed because the pdf upload failed.", false, {}, :unprocessable_entity
+        # File.delete(path) if path
+      end
+    end
     # agreements = Agreement.where(booking_id: agreement.booking_id)
-    if @document_insert.update document_insert_params
-      agreement = Agreement.find_by(id: document_insert_params[:agreement_id])
+    if result && @document_insert.update(document_insert_params)
+      agreement = Agreement.find_by(id: @document_insert.agreement_id)
       booking = Booking.find_by(id: agreement.booking_id)
       booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
       document_insert_serializer = parse_json @document_insert
       document_inserts_array = get_document_inserts_all(agreement)
       # p "!!!!!! Before destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
-      if document_insert_params[:publicid]
+      if @document_insert.publicid != original_publicid
         # p "!!!!!! Destroying image : " + original_publicid.to_s + " " + document_insert_params[:publicid].to_s
         image_to_destroy = original_publicid
         result = Cloudinary::Uploader.destroy(image_to_destroy);
@@ -149,6 +163,21 @@ class Api::V1::DocumentInsertsController < ApplicationController
       end
     end
     return document_inserts_array
+  end
+
+  def upload_image(params_file)
+    uploaded_io = params_file
+    path = Rails.root.join("public/system/temp_files/images", uploaded_io.original_filename)
+    # open file for writing in binary
+    File.open(path, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    image = File.open(path)
+    result = Cloudinary::Uploader.upload(image, options = {})
+    File.delete(path) if path
+
+    return result
   end
 
 end
