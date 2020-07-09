@@ -210,10 +210,10 @@ class Api::V1::FlatsController < ApplicationController
   # end
 
   def create
-    # create end point performs 3 actions:
-    # 1) geocode from address using gmaps;
-    # 2) image creation using cloudinary;
-    # 3) flat, amenity and images creations
+    # IMPORTANT: The Create endpoint performs 3 actions:
+    # 1) geocode from user inputted address using gmaps;
+    # 2) image upload to cloudinary;
+    # 3) Create and persist instances of flat, amenity and images
     # if all three go without errors, return success else if any fail, return error
 
     # Get geocode lat lng from google maps api
@@ -232,9 +232,8 @@ class Api::V1::FlatsController < ApplicationController
     # if gmaps api sends back a result, create a flat
     if parsedResponse
       # p "in flats, create, params: " + params
-      p "in flats, create, params, parsedResponse: " + params.to_s + ' ' + parsedResponse.to_s
-      p "in flats, create, flat_params, amenity_params: " + flat_params.to_s + amenity_params.to_s
-
+      # p "in flats, create, params, parsedResponse: " + params.to_s + ' ' + parsedResponse.to_s
+      # p "in flats, create, flat_params, amenity_params: " + flat_params.to_s + amenity_params.to_s
       flat = Flat.new flat_params
       flat.user_id = @user.id
       flat.created_at = DateTime.now
@@ -347,9 +346,6 @@ class Api::V1::FlatsController < ApplicationController
   end
 
   def update
-    # p "flats_controller, flat_params.empty?" + flat_params.empty?
-
-      # p "flats_controller, flat_params" + flat_params.to_s
       if @flat.update flat_params
         if @amenity.update amenity_params
           flat_serializer = parse_json @flat
@@ -363,17 +359,6 @@ class Api::V1::FlatsController < ApplicationController
       else
         json_response "Update flat failed", false, {}, :unprocessable_entity
       end
-
-    # if amenity_params
-      # p "flats_controller, amenity_params" + amenity_params.to_s
-      # if @amenity.update flat_params
-      #   flat_serializer = parse_json @flat
-      #   amenity_serializer = parse_json @amenity
-      #   json_response "Updated flat succesfully", true, {flat: flat_serializer }, :ok
-      # else
-      #   json_response "Update flat failed", false, {}, :unprocessable_entity
-      # end
-    # end
   end
 
   # delete image from Cloudinary when deleting flat; Uses array of publicids in
@@ -387,11 +372,11 @@ class Api::V1::FlatsController < ApplicationController
       images = @flat.images
       images.each do |i|
        # p "FlatsController, destroy, images.each, i: " + i.to_s
-      image_array << i.publicid
+       image_array << i.publicid
       end
       # p "FlatsController, destroy, image_array: " + image_array.to_s
       if @flat.destroy
-        json_response "Deleted flat succesfully", true, {flat: @flat}, :ok
+        json_response "Deleted flat succesfully", true, {}, :ok
         image_array.each do |i|
           # p "FlatsController, destroy, images.each, i: " + i.to_s
           result = Cloudinary::Uploader.destroy(i);

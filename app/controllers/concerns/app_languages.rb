@@ -1,4 +1,4 @@
-#!!!! AppLanguages sent to frontend from sessions_controller, action called by header in frontend 
+#!!!! AppLanguages sent to frontend from sessions_controller, action called by header in frontend
 module AppLanguages
   include DocumentConstants
   flat_for_documents = DocumentConstants::FLAT_FOR_DOCUMENTS
@@ -9,6 +9,10 @@ module AppLanguages
       :dedicatedFlushingToilet => flat_for_documents[:toilet][:choices][:dedicatedFlushingToilet],
       :dedicatedNonFlushingToilet => flat_for_documents[:toilet][:choices][:dedicatedNonFlushingToilet],
       :sharedFlushingToilet => flat_for_documents[:toilet][:choices][:sharedFlushingToilet],
-      :sharedNonFlushingToilet => flat_for_documents[:toilet][:choices][:sharedNonFlushingToilet]
+      :sharedNonFlushingToilet => flat_for_documents[:toilet][:choices][:sharedNonFlushingToilet],
+      :flatInBuilding => flat_for_documents[:flat_type][:choices][:flatInBuilding],
+      :singleFamily => flat_for_documents[:flat_type][:choices][:singleFamily],
+      :townHouse => flat_for_documents[:flat_type][:choices][:townHouse],
+      :others => flat_for_documents[:flat_type][:choices][:others]
     };
 end
