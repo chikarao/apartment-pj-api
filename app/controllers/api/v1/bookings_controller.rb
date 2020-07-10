@@ -125,6 +125,12 @@ class Api::V1::BookingsController < ApplicationController
     flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
+
+    # HardWorker.perform_async(@user.id, 55)
+    HardWorker.perform_in(10, @user.id, 55)
+    # HardWorker.perform_async(@user.id, 55)
+    p "!!!!!! Booking controller HardWorker called: "
+
     json_response "Showed booking successfully", true, {
       booking: booking_serializer,
       user: user_serializer,

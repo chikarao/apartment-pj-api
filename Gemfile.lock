@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/plataformatec/devise
+  revision: f5cc775a5feea51355036175994edbcb5e6af13c
+  specs:
+    devise (4.7.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
+
+GIT
   remote: https://github.com/stripe/stripe-ruby
   revision: 24143ab7d7a65f5b8e58f55c64c14200ead50720
   specs:
@@ -57,7 +68,7 @@ GEM
       activesupport (>= 3.0.0)
     arel (8.0.0)
     aws_cf_signer (0.1.3)
-    bcrypt (3.1.11)
+    bcrypt (3.1.13)
     builder (3.2.3)
     bullet (5.6.1)
       activesupport (>= 3.0.0)
@@ -74,17 +85,12 @@ GEM
     combine_pdf (1.0.15)
       ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.3)
     counter_culture (1.9.1)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
       after_commit_action (~> 1.0)
     crass (1.0.3)
-    devise (4.3.0)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 4.1.0, < 5.2)
-      responders
-      warden (~> 1.2.3)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.7.1)
@@ -144,6 +150,8 @@ GEM
     puma (3.11.3)
     rack (2.0.4)
     rack-cors (1.0.2)
+    rack-protection (2.0.8.1)
+      rack
     rack-test (0.8.3)
       rack (>= 1.0, < 3)
     rails (5.1.5)
@@ -201,6 +209,11 @@ GEM
       netrc (~> 0.8)
     ruby-rc4 (0.1.5)
     ruby_dep (1.5.0)
+    sidekiq (6.0.7)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     simple_token_authentication (1.15.1)
       actionmailer (>= 3.2.6, < 6)
       actionpack (>= 3.2.6, < 6)
@@ -243,7 +256,7 @@ DEPENDENCIES
   cloudinary
   combine_pdf
   counter_culture (~> 1.8)
-  devise (~> 4.3.0)
+  devise!
   faker
   figaro
   koala (~> 3.0.0)
@@ -256,6 +269,7 @@ DEPENDENCIES
   redis-namespace
   redis-rails
   responders
+  sidekiq
   simple_token_authentication (~> 1.0)
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -264,4 +278,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.16.1
+   2.1.4

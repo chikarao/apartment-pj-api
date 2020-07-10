@@ -2,8 +2,6 @@
 # UserStatus in concerns/user_status for creating and upding redis hash
 include UserStatus
 # include Progress
-
-
 class ChatChannel < ApplicationCable::Channel
   # Reference: https://edgeapi.rubyonrails.org/classes/ActionCable/Channel/Base.html#method-i-unsubscribed
   # https://stackoverflow.com/questions/39815216/how-to-terminate-subscription-to-an-actioncable-channel-from-server

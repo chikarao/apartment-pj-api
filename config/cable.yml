@@ -1,5 +1,10 @@
+# Reference for sidekiq and actioncable
+#https://stackoverflow.com/questions/42377514/getting-action-cable-to-broadcast-in-sidekiq-job
+# development:
+#   adapter: async
 development:
-  adapter: async
+  adapter: redis
+  url: redis://localhost:6379/1
 
 test:
   adapter: async

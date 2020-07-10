@@ -41,7 +41,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'devise', '~> 4.3.0'
+# reference: https://github.com/heartcombo/devise/issues/4630
+# gem 'devise', '~> 4.3.0'
+gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'simple_token_authentication', '~> 1.0' # see semver.org
 gem 'koala', '~> 3.0.0'
 
@@ -62,3 +64,4 @@ gem 'redis-rails'
 # gem 'redis'
 gem 'redis-namespace'
 # gem 'redis-rack-cache`
+gem 'sidekiq'
