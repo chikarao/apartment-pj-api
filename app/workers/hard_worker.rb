@@ -1,3 +1,6 @@
+# For gem sidekiq; refer to config/initializers/sidekiq.rb; config/sidekiq.yml;
+# to start server; run on terminal: bundle exec sidekiq -C config/sidekiq.yml -d
+
 class HardWorker < ApplicationController
   include Sidekiq::Worker
   sidekiq_options queue: :test, retry: 5

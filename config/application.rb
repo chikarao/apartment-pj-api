@@ -36,7 +36,7 @@ module RailsApiBookReviews
     # for including lib for custom modules
     # reference: https://www.codewithjason.com/put-rails-modules/
     # config.autoload_paths += %W(#{config.root}/lib)
-
+    config.active_job.queue_adapter = :sidekiq
     # config.middleware.insert_before 0, Rack::Cors do
     #       allow do
     #         origins '*'
