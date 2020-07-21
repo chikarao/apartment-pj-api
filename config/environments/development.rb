@@ -8,8 +8,8 @@ Rails.application.configure do
   # config.cache_classes = true
 
   # Do not eager load code on boot.
-  config.eager_load = false
-  # config.eager_load = true
+  # config.eager_load = false
+  config.eager_load = true
   # !!!!!!!!!!!!!!!!!!!Turn eager_load true to deal with error: ArgumentError (A copy of Api::V1::Users has been removed from the module tree but is still active!):
   # IMPORTANT: Sidekiq automatically calls eager_load! when the app is booted (really? or just boots app check);
   # So when the app tries to autoload components the compoenents there is a threading issue as sidekiq's main feature is that
