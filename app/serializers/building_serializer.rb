@@ -71,7 +71,6 @@ class BuildingSerializer < ActiveModel::Serializer
             :ceilings_rain => each.ceilings_rain,
             :roof_truss_rain => each.roof_truss_rain,
             :roof => each.roof,
-            :exterior_walls_rain => each.exterior_walls_rain,
             :halls => each.halls,
           }
           array.push(custom_inspection)

@@ -5,12 +5,29 @@ Rails.application.configure do
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
+  # config.cache_classes = true
 
   # Do not eager load code on boot.
   config.eager_load = false
+  # config.eager_load = true
+  # !!!!!!!!!!!!!!!!!!!Turn eager_load true to deal with error: ArgumentError (A copy of Api::V1::Users has been removed from the module tree but is still active!):
+  # IMPORTANT: Sidekiq automatically calls eager_load! when the app is booted (really? or just boots app check);
+  # So when the app tries to autoload components the compoenents there is a threading issue as sidekiq's main feature is that
+  # it uses threads to perform background processing; Sidekiq uses 25 threads. Config.puma.rb has way to set activeRecord thread pool size; If set to 1, errors disappear;
+  # When threads process api calls made from frontend, autoload finds API/V1 where autoload load missing constants starts looking (in API/V1)
+  # When threads find other threads already loaded API/V1, the error is raised
+  # Explanation of issue (no solution given): https://stackoverflow.com/questions/62927007/rails-autoload-issue-after-installing-sidekiq-argumenterror-a-copy-of-apiv1
+  # Conclusion is that it is best to have eager_load true with Sidekiq installed and in multi threaded environment
+  # https://stackoverflow.com/questions/37888789/what-does-rails-application-eager-load-do
+  # https://github.com/mperham/sidekiq/issues/80
 
   # Show full error reports.
   config.consider_all_requests_local = true
+ ###################################
+ #Did not work in solving ArgumentError (A copy of Api::V1 has been removed from the module tree but is still active!):
+  # config.cache_classes = Sidekiq.server? ? true : false
+  # config.eager_load = Sidekiq.server? ? true : false
+###################################
 
   # REDIS *****************************************
   # reference: https://github.com/redis-store/redis-rails

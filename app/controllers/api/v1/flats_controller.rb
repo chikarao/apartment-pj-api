@@ -2,11 +2,10 @@ require 'json'
 require 'uri'
 require 'net/http'
 # UserStatus in concerns/user_status for creating and upding redis hash
-include UserStatus
-
 # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 
 class Api::V1::FlatsController < ApplicationController
+  # include ::UserStatus
   before_action :load_flat, only: [:show, :update, :destroy]
   before_action :load_amenity, only: [:update]
   # TAKE out index from valid_token; In there just for experiment

@@ -8,5 +8,19 @@ class ApplicationController < ActionController::API
   include Response
   include Authenticate
   include SerializableResource
-  include CreatePdf
+
+  include UserStatus
+  include AppLanguages
+
+  # include CreatePdf
+  # include DocumentTranslationImportantPoints
+  # include DocumentTranslationImportantPointsByPage
+  # include DocumentTranslationImportantPointsAll
+  # include DocumentTranslationFixedTerm
+  # include DocumentTranslationFixedTermByPage
+  # include DocumentTranslationFixedTermAll
+  # include FixedTermRentalContractBilingualAll
+  # include ImportantPointsExplanationBilingualAll
+  # include TemplateElementFunctions
+  # include DocumentConstants
 end

@@ -1,13 +1,18 @@
 # UserStatus in concerns/user_status for creating and upding redis hash
-include UserStatus
-include AppLanguages
+# require_dependency "application_controller"
 
 class Api::V1::SessionsController < Devise::SessionsController
+  # include  ::UserStatus
+
+  # include ::AppLanguages
+
   before_action :sign_in_params, only: :create
   before_action :set_get_online_offline_params, only: :set_get_online_offline
   before_action :load_user, only: :create
   # before_action :valid_token, only: :destroy
   before_action :valid_token, only: [:log_out, :set_get_online_offline]
+  # before_action :store_app_languages, only: :get_app_base_objects
+
   skip_before_action :verify_signed_out_user, only: :log_out
   # skip_before_action :verify_signed_out_user, only: :destroy
   # comes from devise/app/controllers/devise/sessions_controller
@@ -19,6 +24,7 @@ class Api::V1::SessionsController < Devise::SessionsController
       # json_response "Signed in successfully", true, {user: @user}, :ok
       if @user.email_confirmed
         sign_in "user", @user
+        # ::UserStatus::set_last_user_activity is a method in UserStatus module in concerns
         set_last_user_activity({user_id: @user.id, logged_in: true, online: false})
         json_response "Signed in successfully", true, {user: @user}, :ok
      else
@@ -40,6 +46,7 @@ class Api::V1::SessionsController < Devise::SessionsController
     # params will have 'set' or get as action; if set, then set the hash in redis
     # result return true or false depding on redis response of OK or not
     if set_get_online_offline_params[:action] == 'set'
+      # ::UserStatus::set_last_user_activity is a method in UserStatus module in concerns
       result = set_last_user_activity({user_id: @user.id, logged_in: true, online: online, keep_online_status: false})
     end
     # if action in params is 'get'
@@ -51,6 +58,7 @@ class Api::V1::SessionsController < Devise::SessionsController
           user_status_hash = set_last_user_activity({user_id: @user.id, logged_in: true, online: online, keep_online_status: false})
         end
         if set_get_online_offline_params[:action] = 'set'
+          # send_notification_to_other_users is a method in UserStatus module in concerns
           send_notification_to_other_users(@user.id)
         end
       end
@@ -64,8 +72,11 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def get_app_base_objects
     app_languages = AppLanguages::OBJECT
-
-    json_response "Set/got user key successfully", true, {app_languages: app_languages.to_json}, :ok
+    # app_languages = @app_languages
+    # app_languages = {}
+    # app_languages = DocumentResources::APP_LANGUAGES
+    # app_languages = {}
+    json_response "Fetched app_languages successfully", true, {app_languages: app_languages.to_json}, :ok
   end
 
   def log_out
@@ -114,4 +125,15 @@ class Api::V1::SessionsController < Devise::SessionsController
       json_response "Invalid token", false, {}, :failure
     end
   end
+
+  # def store_app_languages
+  #   p "in store_app_languages DocumentResources::AppLanguages::AppLanguagesClass::OBJECT: " + DocumentResources::AppLanguages::AppLanguagesClass::OBJECT.to_s
+  #   p "in store_app_languages, DocumentResources::OBJECT: " + DocumentResources::OBJECT.to_s
+  #   # doc = DocumentResources.new
+  #   # @app_languages = DocumentResources::AppLanguages::AppLanguagesClass::OBJECT
+  #   @app_languages = DocumentResources::OBJECT
+  #   # @app_languages = {}
+  #   # @app_languages = ::AppLanguages::AppLanguagesClass::OBJECT
+  #   # @app_languages = doc.get_app_languages()
+  # end
 end

@@ -1760,7 +1760,8 @@ module FixedTermRentalContractBilingualAll
       translation_column: 'owner_address',
       translation_field: 'flat_owner_address_translation',
       translation_key: 'ownerAddress',
-      category: 'flat_owner',
+      category: 'owner',
+      # category: 'flat_owner',
       initialvalues_method_key: 'flat',
       actual_record_key: 'owner_address'
     },

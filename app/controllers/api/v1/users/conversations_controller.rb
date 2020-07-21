@@ -1,4 +1,7 @@
+# require_dependency "application_controller"
+
 class Api::V1::Users::ConversationsController < ApplicationController
+  # include ::UserStatus
   #This is for Loggedin User
   # before_action :authenticate_with_token, only: [:index, :conversation_by_flat, :conversations_by_user_and_flat, :conversations_by_user]
   before_action :valid_token, only: [:index, :conversation_by_flat, :conversations_by_user_and_flat, :conversations_by_user]

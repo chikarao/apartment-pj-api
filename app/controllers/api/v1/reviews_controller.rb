@@ -54,46 +54,47 @@ class Api::V1::ReviewsController < ApplicationController
   end
 
   private
-    def valid_token
-      @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
-      p "ReviewsController, valid_token, @user: " + @user.to_s
-      if @user
-        return @user
-      else
-        json_response "Invalid token", false, {}, :failure
-      end
+  
+  def valid_token
+    @user = User.find_by authentication_token: request.headers["AUTH-TOKEN"]
+    p "ReviewsController, valid_token, @user: " + @user.to_s
+    if @user
+      return @user
+    else
+      json_response "Invalid token", false, {}, :failure
     end
-  # def load_book
-  #   @book = Book.find_by id: params[:book_id]
-  #   unless @book.present?
-  #     json_response "Cannot find book", false, {}, :not_found
-  #   end
-  # end
+  end
+# def load_book
+#   @book = Book.find_by id: params[:book_id]
+#   unless @book.present?
+#     json_response "Cannot find book", false, {}, :not_found
+#   end
+# end
 
-    def load_review
-      @review = Review.find_by id: params[:id]
-      unless @review.present?
-        json_response "Cannot find review", false, {}, :not_found
-      end
+  def load_review
+    @review = Review.find_by id: params[:id]
+    unless @review.present?
+      json_response "Cannot find review", false, {}, :not_found
     end
+  end
 
-    def load_booking
-      @booking = Booking.find_by id: review_params[:booking_id]
-      unless @booking.present?
-        json_response "Cannot find booking", false, {}, :not_found
-      end
+  def load_booking
+    @booking = Booking.find_by id: review_params[:booking_id]
+    unless @booking.present?
+      json_response "Cannot find booking", false, {}, :not_found
     end
+  end
 
-    def review_params
-      params.require(:review).permit :flat_id, :booking_id, :title, :comment, :rating, :review_for_flat, :review_for_user, :review_for_site
-    end
+  def review_params
+    params.require(:review).permit :flat_id, :booking_id, :title, :comment, :rating, :review_for_flat, :review_for_user, :review_for_site
+  end
 
-    def does_review_already_exist
-      review = Review.find_by(user_id: @user.id, booking_id: review_params[:booking_id])
-      if review
-        p "review controller review_already_exists" + review.to_s
-        json_response "A review for that booking already exists.", false, {}, :bad_request
-        return
-      end
+  def does_review_already_exist
+    review = Review.find_by(user_id: @user.id, booking_id: review_params[:booking_id])
+    if review
+      p "review controller review_already_exists" + review.to_s
+      json_response "A review for that booking already exists.", false, {}, :bad_request
+      return
     end
+  end
 end

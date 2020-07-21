@@ -3,13 +3,16 @@
 # Any libraries that use thread pools should be configured to match
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
-#
+
+# Increasing threads dramatically to say 50 does not improve threading problem
+# Reducing to 1 eliminates threading problem related to autoload and finding constant
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+# threads_count = ENV.fetch("RAILS_MAX_THREADS") { 1 }
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch("PORT") { 3000 }
+port ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 #

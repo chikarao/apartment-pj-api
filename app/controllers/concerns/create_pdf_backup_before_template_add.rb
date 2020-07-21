@@ -1,4 +1,4 @@
-module CreatePdf
+module CreatePdfBackupBeforeTemplateAdd
   require 'prawn'
   # require DocumentTranslation
   # field_objects and contract_name call in booking#create_contract or agreement#update

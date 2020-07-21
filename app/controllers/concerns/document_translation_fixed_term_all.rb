@@ -1288,7 +1288,7 @@ module DocumentTranslationFixedTermAll
     },
 
     brokerStaffRegJurisdiction: {
-      translations: { en: 'License No.', po: '', jp: '' },
+      translations: { en: 'Registration Jurisdiction', po: '', jp: '' },
       attributes: nil,
       category: 'broker'
     },

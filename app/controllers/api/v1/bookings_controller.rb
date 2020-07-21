@@ -3,12 +3,18 @@ require 'net/http'
 require 'json'
 require 'Date'
 require 'prawn'
+# require_dependency "application_controller"
 # require CreatePdf
 # import DocumentTranslations
 # require 'RMagick'
 # require 'open-uri'
 
 class Api::V1::BookingsController < ApplicationController
+  # :: infront of constants seems to solve load error after installing sidekiq;
+  # ArgumentError (A copy of Api::V1::Reviews has been removed from the module tree but is still active!):
+  # with eager_loading false in development, components auto loaded at boot by sidekiq appears to clash in active_suppport
+  # :: clears up namespace in module?
+
   include DocumentTranslationImportantPoints
   include DocumentTranslationImportantPointsByPage
   include DocumentTranslationImportantPointsAll
@@ -20,6 +26,7 @@ class Api::V1::BookingsController < ApplicationController
   include CreatePdf
   include TemplateElementFunctions
   include DocumentConstants
+
   # before_action :ensure_params_exist, only: :create
   before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
   before_action :load_booking, only: [:show, :update, :destroy]
@@ -94,7 +101,10 @@ class Api::V1::BookingsController < ApplicationController
     # IMPORTANT: get_template_mapping_object changes the objects, base so FixedTermRentalContractBilingualAll objects have translation in them
     base = FixedTermRentalContractBilingualAll::OBJECT
     translation = DocumentTranslationFixedTermAll::OBJECT
-    template_mapping_object_fixed = get_template_mapping_object(translation, base)
+    # p "!!!!!!!!!!translation: " + translation.to_s
+    # p "!!!!!!!!!!base: " + base.to_s
+    # template_mapping_object_fixed = nil
+    template_mapping_object_fixed = get_template_mapping_object(translation, base) if !base.empty? && !translation.empty?
 
     # translation_1 = DocumentTranslationImportantPointsAll::OBJECT
     # get_template_mapping_object from concerns/template_element_functions
@@ -126,11 +136,10 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
 
-    # HardWorker.perform_async(@user.id, 55)
-    HardWorker.perform_in(10, @user.id, 55)
-    # HardWorker.perform_async(@user.id, 55)
+    HardWorker.perform_async(@user.id, 55)
+    # HardWorker.perform_in(10, @user.id, 55)
     p "!!!!!! Booking controller HardWorker called: "
-
+    # byebug
     json_response "Showed booking successfully", true, {
       booking: booking_serializer,
       user: user_serializer,
