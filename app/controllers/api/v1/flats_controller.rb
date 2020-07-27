@@ -312,12 +312,14 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 1/16/2020 to Ya.i, Ya.g, Ta.i, Ya.g
     # changed yet again 1/17/2020 to pa.h, pa.g, ka.h, ka.g
     # changed yet again 1/24/2020 back to Ya.i, Ya.g, Ta.i, Ya.g
-    # changed yet again 5/21/2020 back to Ya.i, Ya.j, Ua.i, Ua.j
-    # changed yet again 6/30/2020 back to Za.i, Za.j, Ua.i, Ua.j
+    # changed yet again 5/21/2020 to Ya.i, Ya.j, Ua.i, Ua.j
+    # changed yet again 6/30/2020 to Za.i, Za.j, Ua.i, Ua.j
+    # changed yet again 7/27/2020 to Za.i, Za.j, Va.i, Va.j
+    
     north_south_first = 'Za'
     south_second = 'i' # 37.73223256302308
     north_second = 'j' # larger positive in SF, California 37.835340869420385
-    east_west_first = 'Ua'
+    east_west_first = 'Va'
     west_second = 'i' # larger negative -122.50212027587891
     east_second = 'j' # -122.25149466552
     # Sample bounds logs from Googlemap API for illustration
