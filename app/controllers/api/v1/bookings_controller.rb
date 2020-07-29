@@ -28,7 +28,7 @@ class Api::V1::BookingsController < ApplicationController
   include DocumentConstants
 
   # before_action :ensure_params_exist, only: :create
-  before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract]
+  before_action :valid_token, only: [:show, :create, :destroy, :blockout_dates_ical, :create_contract, :fetch_template_objects]
   before_action :load_booking, only: [:show, :update, :destroy]
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
   before_action :bookings_for_dates_exist, only: [:create]
@@ -150,6 +150,46 @@ class Api::V1::BookingsController < ApplicationController
       staffTranslations: staffTranslationObject,
       agreements: agreements_serializer,
       document_inserts_all: document_inserts_array,
+      fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
+      important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
+      template_mapping_object_fixed: template_mapping_object_fixed.to_json,
+      template_mapping_object_important_points: template_mapping_object_important_points.to_json,
+      document_constants: document_constants.to_json
+      # template_translation_object: template_translation_object_all.to_json
+      }, :ok
+  end
+
+  def fetch_template_objects
+    # IMPORTANT: get_template_mapping_object changes the objects, base so FixedTermRentalContractBilingualAll objects have translation in them
+    base = FixedTermRentalContractBilingualAll::OBJECT
+    translation = DocumentTranslationFixedTermAll::OBJECT
+
+    template_mapping_object_fixed = get_template_mapping_object(translation, base) if !base.empty? && !translation.empty?
+
+    base = ImportantPointsExplanationBilingualAll::OBJECT
+    translation = DocumentTranslationImportantPointsAll::OBJECT
+    template_mapping_object_important_points = get_template_mapping_object(translation, base)
+
+    fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
+    important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
+
+    document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
+                           facility: DocumentConstants::FACILITY,
+                           tenants: DocumentConstants::TENANTS,
+                           inspection: DocumentConstants::INSPECTION
+                         }
+
+
+    json_response "Fetched template objects successfully", true, {
+      # booking: booking_serializer,
+      # user: user_serializer,
+      # flat: flat_serializer,
+      # contracts: contract_serializer,
+      # assignments: work_type_object,
+      # contractorTranslations: contractorTranslationObject,
+      # staffTranslations: staffTranslationObject,
+      # agreements: agreements_serializer,
+      # document_inserts_all: document_inserts_array,
       fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,

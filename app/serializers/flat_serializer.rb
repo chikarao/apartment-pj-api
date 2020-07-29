@@ -68,7 +68,8 @@ class FlatSerializer < ActiveModel::Serializer
   :management_fee_due_date,
   :contracts,
   :ownership_rights,
-  :other_rights
+  :other_rights,
+  :agreements
 # :building,
 #:bank_account,
   # :total_reviews
@@ -87,6 +88,23 @@ class FlatSerializer < ActiveModel::Serializer
   has_many :calendars
   has_many :contracts
   belongs_to :building, optional: true
+
+  def agreements
+    # Return hash object of document_field_translations mapped; Nil if no document_field_translations
+    obj = nil
+    # Object is a DocumentField instance
+    if !object.agreements.empty?
+      obj = {}
+      # p "In document_field_serializer in def: " + object.to_s
+      # object is a DocumentField instance
+      object.agreements.each do |each|
+        custom_each = each.attributes
+        # put them in a hash like { en: each, jp: each }
+        obj[each.id] = custom_each
+      end
+    end # end of if !object.document_field_translations.empty?
+    return obj
+  end # End of function
   # has_many :conversations
   # has_many :reviews
   # has_many :conversations

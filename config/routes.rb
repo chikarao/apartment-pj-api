@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       post 'fetch_translation', to: 'bookings#fetch_translation'
       post 'email_documents', to: 'bookings#email_documents'
       post 'mark_documents_signed', to: 'bookings#mark_documents_signed'
+      post 'fetch_template_objects', to: 'bookings#fetch_template_objects'
 
       resources :agreements do
       end
