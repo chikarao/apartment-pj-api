@@ -52,8 +52,8 @@ class BookingSerializer < ActiveModel::Serializer
     custom_agreement = {}
     object_mapped = {}
     if !object.agreements.empty?
-      object.agreements.each do |each|
-        object_mapped[each.id] = each
+      object.agreements.each do |eachAgreement|
+        object_mapped[eachAgreement.id] = eachAgreement
       end
     end
     return object_mapped

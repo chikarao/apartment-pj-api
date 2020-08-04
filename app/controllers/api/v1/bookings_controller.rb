@@ -179,7 +179,6 @@ class Api::V1::BookingsController < ApplicationController
                            inspection: DocumentConstants::INSPECTION
                          }
 
-
     json_response "Fetched template objects successfully", true, {
       # booking: booking_serializer,
       # user: user_serializer,

@@ -180,7 +180,13 @@ class Api::V1::AgreementsController < ApplicationController
     booking_serializer = parse_json booking
     send_progress_percentage({user_id: @user.id, percentage: 100, time: Time.now, message: 'Returning'}) if params[:save_and_create]
     # if none of the above each loops do not break, send successful json response
-    json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
+    if !booking # if save came from editFlat
+      flat = Flat.find_by(id: agreement.flat_id)
+      flat_serializer = parse_json flat
+      json_response "Saved template agreement fields successfully", true, {flat: flat_serializer, agreements: agreement_serializer, document_fields: document_field_serializer, booking: nil}, :ok
+    else
+      json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
+    end
   end
 
   def update_agreement_fields
@@ -282,8 +288,14 @@ class Api::V1::AgreementsController < ApplicationController
       booking_serializer = parse_json booking
       # flat = Flat.find_by(id: params[:flat_id])
       agreement_serializer = parse_json @agreement
+      # Send back flat if agreement update sent from edit flat in front end
+      flat_serializer = nil
+      if @agreement.flat_id && params[:edit_flat]
+        flat = Flat.find_by(id: @agreement.flat_id)
+        flat_serializer = parse_json flat
+      end
       # agreement_serializer = parse_json @agreement
-      json_response "Updated agreement succesfully", true, {agreement: agreement_serializer, booking: booking_serializer}, :ok
+      json_response "Updated agreement succesfully", true, {agreement: agreement_serializer, booking: booking_serializer, flat: flat_serializer}, :ok
     else
       json_response "Update flat failed", false, {}, :unprocessable_entity
     end
