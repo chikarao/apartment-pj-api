@@ -7,7 +7,7 @@ class Api::V1::AgreementsController < ApplicationController
   include Progress
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
-  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields]
+  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields, :fetch_user_agreements]
 
   def show
     if @agreement
@@ -323,6 +323,59 @@ class Api::V1::AgreementsController < ApplicationController
     else
       json_response "Delete agreement failed", false, {}, :unprocessable_entity
     end
+  end
+
+  def fetch_user_agreements
+    p "In agreement, fetch_user_agreements @user.id: " + @user.id.to_s
+    array_of_results_arrays = []
+    flat_agreements = Agreement.for_user_flat(@user.id)
+    booking_agreements = Agreement.for_bookings_for_user_flat(@user.id)
+    user_bookings = Booking.where(flat_id: Flat.where(user_id: @user.id).pluck(:id))
+    user_flats = Flat.where(id: @user.id)
+
+    mapped_user_bookings = {}
+    mapped_flat_agreements = {}
+    mapped_booking_agreements = {}
+    mapped_user_flats = {}
+    mapped_agreements_by_flat = {}
+    all_user_agreements = {}
+
+    user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json each }
+
+    flat_agreements.each { |each|
+      mapped_flat_agreements[each.id] = parse_json each
+      all_user_agreements[each.id] = parse_json each if !all_user_agreements[each.id]
+      if mapped_agreements_by_flat[each.flat_id]
+        mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+      else
+        mapped_agreements_by_flat[each.flat_id] = {}
+        mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+      end
+    }
+
+    booking_agreements.each { |each|
+      mapped_booking_agreements[each.id] = parse_json each
+      all_user_agreements[each.id] = parse_json each if !all_user_agreements[each.id]
+      if each.flat_id && mapped_agreements_by_flat[each.flat_id]
+        mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+      else
+        if each.flat_id
+          mapped_agreements_by_flat[each.flat_id] = {}
+          mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+        else
+          booking = mapped_user_bookings[each.booking_id]
+          p "In agreement, fetch_user_agreements booking: " + booking.to_s
+          mapped_agreements_by_flat[booking[:flat_id]] = {} if !mapped_agreements_by_flat[booking[:flat_id]]
+          mapped_agreements_by_flat[booking[:flat_id]][each.id] = parse_json each
+        end
+      end
+    }
+
+    user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
+    # flat_agreements_serializer = parse_json flat_agreements
+    # booking_agreements_serializer = parse_json booking_agreements
+
+    json_response "Fetched user agreements succesfully", true, {flat_agreements: mapped_flat_agreements, user_bookings: mapped_user_bookings, booking_agreements: mapped_booking_agreements, user_flats: mapped_user_flats, all_user_agreements: all_user_agreements, mapped_agreements_by_flat: mapped_agreements_by_flat  }, :ok
   end
 
   private

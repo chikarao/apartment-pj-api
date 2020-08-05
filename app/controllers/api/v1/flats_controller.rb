@@ -28,7 +28,7 @@ class Api::V1::FlatsController < ApplicationController
       #               minutes_to_station >= (?) AND minutes_to_station <= (?) AND date_start >= (?) AND date_end <= (?) AND booking_by_owner = (?)'
       base_conditions = 'lat < (?) AND lat > (?) AND lng < (?) AND lng > (?) AND price_per_month >= (?) AND price_per_month <= (?) AND size >= (?) AND size <= (?) AND minutes_to_station >= (?) AND minutes_to_station <= (?)'
       # params to pass into query
-      params_array = [base_conditions , params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
+      params_array = [base_conditions, params[:north].to_f, params[:south].to_f, params[:east].to_f, params[:west].to_f,
         params[:price_min].to_f,  params[:price_max].to_f,
         params[:size_min].to_f,  params[:size_max].to_f,
         params[:station_min].to_f,  params[:station_max].to_f]
