@@ -7,7 +7,7 @@ class Api::V1::AgreementsController < ApplicationController
   include Progress
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
-  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields, :fetch_user_agreements]
+  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields, :fetch_user_agreements, :add_existing_agreements]
 
   def show
     if @agreement
@@ -327,61 +327,10 @@ class Api::V1::AgreementsController < ApplicationController
 
   def fetch_user_agreements
     p "In agreement, fetch_user_agreements @user.id: " + @user.id.to_s
-    array_of_results_arrays = []
+    # array_of_results_arrays = []
     # flat_agreements = Agreement.for_user_flat(@user.id)
     # booking_agreements = Agreement.for_bookings_for_user_flat(@user.id)
-    user_bookings = Booking.where(flat_id: Flat.where(user_id: @user.id).pluck(:id))
-    user_flats = Flat.where(user_id: @user.id)
-    user_agreements_array_sorted = Agreement.for_user(@user.id).order_by_updated_at_desc
-    p "In agreement, fetch_user_agreements user_agreements: " + user_agreements_array_sorted.count.to_s
-
-    mapped_user_bookings = {}
-    # mapped_flat_agreements = {}
-    # mapped_booking_agreements = {}
-    mapped_user_flats = {}
-    mapped_agreements_by_flat = {}
-    all_user_agreements_mapped = {}
-
-    user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json each }
-    user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
-
-    # flat_agreements.each { |each|
-    #   mapped_flat_agreements[each.id] = parse_json each
-    #   all_user_agreements_mapped[each.id] = parse_json each if !all_user_agreements_mapped[each.id]
-    #   if mapped_agreements_by_flat[each.flat_id]
-    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
-    #   else
-    #     mapped_agreements_by_flat[each.flat_id] = {}
-    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
-    #   end
-    # }
-    #
-    # booking_agreements.each { |each|
-    #   mapped_booking_agreements[each.id] = parse_json each
-    #   all_user_agreements_mapped[each.id] = parse_json each if !all_user_agreements_mapped[each.id]
-    #   if each.flat_id && mapped_agreements_by_flat[each.flat_id]
-    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
-    #   else
-    #     if each.flat_id
-    #       mapped_agreements_by_flat[each.flat_id] = {}
-    #       mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
-    #     else
-    #       booking = mapped_user_bookings[each.booking_id]
-    #       p "In agreement, fetch_user_agreements booking: " + booking.to_s
-    #       mapped_agreements_by_flat[booking[:flat_id]] = {} if !mapped_agreements_by_flat[booking[:flat_id]]
-    #       mapped_agreements_by_flat[booking[:flat_id]][each.id] = parse_json each
-    #     end
-    #   end
-    # }
-    # all_user_agreements_mapped_mapped_sorted = {}
-    # user_agreements.each do |each|
-    #   all_user_agreements_mapped_mapped_sorted[each.id] = parse_json each
-    # end
-
-    user_agreements_serializer = parse_json user_agreements_array_sorted
-    user_agreements_array_sorted.each do |each|
-      all_user_agreements_mapped[each.id] = parse_json each
-    end
+    agreements_objects = get_user_agreements_objects()
 
     # all_user_agreements_mapped
     # user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
@@ -390,13 +339,132 @@ class Api::V1::AgreementsController < ApplicationController
 
     json_response "Fetched user agreements succesfully", true, {
       # flat_agreements: mapped_flat_agreements,
-      user_bookings: mapped_user_bookings,
+      user_bookings: agreements_objects[:mapped_user_bookings],
       # booking_agreements: mapped_booking_agreements,
-      user_flats: mapped_user_flats,
+      user_flats: agreements_objects[:mapped_user_flats],
       # all_user_agreements_mapped: all_user_agreements_mapped,
       # mapped_agreements_by_user_flat: mapped_agreements_by_flat,
-      all_user_agreements_mapped: all_user_agreements_mapped,
-      user_agreements_array_sorted: user_agreements_serializer
+      all_user_agreements_mapped: agreements_objects[:all_user_agreements_mapped],
+      user_agreements_array_sorted: agreements_objects[:user_agreements_serializer]
+      }, :ok
+  end
+
+  def add_existing_agreements
+    # agreements_objects = get_user_agreements_objects()
+    # get flat for selectedFlatFromParams
+    document_field_translations_hash = {relation_key: :document_field_translations, has_many_relations: [], belongs_to_id: :document_field_id}
+    select_choices_hash = {relation_key: :select_choices, has_many_relations: [], belongs_to_id: :document_field_choice_id}
+    document_field_choices_hash = {relation_key: :document_field_choices, has_many_relations: [select_choices_hash], belongs_to_id: :document_field_id}
+    document_fields_hash = {relation_key: :document_fields, has_many_relations: [document_field_translations_hash, document_field_choices_hash], belongs_to_id: :agreement_id}
+    # agreement_hash = {relation_key: :agreement, has_many_relations: [document_fields_hash], belongs_to_id: :flat_id, relation_model: Agreement}
+
+    # lambda method to get dups, save if not childrend, and go through child relations if they exist
+    go_through_each_has_many_relation = lambda do |each_relation_object, dup_belongs_to_parent, top_dup_agreement_instance, original_belongs_to_existing_instance|
+      # if dup_belongs_to_parent.save
+        # each_relation_object[:has_many_relations].each do |each_sub_relation|
+        # get array of has_many instances e.g. agreement has array of document_fields
+      array_of_original_has_many = original_belongs_to_existing_instance.association(each_relation_object[:relation_key]).association_scope
+      array_of_original_has_many.each do |each_original_has_many|
+        dup_each_has_many = each_original_has_many.dup
+        dup_each_has_many[each_relation_object[:belongs_to_id]] = dup_belongs_to_parent.id
+        if each_relation_object[:has_many_relations].length > 0 && dup_each_has_many.save
+          each_relation_object[:has_many_relations].each do |each_hash|
+            go_through_each_has_many_relation.call(each_hash, dup_each_has_many, top_dup_agreement_instance, each_original_has_many)
+          end # each_relation_object[:has_many_relations].each do |each_hash|
+        else #if each_relation_object[:has_many_relations].length > 0
+          unless dup_each_has_many.save
+            # top_dup_agreement_instance.destroy
+            # if anything does not save, delete all dup_agreements
+            contingent_delete_dup_agreements_array.each do |each|
+              each.destroy
+            end #contingent_delete_dup_agreements_array.each do |each|
+            json_response "Add agreement failed", false, {}, :unprocessable_entity
+          end # unless dup_each_has_many.save
+        end # if each_relation_object[:has_many_relations].length > 0
+      end #array_of_original_has_many.each do |each_original_has_many|
+    end #go_through_each_has_many_relation = lambda do
+
+    # go_through_has_many_relations = lambda do |each_has_many_relation_object, belongs_to_instance, top_instance, original_belongs_to_existing_instance|
+    #   # agreement has document_field as each
+    #   # each_has_many_relation_object[:has_many_relations].each do |each|
+    #   # if belongs_to_instance.save
+    #   go_through_each_has_many_relation.call(each_has_many_relation_object, belongs_to_instance, top_dup_agreement_instance, original_belongs_to_existing_instance)
+    #   # else
+    #   #   top_dup_agreement_instance.destroy
+    #   #   json_response "Add agreement failed", false, {}, :unprocessable_entity
+    #   # end
+    #   # end
+    # end # end of go_through_has_many_relations = lambda do
+    #
+    #
+    agreement_has_many_array = [document_fields_hash]
+    contingent_delete_dup_agreements_array = []
+    # Basic workings:
+    params[:agreement_id_array].each do |each_id|
+      agreement = Agreement.find_by(id: each_id)
+      dup_agreement = agreement.dup
+      dup_agreement.flat_id = params[:edit_flat] ? params[:flat_id] : nil
+      dup_agreement.booking_id = params[:edit_flat] ? nil : params[:booking_id]
+      if dup_agreement.save
+        contingent_delete_dup_agreements_array.push(dup_agreement)
+        agreement_has_many_array.each do |each_has_many_relations_hash|
+          #   go_through_each_has_many_relation(each_relation, dup_agreement, dup_agreement)
+          go_through_each_has_many_relation.call(each_has_many_relations_hash, dup_agreement, dup_agreement, agreement)
+        end # end of agreement_has_many_array.each do |each|
+      else #if dup_agreement.save
+        # dup_agreement.destroy
+        contingent_delete_dup_agreements_array.each do |each|
+          each.destroy
+        end #contingent_delete_dup_agreements_array.each do |each|
+        json_response "Add agreement failed", false, {}, :unprocessable_entity
+      end #if dup_agreement.save
+    end #params[:agreement_id_array].each do |each_id|
+    # params[:agreement_id_array].each do |each_id|
+    #   agreement = Agreement.find_by(id: each_id)
+    #   # .dup creates a copy of agreement with no id and no relations (i.e. deocument_fields)
+    #   # like doing Agreement.new with agreement attributes but
+    #   dup_agreement = agreement.dup
+    #   # save dup_agreement to get an id
+    #   if dup_agreement.save
+    #     # push into array in case nneds to be destroyed
+    #     contingent_delete_dup_agreements_array.push(dup_agreement)
+    #     dup_agreement.booking_id = nil
+    #     dup_agreement.flat_id = params[:flat_id]
+    #     agreement.document_fields do |each_df|
+    #       dup_document_field = each_df.dup
+    #       dup_document_field.agreement_id = dup_agreement.id
+    #       if dup_document_field.save
+    #
+    #       else #else of if dup_document_field.save
+    #         dup_agreement.destroy
+    #         json_response "Add agreement failed", false, {}, :unprocessable_entity
+    #       end #end of if dup_document_field.save
+    #     end # end of agreement.document_fields do |each_df|
+    #   else # else of if dup_agreement.save
+    #     json_response "Add agreement failed", false, {}, :unprocessable_entity
+    #   end # end of if dup_agreement.save
+    # end # end of params[:agreement_id_array].each do |each_id|
+
+    flat = Flat.find_by(id: params[:flat_id])
+    flat_serializer = parse_json flat
+
+    json_response "Added existing agreements succesfully", true, {
+      flat: flat_serializer,
+      # user_bookings: agreements_objects[:mapped_user_bookings],
+      # # booking_agreements: mapped_booking_agreements,
+      # user_flats: agreements_objects[:mapped_user_flats],
+      # # all_user_agreements_mapped: all_user_agreements_mapped,
+      # # mapped_agreements_by_user_flat: mapped_agreements_by_flat,
+      # all_user_agreements_mapped: agreements_objects[:all_user_agreements_mapped],
+      # user_agreements_array_sorted: agreements_objects[:user_agreements_serializer]
+      # # flat_agreements: mapped_flat_agreements,
+      # user_bookings: mapped_user_bookings,
+      # # booking_agreements: mapped_booking_agreements,
+      # user_flats: mapped_user_flats,
+      # # all_user_agreements_mapped: all_user_agreements_mapped,
+      # # mapped_agreements_by_user_flat: mapped_agreements_by_flat,
+      # all_user_agreements_mapped: all_user_agreements_mapped,
+      # user_agreements_array_sorted: user_agreements_serializer
       }, :ok
   end
 
@@ -568,5 +636,68 @@ end # end of def document_field_params
     File.delete(path) if path
 
     return result
+  end
+
+  def get_user_agreements_objects
+    user_bookings = Booking.where(flat_id: Flat.where(user_id: @user.id).pluck(:id))
+    user_flats = Flat.where(user_id: @user.id)
+    user_agreements_array_sorted = Agreement.for_user(@user.id).order_by_updated_at_desc
+    p "In agreement, fetch_user_agreements user_agreements: " + user_agreements_array_sorted.count.to_s
+
+    mapped_user_bookings = {}
+    # mapped_flat_agreements = {}
+    # mapped_booking_agreements = {}
+    mapped_user_flats = {}
+    mapped_agreements_by_flat = {}
+    all_user_agreements_mapped = {}
+
+    user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json each }
+    user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
+
+    # flat_agreements.each { |each|
+    #   mapped_flat_agreements[each.id] = parse_json each
+    #   all_user_agreements_mapped[each.id] = parse_json each if !all_user_agreements_mapped[each.id]
+    #   if mapped_agreements_by_flat[each.flat_id]
+    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+    #   else
+    #     mapped_agreements_by_flat[each.flat_id] = {}
+    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+    #   end
+    # }
+    #
+    # booking_agreements.each { |each|
+    #   mapped_booking_agreements[each.id] = parse_json each
+    #   all_user_agreements_mapped[each.id] = parse_json each if !all_user_agreements_mapped[each.id]
+    #   if each.flat_id && mapped_agreements_by_flat[each.flat_id]
+    #     mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+    #   else
+    #     if each.flat_id
+    #       mapped_agreements_by_flat[each.flat_id] = {}
+    #       mapped_agreements_by_flat[each.flat_id][each.id] = parse_json each
+    #     else
+    #       booking = mapped_user_bookings[each.booking_id]
+    #       p "In agreement, fetch_user_agreements booking: " + booking.to_s
+    #       mapped_agreements_by_flat[booking[:flat_id]] = {} if !mapped_agreements_by_flat[booking[:flat_id]]
+    #       mapped_agreements_by_flat[booking[:flat_id]][each.id] = parse_json each
+    #     end
+    #   end
+    # }
+    # all_user_agreements_mapped_mapped_sorted = {}
+    # user_agreements.each do |each|
+    #   all_user_agreements_mapped_mapped_sorted[each.id] = parse_json each
+    # end
+
+    user_agreements_serializer = parse_json user_agreements_array_sorted
+    user_agreements_array_sorted.each do |each|
+      all_user_agreements_mapped[each.id] = parse_json each
+    end
+    return {
+      all_user_agreements_mapped: all_user_agreements_mapped,
+      user_agreements_serializer: user_agreements_serializer,
+      mapped_user_bookings: mapped_user_bookings,
+      mapped_user_flats: mapped_user_flats,
+      all_user_agreements_mapped: all_user_agreements_mapped,
+      user_agreements_serializer: user_agreements_serializer
+    }
   end
 end

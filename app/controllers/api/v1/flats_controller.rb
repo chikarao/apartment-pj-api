@@ -168,8 +168,8 @@ class Api::V1::FlatsController < ApplicationController
     user_status_hash = nil
     if $redis
       user_status_hash = get_user_status_by_user_id(@flat.user_id)
-      # p "*************redis flats#show, user_status_hash: " + user_status_hash.to_s
-      if !user_status_hash
+      p "*************redis flats#show, user_status_hash: " + user_status_hash.to_s
+      if user_status_hash.blank?
         user_status_hash = set_last_user_activity({user_id: @flat.user_id, logged_in: false, online: false, keep_online_status: false})
       end
       # user_status = $redis.keys(pattern = "*:#{@flat.user_id},*")

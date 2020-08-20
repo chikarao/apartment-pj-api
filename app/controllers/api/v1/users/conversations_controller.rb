@@ -83,20 +83,22 @@ class Api::V1::Users::ConversationsController < ApplicationController
       # Post.where('id = 1').or(Post.where('id = 2'))
       # reference: https://stackoverflow.com/questions/28954500/activerecord-where-field-array-of-possible-values
       # @conversations = Conversation.where(user_id: @user.id, deleted: false).or(Conversation.where(flat_id: flat_id_array, deleted: false)).includes(:messages, :user, :flat)
-      @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(flat_id: flat_id_array)).includes(:messages, :user, :flat)
-      p 'in users, ConversationsController, conversations_by_user, conversations_by_user: ' + @conversations.to_s
+      # @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(flat_id: flat_id_array)).includes(:messages, :user, :flat)
+      @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(flat_id: flat_id_array))
+      p 'in users, ConversationsController, conversations_by_user, conversations, conversations.user_id: ' + @conversations.to_s + ' ' + @conversations[0].user_id.to_s
 
       # p @conversation
       if @conversations
         if $redis
           user_status_hash_array = get_status_of_conversation_users(@user.id, @conversations)
-          if user_status_hash_array.empty?
+          if user_status_hash_array.blank?
+            p '**********in users, conversations_by_user, user_status_hash_array, user_status_hash_array.blank?: ' + user_status_hash_array.to_s + ' ' +  user_status_hash_array.blank?.to_s
             result_set = set_status_of_conversation_users(@user.id, @conversations)
             if result_set
               user_status_hash_array = get_status_of_conversation_users(@user.id, @conversations)
             end
           end
-          p '**********in users, conversations_by_user, user_status_hash_array: ' + user_status_hash_array.to_s
+          # p '**********in users, conversations_by_user, user_status_hash_array, user_status_hash_array.blank?: ' + user_status_hash_array.to_s + ' ' +  user_status_hash_array.blank?.to_s
         end
         conversations_serializer = parse_json @conversations
         json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array}, :ok

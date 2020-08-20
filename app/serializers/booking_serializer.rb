@@ -4,7 +4,6 @@ class BookingSerializer < ActiveModel::Serializer
   :flat_id,
   :date_start,
   :date_end,
-  :created_at,
   :booking_by_owner,
   :booking_by_ical,
   :final_rent,
@@ -22,7 +21,9 @@ class BookingSerializer < ActiveModel::Serializer
   :tenants,
   :contracts,
   :agreements,
-  :agreements_mapped
+  :agreements_mapped,
+  :created_at,
+  :updated_at
 
   # do not need
   # belongs_to :flat, serializer: FlatSerializer
