@@ -360,13 +360,15 @@ class Api::V1::AgreementsController < ApplicationController
 
     # lambda method to get dups, save if not childrend, and go through child relations if they exist
     go_through_each_has_many_relation = lambda do |each_relation_object, dup_belongs_to_parent, top_dup_agreement_instance, original_belongs_to_existing_instance|
-      # if dup_belongs_to_parent.save
-        # each_relation_object[:has_many_relations].each do |each_sub_relation|
-        # get array of has_many instances e.g. agreement has array of document_fields
+      # get array of has_many instances e.g. original agreement has array of document_fields
       array_of_original_has_many = original_belongs_to_existing_instance.association(each_relation_object[:relation_key]).association_scope
+      # iterate through each; e.g. array of document_fields if at agrement layer
       array_of_original_has_many.each do |each_original_has_many|
+        # create a duplicate and assign the parent id; e.g. document_field gets duplicate agreement.id
         dup_each_has_many = each_original_has_many.dup
         dup_each_has_many[each_relation_object[:belongs_to_id]] = dup_belongs_to_parent.id
+        # if e.g. document_field has any has_many relations and is saved, iterate through each has_many relations
+        # recursively complete all layers
         if each_relation_object[:has_many_relations].length > 0 && dup_each_has_many.save
           each_relation_object[:has_many_relations].each do |each_hash|
             go_through_each_has_many_relation.call(each_hash, dup_each_has_many, top_dup_agreement_instance, each_original_has_many)
@@ -384,22 +386,16 @@ class Api::V1::AgreementsController < ApplicationController
       end #array_of_original_has_many.each do |each_original_has_many|
     end #go_through_each_has_many_relation = lambda do
 
-    # go_through_has_many_relations = lambda do |each_has_many_relation_object, belongs_to_instance, top_instance, original_belongs_to_existing_instance|
-    #   # agreement has document_field as each
-    #   # each_has_many_relation_object[:has_many_relations].each do |each|
-    #   # if belongs_to_instance.save
-    #   go_through_each_has_many_relation.call(each_has_many_relation_object, belongs_to_instance, top_dup_agreement_instance, original_belongs_to_existing_instance)
-    #   # else
-    #   #   top_dup_agreement_instance.destroy
-    #   #   json_response "Add agreement failed", false, {}, :unprocessable_entity
-    #   # end
-    #   # end
-    # end # end of go_through_has_many_relations = lambda do
-    #
-    #
     agreement_has_many_array = [document_fields_hash]
     contingent_delete_dup_agreements_array = []
-    # Basic workings:
+    # BASIC WORKINGS:
+    # 1. The frontend sends an array of agreement ids through which this method iterates
+    # 2. agreement.dup creates a shallow copy of each agreement which is assigned a flat_id or booking_id
+    # depending on where the request is sent (edit flat or from booking confirmation)
+    # If agreeement is saved, the iterator sends a recursive call of go_through_each_has_many_relation
+    # go_through_each_has_many_relation lambda gets an array of has_many relation instances
+    # duplicates (.dup) of each has_many and assigns ids of belongs_to parents
+    # i.e. document_field gets agreement_id or agreement.id; document_field_translations gets document_field.id and so on
     params[:agreement_id_array].each do |each_id|
       agreement = Agreement.find_by(id: each_id)
       dup_agreement = agreement.dup
@@ -419,37 +415,15 @@ class Api::V1::AgreementsController < ApplicationController
         json_response "Add agreement failed", false, {}, :unprocessable_entity
       end #if dup_agreement.save
     end #params[:agreement_id_array].each do |each_id|
-    # params[:agreement_id_array].each do |each_id|
-    #   agreement = Agreement.find_by(id: each_id)
-    #   # .dup creates a copy of agreement with no id and no relations (i.e. deocument_fields)
-    #   # like doing Agreement.new with agreement attributes but
-    #   dup_agreement = agreement.dup
-    #   # save dup_agreement to get an id
-    #   if dup_agreement.save
-    #     # push into array in case nneds to be destroyed
-    #     contingent_delete_dup_agreements_array.push(dup_agreement)
-    #     dup_agreement.booking_id = nil
-    #     dup_agreement.flat_id = params[:flat_id]
-    #     agreement.document_fields do |each_df|
-    #       dup_document_field = each_df.dup
-    #       dup_document_field.agreement_id = dup_agreement.id
-    #       if dup_document_field.save
-    #
-    #       else #else of if dup_document_field.save
-    #         dup_agreement.destroy
-    #         json_response "Add agreement failed", false, {}, :unprocessable_entity
-    #       end #end of if dup_document_field.save
-    #     end # end of agreement.document_fields do |each_df|
-    #   else # else of if dup_agreement.save
-    #     json_response "Add agreement failed", false, {}, :unprocessable_entity
-    #   end # end of if dup_agreement.save
-    # end # end of params[:agreement_id_array].each do |each_id|
 
     flat = Flat.find_by(id: params[:flat_id])
     flat_serializer = parse_json flat
+    agreements = Agreement.where(flat_id: flat.id)
+    agreements_serializer = parse_json agreements
 
     json_response "Added existing agreements succesfully", true, {
       flat: flat_serializer,
+      agreements: agreements_serializer
       # user_bookings: agreements_objects[:mapped_user_bookings],
       # # booking_agreements: mapped_booking_agreements,
       # user_flats: agreements_objects[:mapped_user_flats],

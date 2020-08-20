@@ -85,7 +85,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
       # @conversations = Conversation.where(user_id: @user.id, deleted: false).or(Conversation.where(flat_id: flat_id_array, deleted: false)).includes(:messages, :user, :flat)
       # @conversations = Conversation.where(user_id: @user.id).or(Conversation.where(flat_id: flat_id_array)).includes(:messages, :user, :flat)
       conversations = Conversation.where(user_id: @user.id).or(Conversation.where(flat_id: flat_id_array))
-      p 'in users, ConversationsController, conversations_by_user, conversations, conversations.user_id: ' + conversations.to_s + ' ' + conversations[0].user_id.to_s
+      # p 'in users, ConversationsController, conversations_by_user, conversations, conversations.user_id: ' + conversations.to_s + ' ' + conversations[0].user_id.to_s
 
       # p @conversation
       if conversations
@@ -101,7 +101,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
           # p '**********in users, conversations_by_user, user_status_hash_array, user_status_hash_array.blank?: ' + user_status_hash_array.to_s + ' ' +  user_status_hash_array.blank?.to_s
         end
         conversations_serializer = parse_json conversations
-        p 'in users, ConversationsController, conversations_by_user, conversations, conversations.user_id last: ' + conversations.to_s + ' ' + conversations[0].user_id.to_s
+        # p 'in users, ConversationsController, conversations_by_user, conversations, conversations.user_id last: ' + conversations.to_s + ' ' + conversations[0].user_id.to_s
         json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array, test_conversations: conversations.to_json}, :ok
       else
         json_response "Cannot find conversation for user", false, {conversations: []}, :not_found
@@ -110,13 +110,13 @@ class Api::V1::Users::ConversationsController < ApplicationController
     else # flat_id_array.empty
       # @conversations = Conversation.where(user_id: @user.id, deleted: false).or(Conversation.where(flat_id: flat_id_array, deleted: false)).includes(:messages, :user, :flat)
       @conversations = Conversation.where(user_id: @user.id).includes(:messages, :user, :flat)
-      p 'in users, ConversationsController, conversations_by_user, no flats conversations_by_user: ' + @conversations.to_s
+      # p 'in users, ConversationsController, conversations_by_user, no flats conversations_by_user: ' + @conversations.to_s
 
       # p @conversation
       if @conversations
         if $redis
           user_status_hash_array = get_set_status_of_conversation_users(@user.id, @conversations)
-          p '**********in users, conversations_by_user, if flat id empty user_status_hash_array: ' + user_status_hash_array.to_s
+          # p '**********in users, conversations_by_user, if flat id empty user_status_hash_array: ' + user_status_hash_array.to_s
         end
         conversations_serializer = parse_json @conversations
         json_response "Fetched conversations by user successfully", true, {conversations: conversations_serializer, other_user_status: user_status_hash_array}, :ok
@@ -175,7 +175,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
       json_response "Invalid token", false, {}, :failure
     end
   end
-  # Deprecated 
+  # Deprecated
   # def set_status_of_conversation_users(user_id, conversations)
   #   conversations.each do |conv|
   #     if conv.user_id != user_id
@@ -196,8 +196,8 @@ class Api::V1::Users::ConversationsController < ApplicationController
 
     conversations.each do |conv|
       if conv.user_id != user_id
-        p '**********in users, get_set_status_of_conversation_users, conv: ' + conv.to_s
-        p '**********in users, get_set_status_of_conversation_users, conv.flat_id: ' + conv.flat_id.to_s
+        # p '**********in users, get_set_status_of_conversation_users, conv: ' + conv.to_s
+        # p '**********in users, get_set_status_of_conversation_users, conv.flat_id: ' + conv.flat_id.to_s
         flat_owner_user_id = Flat.find_by(id: conv.flat_id).user_id
         conversation_user_id_array.push(flat_owner_user_id)
       else
@@ -205,7 +205,7 @@ class Api::V1::Users::ConversationsController < ApplicationController
       end # end of if
     end # end of each
 
-    p '**********in users, get_set_status_of_conversation_users, conversation_user_id_array: ' + conversation_user_id_array.to_s
+    # p '**********in users, get_set_status_of_conversation_users, conversation_user_id_array: ' + conversation_user_id_array.to_s
     conversation_user_id_array.each do |each_id|
       user_status_hash = get_user_status_by_user_id(each_id)
       if user_status_hash.blank?
