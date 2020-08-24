@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200623010659) do
+ActiveRecord::Schema.define(version: 20200821000801) do
 
   create_table "agreements", force: :cascade do |t|
     t.integer "booking_id"
@@ -448,6 +448,7 @@ ActiveRecord::Schema.define(version: 20200623010659) do
     t.string "transform"
     t.string "transform_origin"
     t.boolean "translation", default: false
+    t.text "original_value"
     t.index ["agreement_id"], name: "index_document_fields_on_agreement_id"
   end
 

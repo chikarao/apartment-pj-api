@@ -176,7 +176,8 @@ class Api::V1::BookingsController < ApplicationController
     document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
                            facility: DocumentConstants::FACILITY,
                            tenants: DocumentConstants::TENANTS,
-                           inspection: DocumentConstants::INSPECTION
+                           inspection: DocumentConstants::INSPECTION,
+                           building: DocumentConstants::BUILDING
                          }
 
     json_response "Fetched template objects successfully", true, {

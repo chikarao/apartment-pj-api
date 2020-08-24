@@ -13,8 +13,11 @@ class Agreement < ApplicationRecord
   scope :for_user_flat, ->(user_id) { where(flat_id: Flat.where(user_id: user_id ).pluck(:id)) }
   # Get agreements for Bookings of user's flats
   scope :for_bookings_for_user_flat, ->(user_id) { where(booking_id: Booking.where(flat_id: Flat.where(user_id: user_id).pluck(:id) )) }
+  # get all agreements where user is owner of the flat in booking of booking_id, and agreements where user is owner of flat of flat_id 
   scope :for_user, ->(user_id) { where(booking_id: Booking.where(flat_id: Flat.where(user_id: user_id).pluck(:id) )).or(where(flat_id: Flat.where(user_id: user_id ).pluck(:id))) }
+
   scope :order_by_updated_at_asc, -> { order("updated_at ASC") }
+
   scope :order_by_updated_at_desc, -> { order("updated_at DESC") }
   # id: Booking.select('DISTINCT flat_id')
 end

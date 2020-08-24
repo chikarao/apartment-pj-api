@@ -350,13 +350,14 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def add_existing_agreements
-    # agreements_objects = get_user_agreements_objects()
-    # get flat for selectedFlatFromParams
+    # add_existing_agreements called from editFlat and boookingConfirmation on front end
+    # Receives agreement ids and returns flat with duplicated agreemnts to be assigned with params[:flat_id]
+    # Defined hashes to be used in go_through_each_has_many_relation lambda
     document_field_translations_hash = {relation_key: :document_field_translations, has_many_relations: [], belongs_to_id: :document_field_id}
     select_choices_hash = {relation_key: :select_choices, has_many_relations: [], belongs_to_id: :document_field_choice_id}
     document_field_choices_hash = {relation_key: :document_field_choices, has_many_relations: [select_choices_hash], belongs_to_id: :document_field_id}
-    document_fields_hash = {relation_key: :document_fields, has_many_relations: [document_field_translations_hash, document_field_choices_hash], belongs_to_id: :agreement_id}
-    # agreement_hash = {relation_key: :agreement, has_many_relations: [document_fields_hash], belongs_to_id: :flat_id, relation_model: Agreement}
+    document_fields_hash = {relation_key: :document_fields, has_many_relations: [document_field_translations_hash, document_field_choices_hash], belongs_to_id: :agreement_id, keep_original_value: true}
+    # agreement_hash = {relation_key: :agreements, has_many_relations: [document_fields_hash], belongs_to_id: :flat_id, relation_model: Agreement}
 
     # lambda method to get dups, save if not childrend, and go through child relations if they exist
     go_through_each_has_many_relation = lambda do |each_relation_object, dup_belongs_to_parent, top_dup_agreement_instance, original_belongs_to_existing_instance|
@@ -367,6 +368,9 @@ class Api::V1::AgreementsController < ApplicationController
         # create a duplicate and assign the parent id; e.g. document_field gets duplicate agreement.id
         dup_each_has_many = each_original_has_many.dup
         dup_each_has_many[each_relation_object[:belongs_to_id]] = dup_belongs_to_parent.id
+        # if keep_original_value true, assign value to original value (only in document_field)
+        dup_each_has_many[:original_value] = each_original_has_many[:value] if each_relation_object[:keep_original_value]
+        dup_each_has_many[:value] = nil if each_relation_object[:keep_original_value]
         # if e.g. document_field has any has_many relations and is saved, iterate through each has_many relations
         # recursively complete all layers
         if each_relation_object[:has_many_relations].length > 0 && dup_each_has_many.save
@@ -416,14 +420,15 @@ class Api::V1::AgreementsController < ApplicationController
       end #if dup_agreement.save
     end #params[:agreement_id_array].each do |each_id|
 
+    # get flat for selectedFlatFromParams
     flat = Flat.find_by(id: params[:flat_id])
     flat_serializer = parse_json flat
-    agreements = Agreement.where(flat_id: flat.id)
-    agreements_serializer = parse_json agreements
+    # agreements = Agreement.where(flat_id: flat.id)
+    # agreements_serializer = parse_json agreements
 
     json_response "Added existing agreements succesfully", true, {
       flat: flat_serializer,
-      agreements: agreements_serializer
+      # agreements: agreements_serializer
       # user_bookings: agreements_objects[:mapped_user_bookings],
       # # booking_agreements: mapped_booking_agreements,
       # user_flats: agreements_objects[:mapped_user_flats],
@@ -471,6 +476,10 @@ class Api::V1::AgreementsController < ApplicationController
     )
   end
   #https://stackoverflow.com/questions/18595364/rails-strong-parameters-with-objects-array
+  # IMPORTANT: value in document_fields is string, but need to make it text type.
+  # Next time drop DB, edit the migration where document_field model is craeted and make value it text type
+  # Tried changing type in a migration, but cannot due to foreign key constraint for some reason
+  # migration is 20181218061751_create_document_fields.rb
   def document_field_params
     params.permit(document_field: [
       :id,
@@ -507,6 +516,7 @@ class Api::V1::AgreementsController < ApplicationController
       :translation,
       :transform,
       :transform_origin,
+      :original_value,
       document_field_translations_attributes: [
         :id,
         :language_code,

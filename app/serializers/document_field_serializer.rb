@@ -38,6 +38,7 @@ class DocumentFieldSerializer < ActiveModel::Serializer
   :document_field_translations,
   :translation_element,
   :translation,
+  :original_value,
   :created_at,
   :updated_at
   # has_many :flats
