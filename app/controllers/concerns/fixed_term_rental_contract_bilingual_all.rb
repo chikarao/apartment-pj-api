@@ -134,7 +134,8 @@ module FixedTermRentalContractBilingualAll
               # translation field is the field in the document that takes the translation
               translation_field: 'address_translation',
               translation_key: 'address',
-              category: 'flat',
+              # category: 'flat',
+              category: 'building',
               initialvalues_method_key: 'address'
             },
 
@@ -159,7 +160,8 @@ module FixedTermRentalContractBilingualAll
                 },
               # required: true
               translation_key: 'address',
-              category: 'flat',
+              category: 'building',
+              # category: 'flat',
               translation_object: true,
               initialvalues_method_key: 'address'
           },

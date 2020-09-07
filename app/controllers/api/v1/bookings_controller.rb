@@ -125,11 +125,15 @@ class Api::V1::BookingsController < ApplicationController
 
     fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
     important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
-    document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
-                           facility: DocumentConstants::FACILITY,
-                           tenants: DocumentConstants::TENANTS,
-                           inspection: DocumentConstants::INSPECTION
-                         }
+    # document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
+    #                        facility: DocumentConstants::FACILITY,
+    #                        tenants: DocumentConstants::TENANTS,
+    #                        inspection: DocumentConstants::INSPECTION,
+    #                        building: DocumentConstants::BUILDING,
+    #                        amenities: DocumentConstants::AMENITIES,
+    #                        included: DocumentConstants::INCLUDED_CHOICES,
+    #                        flat: DocumentConstants::FLAT_FOR_DOCUMENTS,
+    #                      }
 
     contract_serializer = parse_json contracts
     flat_serializer = parse_json flat
@@ -154,7 +158,7 @@ class Api::V1::BookingsController < ApplicationController
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
-      document_constants: document_constants.to_json
+      document_constants: document_constants().to_json
       # template_translation_object: template_translation_object_all.to_json
       }, :ok
   end
@@ -173,12 +177,15 @@ class Api::V1::BookingsController < ApplicationController
     fixed_term_rental_contract_bilingual_all = FixedTermRentalContractBilingualAll::OBJECT
     important_points_explanation_bilingual_all = ImportantPointsExplanationBilingualAll::OBJECT
 
-    document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
-                           facility: DocumentConstants::FACILITY,
-                           tenants: DocumentConstants::TENANTS,
-                           inspection: DocumentConstants::INSPECTION,
-                           building: DocumentConstants::BUILDING
-                         }
+    # document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
+    #                        facility: DocumentConstants::FACILITY,
+    #                        tenants: DocumentConstants::TENANTS,
+    #                        inspection: DocumentConstants::INSPECTION,
+    #                        building: DocumentConstants::BUILDING,
+    #                        amenities: DocumentConstants::AMENITIES,
+    #                        included: DocumentConstants::INCLUDED_CHOICES,
+    #                        flat: DocumentConstants::FLAT_FOR_DOCUMENTS,
+    #                      }
 
     json_response "Fetched template objects successfully", true, {
       # booking: booking_serializer,
@@ -194,7 +201,7 @@ class Api::V1::BookingsController < ApplicationController
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
-      document_constants: document_constants.to_json
+      document_constants: document_constants().to_json
       # template_translation_object: template_translation_object_all.to_json
       }, :ok
   end
@@ -846,6 +853,19 @@ class Api::V1::BookingsController < ApplicationController
     unless @booking.present?
       json_response "Cannot find booking", false, {}, :not_found
     end
+  end
+
+  def document_constants
+    document_constants = { rent_payment: DocumentConstants::RENT_PAYMENT,
+                           facility: DocumentConstants::FACILITY,
+                           tenants: DocumentConstants::TENANTS,
+                           inspection: DocumentConstants::INSPECTION,
+                           building: DocumentConstants::BUILDING,
+                           amenities: DocumentConstants::AMENITIES,
+                           included: DocumentConstants::INCLUDED_CHOICES,
+                           flat: DocumentConstants::FLAT_FOR_DOCUMENTS,
+                         }
+    return document_constants
   end
 
   def create_blocking_booking(range_object, booking_array)
