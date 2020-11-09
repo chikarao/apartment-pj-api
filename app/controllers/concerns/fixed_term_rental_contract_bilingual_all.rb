@@ -2555,6 +2555,21 @@ module FixedTermRentalContractBilingualAll
       group: 'brokerStaff',
       initialvalues_method_key: 'management'
     },
+
+    # custom: {
+    #   name: '',
+    #   input_type: 'text',
+    #   choices: {
+    #     :inputFieldValue => { params: { val: 'inputFieldValue', top: '82.2%', left: '52%', width: '32%', class_name: 'document-rectangle', input_type: 'string' } },
+    #   },
+    #   className: 'form-control-document',
+    #   component: 'DocumentChoices',
+    #   translation_key: 'custom',
+    #   category: 'custom',
+    #   translation_object: true,
+    #   # group: 'brokerStaff',
+    #   initialvalues_method_key: ''
+    # },
     # !!!!!!! amenities_list and translation just for development take out later
     # amenities_list: {
     #   name: 'amenities_list',

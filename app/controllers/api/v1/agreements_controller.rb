@@ -266,6 +266,8 @@ class Api::V1::AgreementsController < ApplicationController
   def update
     result = {}
     image_to_destroy = @agreement.document_publicid
+    image_upload_ok = true
+
     if !params[:file].blank?
       result = upload_image(params[:file])
       if result
@@ -274,13 +276,26 @@ class Api::V1::AgreementsController < ApplicationController
         width = result["width"]
         height = result["height"]
         @agreement.document_page_size = "#{width},#{height}"
+
+        # Check if image pages is less than the last page with document_field
+        # Otherwise, there will be a breaking error if document_field cannot be rendered
+        # document_fields = @agreement.document_fields
+        # if document_fields.length > 0
+        #   last_page_with_document_field = 0
+        #   document_fields.each do |each_document_field|
+        #     last_page_with_document_field = each_document_field.page if each_document_field.page > last_page_with_document_field
+        #   end
+        #   image_upload_ok = false if last_page_with_document_field > @agreement.document_pages
+        # end #  if document_fields.length > 0
+
       else
+        image_upload_ok = false
         json_response "Edit agreement failed because the pdf upload failed.", false, {}, :unprocessable_entity
         # File.delete(path) if path
       end
     end
 
-    if result && @agreement.update(agreement_params)
+    if image_upload_ok && @agreement.update(agreement_params)
       booking = Booking.find_by(id: agreement_params[:booking_id])
       if @agreement.document_publicid != image_to_destroy
         result = Cloudinary::Uploader.destroy(image_to_destroy);
@@ -297,7 +312,7 @@ class Api::V1::AgreementsController < ApplicationController
       # agreement_serializer = parse_json @agreement
       json_response "Updated agreement succesfully", true, {agreement: agreement_serializer, booking: booking_serializer, flat: flat_serializer}, :ok
     else
-      json_response "Update flat failed", false, {}, :unprocessable_entity
+      json_response "Update agreement failed", false, {}, :unprocessable_entity
     end
   end
 
@@ -517,6 +532,7 @@ class Api::V1::AgreementsController < ApplicationController
       :transform,
       :transform_origin,
       :original_value,
+      :custom_name,
       document_field_translations_attributes: [
         :id,
         :language_code,

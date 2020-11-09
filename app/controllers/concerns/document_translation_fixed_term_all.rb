@@ -761,7 +761,7 @@ module DocumentTranslationFixedTermAll
     },
 
     transferFeePaidBy: {
-      translations: { en: 'Transfer Fee Paid By: Landlor・Tenant', po: '', jp: '' },
+      translations: { en: 'Transfer Fee Paid By: Landlord・Tenant', po: '', jp: '' },
       attributes: { top: '75%', left: '60.4%', font_size: '10', class_name: 'document-translation' },
       category: 'agreement'
     },
