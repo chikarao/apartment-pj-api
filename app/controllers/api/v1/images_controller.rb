@@ -35,7 +35,7 @@ class Api::V1::ImagesController < ApplicationController
   def destroy
     if @user.id = current_user.id
       #delete the image on cloudinary too
-      publicid= @image.publicid
+      publicid = @image.publicid
       if @image.destroy
         result = Cloudinary::Uploader.destroy(publicid)
         # json_response "Deleted image succesfully", true, {image: @image, cloudinary_result: result}, :ok

@@ -89,6 +89,34 @@ class Api::V1::Images::ImagesController < ApplicationController
     json_response "Deleted image successfully", true, {response: result}, :ok
   end
 
+  def destroy_images
+    if !params[:destroy_image_array].empty? && params[:flat_id]
+      num_images = params[:destroy_image_array].length
+      count = 0
+      flat = Flat.find_by(id: params[:flat_id])
+
+      params[:destroy_image_array].each do |each_image_id|
+        image = Image.find_by(id: each_image_id)
+        if image.destroy
+          count = count + 1
+          result = Cloudinary::Uploader.destroy(image.publicid)
+        else
+          json_response "Delete image failed", false, {}, :unprocessable_entity
+        end #end unless image.destroy
+      end # end params[:destroy_image_array].each do |each_image_id|
+    else # else if !params[:destroy_image_array].empty?
+      json_response "Delete image failed", false, {}, :unprocessable_entity
+    end # else if !params[:destroy_image_array].empty?
+
+    if count > 0
+      flat_serializer = parse_json flat
+      json_response "Deleted images succesfully", true, {flat: flat_serializer}, :ok
+    else
+      json_response "Delete images failed", false, {}, :unprocessable_entity
+    end
+  end #def destroy_images
+
+
   private
 
   def image_params

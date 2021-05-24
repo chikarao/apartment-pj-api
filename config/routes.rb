@@ -73,6 +73,7 @@ Rails.application.routes.draw do
         post 'upload_for_flat', to: 'images#upload_for_flat'
         post 'upload_for_profile', to: 'images#upload_for_profile'
         post 'destroy', to: 'images#destroy'
+        post 'destroy_images', to: 'images#destroy_images'
       end
 
       namespace :reviews do

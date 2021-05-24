@@ -652,9 +652,11 @@ end # end of def document_field_params
     user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
 
     user_agreements_serializer = parse_json user_agreements_array_sorted
+
     user_agreements_array_sorted.each do |each|
       all_user_agreements_mapped[each.id] = parse_json each
     end
+    
     return {
       all_user_agreements_mapped: all_user_agreements_mapped,
       user_agreements_serializer: user_agreements_serializer,
