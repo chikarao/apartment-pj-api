@@ -362,8 +362,8 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def test_agreement
-    p "In agreement, test_agreement, hit end point: "
-    # p "In agreement, test_agreement, params: " + params.to_s
+    # p "In agreement, test_agreement, hit end point: "
+    p "In agreement, test_agreement, params: " + params.to_s
     # json_response "test_agreement hit end point", true, {
     #   # flat: flat_serializer,
     #   # booking: booking_serializer,

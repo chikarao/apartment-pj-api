@@ -64,7 +64,7 @@ module DocumentTranslationFixedTermByPage
         sewageAvailability: base[:sewageAvailability]
   },
   2 => {
-    unitInformation: base[:unitInformation],
+    unitInformation1: base[:unitInformation1],
     facilities: base[:facilities],
     includedNotIncluded: base[:includedNotIncluded],
     parking: base[:parking],

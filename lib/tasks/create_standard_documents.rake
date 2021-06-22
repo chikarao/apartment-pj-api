@@ -66,6 +66,7 @@ task :create_standard_documents  => :environment do
               # Merge the params with the new_document_field_hash
               new_document_field_hash.merge!(each_document_field_hash[:choices][each_choice][:params])
               new_document_field_hash[:class_name] = class_name_conversion[new_document_field_hash[:class_name].to_s] if class_name_conversion[new_document_field_hash[:class_name].to_s]
+              new_document_field_hash[:input_type] = "text" if each_document_field_hash[:choices][each_choice][:params][:input_type]
 
             elsif each_document_field_hash[:choices][each_choice][:selectChoices]
               # If select chioces
@@ -102,10 +103,45 @@ task :create_standard_documents  => :environment do
     end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
   end
 
+  create_document_field_translation_array = lambda do |by_page_hash, document_type|
+
+    by_page_hash.keys.each do |each_page|
+      puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s
+      # puts 'In create_document_field_translation_array, by_page_hash: ' + by_page_hash.to_s
+
+      by_page_hash[each_page].each do |each_document_field|
+        # puts 'In create_document_field_translation_array, each_document_field: ' + each_document_field.to_s
+        name = each_document_field[0].to_s
+        each_document_field_hash = each_document_field[1]
+
+        new_document_field_hash = {
+          name: name,
+          # name: each_document_field_hash[:name],
+          # input_type: each_document_field_hash[:input_type],
+          class_name: each_document_field_hash[:class_name],
+          # component: each_document_field_hash[:component],
+          # value: nil,
+          page: each_page,
+          translation_element: true
+        }
+
+        # puts 'In create_document_field_translation_array, each_document_field_hash, each_document_field: ' + name + ' '+ each_document_field_hash.to_s + ' ********************* ' + each_document_field.to_s
+        # puts 'In create_document_field_translation_array, new_document_field_hash, each_document_field_hash: ' + new_document_field_hash.to_s + ' ' + each_document_field_hash.to_s
+        # puts 'In create_document_field_translation_array, name: ' + name.to_s
+        new_document_field_hash.merge!(each_document_field_hash[:attributes]) if each_document_field_hash[:attributes]
+        # puts 'In create_document_field_translation_array, name, new_document_field_hash: ' + name.to_s + ' ' + new_document_field_hash.to_s
+        document_field_array.push(new_document_field_hash)
+        count += 1
+      end # by_page_hash[each_page].each do |each_document_field|
+    end # by_page_hash.keys.each do |each_page|
+  end # create_document_field_translation_array = lambda do |by_page_hash, document_type|
+
+
 
    documents_hash = {
      'Rental Agreement' => {
         by_page_hash: FixedTermRentalContractBilingualAllbyPage::OBJECT,
+        by_page_hash_translation: DocumentTranslationFixedTermByPage::OBJECT,
         params_hash: {
           booking_id: Booking.first.id,
           flat_id: nil,
@@ -123,6 +159,7 @@ task :create_standard_documents  => :environment do
      }, #'Rental Agreement'
      'Important Points' => {
        by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
+       by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
        params_hash: {
          booking_id: Booking.first.id,
          flat_id: nil,
@@ -143,10 +180,11 @@ task :create_standard_documents  => :environment do
 
    documents_hash.keys.each do |each_key|
      create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
+     create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
      session.post "/api/v1/test_agreement", params: documents_hash[each_key][:params_hash]
      document_field_array = []
      document_count += 1
-     puts 'Prepared ' + document_count.to_s + ' document(s) and ' + count.to_s + ' ' + 'document fields to be created' 
+     puts 'Prepared ' + document_count.to_s + ' document(s) and ' + count.to_s + ' ' + 'document fields to be created'
    end
 
    # session.post "/api/v1/agreements", params: params_hash
