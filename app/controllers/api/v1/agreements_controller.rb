@@ -361,6 +361,21 @@ class Api::V1::AgreementsController < ApplicationController
       }, :ok
   end
 
+  def test_agreement
+    p "In agreement, test_agreement, hit end point: "
+    # p "In agreement, test_agreement, params: " + params.to_s
+    # json_response "test_agreement hit end point", true, {
+    #   # flat: flat_serializer,
+    #   # booking: booking_serializer,
+    #   params: params
+    #   # flat_agreements: mapped_flat_agreements,
+    #   # user_bookings: agreements_objects[:mapped_user_bookings],
+    #   # user_flats: agreements_objects[:mapped_user_flats],
+    #   # all_user_agreements_mapped: agreements_objects[:all_user_agreements_mapped],
+    #   # user_agreements_array_sorted: agreements_objects[:user_agreements_serializer]
+    # }, :ok
+  end
+
   def add_existing_agreements
     # add_existing_agreements called from editFlat and boookingConfirmation on front end
     # Receives agreement ids and returns flat with duplicated agreemnts to be assigned with params[:flat_id]
@@ -656,13 +671,13 @@ end # end of def document_field_params
     user_agreements_array_sorted.each do |each|
       all_user_agreements_mapped[each.id] = parse_json each
     end
-    
+
     return {
       all_user_agreements_mapped: all_user_agreements_mapped,
       user_agreements_serializer: user_agreements_serializer,
       mapped_user_bookings: mapped_user_bookings,
       mapped_user_flats: mapped_user_flats,
-      user_agreements_serializer: user_agreements_serializer
+      # user_agreements_serializer: user_agreements_serializer
     }
   end
 end

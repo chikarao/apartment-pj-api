@@ -318,11 +318,12 @@ class Api::V1::FlatsController < ApplicationController
     # changed yet again 6/30/2020 to Za.i, Za.j, Ua.i, Ua.j
     # changed yet again 7/27/2020 to Za.i, Za.j, Va.i, Va.j
     # changed yet again 5/24/2020 to Ua.g, Ua.i, La.g, La.i
+    # changed yet again 6/7/2020 to eb.g, eb.i, oc.g, oc.i
 
-    north_south_first = 'Ua' # key to object sent by googlemaps La: { g: xxx, i: xxx }
+    north_south_first = 'oc' # key to object sent by googlemaps La: { g: xxx, i: xxx }
     south_second = 'g' # 37.73223256302308
     north_second = 'i' # larger positive in SF, California 37.835340869420385
-    east_west_first = 'La' # key to object sent by googlemaps La: { g: xxx, i: xxx }
+    east_west_first = 'Eb' # key to object sent by googlemaps La: { g: xxx, i: xxx }
     west_second = 'g' # larger negative -122.50212027587891
     east_second = 'i' # -122.25149466552
     # Sample bounds logs from Googlemap API for illustration

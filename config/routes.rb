@@ -98,6 +98,8 @@ Rails.application.routes.draw do
       post 'fetch_user_agreements', to: 'agreements#fetch_user_agreements'
       post 'add_existing_agreements', to: 'agreements#add_existing_agreements'
 
+      post 'test_agreement', to: 'agreements#test_agreement'
+
       resources :document_fields do
       end
 
