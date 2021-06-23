@@ -3580,7 +3580,7 @@ module ImportantPointsExplanationBilingualAll
       button_on_field_choice_nav: 'list',
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' },
-      sample: true
+      # sample: true
     },
 
     floor_assembly: {
@@ -3599,9 +3599,10 @@ module ImportantPointsExplanationBilingualAll
       category: 'inspection',
       group: 'degradations',
       initialvalues_method_key: 'inspection',
-      button_on_field_choice_nav: 'list'
+      button_on_field_choice_nav: 'list',
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
+      # sample: true
     },
 
     floor: {

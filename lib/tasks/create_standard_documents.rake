@@ -115,7 +115,7 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
 
         each_document_field_hash = each_document_field[1]
-        # puts 'Working on a document field array, name, each_document_field_hash[:choices].keys: ' + name.to_s + each_document_field_hash[:choices].keys.to_s
+        # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # create a new hash for each document field
         # iterate through each document field choice in document field
         # create array of document field choices
@@ -133,9 +133,8 @@ task :create_standard_documents  => :environment do
           page: each_page
         }
         #
-        new_document_field_choices_attributes = []
-        new_document_field_translations_attributes = []
-        new_document_field_choices = []
+        # new_document_field_translations_attributes = []
+        new_document_field_choices_array = []
 
         each_document_field_hash[:choices].keys.each do |each_choice|
           # start new_document_field_choice with nil so can push into array if populated later
@@ -185,18 +184,17 @@ task :create_standard_documents  => :environment do
             # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice: ' + name.to_s + " " + each_choice.to_s + " " + new_document_field_choice.to_s if each_choice == :yes
           end #if each_choice == :inputFieldValue
 
-          new_document_field_choices.push(new_document_field_choice) if new_document_field_choice
-          puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice, each_document_field_hash[:sample]: ' + name.to_s + " " + each_choice.to_s + " " + new_document_field_choice.to_s + " " + new_document_field_choices.to_s + ' ' +  each_document_field_hash[:sample].to_s if name == 'foundation'
+          new_document_field_choices_array.push(new_document_field_choice) if new_document_field_choice
 
         end #each_document_field[:choices].keys.each do |each_choice|
 
-        new_document_field_hash[:document_field_choices_attributes] = new_document_field_choices if new_document_field_choices.length > 0
+        # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choices_array, new_document_field_choices_array.length > 0, each_document_field_hash[:sample]: ' + name.to_s + " " + new_document_field_choices_array.to_s + ' ' +  (new_document_field_choices_array.length > 0).to_s + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
+        new_document_field_hash[:document_field_choices_attributes] = new_document_field_choices_array if new_document_field_choices_array.length > 0
         # document_field_array.push(new_document_field_hash) if each_document_field_hash[:sample]
-        document_field_array.push(new_document_field_hash) if each_document_field_hash[:sample]
-        count += 1 if each_document_field_hash[:sample]
-        # puts 'In create_document_field_array, working on name, name, new_document_fields, new_document_field_hash: ' + name.to_s + " " + new_document_fields.to_s + " " + new_document_field_hash.to_s + " "
-        # document_field_array.push(new_document_field_hash)
-        # puts 'Working on a document field array, new_document_field_hash: ' + new_document_field_hash.to_s
+        document_field_array.push(new_document_field_hash)
+        # puts 'In create_document_field_array, working on name, document_field_array, each_document_field_hash[:sample]: ' + name.to_s + " " + document_field_array.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
+        count += 1
+        # count += 1 if each_document_field_hash[:sample]
       end #by_page_hash[each_page].each do |each_document_field|
     end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
   end
@@ -245,7 +243,7 @@ task :create_standard_documents  => :environment do
           booking_id: Booking.first.id,
           flat_id: nil,
           document_name: "Fixed Term Rental Standard Contract",
-          document_field: document_field_array,
+          document_field: [],
           language_code: "jp",
           language_code_1: "en",
           document_pages: 12,
@@ -264,7 +262,7 @@ task :create_standard_documents  => :environment do
          booking_id: Booking.first.id,
          flat_id: nil,
          document_name: "Important Points Standard Template",
-         document_field: document_field_array,
+         document_field: [],
          language_code: "jp",
          language_code_1: "en",
          document_pages: 11,
@@ -281,15 +279,18 @@ task :create_standard_documents  => :environment do
    documents_hash.keys.each do |each_key|
      # Populate document_field_array with document_field including translation_element
      create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
-     # create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
+     create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
+     # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
+     # Reassign the populated document_field_array before calling controller method
+     documents_hash[each_key][:params_hash][:document_field] = document_field_array
      session.post "/api/v1/test_agreement", params: documents_hash[each_key][:params_hash]
-     # Empty document_field_array when finished with one document
+     # session.post "/api/v1/agreements", params: documents_hash[each_key][:params_hash]
+     # Empty document_field_array when finished with each document
      document_field_array = []
      document_count += 1
      puts 'Prepared ' + document_count.to_s + ' document(s) and ' + count.to_s + ' ' + 'document fields to be created'
    end
 
-   # session.post "/api/v1/agreements", params: params_hash
 
 
 
