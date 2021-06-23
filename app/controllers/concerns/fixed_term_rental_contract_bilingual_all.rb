@@ -37,7 +37,7 @@ module FixedTermRentalContractBilingualAll
           required: true,
           # translation_key: 'documentTitle',
           # category: 'document'
-          initialvalues_method_key: 'document'
+          initialvalues_method_key: 'document',
         },
 
         name: {
@@ -75,7 +75,8 @@ module FixedTermRentalContractBilingualAll
             # template_element_object divided into category and group
             category: 'building',
             # initialvalues_method_key is for using in get_initialvalues_object_fixed_term_contract_template.js
-            initialvalues_method_key: 'building'
+            initialvalues_method_key: 'building',
+            # sample: true
           },
 
           name_translation: {
@@ -210,8 +211,9 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'construction',
           category: 'building',
           initialvalues_method_key: 'building',
-          language_independent: true
-          # group: 'construction'
+          language_independent: true,
+          # group: 'construction',
+          # sample: true
         },
 
         floors: {
@@ -307,8 +309,9 @@ module FixedTermRentalContractBilingualAll
             component: 'DocumentChoices',
             translation_key: 'layout',
             category: 'flat',
-            initialvalues_method_key: 'flat'
-            # borderColor: 'blue'
+            initialvalues_method_key: 'flat',
+            # borderColor: 'blue',
+            # sample: true
           },
 
         size: {
@@ -375,7 +378,8 @@ module FixedTermRentalContractBilingualAll
           translation_key: 'bathTub',
           category: 'flat',
           group: 'amenities',
-          initialvalues_method_key: 'amenity'
+          initialvalues_method_key: 'amenity',
+          # sample: true
         },
 
         shower: {
@@ -644,8 +648,9 @@ module FixedTermRentalContractBilingualAll
         component: 'DocumentChoices',
         translation_key: 'gas',
         category: 'building',
-        initialvalues_method_key: 'building'
-        # borderColor: 'blue'
+        initialvalues_method_key: 'building',
+        # borderColor: 'blue',
+        # sample: true
       },
 
       water: {
@@ -704,6 +709,7 @@ module FixedTermRentalContractBilingualAll
         translation_key: 'parkingIncluded',
         category: 'flat',
         initialvalues_method_key: 'flat',
+        # sample: true
       },
 
       parking_spaces: {

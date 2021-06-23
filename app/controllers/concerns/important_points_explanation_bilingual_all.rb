@@ -456,8 +456,9 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'construction',
       category: 'building',
       group: 'construction',
-      initialvalues_method_key: 'building'
-      # translation_sibling: 'construction_translation'
+      initialvalues_method_key: 'building',
+      # translation_sibling: 'construction_translation',
+      # sample: true
     },
 
     construction_translation: {
@@ -768,11 +769,11 @@ module ImportantPointsExplanationBilingualAll
       name: 'water',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'publicWater', top: '66.7%', left: '17.3%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :publicWater => { params: { val: 'publicWater', top: '66.7%', left: '17.3%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:publicWater][:translations] },
-        1 => { params: { val: 'tank', top: '66.7%', left: '23.3%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :tank => { params: { val: 'tank', top: '66.7%', left: '23.3%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:tank][:translations] },
-        2 => { params: { val: 'well', top: '66.7%', left: '30%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :well => { params: { val: 'well', top: '66.7%', left: '30%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:wellWater][:translations]},
       },
       className: 'form-control-document',
@@ -783,6 +784,7 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'water',
       category: 'building',
       initialvalues_method_key: 'building',
+      # sample: true
     },
 
     water_year: {
@@ -828,11 +830,11 @@ module ImportantPointsExplanationBilingualAll
       name: 'water_scheduled',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'publicWater', top: '66.7%', left: '52.9%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :publicWater => { params: { val: 'publicWater', top: '66.7%', left: '52.9%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:publicWater][:translations]},
-        1 => { params: { val: 'privateWater', top: '66.7%', left: '58.4%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :privateWater => { params: { val: 'privateWater', top: '66.7%', left: '58.4%', width: '6.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:tank][:translations]},
-        2 => { params: { val: 'well', top: '66.7%', left: '65.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :well => { params: { val: 'well', top: '66.7%', left: '65.3%', width: '5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:wellWater][:translations]},
       },
       className: 'form-control-document',
@@ -1006,9 +1008,9 @@ module ImportantPointsExplanationBilingualAll
       name: 'gas',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'publicGas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :publicGas => { params: { val: 'publicGas', top: '72.9%', left: '19%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:cityGas][:translations]},
-        1 => { params: { val: 'propaneGas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :propaneGas => { params: { val: 'propaneGas', top: '72.9%', left: '25.2%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
               translation: translation[:propaneGas][:translations]},
         # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
@@ -1020,8 +1022,9 @@ module ImportantPointsExplanationBilingualAll
       second_click_off: true,
       translation_key: 'gas',
       category: 'building',
-      initialvalues_method_key: 'building'
+      initialvalues_method_key: 'building',
       # borderColor: 'blue',
+      # sample: true
     },
 
     gas_year: {
@@ -1067,9 +1070,9 @@ module ImportantPointsExplanationBilingualAll
       name: 'gas_scheduled',
       input_type: 'string',
       choices: {
-        0 => { params: { val: 'publicGas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :publicGas => { params: { val: 'publicGas', top: '72.9%', left: '53.1%', width: '5.5%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:cityGas][:translations] },
-        1 => { params: { val: 'propaneGas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
+        :propaneGas => { params: { val: 'propaneGas', top: '72.9%', left: '59%', width: '7.6%', class_name: 'document-rectangle', input_type: 'button' }, dependentKeys: { fields: [], value: '' },
                translation: translation[:propaneGas][:translations] },
         # 1 => { params: { val: 'inputFieldValue', top: '24%', left: '54.5%', width: '10%', class_name: 'document-rectangle', input_type: 'string', textAlign: 'right' } }
 
@@ -1276,7 +1279,7 @@ module ImportantPointsExplanationBilingualAll
       name: 'sewage_scheduled_translation',
       input_type: 'string',
       choices: {
-        0 => { params: {
+        :inputFieldValue => { params: {
           val: 'inputFieldValue',
           top: '77.1%',
           left: '53.5%',
@@ -1905,18 +1908,18 @@ module ImportantPointsExplanationBilingualAll
       name: 'ac',
       input_type: 'string',
       choices: {
-             0 => { valName: 'y', params: { val: true, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
-             # selectChoices: Amenities.ac.choices,
-             translation: amenities[:ac][:choices][0],
-             showLocalLanguage: true,
-             combineLanguages: true
-           },
-            1 => { valName: 'n', params: { val: false, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
-            # selectChoices: Amenities.ac.choices,
-            translation: amenities[:ac][:choices][1],
-            showLocalLanguage: true,
-            combineLanguages: true
-          }
+         0 => { valName: 'y', params: { val: true, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+         # selectChoices: Amenities.ac.choices,
+         translation: amenities[:ac][:choices][0],
+         showLocalLanguage: true,
+         combineLanguages: true
+       },
+        1 => { valName: 'n', params: { val: false, top: '37.3%', left: '28.6%', width: '11.1%', height: '24px', margin: '0px', class_name: 'document-rectangle', input_type: 'string' },
+        # selectChoices: Amenities.ac.choices,
+        translation: amenities[:ac][:choices][1],
+        showLocalLanguage: true,
+        combineLanguages: true
+      }
            },
       className: 'form-control-document',
       component: 'select',
@@ -2317,9 +2320,10 @@ module ImportantPointsExplanationBilingualAll
       translation_key: 'earthQuakeStudyPerformed',
       category: 'building',
       group: 'earthquake',
-      initialvalues_method_key: 'building'
+      initialvalues_method_key: 'building',
       # attributes; keep just in case
       # attributes: { names: ['bath_tub'], input_type: 'boolean' }
+      sameple: true
     },
 
     earthquake_study_contents: {
@@ -2371,7 +2375,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 16,
       translation_key: 'nonRentCharges',
       category: 'agreement',
-      group: 'otherPayments'
+      group: 'otherPayments',
+      # sample: true,
     },
 
     other_payments1_explanation: {
@@ -2388,7 +2393,8 @@ module ImportantPointsExplanationBilingualAll
       category: 'agreement',
       group: 'otherPayments',
       translation_field: 'other_payments1_explanation_translation',
-      extraHeightTemplate: true
+      extraHeightTemplate: true,
+      # sample: true,
     },
 
     other_payments1_explanation_translation: {
@@ -2403,7 +2409,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 60,
       translation_key: 'nonRentChargesExplanation',
       category: 'agreement',
-      translation_object: true
+      translation_object: true,
+      # sample: true,
     },
 
     other_payments2: {
@@ -2418,6 +2425,7 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 16,
       # translation_key: 'nonRentCharges',
       # category: 'agreement'
+      # sample: true,
     },
 
     other_payments2_explanation: {
@@ -2431,7 +2439,8 @@ module ImportantPointsExplanationBilingualAll
       component: 'DocumentChoices',
       charLimit: 60,
       # translation_key: 'nonRentChargesExplanation',
-      # category: 'agreement'
+      # category: 'agreement',
+      # sample: true,
     },
 
     other_payments2_explanation_translation: {
@@ -2446,7 +2455,8 @@ module ImportantPointsExplanationBilingualAll
       charLimit: 60,
       # translation_key: 'nonRentChargesExplanation',
       # category: 'agreement',
-      # translation_object: true
+      # translation_object: true,
+      # sample: true,
     },
 
     other_payments3: {
@@ -3350,7 +3360,8 @@ module ImportantPointsExplanationBilingualAll
       second_click_off: true,
       # translation_key: 'address',
       # category: 'broker',
-      # translation_object: true
+      # translation_object: true,
+      # sample: true,
     },
 
     address_site_check: {
@@ -3566,9 +3577,10 @@ module ImportantPointsExplanationBilingualAll
       category: 'inspection',
       group: 'degradations',
       initialvalues_method_key: 'inspection',
-      button_on_field_choice_nav: 'list'
+      button_on_field_choice_nav: 'list',
       # attributes; keep just in case
-      # attributes: { names: ['bath_tub'], input_type: 'boolean' }
+      # attributes: { names: ['bath_tub'], input_type: 'boolean' },
+      sample: true
     },
 
     floor_assembly: {
