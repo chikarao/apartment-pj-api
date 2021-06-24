@@ -37,24 +37,40 @@ task :create_standard_documents  => :environment do
     # height: '1.6%',
     font_style: "normal",
     font_size: "12px",
-    border: '1px solid black',
+    # border: '1px solid black',
     border_color: "lightgray",
-    input_type: "string",
+    input_type: "button",
+    # input_type: "string",
     font_family: "arial",
     font_weight: "normal",
     transform_origin: 'top left',
   }
-  # select_choice_style_hash for document_field_choice with
-  select_choice_style_hash = {
+
+  true_false_button_field_style_hash = {
     # width: '10%',
     class_name: 'document-rectangle-template',
+    # height: '1.6%',
+    # font_style: "normal",
+    # font_size: "12px",
+    # border: '1px solid black',
+    border_color: "lightgray",
+    input_type: "button",
+    # input_type: "string",
+    # font_family: "arial",
+    # font_weight: "normal",
+    # transform_origin: 'top left',
+  }
+  # select_and_button_choice_style_hash for document_field_choice with
+  select_and_button_choice_style_hash = {
+    # width: '10%',
+    class_name: 'document-rectangle-template-button',
     height: '2.0%',
     # width: '12%',
     font_style: "normal",
     font_size: "12px",
     border: '1px solid black',
     border_color: "lightgray",
-    input_type: "string",
+    input_type: "button",
     font_family: "arial",
     font_weight: "normal",
     transform_origin: 'top left',
@@ -93,9 +109,12 @@ task :create_standard_documents  => :environment do
     border_radius: '50%',
     border: "1px solid black",
     height: '1.6%',
-    # class_name: 'document-rectangle-template-button',
-    # class_name: "document-rectangle-template",
+
     class_name: "document-circle-template",
+  }
+
+  translation_input_override_hash = {
+    font_size: "12px",
   }
 
   document_field_array = []
@@ -115,6 +134,8 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
 
         each_document_field_hash = each_document_field[1]
+        # if each_document_field_hash[:sample]
+          puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # create a new hash for each document field
         # iterate through each document field choice in document field
@@ -160,7 +181,7 @@ task :create_standard_documents  => :environment do
                 new_select_choice_attributes.push(each_document_field_hash[:choices][each_choice][:selectChoices][each_select_key].delete_if { |k| !select_choices_keys_hash[k] })
               end #  each_document_field_hash[:choices][each_choice][:selectChoices].keys.each do |each_select_key|
               # document_field =
-              new_document_field_choice.merge(select_choice_style_hash)
+              new_document_field_choice.merge(select_and_button_choice_style_hash)
               new_document_field_choice[:select_choice_attributes] = new_select_choice_attributes
             # else
             end # if each_document_field_hash[:choices][each_choice][:selectChoices]
@@ -169,11 +190,14 @@ task :create_standard_documents  => :environment do
             # if choice buttons
             # puts 'In create_document_field_array, working on name, name, each_choice, each_document_field_hash[:choices][each_choice]: ' + name.to_s + " " + each_choice.to_s + " " + each_document_field_hash[:choices][each_choice].to_s if each_choice == :yes
             # puts 'In create_document_field_array, working on name, name, each_choice, each_document_field_hash[:choices][each_choice]: ' + name.to_s + " " + each_choice.to_s + " " + each_document_field_hash[:choices][each_choice].to_s
-            new_document_field_hash.merge!(select_and_button_field_style_hash)
-            new_document_field_choice = each_document_field_hash[:choices][each_choice][:params]
 
             true_choice = each_choice == 0 || each_choice == true
             false_choice = each_choice == 1 || each_choice == false
+
+            new_document_field_choice = each_document_field_hash[:choices][each_choice][:params]
+            # Add key value according to type of field
+            new_document_field_hash.merge!(select_and_button_field_style_hash) if !true_choice && !false_choice
+            new_document_field_hash.merge!(true_false_button_field_style_hash) if (true_choice || false_choice)
 
             new_document_field_choice[:val] = 't' if true_choice
             new_document_field_choice[:val] = 'f' if false_choice
@@ -195,6 +219,7 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, document_field_array, each_document_field_hash[:sample]: ' + name.to_s + " " + document_field_array.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         count += 1
         # count += 1 if each_document_field_hash[:sample]
+      # end # if sample
       end #by_page_hash[each_page].each do |each_document_field|
     end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
   end
@@ -210,24 +235,48 @@ task :create_standard_documents  => :environment do
         name = each_document_field[0].to_s
         each_document_field_hash = each_document_field[1]
 
+        if each_document_field_hash[:sample]
+
         new_document_field_hash = {
           name: name,
           # name: each_document_field_hash[:name],
           # input_type: each_document_field_hash[:input_type],
-          class_name: each_document_field_hash[:class_name],
+          # class_name: each_document_field_hash[:class_name],
+          class_name: "document-rectangle-template",
           # component: each_document_field_hash[:component],
           # value: nil,
           page: each_page,
-          translation_element: true
+          border_color: "lightgray",
+          translation_element: true,
+          font_style: "normal",
+          font_weight: "bold",
+          height: "1.6%",
+          input_type: "text",
+          transform: "0",
+          width: "10%", # Default width; Some :attributes have width
         }
 
         # puts 'In create_document_field_translation_array, each_document_field_hash, each_document_field: ' + name + ' '+ each_document_field_hash.to_s + ' ********************* ' + each_document_field.to_s
         # puts 'In create_document_field_translation_array, new_document_field_hash, each_document_field_hash: ' + new_document_field_hash.to_s + ' ' + each_document_field_hash.to_s
         # puts 'In create_document_field_translation_array, name: ' + name.to_s
         new_document_field_hash.merge!(each_document_field_hash[:attributes]) if each_document_field_hash[:attributes]
+        new_document_field_hash.merge!(translation_input_override_hash) # override for properties in :attributes that ALL have to change
         # puts 'In create_document_field_translation_array, name, new_document_field_hash: ' + name.to_s + ' ' + new_document_field_hash.to_s
+        # document_field_translations_array = []
+        # # document_field_translations_attributes
+        # each_document_field_hash[:translations].keys.each do |each_key|
+        #   each_document_translation_hash = nil
+        #   if each_document_field_hash[:translations][each_key]
+        #     each_document_translation_hash = {}
+        #     each_document_translation_hash[:language_code] = each_key
+        #     each_document_translation_hash[:value] = each_document_field_hash[:translations][each_key]
+        #     document_field_translations_array.push(each_document_translation_hash)
+        #   end # if each_document_field_hash[:translations][each_key][:value]
+        # end # each_document_field_hash[:translations].keys.each do |each_key|
+        # new_document_field_hash[:document_field_translations_attributes] = document_field_translations_array if document_field_translations_array.length > 0
         document_field_array.push(new_document_field_hash)
         count += 1
+      end # if sample
       end # by_page_hash[each_page].each do |each_document_field|
     end # by_page_hash.keys.each do |each_page|
   end # create_document_field_translation_array = lambda do |by_page_hash, document_type|
@@ -278,7 +327,7 @@ task :create_standard_documents  => :environment do
 
    documents_hash.keys.each do |each_key|
      # Populate document_field_array with document_field including translation_element
-     create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
+     # create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
      create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
      # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
      # Reassign the populated document_field_array before calling controller method
