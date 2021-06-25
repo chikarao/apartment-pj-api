@@ -366,16 +366,13 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def agreement_create
-    # p "In agreement, test_agreement, hit end point: "
-    # p "In agreement, test_agreement, params: " + params.to_s
-
-    # p "In agreement, test_agreement, agreement_params: " + agreement_params.to_s
-    # p "In agreement, test_agreement, document_field_params: " + document_field_params.to_s
+    count = 0
     agreement = Agreement.new agreement_params
-    p "In agreement, test_agreement, agreement_params: " + agreement_params.to_s
-    p "In agreement, test_agreement, document_field_params: " + document_field_params.to_s
-    p "In agreement, test_agreement, new agreement, agreement.booking_id: " + agreement.to_s + ' ' + agreement["booking_id"].to_s
+    # p "In agreements, agreement_create, agreement_params: " + agreement_params.to_s
+    p "In agreements, agreement_create, document_field_params: " + document_field_params.to_s
+    p "In agreements, agreement_create, new agreement, agreement.booking_id: " + agreement.to_s + ' ' + agreement["booking_id"].to_s
     if agreement.save
+      count += 1
       document_field_params["document_field"].each do |each|
         document_field_instance = DocumentField.new(each)
         document_field_instance.agreement_id = agreement.id
@@ -383,12 +380,14 @@ class Api::V1::AgreementsController < ApplicationController
         unless document_field_instance.save
           # return
           agreement.destroy
+          count = 0
           break
           # json_response "Create agreement failed", false, {}, :unprocessable_entity
         end # end of if document_field_instance
       end # End of each document_field
     end # if agreement.save
 
+    p "In agreements, agreement_create " + count.to_s + 'agreements created.'
   end # def test_agreement
 
   def add_existing_agreements

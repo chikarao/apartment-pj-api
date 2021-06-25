@@ -79,21 +79,7 @@ task :create_standard_documents  => :environment do
   select_choices_keys_hash = {
     :value => true,
     :val => true
-    # end of select_choices_attributes
   }
-  # select_choices_keys_array = [
-  #   :value,
-  #   :val
-  # ]
-    # end of select_choices_attributes
-
-
-  # button_field_style_hash = {
-  #   border_color: "lightgray",
-  #   class_name: "document-rectangle-template",
-  #   transform_origin: 'top left',
-  #   transform: nil
-  # }
 
   each_rectangle_button_field_style_hash = {
     # border_radius: '50%',
@@ -118,14 +104,49 @@ task :create_standard_documents  => :environment do
     class_name: "document-rectangle-template"
   }
 
+  # Initialize so can be used in lambda as global variable
+  document_field_dimensions = {
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0
+  }
+  # Initialize so can be used in lambda as global variable
+  # Strat with extremes to increment
+  left_most = 100
+  top_most = 100
+  right_most = 0
+  bottom_most = 0
+
   document_field_array = []
   count = 0
+
+  # Tallies the size of the document_field based on location and dimention of each document_field_choice
+  tally_document_field_dimensions = lambda do |dimensions_hash, name|
+    puts 'In tally_document_field_dimensions, name dimensions_hash: ' + name.to_s + dimensions_hash.to_s
+    current_right = dimensions_hash[:left] + dimensions_hash[:width]
+    current_bottom = dimensions_hash[:top] + dimensions_hash[:height]
+
+    left_most = left_most >= dimensions_hash[:left] ? dimensions_hash[:left] : left_most
+    top_most = top_most >= dimensions_hash[:top] ? dimensions_hash[:top] : top_most
+    right_most = right_most >= current_right ? right_most : current_right
+    bottom_most = bottom_most >= current_bottom ? bottom_most : current_bottom
+
+    document_field_dimensions = {
+      left: left_most,
+      top: top_most,
+      width: right_most - left_most,
+      height: bottom_most - top_most
+    }
+    puts 'In tally_document_field_dimensions, name document_field_dimensions: ' + name.to_s + document_field_dimensions.to_s
+  end # tally_document_field_dimensions = lambda do |left, top, width, height |
 
   create_document_field_array = lambda do |by_page_hash, document_type|
 
     by_page_hash.keys.each do |each_page|
       puts 'In create_document_field_array, working on: ' + document_type + " " + each_page.to_s
       by_page_hash[each_page].each do |each_document_field|
+
         # each_document_field is somehow an array
         name = each_document_field[0].to_s
         name.slice!("_1") if name.include?("_1")
@@ -137,7 +158,18 @@ task :create_standard_documents  => :environment do
         each_document_field_hash = each_document_field[1]
         if each_document_field_hash[:sample]
           puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
+        # initialize for each_document_field
+        document_field_dimensions = {
+          left: 0,
+          top: 0,
+          width: 0,
+          height: 0
+        }
 
+        left_most = 100
+        top_most = 100
+        right_most = 0
+        bottom_most = 0
           # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # create a new hash for each document field
@@ -208,14 +240,21 @@ task :create_standard_documents  => :environment do
 
             new_document_field_choice.merge!(each_rectangle_button_field_style_hash) if !true_choice && !false_choice
             new_document_field_choice.merge!(each_true_false_circle_button_field_style_hash) if (true_choice || false_choice)
-            # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice: ' + name.to_s + " " + each_choice.to_s + " " + new_document_field_choice.to_s if each_choice == :yes
           end #if each_choice == :inputFieldValue
-
+          # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice, new_document_field_hash: ' + name.to_s + " " + each_choice.to_s + " " + new_document_field_choice.to_s + " " + new_document_field_hash.to_s
+          # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice left, top, width, height: ' + new_document_field_choice[:left].to_f.to_s + " " + new_document_field_choice[:top].to_f.to_s + " " + new_document_field_choice[:width].to_f.to_s + " " + new_document_field_choice[:height].to_f.to_s
+          tally_document_field_dimensions.call({left: new_document_field_choice[:left].to_f,
+                                                top: new_document_field_choice[:top].to_f,
+                                                width: new_document_field_choice[:width].to_f,
+                                                height: new_document_field_choice[:height].to_f },
+                                                name)
           new_document_field_choices_array.push(new_document_field_choice) if new_document_field_choice
 
         end #each_document_field[:choices].keys.each do |each_choice|
 
         # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choices_array, new_document_field_choices_array.length > 0, each_document_field_hash[:sample]: ' + name.to_s + " " + new_document_field_choices_array.to_s + ' ' +  (new_document_field_choices_array.length > 0).to_s + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
+        # document_field_dimensions.keys.each {|key| new_document_field_hash[key] = `#{document_field_dimensions[key]}%`}
+        document_field_dimensions.keys.each {|key| new_document_field_hash[key] = "#{document_field_dimensions[key].to_s}%"}
         new_document_field_hash[:document_field_choices_attributes] = new_document_field_choices_array if new_document_field_choices_array.length > 0
         # document_field_array.push(new_document_field_hash) if each_document_field_hash[:sample]
         document_field_array.push(new_document_field_hash)
@@ -334,7 +373,6 @@ task :create_standard_documents  => :environment do
      # Reassign the populated document_field_array before calling controller method
      documents_hash[each_key][:params_hash][:document_field] = document_field_array
      session.post "/api/v1/agreement_create", params: documents_hash[each_key][:params_hash]
-     # session.post "/api/v1/agreements", params: documents_hash[each_key][:params_hash]
      # Empty document_field_array when finished with each document
      document_field_array = []
      document_count += 1
