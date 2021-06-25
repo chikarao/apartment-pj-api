@@ -6,13 +6,12 @@ task :create_standard_documents  => :environment do
   require Dir.glob("#{Rails.root}/app/controllers/concerns/important_points_explanation_bilingual_all_by_page.rb")[0]
   require Dir.glob("#{Rails.root}/app/controllers/concerns/document_translation_fixed_term_by_page.rb")[0]
   require Dir.glob("#{Rails.root}/app/controllers/concerns/document_translation_important_points_by_page.rb")[0]
- # include FixedTermRentalContractBilingualAllbyPage
- # include ImportantPointsExplanationBilingualAllbyPage
+
   puts 'Creating standard documents...'
   session = ActionDispatch::Integration::Session.new(Rails.application)
   puts 'Creating standard documents...session: ' + session.to_s
  # ApplicationController.allow_forgery_protection = false
- # # app.post('/sign_in', {"user"=>{"login"=>"login", "password"=>"password"}})
+ # app.post('/sign_in', {"user"=>{"login"=>"login", "password"=>"password"}})
  # app.post('/users/sign_in', {params: {"email"=>"test1@test.com", "password"=>""}})
   class_name_conversion = {
     "document-rectangle" => "document-rectangle-template",
@@ -82,26 +81,32 @@ task :create_standard_documents  => :environment do
   }
 
   each_rectangle_button_field_style_hash = {
-    # border_radius: '50%',
     border: "1px solid black",
     class_name: 'document-rectangle-template-button',
     height: '2.0%',
     font_size: '12px',
-    # class_name: "document-rectangle-template",
-    # class_name: "document-circle-template",
   }
 
   each_true_false_circle_button_field_style_hash = {
     border_radius: '50%',
     border: "1px solid black",
     height: '1.6%',
-
     class_name: "document-circle-template",
   }
 
   translation_input_override_hash = {
     font_size: "12px",
     class_name: "document-rectangle-template"
+  }
+
+  button_element_dimension_adjustment_hash = {
+    circle: {
+      left: 0.55,
+    },
+    rectangle: {
+      left: 0.65,
+      top: -0.3
+    }
   }
 
   # Initialize so can be used in lambda as global variable
@@ -117,16 +122,12 @@ task :create_standard_documents  => :environment do
   top_most = 100
   right_most = 0
   bottom_most = 0
-
-  document_field_array = []
-  count = 0
-
   # Tallies the size of the document_field based on location and dimention of each document_field_choice
-  tally_document_field_dimensions = lambda do |dimensions_hash, name|
-    puts 'In tally_document_field_dimensions, name dimensions_hash: ' + name.to_s + dimensions_hash.to_s
+  tally_document_field_dimensions = lambda do |dimensions_hash|
+    # puts 'In tally_document_field_dimensions, name dimensions_hash: ' + dimensions_hash.to_s
     current_right = dimensions_hash[:left] + dimensions_hash[:width]
     current_bottom = dimensions_hash[:top] + dimensions_hash[:height]
-
+    # Move tallies initially set at extreme values
     left_most = left_most >= dimensions_hash[:left] ? dimensions_hash[:left] : left_most
     top_most = top_most >= dimensions_hash[:top] ? dimensions_hash[:top] : top_most
     right_most = right_most >= current_right ? right_most : current_right
@@ -138,8 +139,12 @@ task :create_standard_documents  => :environment do
       width: right_most - left_most,
       height: bottom_most - top_most
     }
-    puts 'In tally_document_field_dimensions, name document_field_dimensions: ' + name.to_s + document_field_dimensions.to_s
+    # puts 'In tally_document_field_dimensions, name document_field_dimensions: ' + name.to_s + document_field_dimensions.to_s
   end # tally_document_field_dimensions = lambda do |left, top, width, height |
+
+
+  document_field_array = []
+  count = 0
 
   create_document_field_array = lambda do |by_page_hash, document_type|
 
@@ -156,7 +161,8 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
 
         each_document_field_hash = each_document_field[1]
-        if each_document_field_hash[:sample]
+        if each_page == 1  # for running a subset of document_field from all file
+        # if each_document_field_hash[:sample] # for running a subset of document_field from all file
           puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
         # initialize for each_document_field
         document_field_dimensions = {
@@ -172,6 +178,7 @@ task :create_standard_documents  => :environment do
         bottom_most = 0
           # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
+        # General Workings:
         # create a new hash for each document field
         # iterate through each document field choice in document field
         # create array of document field choices
@@ -188,13 +195,13 @@ task :create_standard_documents  => :environment do
           value: nil,
           page: each_page
         }
-        #
-        # new_document_field_translations_attributes = []
+
         new_document_field_choices_array = []
 
         each_document_field_hash[:choices].keys.each do |each_choice|
           # start new_document_field_choice with nil so can push into array if populated later
           new_document_field_choice = nil
+          button_choice = false
           # if choice is an input field or a select choice
           if each_choice.to_s == "inputFieldValue" || each_choice.to_s == "documentAttributes"
             # If not select choices
@@ -203,7 +210,10 @@ task :create_standard_documents  => :environment do
               new_document_field_hash.merge!(each_document_field_hash[:choices][each_choice][:params], input_field_style_hash)
               new_document_field_hash[:class_name] = class_name_conversion[new_document_field_hash[:class_name].to_s] if class_name_conversion[new_document_field_hash[:class_name].to_s]
               # new_document_field_hash[:input_type] = "text" if each_document_field_hash[:choices][each_choice][:params][:input_type]
-
+            # Is there a input field and choice combination document_field?????
+            # elsif !each_document_field_hash[:choices][each_choice][:selectChoices]
+            #   new_document_field_choice = each_document_field_hash[:choices][each_choice][:params]
+            #   new_document_field_choice.merge(select_and_button_choice_style_hash)
             elsif each_document_field_hash[:choices][each_choice][:selectChoices]
               # If select chioces
               new_document_field_hash.merge!(select_and_button_field_style_hash)
@@ -214,20 +224,17 @@ task :create_standard_documents  => :environment do
                 # puts 'Working on a each_document_field_hash each_choice, name, each_document_field_hash[:choices][each_choice][:selectChoices][each_select_key]: ' + name + ' ' + each_document_field_hash[:choices][each_choice][:selectChoices][each_select_key].to_s if each_document_field_hash[:sample]
                 # push into array hash with relevant keys; Delete keys if not a key in select_choices_keys_hash
                 new_select_choice_attributes.push(each_document_field_hash[:choices][each_choice][:selectChoices][each_select_key].delete_if { |k| !select_choices_keys_hash[k] })
-              end #  each_document_field_hash[:choices][each_choice][:selectChoices].keys.each do |each_select_key|
-              # document_field =
+              end # each_document_field_hash[:choices][each_choice][:selectChoices].keys.each do |each_select_key|
               new_document_field_choice.merge(select_and_button_choice_style_hash)
               new_document_field_choice[:select_choices_attributes] = new_select_choice_attributes
-            # else
             end # if each_document_field_hash[:choices][each_choice][:selectChoices]
 
           else #if each_choice == :inputFieldValue
             # if choice buttons
             # puts 'In create_document_field_array, working on name, name, each_choice, each_document_field_hash[:choices][each_choice]: ' + name.to_s + " " + each_choice.to_s + " " + each_document_field_hash[:choices][each_choice].to_s if each_choice == :yes
-            # puts 'In create_document_field_array, working on name, name, each_choice, each_document_field_hash[:choices][each_choice]: ' + name.to_s + " " + each_choice.to_s + " " + each_document_field_hash[:choices][each_choice].to_s
-
             true_choice = each_choice == 0 || each_choice == true
             false_choice = each_choice == 1 || each_choice == false
+            button_choice = true
 
             new_document_field_choice = each_document_field_hash[:choices][each_choice][:params]
             # Add key value according to type of field
@@ -240,28 +247,30 @@ task :create_standard_documents  => :environment do
 
             new_document_field_choice.merge!(each_rectangle_button_field_style_hash) if !true_choice && !false_choice
             new_document_field_choice.merge!(each_true_false_circle_button_field_style_hash) if (true_choice || false_choice)
+            # Adjust the top and left of each circle and rectangle choice
+            button_element_dimension_adjustment_hash[:circle].keys.each {|key| new_document_field_choice[key] = "#{new_document_field_choice[key].to_f + button_element_dimension_adjustment_hash[:circle][key]}%"} if (true_choice || false_choice)
+            button_element_dimension_adjustment_hash[:rectangle].keys.each {|key| new_document_field_choice[key] = "#{new_document_field_choice[key].to_f + button_element_dimension_adjustment_hash[:rectangle][key]}%"} if !true_choice && !false_choice
           end #if each_choice == :inputFieldValue
           # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice, new_document_field_hash: ' + name.to_s + " " + each_choice.to_s + " " + new_document_field_choice.to_s + " " + new_document_field_hash.to_s
           # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choice left, top, width, height: ' + new_document_field_choice[:left].to_f.to_s + " " + new_document_field_choice[:top].to_f.to_s + " " + new_document_field_choice[:width].to_f.to_s + " " + new_document_field_choice[:height].to_f.to_s
           tally_document_field_dimensions.call({left: new_document_field_choice[:left].to_f,
                                                 top: new_document_field_choice[:top].to_f,
                                                 width: new_document_field_choice[:width].to_f,
-                                                height: new_document_field_choice[:height].to_f },
-                                                name)
+                                                height: new_document_field_choice[:height].to_f
+                                                }) if new_document_field_choice
           new_document_field_choices_array.push(new_document_field_choice) if new_document_field_choice
 
         end #each_document_field[:choices].keys.each do |each_choice|
-
         # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choices_array, new_document_field_choices_array.length > 0, each_document_field_hash[:sample]: ' + name.to_s + " " + new_document_field_choices_array.to_s + ' ' +  (new_document_field_choices_array.length > 0).to_s + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         # document_field_dimensions.keys.each {|key| new_document_field_hash[key] = `#{document_field_dimensions[key]}%`}
+        # Update document_field dimensions left, top, width and height tallied in tally_document_field_dimensions method
         document_field_dimensions.keys.each {|key| new_document_field_hash[key] = "#{document_field_dimensions[key].to_s}%"}
         new_document_field_hash[:document_field_choices_attributes] = new_document_field_choices_array if new_document_field_choices_array.length > 0
-        # document_field_array.push(new_document_field_hash) if each_document_field_hash[:sample]
+        # Place each document_field in array to be sent as params to agreements controller
         document_field_array.push(new_document_field_hash)
         # puts 'In create_document_field_array, working on name, document_field_array, each_document_field_hash[:sample]: ' + name.to_s + " " + document_field_array.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         count += 1
-        # count += 1 if each_document_field_hash[:sample]
-      end # if sample
+      end # if sample or each_page == 1
       end #by_page_hash[each_page].each do |each_document_field|
     end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
   end
@@ -277,8 +286,9 @@ task :create_standard_documents  => :environment do
         name = each_document_field[0].to_s
         each_document_field_hash = each_document_field[1]
 
-        if each_document_field_hash[:sample]
-          puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
+        if each_page == 1
+        # if each_document_field_hash[:sample]
+          puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s + " " + each_document_field_hash.to_s
         new_document_field_hash = {
           name: name,
           class_name: "document-rectangle-template",
@@ -286,11 +296,12 @@ task :create_standard_documents  => :environment do
           border_color: "lightgray",
           translation_element: true,
           font_style: "normal",
-          font_weight: "bold",
+          # font_weight: "bold",
           height: "1.6%",
           input_type: "text",
-          transform: "0",
-          width: "10%", # Default width; Some :attributes have width
+          transform: each_document_field_hash[:attributes][:rotate] ? each_document_field_hash[:attributes][:rotate] : 0,
+          transform_origin: 'top left',
+          width: "15%", # Default width; Some :attributes have width
         }
 
         # puts 'In create_document_field_translation_array, new_document_field_hash, each_document_field_hash: ' + new_document_field_hash.to_s + ' ' + each_document_field_hash.to_s
@@ -312,115 +323,73 @@ task :create_standard_documents  => :environment do
         # *************************SAVE*************************************
         document_field_array.push(new_document_field_hash)
         count += 1
-      end # if sample
+      end # if sample or each_page == 1
       end # by_page_hash[each_page].each do |each_document_field|
     end # by_page_hash.keys.each do |each_page|
   end # create_document_field_translation_array = lambda do |by_page_hash, document_type|
 
+# Main hashes to be sent to the agreements controller as agreement params
+ documents_hash = {
 
+   'Rental Agreement' => {
+      by_page_hash: FixedTermRentalContractBilingualAllbyPage::OBJECT,
+      by_page_hash_translation: DocumentTranslationFixedTermByPage::OBJECT,
+      params_hash: {
+        agreement: {
+          booking_id: Booking.first.id,
+          flat_id: nil,
+          document_name: "Fixed Term Rental Standard Contract",
+          language_code: "jp",
+          language_code_1: "en",
+          document_pages: 12,
+          document_code: "own_uploaded_document",
+          document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-11",
+          template_file_name: "fixed_term_rental_contract_bilingual",
+          document_type: "template",
+          document_page_size: "595,841",
+        },
+        # document_field to be assigned populated array before calling agreement controller method
+        document_field: [],
+      } # params_hash
+   }, #'Rental Agreement'
 
-   documents_hash = {
+   'Important Points' => {
+     by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
+     by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
+     params_hash: {
+       agreement: {
+         booking_id: Booking.first.id,
+         flat_id: nil,
+         document_name: "Important Points Standard Template",
+         language_code: "jp",
+         language_code_1: "en",
+         document_pages: 11,
+         document_code: "own_uploaded_document",
+         document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
+         template_file_name: "important_points_explanation_bilingual",
+         document_type: "template",
+         document_page_size: "595,841",
+       },
+       # document_field to be assigned populated array before calling agreement controller method
+       document_field: [],
+     } #params_hash
+   } # 'Important Points' => {
+ } # documents_hash = {
 
-     'Rental Agreement' => {
-        by_page_hash: FixedTermRentalContractBilingualAllbyPage::OBJECT,
-        by_page_hash_translation: DocumentTranslationFixedTermByPage::OBJECT,
-        params_hash: {
-          agreement: {
-            booking_id: Booking.first.id,
-            flat_id: nil,
-            document_name: "Fixed Term Rental Standard Contract",
-            language_code: "jp",
-            language_code_1: "en",
-            document_pages: 12,
-            document_code: "own_uploaded_document",
-            document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-11",
-            template_file_name: "fixed_term_rental_contract_bilingual",
-            document_type: "template",
-            document_page_size: "595,841",
-          },
-          document_field: [],
-        } # params_hash
-     }, #'Rental Agreement'
-
-     'Important Points' => {
-       by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
-       by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
-       params_hash: {
-         agreement: {
-           booking_id: Booking.first.id,
-           flat_id: nil,
-           document_name: "Important Points Standard Template",
-           language_code: "jp",
-           language_code_1: "en",
-           document_pages: 11,
-           document_code: "own_uploaded_document",
-           document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
-           template_file_name: "important_points_explanation_bilingual",
-           document_type: "template",
-           document_page_size: "595,841",
-         },
-         document_field: [],
-       } #params_hash
-     } # 'Important Points' => {
-   } # documents_hash = {
-   document_count = 0
-
-   documents_hash.keys.each do |each_key|
-     # Populate document_field_array with document_field including translation_element
-     create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
-     create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
-     # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
-     # Reassign the populated document_field_array before calling controller method
-     documents_hash[each_key][:params_hash][:document_field] = document_field_array
-     session.post "/api/v1/agreement_create", params: documents_hash[each_key][:params_hash]
-     # Empty document_field_array when finished with each document
-     document_field_array = []
-     document_count += 1
-     puts 'Prepared ' + document_count.to_s + ' document(s) and ' + count.to_s + ' ' + 'document fields to be created'
-   end
-
-
-
-
-   # session.post "/api/v1/test_agreement", params: params_hash
-   # session.post "/api/v1/agreements", params: params_hash
-   # rental_agreement = Agreement.new
-   # rental_agreement.booking_id = Booking.first.id
-   #
-   # if rental_agreement.save
-   #   puts 'Outputting Rental Contract: ' + rental_agreement.to_s
-   #
-   #   by_page_hash = FixedTermRentalContractBilingualAllbyPage::OBJECT
-   #
-   #
-   #   by_page_hash_translation = FixedTermRentalContractBilingualAllbyPage::OBJECT
-   #   by_page_hash_translation.keys.each do |each_page|
-   #     puts 'Working on Rental Contract Translation page: ' + each_page.to_s
-   #   end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
-   # end # if rental_agreement.save
-   #
-   # important_points = Agreement.new
-   # important_points.booking_id = Booking.first.id
-   # important_points.document_publicid = "juyoujikou-setsumei-bilingual-v3-no-translation-30"
-   # important_points.document_name = "Important Points Standard Template"
-   # important_points.language_code = "jp"
-   # important_points.language_code_1 = "en"
-   # important_points.template_file_name = "important_points_explanation_bilingual"
-   # important_points.document_code: "own_uploaded_document"
-   # important_points.document_pages = 11
-   # important_points.document_type = "template"
-   # important_points.document_page_size = nil
-   #
-   # if important_points.save
-   #   puts 'Outputting Important Points: ' + important_points.to_s
-   #
-   #   ImportantPointsExplanationBilingualAllbyPage::OBJECT.keys.each do |each_page|
-   #     puts 'Working on Important Points page: ' + each_page.to_s
-   #   end # ImportantPointsExplanationBilingualAllbyPage::OBJECT.keys.each do |each_page|
-   #   DocumentTranslationImportantPointsByPage::OBJECT.keys.each do |each_page|
-   #     puts 'Working on Important Points page: ' + each_page.to_s
-   #   end # ImportantPointsExplanationBilingualAllbyPage::OBJECT.keys.each do |each_page|
-   # end # if important_points_explanation.save
-   #
-   # puts 'Finished Creating standard documents...'
+ document_count = 0
+ # !!!!!! MAIN CODE !!!!!!!!!
+ documents_hash.keys.each do |each_key|
+   # Populate document_field_array with document_field including translation_element
+   create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
+   create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
+   # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
+   # Reassign the populated document_field_array before calling controller method
+   documents_hash[each_key][:params_hash][:document_field] = document_field_array
+   # call agreement controller end point with params; Cannot call agreements#create from here for some reason but code reducndancy is minimal
+   session.post "/api/v1/agreement_create", params: documents_hash[each_key][:params_hash]
+   # Empty document_field_array when finished with each document
+   document_field_array = []
+   document_count += 1
+   puts 'Prepared ' + document_count.to_s + ' document(s) and ' + count.to_s + ' ' + 'document fields to be created'
+ end # documents_hash.keys.each do |each_key|
 end
