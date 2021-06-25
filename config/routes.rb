@@ -98,7 +98,7 @@ Rails.application.routes.draw do
       post 'fetch_user_agreements', to: 'agreements#fetch_user_agreements'
       post 'add_existing_agreements', to: 'agreements#add_existing_agreements'
 
-      post 'test_agreement', to: 'agreements#test_agreement'
+      post 'agreement_create', to: 'agreements#agreement_create' #For rake task create_standard_documents
 
       resources :document_fields do
       end

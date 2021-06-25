@@ -115,6 +115,7 @@ task :create_standard_documents  => :environment do
 
   translation_input_override_hash = {
     font_size: "12px",
+    class_name: "document-rectangle-template"
   }
 
   document_field_array = []
@@ -134,8 +135,10 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
 
         each_document_field_hash = each_document_field[1]
-        # if each_document_field_hash[:sample]
-          puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
+        if each_document_field_hash[:sample]
+          puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
+
+          # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # create a new hash for each document field
         # iterate through each document field choice in document field
@@ -182,7 +185,7 @@ task :create_standard_documents  => :environment do
               end #  each_document_field_hash[:choices][each_choice][:selectChoices].keys.each do |each_select_key|
               # document_field =
               new_document_field_choice.merge(select_and_button_choice_style_hash)
-              new_document_field_choice[:select_choice_attributes] = new_select_choice_attributes
+              new_document_field_choice[:select_choices_attributes] = new_select_choice_attributes
             # else
             end # if each_document_field_hash[:choices][each_choice][:selectChoices]
 
@@ -219,7 +222,7 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, document_field_array, each_document_field_hash[:sample]: ' + name.to_s + " " + document_field_array.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         count += 1
         # count += 1 if each_document_field_hash[:sample]
-      # end # if sample
+      end # if sample
       end #by_page_hash[each_page].each do |each_document_field|
     end # FixedTermRentalContractBilingualAllbyPage::OBJECT.keys.each do |each_page|
   end
@@ -236,15 +239,10 @@ task :create_standard_documents  => :environment do
         each_document_field_hash = each_document_field[1]
 
         if each_document_field_hash[:sample]
-
+          puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
         new_document_field_hash = {
           name: name,
-          # name: each_document_field_hash[:name],
-          # input_type: each_document_field_hash[:input_type],
-          # class_name: each_document_field_hash[:class_name],
           class_name: "document-rectangle-template",
-          # component: each_document_field_hash[:component],
-          # value: nil,
           page: each_page,
           border_color: "lightgray",
           translation_element: true,
@@ -256,12 +254,10 @@ task :create_standard_documents  => :environment do
           width: "10%", # Default width; Some :attributes have width
         }
 
-        # puts 'In create_document_field_translation_array, each_document_field_hash, each_document_field: ' + name + ' '+ each_document_field_hash.to_s + ' ********************* ' + each_document_field.to_s
         # puts 'In create_document_field_translation_array, new_document_field_hash, each_document_field_hash: ' + new_document_field_hash.to_s + ' ' + each_document_field_hash.to_s
-        # puts 'In create_document_field_translation_array, name: ' + name.to_s
         new_document_field_hash.merge!(each_document_field_hash[:attributes]) if each_document_field_hash[:attributes]
         new_document_field_hash.merge!(translation_input_override_hash) # override for properties in :attributes that ALL have to change
-        # puts 'In create_document_field_translation_array, name, new_document_field_hash: ' + name.to_s + ' ' + new_document_field_hash.to_s
+        # *************************SAVE*************************************
         # document_field_translations_array = []
         # # document_field_translations_attributes
         # each_document_field_hash[:translations].keys.each do |each_key|
@@ -274,6 +270,7 @@ task :create_standard_documents  => :environment do
         #   end # if each_document_field_hash[:translations][each_key][:value]
         # end # each_document_field_hash[:translations].keys.each do |each_key|
         # new_document_field_hash[:document_field_translations_attributes] = document_field_translations_array if document_field_translations_array.length > 0
+        # *************************SAVE*************************************
         document_field_array.push(new_document_field_hash)
         count += 1
       end # if sample
@@ -289,18 +286,20 @@ task :create_standard_documents  => :environment do
         by_page_hash: FixedTermRentalContractBilingualAllbyPage::OBJECT,
         by_page_hash_translation: DocumentTranslationFixedTermByPage::OBJECT,
         params_hash: {
-          booking_id: Booking.first.id,
-          flat_id: nil,
-          document_name: "Fixed Term Rental Standard Contract",
+          agreement: {
+            booking_id: Booking.first.id,
+            flat_id: nil,
+            document_name: "Fixed Term Rental Standard Contract",
+            language_code: "jp",
+            language_code_1: "en",
+            document_pages: 12,
+            document_code: "own_uploaded_document",
+            document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-11",
+            template_file_name: "fixed_term_rental_contract_bilingual",
+            document_type: "template",
+            document_page_size: "595,841",
+          },
           document_field: [],
-          language_code: "jp",
-          language_code_1: "en",
-          document_pages: 12,
-          document_code: "own_uploaded_document",
-          document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-11",
-          template_file_name: "fixed_term_rental_contract_bilingual",
-          document_type: "template",
-          document_page_size: "595,841",
         } # params_hash
      }, #'Rental Agreement'
 
@@ -308,18 +307,20 @@ task :create_standard_documents  => :environment do
        by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
        by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
        params_hash: {
-         booking_id: Booking.first.id,
-         flat_id: nil,
-         document_name: "Important Points Standard Template",
+         agreement: {
+           booking_id: Booking.first.id,
+           flat_id: nil,
+           document_name: "Important Points Standard Template",
+           language_code: "jp",
+           language_code_1: "en",
+           document_pages: 11,
+           document_code: "own_uploaded_document",
+           document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
+           template_file_name: "important_points_explanation_bilingual",
+           document_type: "template",
+           document_page_size: "595,841",
+         },
          document_field: [],
-         language_code: "jp",
-         language_code_1: "en",
-         document_pages: 11,
-         document_code: "own_uploaded_document",
-         document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
-         template_file_name: "important_points_explanation_bilingual",
-         document_type: "template",
-         document_page_size: "595,841",
        } #params_hash
      } # 'Important Points' => {
    } # documents_hash = {
@@ -327,12 +328,12 @@ task :create_standard_documents  => :environment do
 
    documents_hash.keys.each do |each_key|
      # Populate document_field_array with document_field including translation_element
-     # create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
+     create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
      create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
      # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
      # Reassign the populated document_field_array before calling controller method
      documents_hash[each_key][:params_hash][:document_field] = document_field_array
-     session.post "/api/v1/test_agreement", params: documents_hash[each_key][:params_hash]
+     session.post "/api/v1/agreement_create", params: documents_hash[each_key][:params_hash]
      # session.post "/api/v1/agreements", params: documents_hash[each_key][:params_hash]
      # Empty document_field_array when finished with each document
      document_field_array = []

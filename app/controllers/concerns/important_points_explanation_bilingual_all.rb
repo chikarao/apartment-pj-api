@@ -458,7 +458,7 @@ module ImportantPointsExplanationBilingualAll
       group: 'construction',
       initialvalues_method_key: 'building',
       # translation_sibling: 'construction_translation',
-      # sample: true
+      sample: true
     },
 
     construction_translation: {

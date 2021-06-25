@@ -23,9 +23,13 @@ class Api::V1::AgreementsController < ApplicationController
   # end
 
   def create
+    p "In agreement, agreement#create, agreement_params: " + agreement_params.to_s
+
     agreement = Agreement.new agreement_params
     agreement.created_at = DateTime.now
-
+    # start result with true; if cloudinary upload fails, turns false
+    # If #create called from rake, no need for image upload
+    result = true
     # create recieves a multipart/form-data object which rails wraps with dispatchaction object
     if !params[:file].blank?
       uploaded_io = params[:file]
@@ -361,20 +365,31 @@ class Api::V1::AgreementsController < ApplicationController
       }, :ok
   end
 
-  def test_agreement
+  def agreement_create
     # p "In agreement, test_agreement, hit end point: "
-    p "In agreement, test_agreement, params: " + params.to_s
-    # json_response "test_agreement hit end point", true, {
-    #   # flat: flat_serializer,
-    #   # booking: booking_serializer,
-    #   params: params
-    #   # flat_agreements: mapped_flat_agreements,
-    #   # user_bookings: agreements_objects[:mapped_user_bookings],
-    #   # user_flats: agreements_objects[:mapped_user_flats],
-    #   # all_user_agreements_mapped: agreements_objects[:all_user_agreements_mapped],
-    #   # user_agreements_array_sorted: agreements_objects[:user_agreements_serializer]
-    # }, :ok
-  end
+    # p "In agreement, test_agreement, params: " + params.to_s
+
+    # p "In agreement, test_agreement, agreement_params: " + agreement_params.to_s
+    # p "In agreement, test_agreement, document_field_params: " + document_field_params.to_s
+    agreement = Agreement.new agreement_params
+    p "In agreement, test_agreement, agreement_params: " + agreement_params.to_s
+    p "In agreement, test_agreement, document_field_params: " + document_field_params.to_s
+    p "In agreement, test_agreement, new agreement, agreement.booking_id: " + agreement.to_s + ' ' + agreement["booking_id"].to_s
+    if agreement.save
+      document_field_params["document_field"].each do |each|
+        document_field_instance = DocumentField.new(each)
+        document_field_instance.agreement_id = agreement.id
+
+        unless document_field_instance.save
+          # return
+          agreement.destroy
+          break
+          # json_response "Create agreement failed", false, {}, :unprocessable_entity
+        end # end of if document_field_instance
+      end # End of each document_field
+    end # if agreement.save
+
+  end # def test_agreement
 
   def add_existing_agreements
     # add_existing_agreements called from editFlat and boookingConfirmation on front end
@@ -679,5 +694,5 @@ end # end of def document_field_params
       mapped_user_flats: mapped_user_flats,
       # user_agreements_serializer: user_agreements_serializer
     }
-  end
+  end # def get_user_agreements_objects
 end

@@ -181,7 +181,7 @@ module DocumentTranslationImportantPointsByPage
         datePrepared: base[:datePrepared],
         building1: base[:building1],
         address2: base[:address2],
-        buildingName: base[:buildingName1],
+        buildingName: base[:buildingName1], #buildingName and buildingName1 noth same location on different page 
         residenceAddress: base[:residenceAddress],
         siteAddress: base[:siteAddress],
         inCaseOfMultiFamily: base[:inCaseOfMultiFamily],

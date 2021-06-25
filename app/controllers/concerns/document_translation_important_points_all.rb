@@ -1608,7 +1608,8 @@ module DocumentTranslationImportantPointsAll
 
         buildingName1: {
           translations: { en: 'Building Name', po: '', jp: '' },
-          attributes: { top: '17.7%', left: '16%', font_size: '10', class_name: 'document-translation' }
+          attributes: { top: '17.7%', left: '16%', font_size: '10', class_name: 'document-translation' },
+          sample: true
         },
 
         residenceAddress1: {

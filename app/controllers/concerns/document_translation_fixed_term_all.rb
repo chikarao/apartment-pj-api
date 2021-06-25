@@ -27,7 +27,7 @@ module DocumentTranslationFixedTermAll
         examples: { en: 'The Building Name', p: 'O nome do Edifício'},
         attributes: { top: '18.8%', left: '22.5%', font_size: '10', class_name: 'document-translation' },
         category: 'building',
-        # sample: true
+        sample: true
       },
 
       buildingAddress: {
@@ -398,7 +398,7 @@ module DocumentTranslationFixedTermAll
         translations: { en: 'Parking Included', po: '', jp: '' },
         attributes: nil,
         category: 'facilities',
-        sample: true
+        # sample: true
       },
 
       parkingSpaces: {

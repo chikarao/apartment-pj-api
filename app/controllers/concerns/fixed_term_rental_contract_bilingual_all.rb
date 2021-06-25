@@ -213,7 +213,7 @@ module FixedTermRentalContractBilingualAll
           initialvalues_method_key: 'building',
           language_independent: true,
           # group: 'construction',
-          # sample: true
+          sample: true
         },
 
         floors: {
