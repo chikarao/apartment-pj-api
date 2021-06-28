@@ -109,6 +109,10 @@ task :create_standard_documents  => :environment do
     }
   }
 
+  translation_input_adjustment_hash = {
+    left: -0.75
+  }
+
   # Initialize so can be used in lambda as global variable
   document_field_dimensions = {
     left: 0,
@@ -146,11 +150,13 @@ task :create_standard_documents  => :environment do
   document_field_array = []
   count = 0
 
+
   create_document_field_array = lambda do |by_page_hash, document_type|
 
     by_page_hash.keys.each do |each_page|
       puts 'In create_document_field_array, working on: ' + document_type + " " + each_page.to_s
       by_page_hash[each_page].each do |each_document_field|
+        one_input_document_field = false
 
         # each_document_field is somehow an array
         name = each_document_field[0].to_s
@@ -162,6 +168,8 @@ task :create_standard_documents  => :environment do
 
         each_document_field_hash = each_document_field[1]
         if each_page == 1  # for running a subset of document_field from all file
+        # if each_document_field_hash[:sample]
+
         # if each_document_field_hash[:sample] # for running a subset of document_field from all file
           puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
         # initialize for each_document_field
@@ -176,7 +184,8 @@ task :create_standard_documents  => :environment do
         top_most = 100
         right_most = 0
         bottom_most = 0
-          # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
+
+        # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # General Workings:
         # create a new hash for each document field
@@ -209,6 +218,7 @@ task :create_standard_documents  => :environment do
               # Merge the params with the new_document_field_hash
               new_document_field_hash.merge!(each_document_field_hash[:choices][each_choice][:params], input_field_style_hash)
               new_document_field_hash[:class_name] = class_name_conversion[new_document_field_hash[:class_name].to_s] if class_name_conversion[new_document_field_hash[:class_name].to_s]
+              one_input_document_field = true
               # new_document_field_hash[:input_type] = "text" if each_document_field_hash[:choices][each_choice][:params][:input_type]
             # Is there a input field and choice combination document_field?????
             # elsif !each_document_field_hash[:choices][each_choice][:selectChoices]
@@ -264,8 +274,9 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choices_array, new_document_field_choices_array.length > 0, each_document_field_hash[:sample]: ' + name.to_s + " " + new_document_field_choices_array.to_s + ' ' +  (new_document_field_choices_array.length > 0).to_s + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         # document_field_dimensions.keys.each {|key| new_document_field_hash[key] = `#{document_field_dimensions[key]}%`}
         # Update document_field dimensions left, top, width and height tallied in tally_document_field_dimensions method
-        document_field_dimensions.keys.each {|key| new_document_field_hash[key] = "#{document_field_dimensions[key].to_s}%"}
+        document_field_dimensions.keys.each {|key| new_document_field_hash[key] = "#{document_field_dimensions[key].to_s}%"} if !one_input_document_field
         new_document_field_hash[:document_field_choices_attributes] = new_document_field_choices_array if new_document_field_choices_array.length > 0
+        puts 'In create_document_field_array, working on name, name, each_choice, new_document_field_choices_array, each_document_field_hash[:sample]: ' + name.to_s + " " + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
         # Place each document_field in array to be sent as params to agreements controller
         document_field_array.push(new_document_field_hash)
         # puts 'In create_document_field_array, working on name, document_field_array, each_document_field_hash[:sample]: ' + name.to_s + " " + document_field_array.to_s + ' ' + each_document_field_hash[:sample].to_s if each_document_field_hash[:sample]
@@ -382,7 +393,7 @@ task :create_standard_documents  => :environment do
    # Populate document_field_array with document_field including translation_element
    create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
    create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
-   # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
+   puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
    # Reassign the populated document_field_array before calling controller method
    documents_hash[each_key][:params_hash][:document_field] = document_field_array
    # call agreement controller end point with params; Cannot call agreements#create from here for some reason but code reducndancy is minimal

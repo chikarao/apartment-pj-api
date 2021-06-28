@@ -38,6 +38,7 @@ module FixedTermRentalContractBilingualAll
           # translation_key: 'documentTitle',
           # category: 'document'
           initialvalues_method_key: 'document',
+          sample: true
         },
 
         name: {
@@ -213,7 +214,7 @@ module FixedTermRentalContractBilingualAll
           initialvalues_method_key: 'building',
           language_independent: true,
           # group: 'construction',
-          sample: true
+          # sample: true
         },
 
         floors: {

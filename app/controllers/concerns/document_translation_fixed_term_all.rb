@@ -168,7 +168,7 @@ module DocumentTranslationFixedTermAll
 
       unitNo: {
         translations: { en: 'Unit No.', po: 'Unidade', jp: '' },
-        attributes: { top: '41%', left: '29.5%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
+        attributes: { top: '41%', left: '35.5%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
         category: 'flat'
       },
 
@@ -352,21 +352,23 @@ module DocumentTranslationFixedTermAll
         category: 'utilities'
       },
 
+      # Width changed when coding create_standard_documents
       gasAvailabiity: {
         translations: { en: 'Yes (City Gas・Propane Gas) ・ None', po: 'Sim (Gás Cidade ・ Gás Propano) ・ Nenhum', jp: '' },
-        attributes: { top: '81%', left: '48.6%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '81%', left: '48.6%', font_size: '10', width: '40%', class_name: 'document-translation' },
         category: 'utilities'
       },
-
+      # Width changed when coding create_standard_documents
       waterAvailability: {
         translations: { en: 'Direct Link to Public Water・Water Tank ・ Well Water', po: 'Link direto para a água pública ・ Tanque de água ・ Água de poço', jp: '' },
-        attributes: { top: '85%', left: '48.6%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '85%', left: '48.6%', font_size: '10', width: '40%', class_name: 'document-translation' },
         category: 'utilities'
       },
 
+      # Width changed when coding create_standard_documents
       sewageAvailability: {
         translations: { en: 'Yes (Public Sewage・Septic Tank) ・ None', po: 'Sim (Esgoto Público ・ Fossa Séptica) ・ Nenhum', jp: '' },
-        attributes: { top: '89%', left: '48.6%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '89%', left: '48.6%', font_size: '10', width: '40%', class_name: 'document-translation' },
         category: 'utilities'
       },
   # },ß
