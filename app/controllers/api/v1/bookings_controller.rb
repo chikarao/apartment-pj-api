@@ -48,15 +48,13 @@ class Api::V1::BookingsController < ApplicationController
       (finish - start) * 1000.0
     end
 
-
-
-    agreements.each do |each_agreement|
-      new_hash[each_agreement.id] = {}
-      each_agreement.document_pages.times do |each_page|
-        new_hash[each_agreement.id][each_page + 1] = each_agreement.document_fields.where(page: each_page + 1).count
-      end
-    end
-    agreements_meta["document_fields_num_by_page"] = new_hash
+    # agreements.each do |each_agreement|
+    #   new_hash[each_agreement.id] = {}
+    #   each_agreement.document_pages.times do |each_page|
+    #     new_hash[each_agreement.id][each_page + 1] = each_agreement.document_fields.where(page: each_page + 1).count
+    #   end
+    # end
+    # agreements_meta["document_fields_num_by_page"] = new_hash
 
     # assignments = contracts[0].assignments
     # assignments = []
@@ -138,7 +136,7 @@ class Api::V1::BookingsController < ApplicationController
     # includes document_field_choices since Rails defualt is to return one later of associations
     t1 = Time.now
     # arbitrary elapsed time
-    p "Time now before agreements each" + t1.to_s
+    # p "Time now before agreements each" + t1.to_s
     agreements_serializer = parse_json agreements
     t2 = Time.now
     msecs = time_diff_milli t1, t2

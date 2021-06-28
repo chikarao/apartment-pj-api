@@ -26,12 +26,21 @@ class AgreementSerializer < ActiveModel::Serializer
   :document_page_size,
   :document_pdf_page_size,
   :created_at,
-  :updated_at
+  :updated_at,
+  :agreement_meta
   # has_many :flats
   # has_many :inspections
 
   # IMPORTANT: Below is a custom document_field serializer that returns document_field_choices
   # Rails default depth of child ssociations is one, so use custom to get another layer
+  def agreement_meta
+    new_hash = {}
+    object.document_pages.times do |each_page|
+      new_hash[each_page + 1] = object.document_fields.where(page: each_page + 1).count
+    end
+    return {"document_fields_num_by_page" => new_hash}
+  end
+
   def document_fields
     document_fields_method(object)
     # NOTE: Refactored to concerns/document_fields_method.rb
