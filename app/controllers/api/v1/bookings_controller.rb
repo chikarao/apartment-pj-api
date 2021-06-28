@@ -41,6 +41,23 @@ class Api::V1::BookingsController < ApplicationController
     booking_serializer = parse_json @booking
     contracts = @booking.contracts
     agreements = @booking.agreements
+    agreements_meta = {}
+    new_hash = {}
+
+    def time_diff_milli(start, finish)
+      (finish - start) * 1000.0
+    end
+
+
+
+    agreements.each do |each_agreement|
+      new_hash[each_agreement.id] = {}
+      each_agreement.document_pages.times do |each_page|
+        new_hash[each_agreement.id][each_page + 1] = each_agreement.document_fields.where(page: each_page + 1).count
+      end
+    end
+    agreements_meta["document_fields_num_by_page"] = new_hash
+
     # assignments = contracts[0].assignments
     # assignments = []
     work_type_object = {}
@@ -119,7 +136,13 @@ class Api::V1::BookingsController < ApplicationController
 
     # NOTE: agreement_serializer has a custom serializer for document_fields which also
     # includes document_field_choices since Rails defualt is to return one later of associations
+    t1 = Time.now
+    # arbitrary elapsed time
+    p "Time now before agreements each" + t1.to_s
     agreements_serializer = parse_json agreements
+    t2 = Time.now
+    msecs = time_diff_milli t1, t2
+    p "Time now after agreements each" + t2.to_s + " " + msecs.to_s
 
     flat = Flat.find_by(id: @booking.flat_id)
 
@@ -158,7 +181,8 @@ class Api::V1::BookingsController < ApplicationController
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
-      document_constants: document_constants().to_json
+      document_constants: document_constants().to_json,
+      agreements_meta: agreements_meta.to_json
       # template_translation_object: template_translation_object_all.to_json
       }, :ok
   end

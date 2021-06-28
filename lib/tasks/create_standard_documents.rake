@@ -156,6 +156,7 @@ task :create_standard_documents  => :environment do
     by_page_hash.keys.each do |each_page|
       puts 'In create_document_field_array, working on: ' + document_type + " " + each_page.to_s
       by_page_hash[each_page].each do |each_document_field|
+        # Flag for having only one input field (i.e. no document_field_choices) so do not need to assign document_field_dimensions
         one_input_document_field = false
 
         # each_document_field is somehow an array

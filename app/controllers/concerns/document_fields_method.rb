@@ -7,7 +7,7 @@ module DocumentFieldsMethod
     if agreement.document_fields
       agreement.document_fields.each do |eachDF|
         custom_document_field = eachDF.attributes
-        # p "In agreement_serializer in def　custom_document_field: " + custom_document_field.to_s
+        # p "In agreement_serializer in def document_fields_method custom_document_field: " + custom_document_field.to_s
         obj = nil
 
         # document_field_choices section

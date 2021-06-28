@@ -109,16 +109,16 @@ module DocumentTranslationFixedTermAll
         category: 'building',
         group: 'construction'
       },
-
+      # left chnaged
       unit: {
         translations: { en: 'Unit', po: 'Unidade', jp: '' },
-        attributes: { top: '37.1%', left: '56.4%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
+        attributes: { top: '37.1%', left: '63.3%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
         category: 'flat'
       },
-
+      # left changed when coding create_standard_documents
       stories: {
         translations: { en: 'Stories', po: 'Pavimentos', jp: '階建' },
-        attributes: { top: '33.3%', left: '56.3%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
+        attributes: { top: '33.3%', left: '63.3%', font_size: '10', width: '14%', text_align: 'right', height: '1.5%', class_name: 'document-translation' },
         category: 'building'
       },
 
@@ -291,10 +291,10 @@ module DocumentTranslationFixedTermAll
         attributes: { top: '57.6%', left: '62.2%', font_size: '10', class_name: 'document-translation' },
         category: 'amenity'
       },
-
+      # Width changed when coding create_standard_documents
       digitalTv: {
         translations: { en: 'Digital TV・CATV Ready', po: 'TV digital · CATV Ready', jp: 'デジタルテレビ対応' },
-        attributes: { top: '60.4%', left: '62.2%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '60.4%', left: '62.2%', font_size: '10', width: '30%', class_name: 'document-translation' },
         category: 'amenity'
       },
 
