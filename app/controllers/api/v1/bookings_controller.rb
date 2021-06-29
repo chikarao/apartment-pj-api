@@ -38,11 +38,35 @@ class Api::V1::BookingsController < ApplicationController
 
   def show
     # p "!!! in bookings#show: "
-    booking_serializer = parse_json @booking
     contracts = @booking.contracts
+    # agreements = @booking.agreements
     agreements = @booking.agreements
+    agreements_test = @booking.agreements
+    # agreements = Agreement.agreements_with_document_field_subset([1])
+    # agreements_test = @booking.agreements.document_fields_for_pages([1])
+    # agreements_test = Agreement.document_fields_for_pages(@booking.id, [1])
+    p "!!!! In bookings#show agreements_test: " + agreements_test.to_s
+    agreements_array = []
+    agreements_test.each do |each|
+      # each.document_fields.limit_pages([1])
+      each_document_fields = each.document_fields.limit_pages([1])
+      # each.document_fields = each_document_fields
+      dup_each = each.dup
+      dup_each.document_fields = each_document_fields
+      dup_each.id = each.id
+      agreements_array.push(dup_each)
+      p "!!!! In bookings#show agreements_test, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s
+    end
+
     agreements_meta = {}
     new_hash = {}
+
+    booking_dup = @booking
+    booking_dup.id = @booking.id
+    booking_dup.agreements = agreements_array
+
+    # booking_serializer = parse_json @booking
+    booking_serializer = parse_json booking_dup
 
     def time_diff_milli(start, finish)
       (finish - start) * 1000.0
@@ -103,7 +127,7 @@ class Api::V1::BookingsController < ApplicationController
     end
 
     document_inserts_array = []
-    agreements.each do |each_agreement|
+    agreements_array.each do |each_agreement|
       document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
       if !document_inserts.empty?
         document_inserts.each do |each_insert|
@@ -137,7 +161,7 @@ class Api::V1::BookingsController < ApplicationController
     t1 = Time.now
     # arbitrary elapsed time
     # p "Time now before agreements each" + t1.to_s
-    agreements_serializer = parse_json agreements
+    agreements_serializer = parse_json agreements_array
     t2 = Time.now
     msecs = time_diff_milli t1, t2
     p "Time now after agreements each" + t2.to_s + " " + msecs.to_s

@@ -491,6 +491,11 @@ class Api::V1::AgreementsController < ApplicationController
     }, :ok
   end
 
+  def fetch_document_fields_for_page
+    p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
+
+  end
+
   private
 
   def agreement_params

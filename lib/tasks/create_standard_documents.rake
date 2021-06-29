@@ -168,7 +168,7 @@ task :create_standard_documents  => :environment do
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
 
         each_document_field_hash = each_document_field[1]
-        if each_page == 1  # for running a subset of document_field from all file
+        if each_page == 1 || each_page == 2 # for running a subset of document_field from all file
         # if each_document_field_hash[:sample]
 
         # if each_document_field_hash[:sample] # for running a subset of document_field from all file
@@ -298,7 +298,7 @@ task :create_standard_documents  => :environment do
         name = each_document_field[0].to_s
         each_document_field_hash = each_document_field[1]
 
-        if each_page == 1
+          if each_page == 1 || each_page == 2
         # if each_document_field_hash[:sample]
           puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s + " " + each_document_field_hash.to_s
         new_document_field_hash = {
@@ -365,27 +365,27 @@ task :create_standard_documents  => :environment do
       } # params_hash
    }, #'Rental Agreement'
 
-   'Important Points' => {
-     by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
-     by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
-     params_hash: {
-       agreement: {
-         booking_id: Booking.first.id,
-         flat_id: nil,
-         document_name: "Important Points Standard Template",
-         language_code: "jp",
-         language_code_1: "en",
-         document_pages: 11,
-         document_code: "own_uploaded_document",
-         document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
-         template_file_name: "important_points_explanation_bilingual",
-         document_type: "template",
-         document_page_size: "595,841",
-       },
-       # document_field to be assigned populated array before calling agreement controller method
-       document_field: [],
-     } #params_hash
-   } # 'Important Points' => {
+   # 'Important Points' => {
+   #   by_page_hash: ImportantPointsExplanationBilingualAllbyPage::OBJECT,
+   #   by_page_hash_translation: DocumentTranslationImportantPointsByPage::OBJECT,
+   #   params_hash: {
+   #     agreement: {
+   #       booking_id: Booking.first.id,
+   #       flat_id: nil,
+   #       document_name: "Important Points Standard Template",
+   #       language_code: "jp",
+   #       language_code_1: "en",
+   #       document_pages: 11,
+   #       document_code: "own_uploaded_document",
+   #       document_publicid: "apartmentpj-constant-assets/juyoujikou-setsumei-bilingual-v3-no-translation-30",
+   #       template_file_name: "important_points_explanation_bilingual",
+   #       document_type: "template",
+   #       document_page_size: "595,841",
+   #     },
+   #     # document_field to be assigned populated array before calling agreement controller method
+   #     document_field: [],
+   #   } #params_hash
+   # } # 'Important Points' => {
  } # documents_hash = {
 
  document_count = 0

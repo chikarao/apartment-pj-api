@@ -35,8 +35,14 @@ class AgreementSerializer < ActiveModel::Serializer
   # Rails default depth of child ssociations is one, so use custom to get another layer
   def agreement_meta
     new_hash = {}
+    p "In agreement_serializer, agreement_meta, object, object.document_fields.class: " + object.to_s + " " + object.document_fields.class.to_s
+
     object.document_pages.times do |each_page|
-      new_hash[each_page + 1] = object.document_fields.where(page: each_page + 1).count
+      # new_hash[each_page + 1] = object.document_fields.where(page: each_page + 1).count
+      # .count works with what is in the database. since agreement is a dup there is
+      # no database value for document_fields, so make a dup of document_field which was assigned in bookings_controller
+      document_fields_dup = object.document_fields.dup
+      new_hash[each_page + 1] = document_fields_dup.where(page: each_page + 1).count
     end
     return {"document_fields_num_by_page" => new_hash}
   end
