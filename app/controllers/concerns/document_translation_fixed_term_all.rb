@@ -386,7 +386,7 @@ module DocumentTranslationFixedTermAll
 
       includedNotIncluded: {
         translations: { en: 'Included・Not Included', po: '', jp: '' },
-        attributes: { top: '7.7%', left: '44%', font_size: '10', width: '30%', class_name: 'document-translation' },
+        attributes: { top: '7.7%', left: '44.75%', font_size: '10', width: '30%', class_name: 'document-translation' },
         category: 'facilities'
       },
 
@@ -683,7 +683,7 @@ module DocumentTranslationFixedTermAll
 
       rentDueDate: {
         translations: { en: 'Current Month Rent Due Date Each Month', po: '', jp: '' },
-        attributes: { top: '53.4%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' },
+        attributes: { top: '56.4%', left: '38.1%', font_size: '10', class_name: 'document-translation', width: '14%' },
         category: 'agreement'
       },
 
@@ -736,7 +736,7 @@ module DocumentTranslationFixedTermAll
 
       accountType: {
         translations: { en: 'Account Type: Ordinary・Current', po: '', jp: '' },
-        attributes: { top: '58.3%', left: '60.4%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '58.3%', left: '60.4%', font_size: '10', width: '30%', class_name: 'document-translation' },
         category: 'agreement'
       },
 
@@ -766,7 +766,7 @@ module DocumentTranslationFixedTermAll
 
       transferFeePaidBy: {
         translations: { en: 'Transfer Fee Paid By: Landlord・Tenant', po: '', jp: '' },
-        attributes: { top: '75%', left: '60.4%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '75%', left: '60.4%', font_size: '10', width: '35%', class_name: 'document-translation' },
         category: 'agreement'
       },
 

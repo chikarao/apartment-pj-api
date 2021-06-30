@@ -318,7 +318,11 @@ task :create_standard_documents  => :environment do
 
         # puts 'In create_document_field_translation_array, new_document_field_hash, each_document_field_hash: ' + new_document_field_hash.to_s + ' ' + each_document_field_hash.to_s
         new_document_field_hash.merge!(each_document_field_hash[:attributes]) if each_document_field_hash[:attributes]
+        # Adijust the coodinate attributes of the hashes
+        translation_input_adjustment_hash.keys.each {|key| new_document_field_hash[key] = "#{new_document_field_hash[key].to_f + translation_input_adjustment_hash[key]}%"}
+        # Apply any other overrides on hash attributes
         new_document_field_hash.merge!(translation_input_override_hash) # override for properties in :attributes that ALL have to change
+
         # *************************SAVE*************************************
         # document_field_translations_array = []
         # # document_field_translations_attributes
@@ -355,7 +359,7 @@ task :create_standard_documents  => :environment do
           language_code_1: "en",
           document_pages: 12,
           document_code: "own_uploaded_document",
-          document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-11",
+          document_publicid: "apartmentpj-constant-assets/teishaku-saimuhosho-bilingual-v3-no-translation-12",
           template_file_name: "fixed_term_rental_contract_bilingual",
           document_type: "template",
           document_page_size: "595,841",

@@ -197,7 +197,7 @@ class Api::V1::BookingsController < ApplicationController
       assignments: work_type_object,
       contractorTranslations: contractorTranslationObject,
       staffTranslations: staffTranslationObject,
-      agreements: agreements_serializer,
+      # agreements: agreements_serializer,
       document_inserts_all: document_inserts_array,
       fixed_term_rental_contract_bilingual_all: fixed_term_rental_contract_bilingual_all.to_json,
       important_points_explanation_bilingual_all: important_points_explanation_bilingual_all.to_json,
