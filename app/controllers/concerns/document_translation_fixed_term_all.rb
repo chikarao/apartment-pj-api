@@ -386,7 +386,7 @@ module DocumentTranslationFixedTermAll
 
       includedNotIncluded: {
         translations: { en: 'Included・Not Included', po: '', jp: '' },
-        attributes: { top: '7.7%', left: '45.6%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '7.7%', left: '44%', font_size: '10', width: '30%', class_name: 'document-translation' },
         category: 'facilities'
       },
 
@@ -599,7 +599,7 @@ module DocumentTranslationFixedTermAll
 
       contractNoticePeriod: {
         translations: { en: 'Notice of contract conclusion to be served from', po: '', jp: '' },
-        attributes: { top: '41.7%', left: '14.2%', font_size: '10', class_name: 'document-translation' },
+        attributes: { top: '41.7%', left: '14.2%', font_size: '10', width: '35%', class_name: 'document-translation' },
         category: 'agreement'
       },
 

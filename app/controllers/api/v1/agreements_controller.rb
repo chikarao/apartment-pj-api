@@ -7,7 +7,7 @@ class Api::V1::AgreementsController < ApplicationController
   include Progress
   # before_action :load_flat, only: [:destroy, :show, :create, :update]
   before_action :load_agreement, only: [:destroy, :show, :update]
-  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields, :fetch_user_agreements, :add_existing_agreements]
+  before_action :valid_token, only: [:destroy, :show, :create, :update, :save_template_agreement_fields, :fetch_user_agreements, :add_existing_agreements, :fetch_document_fields_for_page]
 
   def show
     if @agreement
@@ -493,7 +493,14 @@ class Api::V1::AgreementsController < ApplicationController
 
   def fetch_document_fields_for_page
     p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
+      agreement = Agreement.find_by(id: params["agreement_id"])
+      document_fields = agreement.document_fields.limit_pages([params["page"]])
+      document_field_serializer = parse_json document_fields
 
+      json_response "Fetched document fields for agreement page succesfully", true, {
+        document_fields: document_field_serializer,
+        agreement_id: params["agreement_id"]
+      }, :ok
   end
 
   private
