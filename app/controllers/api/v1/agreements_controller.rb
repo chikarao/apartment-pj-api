@@ -492,15 +492,53 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def fetch_document_fields_for_page
-    p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
-      agreement = Agreement.find_by(id: params["agreement_id"])
-      document_fields = agreement.document_fields.limit_pages([params["page"]])
-      document_field_serializer = parse_json document_fields
+    # p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
+
+      cached_document_fields = $redis.hget("agreement:#{params[:agreement_id]},#{params["page"]}", "document_fields")
+
+      document_field_serializer = nil
+
+      if !cached_document_fields
+        agreement = Agreement.find_by(id: params["agreement_id"])
+        document_fields = agreement.document_fields.limit_pages([params["page"]])
+        document_field_serializer = parse_json document_fields
+      end # if !cached_document_fields
+      p "In agreements, fetch_document_fields_for_page, cached_document_fields.class, document_field_serializer: " + cached_document_fields.class.to_s + ' ' + document_field_serializer.class.to_s
 
       json_response "Fetched document fields for agreement page succesfully", true, {
-        document_fields: document_field_serializer,
+        document_fields: cached_document_fields ? JSON.parse(cached_document_fields) : document_field_serializer,
         agreement_id: params["agreement_id"]
       }, :ok
+  end
+
+  def cache_document_fields_for_pages
+    p "In agreements, cache_document_fields_for_pages, params: " + params.to_s
+    agreement = Agreement.find_by(id: params["agreement_id"])
+    cached_pages_array = []
+    if agreement && !agreement.document_fields.empty?
+      agreement.document_pages.times do |page|
+        page_num = page + 1
+        if page_num > 1 && page_num < agreement.document_pages
+          # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
+          # if !cache_exists
+          # end
+          document_fields = agreement.document_fields.limit_pages([page_num])
+          if !document_fields.empty?
+            document_field_serializer = parse_json document_fields
+            cached_document_field_for_page_created = $redis.hmset("agreement:#{params[:agreement_id]},#{page_num}", "document_fields", document_field_serializer.to_json)
+            cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
+          end # if !document_fields.empty?
+        end #  if page_num > 1 && page_num < document_pages
+      end #document_pages.times do |page|
+    end #if !agreement.document_fields.empty?
+
+    json_response "Cached document fields for agreement succesfully", true, {
+      cached_pages_hash: {params["agreement_id"] => cached_pages_array }.to_json
+    }, :ok
+  end #  def cache_document_fields_for_pages
+
+  def delete_cached_document_fields_for_pages
+    p "In agreements, delete_cached_document_fields_for_pages, params: " + params.to_s
   end
 
   private

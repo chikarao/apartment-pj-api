@@ -3,13 +3,12 @@ module UserStatus
   #  {:user_id=>1, :logged_in=>true, :online=> true}
   # needs to be symbols when called
     # get user status for user from redis, if exists; if not one is created in unless
-    # user id is preceded by ':' colon and followed by ',' comma
+    # user id is preceded by ':' colon and followed by ',' comma, then logged in or not then a semicolon ';' then online or no
     user_status = $redis.keys(pattern = "*:#{hash[:user_id]},*")
     # user_hash_kv = $redis.hget(user_status[0], 'last_activity')
     # >>> returns string
     # user_hash_kv = $redis.hgetall(user_status[0])
     # >>> return array
-    # p "************** in UserStatus module user_status before unless: " + user_status.to_s
     # keys returns an array, so test for first element
     # if user_status does not exist set a new hash for user with loggedin and onLine to true (1) or (0) for logged out or not online
     # online and logged_in passed true or false; store 1 or 0 in online to make easier to create hash key
@@ -26,6 +25,7 @@ module UserStatus
       user_status.each do |each_status|
         $redis.del(each_status)
       end
+      # .hmset(hash_name, key, value, key, value) returns OK if successful
       user_status_created = $redis.hmset("user_status:#{hash[:user_id]},#{logged_in};#{online}", "last_activity", (Time.now.to_f * 1000).to_i)
     # if else user does not have a user hash in redis create one
     else
@@ -36,6 +36,7 @@ module UserStatus
       user_status_created = $redis.hmset("user_status:#{hash[:user_id]},#{logged_in};#{online}", "last_activity", (Time.now.to_f * 1000).to_i)
     end
     # return true if write of user_status is OK
+    # p "************** in UserStatus module user_status before unless, user_status, hash, user_status_created: " + user_status.to_s + ' ' + hash.to_s + ' ' + user_status_created.to_s
     return user_status_created == 'OK'
   end
   # called in eg flats#show when user opens flat show page to get whether flat owner is online
