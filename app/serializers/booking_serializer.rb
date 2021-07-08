@@ -39,7 +39,6 @@ class BookingSerializer < ActiveModel::Serializer
     custom_facility_booking = {}
     if !object.facility_bookings.empty?
       object.facility_bookings.each do |each|
-        # p '!!!!!!!!!!!!!!!!booking_serializer each: ' + each.to_s
         custom_facility_booking = each.attributes
         custom_facility_booking['facility'] = each.facility
         array.push(custom_facility_booking)
@@ -59,6 +58,41 @@ class BookingSerializer < ActiveModel::Serializer
     end
     return object_mapped
   end
+
+  # def agreements
+  #
+  #   ActiveModelSerializers::SerializableResource.new(object.agreements, {
+  #     each_serializer: AgreementSerializer,
+  #     params: {
+  #       instance_options: @instance_options
+  #     },
+  #   })
+  #
+  # end
+  #
+  # def agreements
+  #   array = []
+  #   object.agreements.each do |each_agreement|
+  #     # p '!!!!!!!!!!!!!!!!booking_serializer agreements_mapped, object.agreements.count, @instance_options[each_agreement.id]: ' + object.agreements.count.to_s + ' ' + @instance_options[each_agreement.id].to_s
+  #     if @instance_options[each_agreement.id]
+  #       new_array = []
+  #        @instance_options[each_agreement.id].keys.each do |each_page|
+  #          # p '!!!!!!!!!!!!!!!!booking_serializer agreements_mapped, object.agreements.count, each_page, @instance_options[each_agreement.id]: ' + object.agreements.count.to_s + ' ' + each_page.to_s + ' ' + @instance_options[each_agreement.id].to_s
+  #          # new_array.push(*@instance_options[each_agreement.id][each_page])
+  #          new_array = @instance_options[each_agreement.id][each_page]
+  #        end # @instance_options[each_agreement.id].each do |each_page|
+  #        each_agreement_dup = each_agreement.dup
+  #        each_agreement_dup.id = each_agreement.id
+  #        p '!!!!!!!!!!!!!!!!booking_serializer agreements_mapped, object.agreements.count, @instance_options[each_agreement.id], array: ' + object.agreements.count.to_s + ' ' + @instance_options[each_agreement.id].keys.to_s + ' ' + array.to_s +
+  #        each_agreement_dup.document_fields = new_array
+  #        array.push(each_agreement_dup)
+  #     else
+  #       # agreement_serializer = parse_json each_agreement
+  #       array.push(each_agreement)
+  #     end # if @instance_options[each_agreement.id]
+  #   end # object.agreements.each do |each_agreement|
+  #   return array
+  # end
   # :total_reviews
   # :average_rating_of_book,
   # :content_rating_of_book, :recommend_rating_of_book,

@@ -11,8 +11,7 @@ class DocumentField < ApplicationRecord
   # scope :limit_pages, ->(pages_array) { where("page = ?", pages_array) }
 
   scope :limit_pages, lambda {|pages_array|
-    p "!!!! In document_field model agreements_test, limit_pages self: " + self.to_s
-
+    # p "!!!! In document_field model agreements_test, limit_pages self: " + self.to_s
     where("page = ?", pages_array)
   }
 

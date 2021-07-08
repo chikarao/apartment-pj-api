@@ -34,7 +34,7 @@ class Agreement < ApplicationRecord
   # end
 
   scope :document_fields_for_pages, lambda {|booking_id, pages_array|
-    p "!!!! In agreement model agreements_test, document_fields_for_pages pages_array, self: " + pages_array.to_s + " " + self.column_names.to_s
+    # p "!!!! In agreement model agreements_test, document_fields_for_pages pages_array, self: " + pages_array.to_s + " " + self.column_names.to_s
     where("booking_id = ?", booking_id).merge(:document_fields).where("page = ?", pages_array)
     # where("page = ?", pages_array)
     # self.document_fields.limit_pages(pages_array)

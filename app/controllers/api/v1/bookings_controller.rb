@@ -45,17 +45,32 @@ class Api::V1::BookingsController < ApplicationController
     # agreements = Agreement.agreements_with_document_field_subset([1])
     # agreements_test = @booking.agreements.document_fields_for_pages([1])
     # agreements_test = Agreement.document_fields_for_pages(@booking.id, [1])
-    p "!!!! In bookings#show agreements_test: " + agreements_test.to_s
     agreements_array = []
+    agreements_with_cached_document_fields_hash = {:custom_agreement => true}
     agreements_test.each do |each|
+      cached_document_fields = nil
       # each.document_fields.limit_pages([1])
-      each_document_fields = each.document_fields.limit_pages([1])
+      # Get document fields from cach if exists
+      page_to_include = 1
+      cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+      # assign cached_document_fields to each_document_fields if exists
+      if cached_document_fields
+        # each_document_fields = JSON.parse(cached_document_fields)
+        agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
+        agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
+        agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
+        # p "Booking controller cached_document_fields.class, each.document_fields.limit_pages([1].class: " + agreements_with_cached_document_fields_hash[each.id][page_to_include].class.to_s + ' ' + each.document_fields.limit_pages([1].class.to_s
+      else
+        # If no cached_document_fields, fetch from
+        each_document_fields = each.document_fields.limit_pages([page_to_include])
+      end
       # each.document_fields = each_document_fields
+      # p "!!!! In bookings#show agreements_test, each.id: " + agreements_test.to_s + ' ' + each.id.to_s
       dup_each = each.dup
-      dup_each.document_fields = each_document_fields
+      dup_each.document_fields = each_document_fields if each_document_fields
       dup_each.id = each.id
       agreements_array.push(dup_each)
-      p "!!!! In bookings#show agreements_test, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s
+      # p "!!!! In bookings#show agreements_test, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
     end
 
     agreements_meta = {}
@@ -64,13 +79,20 @@ class Api::V1::BookingsController < ApplicationController
     booking_dup = @booking
     booking_dup.id = @booking.id
     booking_dup.agreements = agreements_array
-
-    # booking_serializer = parse_json @booking
-    booking_serializer = parse_json booking_dup
+    # options = {:custom_agreement => true}
 
     def time_diff_milli(start, finish)
       (finish - start) * 1000.0
     end
+    # booking_serializer = parse_json @booking
+    # p "Booking controller agreements_with_cached_document_fields_hash: " + agreements_with_cached_document_fields_hash.to_s
+    t1 = Time.now
+    booking_serializer = parse_json_custom(booking_dup, agreements_with_cached_document_fields_hash)
+    t2 = Time.now
+    msecs = time_diff_milli t1, t2
+    p "Time now after booking_serializer" + t2.to_s + " " + msecs.to_s
+
+
 
     # agreements.each do |each_agreement|
     #   new_hash[each_agreement.id] = {}
@@ -158,13 +180,13 @@ class Api::V1::BookingsController < ApplicationController
 
     # NOTE: agreement_serializer has a custom serializer for document_fields which also
     # includes document_field_choices since Rails defualt is to return one later of associations
-    t1 = Time.now
+    # t1 = Time.now
     # arbitrary elapsed time
     # p "Time now before agreements each" + t1.to_s
-    agreements_serializer = parse_json agreements_array
-    t2 = Time.now
-    msecs = time_diff_milli t1, t2
-    p "Time now after agreements each" + t2.to_s + " " + msecs.to_s
+    # agreements_serializer = parse_json agreements_array
+    # t2 = Time.now
+    # msecs = time_diff_milli t1, t2
+    # p "Time now after agreements each" + t2.to_s + " " + msecs.to_s
 
     flat = Flat.find_by(id: @booking.flat_id)
 
@@ -204,7 +226,8 @@ class Api::V1::BookingsController < ApplicationController
       template_mapping_object_fixed: template_mapping_object_fixed.to_json,
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
       document_constants: document_constants().to_json,
-      agreements_meta: agreements_meta.to_json
+      agreements_meta: agreements_meta.to_json,
+      agreements_with_cached_document_fields_hash: agreements_with_cached_document_fields_hash
       # template_translation_object: template_translation_object_all.to_json
       }, :ok
   end

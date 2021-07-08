@@ -369,7 +369,7 @@ class Api::V1::AgreementsController < ApplicationController
     count = 0
     agreement = Agreement.new agreement_params
     # p "In agreements, agreement_create, agreement_params: " + agreement_params.to_s
-    p "In agreements, agreement_create, document_field_params: " + document_field_params.to_s
+    # p "In agreements, agreement_create, document_field_params: " + document_field_params.to_s
     p "In agreements, agreement_create, new agreement, agreement.booking_id: " + agreement.to_s + ' ' + agreement["booking_id"].to_s
     if agreement.save
       count += 1
@@ -385,9 +385,11 @@ class Api::V1::AgreementsController < ApplicationController
           # json_response "Create agreement failed", false, {}, :unprocessable_entity
         end # end of if document_field_instance
       end # End of each document_field
+      # Persist document_fields for standard document in redis
+      persist_document_fields_in_cache(agreement)
     end # if agreement.save
 
-    p "In agreements, agreement_create " + count.to_s + 'agreements created.'
+    p "In agreements, agreement_create " + count.to_s + ' agreement(s) created.'
   end # def test_agreement
 
   def add_existing_agreements
@@ -516,20 +518,21 @@ class Api::V1::AgreementsController < ApplicationController
     agreement = Agreement.find_by(id: params["agreement_id"])
     cached_pages_array = []
     if agreement && !agreement.document_fields.empty?
-      agreement.document_pages.times do |page|
-        page_num = page + 1
-        if page_num > 1 && page_num < agreement.document_pages
-          # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
-          # if !cache_exists
-          # end
-          document_fields = agreement.document_fields.limit_pages([page_num])
-          if !document_fields.empty?
-            document_field_serializer = parse_json document_fields
-            cached_document_field_for_page_created = $redis.hmset("agreement:#{params[:agreement_id]},#{page_num}", "document_fields", document_field_serializer.to_json)
-            cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
-          end # if !document_fields.empty?
-        end #  if page_num > 1 && page_num < document_pages
-      end #document_pages.times do |page|
+      persist_document_fields_in_cache(agreement)
+      # agreement.document_pages.times do |page|
+      #   page_num = page + 1
+      #   if page_num > 1 && page_num < agreement.document_pages
+      #     # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
+      #     # if !cache_exists
+      #     # end
+      #     document_fields = agreement.document_fields.limit_pages([page_num])
+      #     if !document_fields.empty?
+      #       document_field_serializer = parse_json document_fields
+      #       cached_document_field_for_page_created = $redis.hmset("agreement:#{params[:agreement_id]},#{page_num}", "document_fields", document_field_serializer.to_json)
+      #       cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
+      #     end # if !document_fields.empty?
+      #   end #  if page_num > 1 && page_num < document_pages
+      # end #document_pages.times do |page|
     end #if !agreement.document_fields.empty?
 
     json_response "Cached document fields for agreement succesfully", true, {
@@ -744,4 +747,36 @@ end # end of def document_field_params
       # user_agreements_serializer: user_agreements_serializer
     }
   end # def get_user_agreements_objects
+
+  def persist_document_fields_in_cache(agreement)
+      page_num = 0
+      last_page = agreement.document_pages.to_i
+    # [*1..last_page].each do |page_num|
+    document_fields_all = DocumentField.where(agreement_id: agreement.id )
+    # p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; ' + ' last_page: ' + last_page.to_s + ' agreement: ' + agreement.id.to_s + ' document_fields_all: ' + document_fields_all.count.to_s
+    if !document_fields_all.empty?
+      # [1, 2 ].each do |page_num|
+      agreement.document_pages.times {|page|
+        page_num = page + 1
+        document_fields = []
+        # p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; ' + ' last_page: ' + last_page.to_s + ' agreement: ' + agreement.id.to_s
+        if (page_num > 0) && (page_num <= last_page)
+          # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
+          # if !cache_exists
+          # end
+          # document_fields = agreement.document_fields.limit_pages([page_num])
+          document_fields = document_fields_all.select {|each_df| each_df.page == page_num}
+          if !document_fields.empty?
+            document_field_serializer = parse_json document_fields
+            cached_document_field_for_page_created = $redis.hmset("agreement:#{agreement.id},#{page_num}", "document_fields", document_field_serializer.to_json)
+            p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; document_fields count: ' + document_fields.count.to_s if cached_document_field_for_page_created == "OK"
+            # cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
+            # break if cached_document_field_for_page_created !== "OK"
+          end # if !document_fields.empty?
+        end #  if page_num > 1 && page_num < document_pages
+    # end #document_pages.times do |page|
+    }
+  end #  if !document_fields_all.empty?
+    # return cached_pages_array
+  end # def persist_document_fields_in_cache(agreement)
 end

@@ -398,7 +398,7 @@ task :create_standard_documents  => :environment do
    # Populate document_field_array with document_field including translation_element
    create_document_field_array.call(documents_hash[each_key][:by_page_hash], each_key)
    create_document_field_translation_array.call(documents_hash[each_key][:by_page_hash_translation], each_key)
-   puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
+   # puts 'In documents_hash.keys.each do |each_key|, document_field_array: ' + document_field_array.to_s
    # Reassign the populated document_field_array before calling controller method
    documents_hash[each_key][:params_hash][:document_field] = document_field_array
    # call agreement controller end point with params; Cannot call agreements#create from here for some reason but code reducndancy is minimal
