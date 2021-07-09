@@ -47,6 +47,7 @@ class Api::V1::BookingsController < ApplicationController
     # agreements_test = Agreement.document_fields_for_pages(@booking.id, [1])
     agreements_array = []
     agreements_with_cached_document_fields_hash = {:custom_agreement => true}
+    each_document_fields = nil
     agreements_test.each do |each|
       cached_document_fields = nil
       # each.document_fields.limit_pages([1])
@@ -203,7 +204,8 @@ class Api::V1::BookingsController < ApplicationController
     #                      }
 
     contract_serializer = parse_json contracts
-    flat_serializer = parse_json flat
+    flat_serializer = parse_json_custom(flat, {})
+    # flat_serializer = parse_json flat
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
 

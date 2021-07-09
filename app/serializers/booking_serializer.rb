@@ -20,7 +20,7 @@ class BookingSerializer < ActiveModel::Serializer
   :facility_bookings,
   :tenants,
   :contracts,
-  :agreements,
+  :agreements, # calls agreement_serializer
   :agreements_mapped,
   :created_at,
   :updated_at
@@ -61,15 +61,16 @@ class BookingSerializer < ActiveModel::Serializer
 
   # def agreements
   #
-  #   ActiveModelSerializers::SerializableResource.new(object.agreements, {
-  #     each_serializer: AgreementSerializer,
-  #     params: {
-  #       instance_options: @instance_options
-  #     },
-  #   })
+  #   ActiveModelSerializers::SerializableResource.new(object.agreements, @instance_options)
+  #   # ActiveModelSerializers::SerializableResource.new(object.agreements, {
+  #   #   each_serializer: AgreementSerializer,
+  #   #   params: {
+  #   #     instance_options: @instance_options
+  #   #   } ,
+  #   # })
   #
   # end
-  #
+
   # def agreements
   #   array = []
   #   object.agreements.each do |each_agreement|

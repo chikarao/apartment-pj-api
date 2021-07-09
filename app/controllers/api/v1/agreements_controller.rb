@@ -759,14 +759,14 @@ end # end of def document_field_params
       agreement.document_pages.times {|page|
         page_num = page + 1
         document_fields = []
-        # p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; ' + ' last_page: ' + last_page.to_s + ' agreement: ' + agreement.id.to_s
+        p "In agreements, persist_document_fields_in_cache, working on page #" + page_num.to_s + ' for agreement id: ' + agreement.id.to_s
         if (page_num > 0) && (page_num <= last_page)
           # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
           # if !cache_exists
           # end
           # document_fields = agreement.document_fields.limit_pages([page_num])
           document_fields = document_fields_all.select {|each_df| each_df.page == page_num}
-          if !document_fields.empty?
+          if document_fields.length > 0
             document_field_serializer = parse_json document_fields
             cached_document_field_for_page_created = $redis.hmset("agreement:#{agreement.id},#{page_num}", "document_fields", document_field_serializer.to_json)
             p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; document_fields count: ' + document_fields.count.to_s if cached_document_field_for_page_created == "OK"

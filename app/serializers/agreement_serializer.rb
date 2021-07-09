@@ -17,7 +17,7 @@ class AgreementSerializer < ActiveModel::Serializer
   :language_code_1,
   :template_file_name,
   :document_code,
-  :document_fields,
+  :document_fields, # calls document_fields method below
   :document_inserts,
   :document_pages,
   :document_type,
@@ -47,9 +47,15 @@ class AgreementSerializer < ActiveModel::Serializer
   end
 
   def document_fields
-    # p "In agreement_serializer, agreement_meta, object, object.document_fields.class: " + object.to_s + " " + object.document_fields.class.to_s
-    document_fields_method(object)
-    # NOTE: Refactored to concerns/document_fields_method.rb
+    # p "In agreement_serializer, document_fields, object, @instance_options: " + object.to_s + " " + @instance_options.to_s
+    # NOTE: @instance_options is a hash sent as a parameter in serializable_resource.rb parse_json_custom method
+    # Used in bookings#show to send a hash with agreement.id => page hash => document fields hash 
+    # When there are cached document/fields for an agreement, do not run document_fields_method
+    # agreements_with_cached_document_fields_hash holds cached document_fields for agreement
+    unless @instance_options[:custom_agreement] && @instance_options[object.id]
+      document_fields_method(object)
+      # NOTE: Refactored to concerns/document_fields_method.rb
+    end
     # # Return array of document_fields
   end # end of function
 
