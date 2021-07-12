@@ -48,18 +48,30 @@ class Api::V1::BookingsController < ApplicationController
     agreements_array = []
     agreements_with_cached_document_fields_hash = {:custom_agreement => true}
     each_document_fields = nil
+    cached_document_fields_array = []
+
     agreements_test.each do |each|
-      cached_document_fields = nil
+      # cached_document_fields = nil
       # each.document_fields.limit_pages([1])
       # Get document fields from cach if exists
       page_to_include = 1
-      cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+      # cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+      cached_document_fields_array = $redis.keys(pattern = "*agreement:#{each.id},*")
+      # user_status = $redis.keys(pattern = "*:#{hash[:user_id]},*")
       # assign cached_document_fields to each_document_fields if exists
-      if cached_document_fields
+      if cached_document_fields_array.length > 0
         # each_document_fields = JSON.parse(cached_document_fields)
-        agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
-        agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
-        agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
+        each.document_pages.times do |page|
+          cached_document_fields = nil
+          page_to_include = page + 1
+          # page_to_include = page_to_include
+          cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+          if cached_document_fields
+            agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
+            agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
+            agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
+          end
+        end
         # p "Booking controller cached_document_fields.class, each.document_fields.limit_pages([1].class: " + agreements_with_cached_document_fields_hash[each.id][page_to_include].class.to_s + ' ' + each.document_fields.limit_pages([1].class.to_s
       else
         # If no cached_document_fields, fetch from

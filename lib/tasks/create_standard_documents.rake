@@ -363,6 +363,7 @@ task :create_standard_documents  => :environment do
           template_file_name: "fixed_term_rental_contract_bilingual",
           document_type: "template",
           document_page_size: "595,841",
+          standard_document: true,
         },
         # document_field to be assigned populated array before calling agreement controller method
         document_field: [],

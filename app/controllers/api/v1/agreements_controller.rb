@@ -386,7 +386,9 @@ class Api::V1::AgreementsController < ApplicationController
         end # end of if document_field_instance
       end # End of each document_field
       # Persist document_fields for standard document in redis
-      persist_document_fields_in_cache(agreement)
+      # second parameter is in seconds; If 0, DO NOT set expiration on redis key
+      # third parameter indicates call from standard documents, so do not set expiration
+      persist_document_fields_in_cache(agreement, 0)
     end # if agreement.save
 
     p "In agreements, agreement_create " + count.to_s + ' agreement(s) created.'
@@ -494,7 +496,7 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def fetch_document_fields_for_page
-    # p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
+    p "In agreements, fetch_document_fields_for_page, params: " + params.to_s
 
       cached_document_fields = $redis.hget("agreement:#{params[:agreement_id]},#{params["page"]}", "document_fields")
 
@@ -504,6 +506,8 @@ class Api::V1::AgreementsController < ApplicationController
         agreement = Agreement.find_by(id: params["agreement_id"])
         document_fields = agreement.document_fields.limit_pages([params["page"]])
         document_field_serializer = parse_json document_fields
+        # If cached page does not exist, likely expired, so cache again
+        persist_document_fields_in_cache(agreement, 15)
       end # if !cached_document_fields
       p "In agreements, fetch_document_fields_for_page, cached_document_fields.class, document_field_serializer: " + cached_document_fields.class.to_s + ' ' + document_field_serializer.class.to_s
 
@@ -514,35 +518,24 @@ class Api::V1::AgreementsController < ApplicationController
   end
 
   def cache_document_fields_for_pages
-    p "In agreements, cache_document_fields_for_pages, params: " + params.to_s
+    # p "In agreements, cache_document_fields_for_pages, params: " + params.to_s
     agreement = Agreement.find_by(id: params["agreement_id"])
-    cached_pages_array = []
-    if agreement && !agreement.document_fields.empty?
-      persist_document_fields_in_cache(agreement)
-      # agreement.document_pages.times do |page|
-      #   page_num = page + 1
-      #   if page_num > 1 && page_num < agreement.document_pages
-      #     # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
-      #     # if !cache_exists
-      #     # end
-      #     document_fields = agreement.document_fields.limit_pages([page_num])
-      #     if !document_fields.empty?
-      #       document_field_serializer = parse_json document_fields
-      #       cached_document_field_for_page_created = $redis.hmset("agreement:#{params[:agreement_id]},#{page_num}", "document_fields", document_field_serializer.to_json)
-      #       cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
-      #     end # if !document_fields.empty?
-      #   end #  if page_num > 1 && page_num < document_pages
-      # end #document_pages.times do |page|
+    # check if already persisted in redis
+    keys_array_in_redis = $redis.keys(pattern = "*agreement:#{params["agreement_id"]},*")
+    # cached_pages_array = []
+    if agreement && keys_array_in_redis.length < 1 && !agreement.document_fields.empty?
+      # Set expiration for keys in redis with second parameter in seconds
+      persist_document_fields_in_cache(agreement, 15)
     end #if !agreement.document_fields.empty?
 
     json_response "Cached document fields for agreement succesfully", true, {
-      cached_pages_hash: {params["agreement_id"] => cached_pages_array }.to_json
+      # cached_pages_hash: {params["agreement_id"] => cached_pages_array }.to_json
     }, :ok
   end #  def cache_document_fields_for_pages
 
-  def delete_cached_document_fields_for_pages
-    p "In agreements, delete_cached_document_fields_for_pages, params: " + params.to_s
-  end
+  # def delete_cached_document_fields_for_pages
+  #   p "In agreements, delete_cached_document_fields_for_pages, params: " + params.to_s
+  # end
 
   private
 
@@ -748,9 +741,9 @@ end # end of def document_field_params
     }
   end # def get_user_agreements_objects
 
-  def persist_document_fields_in_cache(agreement)
-      page_num = 0
-      last_page = agreement.document_pages.to_i
+  def persist_document_fields_in_cache(agreement, expiration_in_seconds)
+    page_num = 0
+    last_page = agreement.document_pages.to_i
     # [*1..last_page].each do |page_num|
     document_fields_all = DocumentField.where(agreement_id: agreement.id )
     # p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; ' + ' last_page: ' + last_page.to_s + ' agreement: ' + agreement.id.to_s + ' document_fields_all: ' + document_fields_all.count.to_s
@@ -768,8 +761,11 @@ end # end of def document_field_params
           document_fields = document_fields_all.select {|each_df| each_df.page == page_num}
           if document_fields.length > 0
             document_field_serializer = parse_json document_fields
-            cached_document_field_for_page_created = $redis.hmset("agreement:#{agreement.id},#{page_num}", "document_fields", document_field_serializer.to_json)
-            p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; document_fields count: ' + document_fields.count.to_s if cached_document_field_for_page_created == "OK"
+            redis_key = "agreement:#{agreement.id},#{page_num}"
+            cached_document_field_for_page_created = $redis.hmset(redis_key, "document_fields", document_field_serializer.to_json)
+            # Set expiration only if not standard_document
+            cached_document_field_expiration_set = $redis.expire(redis_key, expiration_in_seconds) if !agreement.standard_document && cached_document_field_for_page_created == "OK"
+            p "In agreements, persist_document_fields_in_cache, page #" + page_num.to_s + ' cached; document_fields count: ' + document_fields.count.to_s if cached_document_field_for_page_created == "OK" && cached_document_field_expiration_set == 1
             # cached_pages_array.push(page_num) if cached_document_field_for_page_created == 'OK'
             # break if cached_document_field_for_page_created !== "OK"
           end # if !document_fields.empty?

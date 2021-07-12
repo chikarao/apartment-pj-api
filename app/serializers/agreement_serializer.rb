@@ -27,7 +27,8 @@ class AgreementSerializer < ActiveModel::Serializer
   :document_pdf_page_size,
   :created_at,
   :updated_at,
-  :agreement_meta
+  :agreement_meta,
+  :standard_document
   # has_many :flats
   # has_many :inspections
 
@@ -49,7 +50,7 @@ class AgreementSerializer < ActiveModel::Serializer
   def document_fields
     # p "In agreement_serializer, document_fields, object, @instance_options: " + object.to_s + " " + @instance_options.to_s
     # NOTE: @instance_options is a hash sent as a parameter in serializable_resource.rb parse_json_custom method
-    # Used in bookings#show to send a hash with agreement.id => page hash => document fields hash 
+    # Used in bookings#show to send a hash with agreement.id => page hash => document fields hash
     # When there are cached document/fields for an agreement, do not run document_fields_method
     # agreements_with_cached_document_fields_hash holds cached document_fields for agreement
     unless @instance_options[:custom_agreement] && @instance_options[object.id]
