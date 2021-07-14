@@ -90,6 +90,8 @@ class Api::V1::AgreementsController < ApplicationController
     # p "save_template_agreement_fields, document_field_params, document_field_choice_params, params[:booking_id], params[:agreement_id]: " + document_field_params.to_s + ' ' + document_field_choice_params.to_s + ' ' + params[:booking_id].to_s + + ' ' + params[:agreement_id].to_s
     booking = Booking.find_by(id: params[:booking_id])
     agreement = Agreement.find_by(id: params[:agreement_id])
+    edited_pages_array = [] # keep document_field page numbers
+
     document_field_params["document_field"].each do |each|
       # If id includes character 'a' it is a new field, so create new
       if each["id"].is_a?(String) && (each["id"].include?('a') || each["id"].include?('b'))
@@ -101,15 +103,22 @@ class Api::V1::AgreementsController < ApplicationController
         unless document_field.save
           json_response "Save new template agreement fields failed", false, {}, :unprocessable_entity
           break
+        else
+          edited_pages_array.push(document_field.page)
         end # end of unless document_field.save
       else # if doesn't include 'a' it is an existing field in DB, so update
+        old_page_before_change = 0
         document_field = DocumentField.find_by(id: each["id"])
+        old_page_before_change = document_field.page if each["page"] && (document_field.page != each["page"])
         # IMPORTANT: .update enables nested document_field_choices to be created
         # See document_field model for accepts_nested_attributes_for method
         # document_field params needs to be document_fields_attributes for nesting to work
         unless document_field.update(each)
           json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
           break
+        else
+          edited_pages_array.push(document_field.page)
+          edited_pages_array.push(old_page_before_change) if old_page_before_change > 0
         end #end of unless
       end #end of if include
     end # end of each
@@ -119,6 +128,7 @@ class Api::V1::AgreementsController < ApplicationController
       params["deleted_document_field_id_array"].each do |each|
         document_field = DocumentField.find_by(id: each)
         if document_field
+          edited_pages_array.push(document_field.page)
           unless document_field.destroy
             json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
             break
@@ -132,6 +142,7 @@ class Api::V1::AgreementsController < ApplicationController
         # each is a hash object with { document_field_id: 1, document_field_translation_id: 1}
         document_field_translation = DocumentFieldTranslation.find_by(id: each.to_i)
         if document_field_translation
+          edited_pages_array.push(document_field_translation.page)
           unless document_field_translation.destroy
             json_response "Save existing template agreement fields failed", false, {}, :unprocessable_entity
             break
@@ -140,7 +151,7 @@ class Api::V1::AgreementsController < ApplicationController
       end #end of deleted each
     end #end of deleted lengh > 0
     # p "!!!!! agreement_controller TemplateElementFunctions, get_simplified_template_field_object, paramsparams[:save_and_create]: " + params.to_s + params[:save_and_create].to_s
-
+    # save_and_create means save the agreement then create a pdf
     if params[:save_and_create]
       send_progress_percentage({user_id: @user.id, percentage: 20, time: Time.now, message: 'Updated fields'})
       document_fields = DocumentField.where(agreement_id: agreement.id)
@@ -177,19 +188,59 @@ class Api::V1::AgreementsController < ApplicationController
     # and document_field_choice serializer that returns document_field_choices
     # Rails default depth of child ssociations is one, so use custom to get another layer
     agreements = Agreement.where(booking_id: params[:booking_id])
-    document_fields = agreement.document_fields
+    # Persist updated document_fields only pages that have changed
+    expiration_in_seconds = agreement.standard_document ? 0 : 15
+    edited_pages_array.uniq!
+    # Refresh or newly persist cached document_fields for edited agreement page
+    # pages in cache that were not edited will remain the same
+    persist_document_fields_in_cache(agreement, expiration_in_seconds, edited_pages_array)
+    # selected_agreement_array = agreements.select {|a| a.id == params[:agreement_id]}
+    agreements_hash = { agreements_array: [], agreements_with_cached_document_fields_hash: {}}
+    agreements_hash = get_cached_document_fields_for_agreements(agreements)
+
+    booking_dup = booking
+    booking_dup.id = booking.id
+    booking_dup.agreements = agreements_hash[:agreements_array]
+
+    booking_serializer = parse_json_custom(booking_dup, agreements_hash[:agreements_with_cached_document_fields_hash])
+
+    serialized_agreement_array = booking_serializer[:agreements].select {|a| a[:id] == params[:agreement_id]}
+    # document_fields = agreement.document_fields
+    # persist_document_fields_in_cache(agreement, expiration_in_seconds)
     # agreement_serializer = parse_json agreement
-    agreement_serializer = parse_json agreements
-    document_field_serializer = parse_json document_fields
-    booking_serializer = parse_json booking
+    # agreement_serializer = parse_json agreements
+    agreement_serializer = booking_serializer[:agreements]
+    p "In agreement, agreement#save_template_agreement_fields, serialized_agreement_array: " + serialized_agreement_array.to_s
+    # p "In agreement, agreement#save_template_agreement_fields, agreement_serializer: " + agreement_serializer.to_s
+
+    # agreement_serializer = [serialized_agreement_array[0]]
+    # document_field_serializer = parse_json document_fields
+    document_field_serializer = serialized_agreement_array[0][:document_fields]
+    # booking_serializer = parse_json booking
     send_progress_percentage({user_id: @user.id, percentage: 100, time: Time.now, message: 'Returning'}) if params[:save_and_create]
     # if none of the above each loops do not break, send successful json response
     if !booking # if save came from editFlat
       flat = Flat.find_by(id: agreement.flat_id)
       flat_serializer = parse_json flat
-      json_response "Saved template agreement fields successfully", true, {flat: flat_serializer, agreements: agreement_serializer, document_fields: document_field_serializer, booking: nil}, :ok
+
+      json_response "Saved template agreement fields successfully", true, {
+        flat: flat_serializer,
+        agreements: agreement_serializer,
+        document_fields: document_field_serializer,
+        agreements_with_cached_document_fields_hash: agreements_hash[:agreements_with_cached_document_fields_hash],
+        booking: nil,
+        agreement_id: agreement.id,
+        pages_in_viewport: params["pages_in_view_port"]
+        }, :ok
     else
-      json_response "Saved template agreement fields successfully", true, {agreements: agreement_serializer, document_fields: document_field_serializer, booking: booking_serializer}, :ok
+      json_response "Saved template agreement fields successfully", true, {
+        agreements: agreement_serializer,
+        document_fields: document_field_serializer,
+        agreements_with_cached_document_fields_hash: agreements_hash[:agreements_with_cached_document_fields_hash],
+        booking: booking_serializer,
+        agreement_id: agreement.id,
+        pages_in_viewport: params["pages_in_view_port"]
+        }, :ok
     end
   end
 
@@ -388,7 +439,7 @@ class Api::V1::AgreementsController < ApplicationController
       # Persist document_fields for standard document in redis
       # second parameter is in seconds; If 0, DO NOT set expiration on redis key
       # third parameter indicates call from standard documents, so do not set expiration
-      persist_document_fields_in_cache(agreement, 0)
+      persist_document_fields_in_cache(agreement, 0, [])
     end # if agreement.save
 
     p "In agreements, agreement_create " + count.to_s + ' agreement(s) created.'
@@ -507,7 +558,7 @@ class Api::V1::AgreementsController < ApplicationController
         document_fields = agreement.document_fields.limit_pages([params["page"]])
         document_field_serializer = parse_json document_fields
         # If cached page does not exist, likely expired, so cache again
-        persist_document_fields_in_cache(agreement, 15)
+        persist_document_fields_in_cache(agreement, 15, [])
       end # if !cached_document_fields
       p "In agreements, fetch_document_fields_for_page, cached_document_fields.class, document_field_serializer: " + cached_document_fields.class.to_s + ' ' + document_field_serializer.class.to_s
 
@@ -525,7 +576,7 @@ class Api::V1::AgreementsController < ApplicationController
     # cached_pages_array = []
     if agreement && keys_array_in_redis.length < 1 && !agreement.document_fields.empty?
       # Set expiration for keys in redis with second parameter in seconds
-      persist_document_fields_in_cache(agreement, 15)
+      persist_document_fields_in_cache(agreement, 15,[])
     end #if !agreement.document_fields.empty?
 
     json_response "Cached document fields for agreement succesfully", true, {
@@ -741,7 +792,7 @@ end # end of def document_field_params
     }
   end # def get_user_agreements_objects
 
-  def persist_document_fields_in_cache(agreement, expiration_in_seconds)
+  def persist_document_fields_in_cache(agreement, expiration_in_seconds, pages_to_persist_array)
     page_num = 0
     last_page = agreement.document_pages.to_i
     # [*1..last_page].each do |page_num|
@@ -753,7 +804,7 @@ end # end of def document_field_params
         page_num = page + 1
         document_fields = []
         p "In agreements, persist_document_fields_in_cache, working on page #" + page_num.to_s + ' for agreement id: ' + agreement.id.to_s
-        if (page_num > 0) && (page_num <= last_page)
+        if (page_num > 0) && (page_num <= last_page) && (page_num.in?(pages_to_persist_array) || pages_to_persist_array.length < 1)
           # cache_exists = $redis.hget("agreement:#{params[:agreement_id]},#{params[page]}", "document_fields")
           # if !cache_exists
           # end

@@ -39,59 +39,61 @@ class Api::V1::BookingsController < ApplicationController
   def show
     # p "!!! in bookings#show: "
     contracts = @booking.contracts
-    # agreements = @booking.agreements
+
     agreements = @booking.agreements
-    agreements_test = @booking.agreements
     # agreements = Agreement.agreements_with_document_field_subset([1])
-    # agreements_test = @booking.agreements.document_fields_for_pages([1])
-    # agreements_test = Agreement.document_fields_for_pages(@booking.id, [1])
-    agreements_array = []
-    agreements_with_cached_document_fields_hash = {:custom_agreement => true}
-    each_document_fields = nil
-    cached_document_fields_array = []
-
-    agreements_test.each do |each|
-      # cached_document_fields = nil
-      # each.document_fields.limit_pages([1])
-      # Get document fields from cach if exists
-      page_to_include = 1
-      # cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
-      cached_document_fields_array = $redis.keys(pattern = "*agreement:#{each.id},*")
-      # user_status = $redis.keys(pattern = "*:#{hash[:user_id]},*")
-      # assign cached_document_fields to each_document_fields if exists
-      if cached_document_fields_array.length > 0
-        # each_document_fields = JSON.parse(cached_document_fields)
-        each.document_pages.times do |page|
-          cached_document_fields = nil
-          page_to_include = page + 1
-          # page_to_include = page_to_include
-          cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
-          if cached_document_fields
-            agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
-            agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
-            agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
-          end
-        end
-        # p "Booking controller cached_document_fields.class, each.document_fields.limit_pages([1].class: " + agreements_with_cached_document_fields_hash[each.id][page_to_include].class.to_s + ' ' + each.document_fields.limit_pages([1].class.to_s
-      else
-        # If no cached_document_fields, fetch from
-        each_document_fields = each.document_fields.limit_pages([page_to_include])
-      end
-      # each.document_fields = each_document_fields
-      # p "!!!! In bookings#show agreements_test, each.id: " + agreements_test.to_s + ' ' + each.id.to_s
-      dup_each = each.dup
-      dup_each.document_fields = each_document_fields if each_document_fields
-      dup_each.id = each.id
-      agreements_array.push(dup_each)
-      # p "!!!! In bookings#show agreements_test, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
-    end
-
+    # agreements = @booking.agreements.document_fields_for_pages([1])
+    # agreements = Agreement.document_fields_for_pages(@booking.id, [1])
+    # agreements_array = []
+    # agreements_with_cached_document_fields_hash = {:custom_agreement => true}
+    # each_document_fields = nil
+    # cached_document_fields_array = []
+    #
+    # agreements.each do |each|
+    #   # cached_document_fields = nil
+    #   # each.document_fields.limit_pages([1])
+    #   # Get document fields from cach if exists
+    #   page_to_include = 1
+    #   # cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+    #   cached_document_fields_array = $redis.keys(pattern = "*agreement:#{each.id},*")
+    #   # user_status = $redis.keys(pattern = "*:#{hash[:user_id]},*")
+    #   # assign cached_document_fields to each_document_fields if exists
+    #   if cached_document_fields_array.length > 0
+    #     # each_document_fields = JSON.parse(cached_document_fields)
+    #     each.document_pages.times do |page|
+    #       cached_document_fields = nil
+    #       page_to_include = page + 1
+    #       # page_to_include = page_to_include
+    #       cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+    #       if cached_document_fields
+    #         agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
+    #         agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
+    #         agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
+    #       end
+    #     end
+    #     # p "Booking controller cached_document_fields.class, each.document_fields.limit_pages([1].class: " + agreements_with_cached_document_fields_hash[each.id][page_to_include].class.to_s + ' ' + each.document_fields.limit_pages([1].class.to_s
+    #   else  # if cached_document_fields_array.length > 0
+    #     # If no cached_document_fields, fetch from
+    #     each_document_fields = each.document_fields.limit_pages([page_to_include])
+    #   end # if cached_document_fields_array.length > 0
+    #   # each.document_fields = each_document_fields
+    #   # p "!!!! In bookings#show agreements, each.id: " + agreements.to_s + ' ' + each.id.to_s
+    #   dup_each = each.dup
+    #   dup_each.document_fields = each_document_fields if each_document_fields
+    #   dup_each.id = each.id
+    #   agreements_array.push(dup_each)
+    #   # p "!!!! In bookings#show agreements, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
+    # end
+    # agreement_hash has agreements_array and agreements_with_cached_document_fields_hash
+    # function witin TemplateElementFunctions
+    agreements_hash = { agreements_array: [], agreements_with_cached_document_fields_hash: {}}
+    agreements_hash = get_cached_document_fields_for_agreements(agreements) if agreements.length > 0
     agreements_meta = {}
-    new_hash = {}
+    # new_hash = {}
 
     booking_dup = @booking
     booking_dup.id = @booking.id
-    booking_dup.agreements = agreements_array
+    booking_dup.agreements = agreements_hash[:agreements_array]
     # options = {:custom_agreement => true}
 
     def time_diff_milli(start, finish)
@@ -100,12 +102,14 @@ class Api::V1::BookingsController < ApplicationController
     # booking_serializer = parse_json @booking
     # p "Booking controller agreements_with_cached_document_fields_hash: " + agreements_with_cached_document_fields_hash.to_s
     t1 = Time.now
-    booking_serializer = parse_json_custom(booking_dup, agreements_with_cached_document_fields_hash)
+    booking_serializer = parse_json_custom(booking_dup, agreements_hash[:agreements_with_cached_document_fields_hash])
     t2 = Time.now
     msecs = time_diff_milli t1, t2
     p "Time now after booking_serializer" + t2.to_s + " " + msecs.to_s
 
-
+    test_agreement = booking_serializer[:agreements].select {|a| a[:id] == 88}
+    # byebug
+    p "!!!! In bookings#show, booking_serializer.agreements.count, test_agreement[:id]: " + booking_serializer[:agreements].count.to_s + " " + test_agreement[0][:id].to_s
 
     # agreements.each do |each_agreement|
     #   new_hash[each_agreement.id] = {}
@@ -162,7 +166,7 @@ class Api::V1::BookingsController < ApplicationController
     end
 
     document_inserts_array = []
-    agreements_array.each do |each_agreement|
+    agreements_hash[:agreements_array].each do |each_agreement|
       document_inserts = DocumentInsert.where(agreement_id: each_agreement.id)
       if !document_inserts.empty?
         document_inserts.each do |each_insert|
@@ -221,9 +225,9 @@ class Api::V1::BookingsController < ApplicationController
     # p "bookings controller, show @user.first_name: " + @user.first_name.to_s
     user_serializer = parse_json @user
 
-    HardWorker.perform_async(@user.id, 55)
+    # HardWorker.perform_async(@user.id, 55)
     # HardWorker.perform_in(10, @user.id, 55)
-    p "!!!!!! Booking controller HardWorker called: "
+    # p "!!!!!! Booking controller HardWorker called: "
     # byebug
     json_response "Showed booking successfully", true, {
       booking: booking_serializer,
@@ -241,9 +245,12 @@ class Api::V1::BookingsController < ApplicationController
       template_mapping_object_important_points: template_mapping_object_important_points.to_json,
       document_constants: document_constants().to_json,
       agreements_meta: agreements_meta.to_json,
-      agreements_with_cached_document_fields_hash: agreements_with_cached_document_fields_hash
+      agreements_with_cached_document_fields_hash: agreements_hash[:agreements_with_cached_document_fields_hash],
       # template_translation_object: template_translation_object_all.to_json
       }, :ok
+
+    p "!!!!!! Booking controller after json_response: "
+
   end
 
   def fetch_template_objects
