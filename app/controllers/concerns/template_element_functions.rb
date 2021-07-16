@@ -233,45 +233,49 @@ module TemplateElementFunctions
     return returned_object
   end
 
-  def get_cached_document_fields_for_agreements(agreements)
+  def get_cached_or_uncached_document_fields_for_agreements(agreements, pages_to_include_array)
+    # p "!!!!! agreement_controller TemplateElementFunctions, get_cached_or_uncached_document_fields_for_agreements, pages_to_include_array: " + pages_to_include_array.to_s
     agreements_array = []
     agreements_with_cached_document_fields_hash = {:custom_agreement => true}
-    each_document_fields = nil
     cached_document_fields_array = []
 
     agreements.each do |each|
+      each_document_fields = nil
       # Get document fields from cach if exists
       page_to_include = 1
       cached_document_fields_array = $redis.keys(pattern = "*agreement:#{each.id},*")
-      # assign cached_document_fields to each_document_fields if exists
-      if cached_document_fields_array.length > 0
+      # If there are cached document_fields, get each page for agreement
+      # if cached_document_fields_array.length > 0
+      if cached_document_fields_array.length > 0 && !each.standard_document
         each.document_pages.times do |page|
           cached_document_fields = nil
+          # Add one as page is an enumerator (starts from zero)
           page_to_include = page + 1
+          # Fetch document_fields array from Redis and put into agreement and page-mapped hash
           cached_document_fields = $redis.hget("agreement:#{each.id},#{page_to_include}", "document_fields")
+          # if cached_document_fields && page_to_include.in?(pages_to_include_array)
           if cached_document_fields
             agreements_with_cached_document_fields_hash[each.id] = {} if agreements_with_cached_document_fields_hash[each.id] == nil
             agreements_with_cached_document_fields_hash[each.id][page_to_include] = {} if agreements_with_cached_document_fields_hash[each.id][page_to_include] == nil
             agreements_with_cached_document_fields_hash[each.id][page_to_include] = JSON.parse(cached_document_fields)
           end
         end
-        # p "Booking controller cached_document_fields.class, each.document_fields.limit_pages([1].class: " + agreements_with_cached_document_fields_hash[each.id][page_to_include].class.to_s + ' ' + each.document_fields.limit_pages([1].class.to_s
       else  # if cached_document_fields_array.length > 0
-        # If no cached_document_fields, fetch from DB
-        each_document_fields = each.document_fields.limit_pages([page_to_include])
+        # If no cached_document_fields, fetch from DB to be later serialized along with agreement or booking
+        each_document_fields = each.document_fields.limit_pages(pages_to_include_array)
       end # if cached_document_fields_array.length > 0
       # p "!!!! In bookings#show agreements, each.id: " + agreements.to_s + ' ' + each.id.to_s
       dup_each = each.dup
       dup_each.document_fields = each_document_fields if each_document_fields
       dup_each.id = each.id
       agreements_array.push(dup_each)
-      # p "!!!! In bookings#show agreements, each, each.document_fields.count, each_document_fields.count: " + dup_each.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
+      p "!!!! In bookings#show agreements, dub_each.id, each.document_fields.count, each_document_fields.count: " + dup_each.id.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
     end
 
     return {
       agreements_array: agreements_array,
       agreements_with_cached_document_fields_hash: agreements_with_cached_document_fields_hash
     }
-  end # def get_cached_document_fields_for_agreements(agreements)
+  end # def get_cached_or_uncached_document_fields_for_agreements(agreements)
 
 end # End of module

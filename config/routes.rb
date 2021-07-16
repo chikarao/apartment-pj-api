@@ -100,7 +100,7 @@ Rails.application.routes.draw do
 
       post 'agreement_create', to: 'agreements#agreement_create' #For rake task create_standard_documents
       post 'fetch_document_fields_for_page', to: 'agreements#fetch_document_fields_for_page' #For rake task create_standard_documents
-      post 'cache_document_fields_for_pages', to: 'agreements#cache_document_fields_for_pages' #For rake task create_standard_documents
+      post 'cache_document_fields_for_rest_of_pages', to: 'agreements#cache_document_fields_for_rest_of_pages' #For rake task create_standard_documents
       post 'delete_cached_document_fields_for_pages', to: 'agreements#delete_cached_document_fields_for_pages' #For rake task create_standard_documents
 
       resources :document_fields do

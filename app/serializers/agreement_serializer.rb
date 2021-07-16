@@ -36,15 +36,26 @@ class AgreementSerializer < ActiveModel::Serializer
   # Rails default depth of child ssociations is one, so use custom to get another layer
   def agreement_meta
     new_hash = {}
+    original_total_document_field_count = 0
+    original_total_document_translation_field_count = 0
     # p "In agreement_serializer, agreement_meta, object, object.document_fields.class: " + object.to_s + " " + object.document_fields.class.to_s
     object.document_pages.times do |each_page|
       # new_hash[each_page + 1] = object.document_fields.where(page: each_page + 1).count
       # .count works with what is in the database. since agreement is a dup there is
       # no database value for document_fields, so make a dup of document_field which was assigned in bookings_controller
       document_fields_dup = object.document_fields.dup
-      new_hash[each_page + 1] = document_fields_dup.where(page: each_page + 1).count
+      document_fields_count_for_page = document_fields_dup.where(page: each_page + 1).count
+      document_translation_fields_count_for_page = document_fields_dup.where(page: each_page + 1, translation_element: true).count
+      new_hash[each_page + 1] = document_fields_count_for_page
+      # Toal minus translation is non-translation document fields
+      original_total_document_field_count += (document_fields_count_for_page - document_translation_fields_count_for_page)
+      original_total_document_translation_field_count += document_translation_fields_count_for_page
     end
-    return {"document_fields_num_by_page" => new_hash}
+    return {"document_fields_num_by_page" => new_hash,
+            "original_total_document_field_count" => original_total_document_field_count,
+            "original_total_document_translation_field_count" => original_total_document_translation_field_count,
+            "original_total_all_document_field_count" => original_total_document_field_count + original_total_document_translation_field_count
+           }
   end
 
   def document_fields
@@ -54,10 +65,10 @@ class AgreementSerializer < ActiveModel::Serializer
     # When there are cached document/fields for an agreement, do not run document_fields_method
     # agreements_with_cached_document_fields_hash holds cached document_fields for agreement
     unless @instance_options[:custom_agreement] && @instance_options[object.id]
-      document_fields_method(object)
       # NOTE: Refactored to concerns/document_fields_method.rb
+      document_fields_method(object)
     end
-    # # Return array of document_fields
+    # # Returns array of document_fields
   end # end of function
 
 end # End of class

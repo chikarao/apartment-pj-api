@@ -144,12 +144,10 @@ task :create_standard_documents  => :environment do
       height: bottom_most - top_most
     }
     # puts 'In tally_document_field_dimensions, name document_field_dimensions: ' + name.to_s + document_field_dimensions.to_s
-  end # tally_document_field_dimensions = lambda do |left, top, width, height |
-
+  end # tally_document_field_dimensions = lambda do |left, top, width, height
 
   document_field_array = []
   count = 0
-
 
   create_document_field_array = lambda do |by_page_hash, document_type|
 
@@ -158,7 +156,6 @@ task :create_standard_documents  => :environment do
       by_page_hash[each_page].each do |each_document_field|
         # Flag for having only one input field (i.e. no document_field_choices) so do not need to assign document_field_dimensions
         one_input_document_field = false
-
         # each_document_field is somehow an array
         name = each_document_field[0].to_s
         name.slice!("_1") if name.include?("_1")
@@ -166,11 +163,9 @@ task :create_standard_documents  => :environment do
         name.slice!("_3") if name.include?("_3")
         name.slice!("_4") if name.include?("_4")
         # puts 'In create_document_field_array, working on name, name.class: ' + name.to_s + " " + name.class.to_s
-
         each_document_field_hash = each_document_field[1]
         if each_page == 1 || each_page == 2 # for running a subset of document_field from all file
         # if each_document_field_hash[:sample]
-
         # if each_document_field_hash[:sample] # for running a subset of document_field from all file
           puts 'In create_document_field_translation_array, working on: ' + document_type + " " + each_page.to_s + " " + name.to_s
         # initialize for each_document_field
@@ -185,7 +180,6 @@ task :create_standard_documents  => :environment do
         top_most = 100
         right_most = 0
         bottom_most = 0
-
         # puts 'In create_document_field_array, each name, each_document_field_hash, each_document_field_hash[:sample]: ' + name + ' ' + each_document_field_hash.to_s + " " + each_document_field_hash[:sample].to_s
         # puts 'Working on a document field array, name, each_document_field_hash, each_document_field_hash.sample: ' + name.to_s + each_document_field_hash.to_s + ' ' + each_document_field_hash[:sample].to_s if name == 'foundation'
         # General Workings:

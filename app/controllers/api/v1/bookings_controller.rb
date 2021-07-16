@@ -33,6 +33,7 @@ class Api::V1::BookingsController < ApplicationController
   before_action :authenticate_with_token, only: [:show, :create, :destroy]
   before_action :bookings_for_dates_exist, only: [:create]
 
+  INITIAL_PAGES_TO_INCLUDE = [1]
   # def index
   # end
 
@@ -87,7 +88,9 @@ class Api::V1::BookingsController < ApplicationController
     # agreement_hash has agreements_array and agreements_with_cached_document_fields_hash
     # function witin TemplateElementFunctions
     agreements_hash = { agreements_array: [], agreements_with_cached_document_fields_hash: {}}
-    agreements_hash = get_cached_document_fields_for_agreements(agreements) if agreements.length > 0
+    # get_cached_or_uncached_document_fields_for_agreements in template_element_functions.rb
+    # agreements_hash contains agreements_array and agreements_with_cached_document_fields_hash
+    agreements_hash = get_cached_or_uncached_document_fields_for_agreements(agreements, INITIAL_PAGES_TO_INCLUDE) if agreements.length > 0
     agreements_meta = {}
     # new_hash = {}
 
