@@ -200,7 +200,7 @@ class Api::V1::AgreementsController < ApplicationController
     # selected_agreement_array = agreements.select {|a| a.id == params[:agreement_id]}
     agreements_hash = { agreements_array: [], agreements_with_cached_document_fields_hash: {}}
     # Gets document_fields that were just cached
-    agreements_hash = get_cached_document_fields_for_agreements(agreements, params["pages_in_viewport"])
+    agreements_hash = get_cached_or_uncached_document_fields_for_agreements(agreements, params["pages_in_viewport"])
 
     booking_dup = booking
     booking_dup.id = booking.id
@@ -413,7 +413,8 @@ class Api::V1::AgreementsController < ApplicationController
       user_bookings: agreements_objects[:mapped_user_bookings],
       user_flats: agreements_objects[:mapped_user_flats],
       all_user_agreements_mapped: agreements_objects[:all_user_agreements_mapped],
-      user_agreements_array_sorted: agreements_objects[:user_agreements_serializer]
+      user_agreements_array_sorted: agreements_objects[:user_agreements_serializer],
+      agreements_with_cached_document_fields_hash: agreements_objects[:agreements_with_cached_document_fields_hash]
       }, :ok
   end
 
@@ -593,7 +594,7 @@ class Api::V1::AgreementsController < ApplicationController
       end # agreement.document_pages.times do |page|
     end #if !agreement.document_fields.empty?
 
-    # Take out pages that have already been received in the front end 
+    # Take out pages that have already been received in the front end
     params["document_fields_pages_already_received_array"].each { |each_page| agreements_with_cached_document_fields_hash[agreement.id].delete(each_page)}
 
     json_response "Cached document fields for agreement succesfully", true, {
@@ -785,19 +786,26 @@ end # end of def document_field_params
     user_bookings = Booking.where(flat_id: Flat.where(user_id: @user.id).pluck(:id))
     user_flats = Flat.where(user_id: @user.id)
     # p "In agreement, fetch_user_agreements user_agreements: " + user_agreements_array_sorted.count.to_s
-    user_agreements_array_sorted = Agreement.for_user(@user.id).order_by_updated_at_desc
+    # user_agreements_array_sorted = Agreement.for_user(@user.id).order_by_updated_at_desc
+    user_agreements_array_sorted = Agreement.for_user_with_standard_documents(@user.id).order_by_updated_at_desc
     mapped_user_bookings = {}
     mapped_user_flats = {}
     mapped_agreements_by_flat = {}
     all_user_agreements_mapped = {}
 
-    user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json each }
+    agreements_hash = get_cached_or_uncached_document_fields_for_agreements(user_agreements_array_sorted, INITIAL_PAGES_TO_INCLUDE) if user_agreements_array_sorted.length > 0
+    user_agreements_with_cached_or_uncached_document_fields = agreements_hash[:agreements_array]
+
+    # user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json each }
+    user_bookings.each { |each| mapped_user_bookings[each.id] = parse_json_custom(each, agreements_hash[:booking_id_mapped_agreements_hash][each.id]) }
     user_flats.each { |each| mapped_user_flats[each.id] = parse_json each }
 
-    user_agreements_serializer = parse_json user_agreements_array_sorted
+    # user_agreements_serializer = parse_json user_agreements_array_sorted
+    user_agreements_serializer = parse_json_custom(user_agreements_array_sorted, agreements_hash[:agreements_with_cached_document_fields_hash])
 
     user_agreements_array_sorted.each do |each|
-      all_user_agreements_mapped[each.id] = parse_json each
+      # all_user_agreements_mapped[each.id] = parse_json each
+      all_user_agreements_mapped[each.id] = parse_json_custom(each, agreements_hash[:agreements_with_cached_document_fields_hash])
     end
 
     return {
@@ -805,6 +813,7 @@ end # end of def document_field_params
       user_agreements_serializer: user_agreements_serializer,
       mapped_user_bookings: mapped_user_bookings,
       mapped_user_flats: mapped_user_flats,
+      agreements_with_cached_document_fields_hash: agreements_hash[:agreements_with_cached_document_fields_hash],
       # user_agreements_serializer: user_agreements_serializer
     }
   end # def get_user_agreements_objects

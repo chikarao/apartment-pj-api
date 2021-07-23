@@ -238,6 +238,7 @@ module TemplateElementFunctions
     agreements_array = []
     agreements_with_cached_document_fields_hash = {:custom_agreement => true}
     cached_document_fields_array = []
+    booking_id_mapped_agreements_hash = {}
 
     agreements.each do |each|
       each_document_fields = nil
@@ -246,7 +247,7 @@ module TemplateElementFunctions
       cached_document_fields_array = $redis.keys(pattern = "*agreement:#{each.id},*")
       # If there are cached document_fields, get each page for agreement
       # if cached_document_fields_array.length > 0
-      if cached_document_fields_array.length > 0 && !each.standard_document
+      if cached_document_fields_array.length > 0
         each.document_pages.times do |page|
           cached_document_fields = nil
           # Add one as page is an enumerator (starts from zero)
@@ -270,11 +271,15 @@ module TemplateElementFunctions
       dup_each.id = each.id
       agreements_array.push(dup_each)
       p "!!!! In bookings#show agreements, dub_each.id, each.document_fields.count, each_document_fields.count: " + dup_each.id.to_s + " " + dup_each.document_fields.count.to_s + " " + each_document_fields.count.to_s if each_document_fields
+      booking_or_flat_id = dup_each.booking_id || dup_each.flat_id
+      booking_id_mapped_agreements_hash[booking_or_flat_id] = {} if booking_or_flat_id && !booking_id_mapped_agreements_hash[dup_each.id]
+      booking_id_mapped_agreements_hash[booking_or_flat_id][dup_each.id] = dup_each if booking_or_flat_id && booking_id_mapped_agreements_hash[dup_each.id]
     end
 
     return {
       agreements_array: agreements_array,
-      agreements_with_cached_document_fields_hash: agreements_with_cached_document_fields_hash
+      agreements_with_cached_document_fields_hash: agreements_with_cached_document_fields_hash,
+      booking_id_mapped_agreements_hash: booking_id_mapped_agreements_hash
     }
   end # def get_cached_or_uncached_document_fields_for_agreements(agreements)
 

@@ -16,6 +16,8 @@ class Agreement < ApplicationRecord
   # get all agreements where user is owner of the flat in booking of booking_id, and agreements where user is owner of flat of flat_id
   scope :for_user, ->(user_id) { where(booking_id: Booking.where(flat_id: Flat.where(user_id: user_id).pluck(:id) )).or(where(flat_id: Flat.where(user_id: user_id ).pluck(:id))) }
 
+  scope :for_user_with_standard_documents, ->(user_id) { where(booking_id: Booking.where(flat_id: Flat.where(user_id: user_id).pluck(:id) )).or(where(flat_id: Flat.where(user_id: user_id ).pluck(:id))).or(where(standard_document: true)) }
+
   scope :order_by_updated_at_asc, -> { order("updated_at ASC") }
 
   scope :order_by_updated_at_desc, -> { order("updated_at DESC") }
